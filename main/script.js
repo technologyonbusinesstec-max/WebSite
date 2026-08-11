@@ -880,6 +880,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    document.addEventListener('click', e => {
+        const trigger = e.target.closest('.ati-modal-trigger');
+        if (trigger) {
+            e.preventDefault();
+            openAtiModal(e);
+        }
+    });
+
     if (typeof applyTranslations === 'function') {
         applyTranslations(localStorage.getItem('tob_lang') || 'es');
     }

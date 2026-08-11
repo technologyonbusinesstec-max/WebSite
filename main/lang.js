@@ -74,7 +74,7 @@ const translations = {
         "phrase_3": "2 días",
         "phrase_4": "6 bloques",
         "phrase_5": "18 conferencias",
-        "phrase_6": 'Estudiantes de <a href="#" onclick="openAtiModal(event)" class="text-cyan" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
+        "phrase_6": 'Estudiantes de <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Congreso de tecnología",
         "phrase_8": "18-19 de agosto 2026",
 
@@ -447,7 +447,7 @@ const translations = {
         "phrase_3": "2 days",
         "phrase_4": "6 blocks",
         "phrase_5": "18 conferences",
-        "phrase_6": 'Students of <a href="#" onclick="openAtiModal(event)" class="text-cyan" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
+        "phrase_6": 'Students of <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Technology Congress",
         "phrase_8": "August 18-19, 2026",
 
