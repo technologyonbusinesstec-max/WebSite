@@ -63,6 +63,16 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(item);
     });
 
+    const tabDay1 = document.getElementById('tab-day1');
+    if (tabDay1) {
+        tabDay1.addEventListener('click', () => switchDay('day1'));
+    }
+
+    const tabDay2 = document.getElementById('tab-day2');
+    if (tabDay2) {
+        tabDay2.addEventListener('click', () => switchDay('day2'));
+    }
+
 });
 
 // SWITCH DE DÍAS (Función Global)
