@@ -127,6 +127,20 @@ const translations = {
         "modal_text": "Error al cerrar: El ToB 2026 es 🦈inevitable.",
         "modal_btn": "Aceptar",
 
+        // Coordinators
+        "coord_label": "Organización",
+        "coord_title": "Coordinadores del evento",
+        "coord_desc": "Conoce a las personas que están detrás del ToB 2025 y hacen posible este gran evento.",
+        "coord_btn_title": "Coordinadores del evento",
+        "coord_btn_desc": "Conoce las personas que están detrás del ToB 2025",
+        "coord_role_1": "Coordinación General",
+        "coord_role_2": "Coordinador de Finanzas & Dev",
+        "coord_role_3": "Coordinadora de Mercadeo",
+        "coord_role_4": "Coordinador del HackaTob & Dev",
+        "coord_role_5": "Coordinadora de Alianzas",
+        "coord_role_6": "...",
+        "coord_role_7": "Encargado de Logistica",
+
         // Presenters (Specific)
         "presenter_1_name": "Anthony Fuentes",
         "presenter_1_role": "Presentador oficial del ToB 2026",
@@ -547,6 +561,20 @@ const translations = {
         // Modal
         "modal_text": "Error closing: ToB 2026 is 🦈inevitable.",
         "modal_btn": "Accept",
+
+        // Coordinators
+        "coord_label": "Organization",
+        "coord_title": "Event Coordinators",
+        "coord_desc": "Meet the people behind ToB 2026 who make this great event possible.",
+        "coord_btn_title": "Event Coordinators",
+        "coord_btn_desc": "Meet the people behind ToB 2026",
+        "coord_role_1": "General Coordination",
+        "coord_role_2": "Finance & Dev Coordinator",
+        "coord_role_3": "Marketing Coordinator",
+        "coord_role_4": "HackaTob & Dev Coordinator",
+        "coord_role_5": "Alliances Coordinator",
+        "coord_role_6": "...",
+        "coord_role_7": "Logistics Manager",
 
         // Program Day 1
         "prog_d1_tab": "Day 1 - August 18",

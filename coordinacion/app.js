@@ -18,12 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Datos de los coordinadores (7 coordinadores)
     const coordinadoresData = [
         {
             foto: "../imagenes/coordinadores/coodinador01.webp",
             nombre: "Abril Masis",
             puesto: "Coordinación General",
+            puesto_i18n: "coord_role_1",
             socials: {
                 linkedin: "https://www.linkedin.com/in/abril-amanda-mas%C3%ADs-rodr%C3%ADguez-7bb67b2b9/",
             }
@@ -32,6 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foto: "../imagenes/coordinadores/coodinador02.webp",
             nombre: "Andrey Figueroa",
             puesto: "Coordinador de Finanzas & Dev",
+            puesto_i18n: "coord_role_2",
             socials: {
                 linkedin: "https://www.linkedin.com/in/andrey-figueroa-calder%C3%B3n/",
             }
@@ -40,6 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foto: "../imagenes/coordinadores/coodinador03.webp",
             nombre: "Sara Diaz",
             puesto: "Coordinadora de Mercadeo",
+            puesto_i18n: "coord_role_3",
             socials: {
                 linkedin: "https://www.linkedin.com/in/sara-d%C3%ADaz-benavides-4a4120362/",
             }
@@ -48,6 +50,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foto: "../imagenes/coordinadores/coodinador04.webp",
             nombre: "Dennis Rojas",
             puesto: "Coordinador del HackaTob & Dev",
+            puesto_i18n: "coord_role_4",
             socials: {
                 linkedin: "https://www.linkedin.com/in/dennis-o-rojas-quesada-749056358/",
             }
@@ -56,6 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foto: "../imagenes/coordinadores/coodinador05.webp",
             nombre: "Paz Bloise",
             puesto: "Coordinadora de Alianzas",
+            puesto_i18n: "coord_role_5",
             socials: {
                 linkedin: "https://www.linkedin.com/in/pazbloise/",
             }
@@ -64,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foto: "../imagenes/coordinadores/coodinador06.webp",
             nombre: "Anthony Ureña",
             puesto: "...",
+            puesto_i18n: "coord_role_6",
             socials: {
                 linkedin: "https://www.linkedin.com/in/anthonyuc/",
             }
@@ -72,6 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
             foto: "../imagenes/coordinadores/coodinador07.webp",
             nombre: "Densell Calderón",
             puesto: "Encargado de Logistica",
+            puesto_i18n: "coord_role_7",
             socials: {
                 instagram: "https://www.instagram.com/dencell.06/"
             }
@@ -88,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     <img src="${coord.foto}" alt="${coord.nombre}" class="speaker-avatar">
                 </div>
                 <h3 class="speaker-simple-name">${coord.nombre}</h3>
-                <p class="speaker-simple-role">${coord.puesto}</p>
+                <p class="speaker-simple-role" data-i18n="${coord.puesto_i18n}">${coord.puesto}</p>
             </div>
         `;
     }
@@ -96,6 +102,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (coordinadoresGrid) {
         const cardsHTML = coordinadoresData.map((coord, i) => renderCoordinatorCard(coord, i)).join('');
         coordinadoresGrid.innerHTML = cardsHTML;
+        
+        // Re-apply translations after injecting dynamic HTML
+        if (typeof applyTranslations === 'function') {
+            applyTranslations(localStorage.getItem('tob_lang') || 'es');
+        }
     }
 
     // Lógica del Modal
