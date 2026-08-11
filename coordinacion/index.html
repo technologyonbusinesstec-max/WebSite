@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToB - Coordinadores</title>
+    <link rel="icon" type="image/webp" href="../imagenes/Miniatura/Miniatura.webp">
+    <link rel="stylesheet" href="../main/style.css?v=2">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- Pantalla de Carga -->
+    <div id="loader-wrapper" class="loader-wrapper">
+        <img src="../imagenes/IsotipoColor.webp" alt="Cargando ToB..." class="loader-logo" width="4096" height="4096">
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <!-- Izquierda -->
+        <div class="navbar-left">
+            <a href="../main/index.html" class="logo-link">
+                <img src="../imagenes/LogoTob.webp" alt="Logo ToB" class="logo-img" width="4096" height="4096">
+            </a>
+        </div>
+
+        <!-- Centro -->
+        <div class="navbar-center">
+            <div class="nav-item">
+                <a href="../programa/index.html" class="nav-link" data-i18n="nav_programa">Programa del evento</a>
+            </div>
+            <div class="nav-item">
+                <a href="../speakers/index.html" class="nav-link" data-i18n="nav_speakers">Speakers</a>
+            </div>
+            <div class="nav-item">
+                <a href="../main/index.html#sponsors" class="nav-link" data-i18n="nav_sponsors">Sponsors</a>
+            </div>
+            <div class="nav-item">
+                <a href="../galeria/index.html" class="nav-link" data-i18n="nav_gallery">Galería ToB</a>
+            </div>
+            <div class="nav-item">
+                <a href="../main/index.html#hackatob" class="nav-link highlight-link disabled-link" data-i18n="nav_hackatob">HackaToB</a>
+            </div>
+        </div>
+
+        <!-- Derecha -->
+        <div class="navbar-right">
+            <div class="lang-selector" id="langToggle" data-lang="ES">
+                <span class="lang-text active">ES</span>
+                <span class="lang-text">EN</span>
+                <div class="lang-slider"></div>
+            </div>
+            <a href="../coordinacion/index.html" class="coordinators-btn active" aria-label="Coordinadores">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div class="tooltip-text">
+                    <strong>Coordinadores del evento</strong><br>
+                    Conoce las personas que están detrás del ToB 2025
+                </div>
+            </a>
+            <a href="https://luma.com/ak4bt58b" target="_blank" rel="noopener noreferrer" class="btn btn-primary"
+                data-i18n="nav_asistir">Asistir</a>
+
+            <!-- Hamburger Menu Toggle (Mobile) -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Menú">
+                <span class="hamburger"></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Menú Móvil -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="../programa/index.html" class="mobile-link" data-i18n="nav_programa">Programa del evento</a>
+        <a href="../speakers/index.html" class="mobile-link" data-i18n="nav_speakers">Speakers</a>
+        <a href="../main/index.html#sponsors" class="mobile-link" data-i18n="nav_sponsors">Sponsors</a>
+        <a href="../galeria/index.html" class="mobile-link" data-i18n="nav_gallery">Galería ToB</a>
+        <a href="../main/index.html#hackatob" class="mobile-link highlight-link disabled-link" data-i18n="nav_hackatob">HackaToB</a>
+        <div class="mobile-actions">
+            <div class="lang-selector" id="langToggleMobile" data-lang="ES">
+                <span class="lang-text active">ES</span>
+                <span class="lang-text">EN</span>
+                <div class="lang-slider"></div>
+            </div>
+            <a href="../coordinacion/index.html" class="coordinators-btn active" aria-label="Coordinadores">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <div class="tooltip-text">
+                    <strong>Coordinadores del evento</strong><br>
+                    Conoce las personas que están detrás del ToB 2025
+                </div>
+            </a>
+            <a href="https://luma.com/home" target="_blank" rel="noopener noreferrer" class="btn btn-primary" data-i18n="nav_asistir">Asistir</a>
+        </div>
+    </div>
+
+    <!-- Coordinadores -->
+    <section id="coordinadores" class="speakers-section">
+        <video class="bg-video" autoplay loop muted playsinline>
+            <source src="../imagenes/coordinadores/FondoCoordiandores.mp4" type="video/mp4">
+        </video>
+
+        <div class="speakers-header">
+            <span class="speakers-label">Organización</span>
+            <h2 class="speakers-title">Coordinadores del evento</h2>
+            <p class="speakers-description">Conoce a las personas que están detrás del ToB 2025 y hacen posible este gran evento.</p>
+        </div>
+
+        <div class="speakers-grid" id="coordinadoresGrid">
+            <!-- Coordinators will be loaded via JS -->
+        </div>
+    </section>
+
+    <!-- Star Trail Canvas (Efecto Global) -->
+    <canvas id="globalStarCanvas" class="global-star-canvas" aria-hidden="true"></canvas>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-container">
+            <div class="footer-col footer-col-brand">
+                <img src="../imagenes/LogoTob.webp" alt="ToB Logo" class="footer-logo" width="4096" height="4096">
+                <p class="footer-desc" data-i18n="footer_desc">El congreso de tecnología y negocios organizado por estudiantes más grande de Costa Rica.</p>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title" data-i18n="footer_nav">Navegación</h4>
+                <ul class="footer-links">
+                    <li><a href="../main/index.html#programa" data-i18n="nav_programa">Programa del evento</a></li>
+                    <li><a href="../speakers/index.html" data-i18n="nav_speakers">Speakers</a></li>
+                    <li><a href="../main/index.html#sponsors" data-i18n="nav_sponsors">Sponsors</a></li>
+                    <li><a href="https://luma.com/home" target="_blank" rel="noopener noreferrer" class="footer-highlight-link" data-i18n="nav_asistir">Asistir</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title" data-i18n="footer_contact">Contacto</h4>
+                <ul class="footer-links">
+                    <li><a href="mailto:tob@itcr.ac.cr">tob@itcr.ac.cr</a></li>
+                    <li><a href="tel:+50670880176">+506 7088 0176</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4 class="footer-title" data-i18n="footer_legal">Legal</h4>
+                <p class="footer-org" data-i18n="footer_org">Organizado por estudiantes del Instituto Tecnológico de Costa Rica (TEC).</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-bottom-content">
+                <p class="footer-copy" data-i18n="footer_copy">&copy; 2026 Technology on Business. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modal para Redes Sociales del Coordinador -->
+    <div class="coord-modal-overlay" id="coordModal">
+        <div class="coord-modal">
+            <button class="coord-modal-close" id="coordModalClose" aria-label="Cerrar">&times;</button>
+            <img src="" alt="" class="coord-modal-avatar" id="coordModalImg">
+            <h3 class="coord-modal-name" id="coordModalName"></h3>
+            <p class="coord-modal-role" id="coordModalRole"></p>
+            <div class="coord-modal-socials" id="coordModalSocials">
+                <!-- Redes sociales se inyectarán vía JS -->
+            </div>
+        </div>
+    </div>
+
+    <script src="../main/lang.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

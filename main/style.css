@@ -36,7 +36,7 @@ body {
     /* Fallback */
     color: var(--color-text);
     font-family: var(--font-main);
-    min-height: 200vh;
+    min-height: 100vh;
 }
 
 /* Pantalla De Carga (Loader) */
@@ -1188,7 +1188,7 @@ body {
     }
 
     .solar-system {
-        transform: scale(0.6) !important;
+        transform: scale(0.2) !important;
         /* Achicar el sistema solar para pantallas pequeñas */
     }
 }
@@ -1199,15 +1199,49 @@ body {
         padding-left: 5%;
         padding-right: 5%;
     }
-    .hero-title {
-        font-size: clamp(3.5rem, 12vw, 4.5rem);
+
+    .hero-content {
+        align-items: flex-start;
+        text-align: left;
     }
+
+    .hero-title {
+        font-size: clamp(2.5rem, 10vw, 3.5rem);
+        word-wrap: break-word;
+    }
+
+    .hero-eyebrow {
+        font-size: 0.9rem;
+        letter-spacing: 1.5px;
+    }
+
+    .rotator-phrase {
+        font-size: clamp(1.5rem, 7vw, 2.2rem);
+    }
+
+    .hero-countdown {
+        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+    }
+
+    .time-box {
+        min-width: 65px;
+        padding: 10px;
+    }
+
+    .time-value {
+        font-size: 1.5rem;
+    }
+
     .hero-subtitle {
         font-size: clamp(1.2rem, 4vw, 1.5rem);
     }
+
     .solar-system {
-        transform: scale(0.45) !important;
+        transform: scale(0.35) !important;
     }
+
     .hero-visual {
         height: 300px;
     }
@@ -2729,7 +2763,7 @@ body {
     .gallery-section {
         padding: 60px 0;
     }
-    
+
     .speakers-section {
         padding: 60px 5%;
     }
@@ -2739,15 +2773,17 @@ body {
     }
 
     .speaker-card {
-        height: 440px;
+        height: 400px;
+        max-width: 320px;
+        margin: 0 auto;
     }
-    
+
     .location-info-container {
         gap: 20px;
     }
 
     .location-map {
-        height: 250px;
+        display: none;
     }
 
     .location-schedule {
@@ -2760,7 +2796,7 @@ body {
         margin-bottom: 10px;
         font-size: 0.95rem;
     }
-    
+
     .location-title {
         font-size: 2rem;
     }
@@ -3612,4 +3648,97 @@ body {
     flex: 1;
     min-width: 300px;
     min-height: 400px;
+}
+
+/* Coordinadores Button and Tooltip */
+.coordinators-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    color: #ffffff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.coordinators-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    color: var(--color-primary);
+}
+
+.coordinators-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+.tooltip-text {
+    position: absolute;
+    top: calc(100% + 15px);
+    right: 0;
+    width: 250px;
+    background: #ffffff;
+    color: #666;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 100;
+    text-align: left;
+}
+
+.tooltip-text strong {
+    color: var(--color-primary-dark);
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.tooltip-text::before {
+    content: '';
+    position: absolute;
+    top: -6px;
+    right: 16px;
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    transform: rotate(45deg);
+}
+
+.coordinators-btn:hover .tooltip-text {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.mobile-actions .coordinators-btn {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.mobile-actions .tooltip-text {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) translateY(-10px);
+}
+
+.mobile-actions .tooltip-text::before {
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+}
+
+.mobile-actions .coordinators-btn:hover .tooltip-text {
+    transform: translateX(-50%) translateY(0);
 }

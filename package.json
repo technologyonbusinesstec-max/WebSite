@@ -1,0 +1,7 @@
+{
+  "name": "tob-website",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "npm i terser && node build.js"
+  }
+}

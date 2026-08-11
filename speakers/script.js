@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // HAMBURGER MENU
     const menuToggle = document.getElementById('menuToggle');
-    const mobileNav  = document.getElementById('mobileNav');
+    const mobileNav = document.getElementById('mobileNav');
 
     if (menuToggle && mobileNav) {
         menuToggle.addEventListener('click', () => {
@@ -53,9 +53,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // MODAL "Error del sistema" del botón cerrar
-    const closeBtn  = document.getElementById('termCloseBtn');
-    const sysModal  = document.getElementById('sysErrorModal');
-    const sysClose  = document.getElementById('sysErrorCloseBtn');
+    const closeBtn = document.getElementById('termCloseBtn');
+    const sysModal = document.getElementById('sysErrorModal');
+    const sysClose = document.getElementById('sysErrorCloseBtn');
 
     if (closeBtn && sysModal) {
         closeBtn.addEventListener('click', () => {
@@ -88,15 +88,24 @@ document.addEventListener('DOMContentLoaded', () => {
         { foto: "../imagenes/speakers/speaker10.webp", nombre: "Gerardo Nájera", puesto: "Sefisa", descripcion: "Estrategias de ciberseguridad para proteger información vital.", linkedin: "#", instagram: "#", charla: "Ciberseguridad" },
         { foto: "../imagenes/speakers/speaker11.webp", nombre: "Karla Córdoba", puesto: "Aso Blockchain CR", descripcion: "Aplicaciones reales de la confianza digital más allá de cripto.", linkedin: "#", instagram: "#", charla: "Blockchain" },
         { foto: "../imagenes/speakers/speaker12.webp", nombre: "Diego Loud", puesto: "Loud", descripcion: "Estrategias de mercadeo para conectar con audiencias saturadas.", linkedin: "#", instagram: "#", charla: "Mercadeo en la era digital" },
-        { foto: "../imagenes/speakers/speaker13.webp", nombre: "Ronald Arce", puesto: "INCAE", descripcion: "Cómo la IA está redefiniendo los modelos de negocio.", linkedin: "#", instagram: "#", charla: "IA" }
+        { foto: "../imagenes/speakers/speaker13.webp", nombre: "Ronald Arce", puesto: "INCAE", descripcion: "Cómo la IA está redefiniendo los modelos de negocio.", linkedin: "#", instagram: "#", charla: "IA" },
+        { foto: "../imagenes/speakers/speaker14.webp", nombre: "Muy pronto...", puesto: "Por definir", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/speaker14.webp", nombre: "Muy pronto...", puesto: "Por definir", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/speaker14.webp", nombre: "Muy pronto...", puesto: "Por definir", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/speaker14.webp", nombre: "Muy pronto...", puesto: "Por definir", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/speaker14.webp", nombre: "Muy pronto...", puesto: "Por definir", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/actividadCultural01.webp", nombre: "Rubén Monarca", puesto: "Actividad Cultural", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/actividadCultural02.webp", nombre: "Nestor Morales", puesto: "Actividad Cultural", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/actividadCultural03.webp", nombre: "Pedro Leiva", puesto: "Actividad Cultural", descripcion: "", charla: "..." },
+        { foto: "../imagenes/speakers/actividadCultural04.webp", nombre: "Melody Coto", puesto: "Actividad Cultural", descripcion: "", charla: "..." }
     ];
 
     const speakersGrid = document.getElementById('speakersGrid');
-    
+
     function renderSpeakerCard(speaker, index, isHidden = false) {
         const hiddenClass = isHidden ? 'style="display:none;"' : '';
         const i18nId = String(index + 1).padStart(2, '0');
-        
+
         return `
             <div class="speaker-simple-card" data-index="${index}" ${hiddenClass}>
                 <div class="speaker-avatar-wrap">

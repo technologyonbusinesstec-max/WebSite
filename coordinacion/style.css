@@ -1,0 +1,274 @@
+@import url('../main/style.css');
+
+/* Contenedor principal de coordinadores */
+.speakers-section {
+    position: relative;
+    min-height: 100vh;
+    padding-top: 150px;
+    padding-bottom: 80px;
+    z-index: 1;
+}
+
+/* Video de fondo */
+.bg-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -2;
+}
+
+/* Capa oscura y blur sobre el video */
+.speakers-section::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: -1;
+}
+
+/* Para asegurar que los textos destaquen sobre el fondo */
+.speakers-header .speakers-label {
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+.speakers-header .speakers-title,
+.speakers-header .speakers-description {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Footer con fondo sólido */
+.site-footer {
+    background: #0b0e14;
+    position: relative;
+    z-index: 10;
+}
+
+/* ------------------------------------------- */
+/* ESTILOS DE LAS TARJETAS (SIMILAR A SPEAKERS)*/
+/* ------------------------------------------- */
+
+.speakers-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+    padding: 0 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+}
+
+/* El primer coordinador centrado arriba (1) */
+.speaker-simple-card:first-child {
+    grid-column: 1 / -1;
+    /* Ocupa todas las columnas de su fila */
+}
+
+.speaker-simple-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: transparent;
+    cursor: pointer;
+}
+
+.speaker-avatar-wrap {
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    border: 6px solid #fff;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease;
+}
+
+.speaker-simple-card:hover .speaker-avatar-wrap {
+    transform: scale(1.05);
+}
+
+.speaker-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.speaker-simple-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.speaker-simple-role {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.4;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* ------------------------------------------- */
+/* ESTILOS DEL MODAL (COORDINADORES)           */
+/* ------------------------------------------- */
+
+.coord-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.coord-modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.coord-modal {
+    background: #11141c;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 450px;
+    width: 90%;
+    text-align: center;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.coord-modal-overlay.visible .coord-modal {
+    transform: scale(1);
+}
+
+.coord-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.coord-modal-close:hover {
+    opacity: 1;
+}
+
+.coord-modal-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid #fff;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+.coord-modal-name {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.coord-modal-role {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 20px;
+}
+
+.coord-modal-socials {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.coord-social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    transition: background 0.3s ease, transform 0.3s ease;
+}
+
+.coord-social-btn svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+}
+
+.coord-social-btn:hover {
+    background: #fff;
+    color: #11141c;
+    transform: translateY(-3px);
+}
+
+/* ------------------------------------------- */
+/* RESPONSIVIDAD                               */
+/* ------------------------------------------- */
+@media (max-width: 640px) {
+    .speakers-section {
+        padding-top: 120px;
+    }
+
+    .speakers-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+        padding: 0 15px;
+    }
+
+    .speaker-avatar-wrap {
+        width: 65vw;
+        max-width: 280px;
+        height: 65vw;
+        max-height: 280px;
+        border-width: 4px;
+        margin-bottom: 20px;
+    }
+
+    .speaker-simple-name {
+        font-size: 1.5rem;
+    }
+
+    .speaker-simple-role {
+        font-size: 1rem;
+    }
+
+    .coord-modal {
+        padding: 30px 20px;
+    }
+
+    .coord-modal-avatar {
+        width: 120px;
+        height: 120px;
+    }
+}
