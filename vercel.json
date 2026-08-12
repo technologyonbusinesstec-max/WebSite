@@ -1,10 +1,21 @@
 {
   "outputDirectory": ".",
-  "redirects": [
+  "rewrites": [
     {
       "source": "/",
-      "destination": "/main/index.html",
-      "permanent": true
+      "destination": "/main/index.html"
+    },
+    {
+      "source": "/style.css",
+      "destination": "/main/style.css"
+    },
+    {
+      "source": "/script.js",
+      "destination": "/main/script.js"
+    },
+    {
+      "source": "/lang.js",
+      "destination": "/main/lang.js"
     }
   ],
   "headers": [
