@@ -5,7 +5,7 @@
   "rewrites": [
     {
       "source": "/",
-      "destination": "/main/index.html"
+      "destination": "/main"
     },
     {
       "source": "/style.css",
