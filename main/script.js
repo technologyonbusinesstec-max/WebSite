@@ -547,7 +547,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redirigir tras finalizar la animación (~800ms)
             setTimeout(() => {
                 // Cambiar por la URL final si es necesario (ej: Lu.ma)
-                window.open('https://luma.com/ak4bt58b', '_blank');
+                window.open('https://luma.com/technologyonbusiness', '_blank');
 
                 // Resetear estado después de redirigir
                 setTimeout(() => {
