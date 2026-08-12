@@ -77,6 +77,7 @@ const translations = {
         "phrase_6": 'Estudiantes de <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Congreso de tecnología",
         "phrase_8": "18-19 de agosto 2026",
+        "phrase_9": "HackaTob del 17 al 20 de agosto",
 
         // Sponsors
         "sponsors_title": "Nuestros Partners",
@@ -184,8 +185,8 @@ const translations = {
         "speaker_05_bio": "Especialista en finanzas prácticas y toma de decisiones de inversión.",
         "speaker_05_charla": "Finanzas personales en inversiones",
 
-        "speaker_06_name": "Diego Loud",
-        "speaker_06_role": "Loud",
+        "speaker_06_name": "Cynthia Navarrete",
+        "speaker_06_role": "P&G",
         "speaker_06_bio": "Estrategias de mercadeo para conectar con audiencias saturadas.",
         "speaker_06_charla": "Mercadeo en la era digital",
 
@@ -464,6 +465,7 @@ const translations = {
         "phrase_6": 'Students of <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Technology Congress",
         "phrase_8": "August 18-19, 2026",
+        "phrase_9": "HackaTob from August 17 to 20",
 
         // Sponsors
         "sponsors_title": "Our Partners",

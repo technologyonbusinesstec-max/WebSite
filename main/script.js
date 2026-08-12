@@ -101,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { html: t.phrase_6 },
                 { text: t.phrase_7 },
                 { text: t.phrase_8 },
+                { text: t.phrase_9 },
             ];
         };
         updatePhrases();
