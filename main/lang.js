@@ -130,15 +130,15 @@ const translations = {
         // Coordinators
         "coord_label": "Organización",
         "coord_title": "Coordinadores del evento",
-        "coord_desc": "Conoce a las personas que están detrás del ToB 2025 y hacen posible este gran evento.",
+        "coord_desc": "Conoce a las personas que están detrás del ToB 2026 y hacen posible este gran evento.",
         "coord_btn_title": "Coordinadores del evento",
-        "coord_btn_desc": "Conoce las personas que están detrás del ToB 2025",
+        "coord_btn_desc": "Conoce las personas que están detrás del ToB 2026",
         "coord_role_1": "Coordinación General",
         "coord_role_2": "Coordinador de Finanzas & Dev",
         "coord_role_3": "Coordinadora de Mercadeo",
         "coord_role_4": "Coordinador del HackaTob & Dev",
         "coord_role_5": "Coordinadora de Alianzas",
-        "coord_role_6": "...",
+        "coord_role_6": "Asistente Transversal",
         "coord_role_7": "Encargado de Logistica",
 
         // Presenters (Specific)
@@ -184,18 +184,18 @@ const translations = {
         "speaker_05_bio": "Especialista en finanzas prácticas y toma de decisiones de inversión.",
         "speaker_05_charla": "Finanzas personales en inversiones",
 
-        "speaker_06_name": "Cynthia Navarrete",
-        "speaker_06_role": "P&G",
-        "speaker_06_bio": "Especialista en impacto y claridad en comunicación profesional.",
-        "speaker_06_charla": "Comunicación Efectiva",
+        "speaker_06_name": "Diego Loud",
+        "speaker_06_role": "Loud",
+        "speaker_06_bio": "Estrategias de mercadeo para conectar con audiencias saturadas.",
+        "speaker_06_charla": "Mercadeo en la era digital",
 
         "speaker_07_name": "María José Artavia",
-        "speaker_07_role": "Directora de ATI",
+        "speaker_07_role": "ATI",
         "speaker_07_bio": "Directora dando apertura oficial a TOB-ATI 2026.",
         "speaker_07_charla": "Inauguración",
 
         "speaker_08_name": "Alek Castillo",
-        "speaker_08_role": "Líder Tecnológica",
+        "speaker_08_role": "Lyfter",
         "speaker_08_bio": "Experta en liderazgo adaptativo en entornos de cambio acelerado.",
         "speaker_08_charla": "Liderazgo en la era de la transformación digital",
 
@@ -532,10 +532,10 @@ const translations = {
         "speaker_05_bio": "Specialist in practical finance and investment decision making.",
         "speaker_05_charla": "Personal Finance in Investments",
 
-        "speaker_06_name": "Cynthia Navarrete",
-        "speaker_06_role": "P&G",
-        "speaker_06_bio": "Specialist in impact and clarity in professional communication.",
-        "speaker_06_charla": "Effective Communication",
+        "speaker_06_name": "Diego Loud",
+        "speaker_06_role": "Loud",
+        "speaker_06_bio": "Marketing strategies to connect with saturated audiences.",
+        "speaker_06_charla": "Marketing in the digital age.",
 
         // Location
         "loc_label": "Meeting Point",
@@ -573,7 +573,7 @@ const translations = {
         "coord_role_3": "Marketing Coordinator",
         "coord_role_4": "HackaTob & Dev Coordinator",
         "coord_role_5": "Alliances Coordinator",
-        "coord_role_6": "...",
+        "coord_role_6": "Cross-cutting Assistant",
         "coord_role_7": "Logistics Manager",
 
         // Program Day 1

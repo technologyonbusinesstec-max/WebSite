@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
         {
             foto: "../imagenes/coordinadores/coodinador06.webp",
             nombre: "Anthony Ureña",
-            puesto: "...",
+            puesto: "Asistente Transversal",
             puesto_i18n: "coord_role_6",
             socials: {
                 linkedin: "https://www.linkedin.com/in/anthonyuc/",
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (coordinadoresGrid) {
         const cardsHTML = coordinadoresData.map((coord, i) => renderCoordinatorCard(coord, i)).join('');
         coordinadoresGrid.innerHTML = cardsHTML;
-        
+
         // Re-apply translations after injecting dynamic HTML
         if (typeof applyTranslations === 'function') {
             applyTranslations(localStorage.getItem('tob_lang') || 'es');
