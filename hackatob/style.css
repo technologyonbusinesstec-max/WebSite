@@ -1604,3 +1604,62 @@ body.mascot-cursor-active #custom-spark-cursor {
     }
 }
 
+/* ==========================================================================
+   PARTNERS & SPONSORS HACKATOB
+   ========================================================================== */
+.hackatob-sponsors-section {
+    padding: 100px 0 120px;
+    position: relative;
+    z-index: 3;
+}
+
+.hackatob-platform-badge-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: -10px auto 45px;
+    flex-wrap: wrap;
+}
+
+.platform-label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.7);
+    font-weight: 500;
+}
+
+.techrebel-badge-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    color: var(--color-cyan, #00f2fe);
+    padding: 6px 16px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 0 15px rgba(0, 242, 254, 0.15);
+}
+
+.techrebel-badge-btn svg {
+    stroke: var(--color-cyan, #00f2fe);
+    transition: transform 0.3s ease;
+}
+
+.techrebel-badge-btn:hover {
+    background: rgba(0, 242, 254, 0.18);
+    border-color: var(--color-cyan, #00f2fe);
+    color: #ffffff;
+    box-shadow: 0 0 25px rgba(0, 242, 254, 0.4);
+    transform: translateY(-2px);
+}
+
+.techrebel-badge-btn:hover svg {
+    transform: translate(2px, -2px);
+    stroke: #ffffff;
+}
+
+
