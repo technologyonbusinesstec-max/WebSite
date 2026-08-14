@@ -18,6 +18,14 @@
     {
       "source": "/lang.js",
       "destination": "/main/lang.js"
+    },
+    {
+      "source": "/hackatbob",
+      "destination": "/hackatob"
+    },
+    {
+      "source": "/hackatbob/:path*",
+      "destination": "/hackatob/:path*"
     }
   ],
   "headers": [
