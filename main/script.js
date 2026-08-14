@@ -209,19 +209,22 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Animación de "moneda" al hacer clic en el logo (isotipo)
+    // Animación de giro 3D / moneda al hacer clic o tocar el logo (isotipo)
     const heroLogo = document.getElementById('heroLogo');
     if (heroLogo) {
-        heroLogo.addEventListener('click', () => {
+        const triggerSpin = () => {
             if (!heroLogo.classList.contains('coin-spin')) {
                 heroLogo.classList.add('coin-spin');
 
                 // Quitar clase después de la animación para poder repetirlo
                 setTimeout(() => {
                     heroLogo.classList.remove('coin-spin');
-                }, 1000); // Mismo tiempo que la transición CSS
+                }, 1000);
             }
-        });
+        };
+
+        heroLogo.addEventListener('click', triggerSpin);
+        heroLogo.addEventListener('touchstart', triggerSpin, { passive: true });
     }
 
     // Interactividad de planetas (atenuar los demás al hacer clic)
