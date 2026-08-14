@@ -216,4 +216,58 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         animateCounters();
     }
+
+    // 4. INTERACTIVIDAD DEL PROGRAMA / AGENDA DE 4 DÍAS
+    const hackTabs = document.querySelectorAll('.hack-schedule-tab');
+    hackTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetDayId = tab.getAttribute('aria-controls');
+            if (targetDayId) {
+                switchHackDay(targetDayId);
+            }
+        });
+    });
 });
+
+// FUNCIÓN GLOBAL PARA CAMBIAR DE DÍA EN LA AGENDA HACKATOB
+function switchHackDay(dayId) {
+    const targetDay = document.getElementById(dayId);
+    if (!targetDay) return;
+
+    // 1. Desactivar todos los contenedores de días
+    const allDays = document.querySelectorAll('.hack-schedule-day');
+    allDays.forEach(day => {
+        day.classList.remove('active-day');
+    });
+
+    // 2. Desactivar todos los botones de tabs
+    const allTabs = document.querySelectorAll('.hack-schedule-tab');
+    allTabs.forEach(tab => {
+        tab.classList.remove('active');
+        tab.setAttribute('aria-selected', 'false');
+    });
+
+    // 3. Activar el día seleccionado
+    targetDay.classList.add('active-day');
+
+    // 4. Activar la tab correspondiente
+    const activeTab = document.querySelector(`.hack-schedule-tab[aria-controls="${dayId}"]`) || document.getElementById(`hack-tab-${dayId.replace('hack-', '')}`);
+    if (activeTab) {
+        activeTab.classList.add('active');
+        activeTab.setAttribute('aria-selected', 'true');
+    }
+
+    // 5. Animar de forma escalonada los items del timeline
+    const timelineItems = targetDay.querySelectorAll('.hack-timeline-item');
+    timelineItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(12px)';
+        item.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+
+        setTimeout(() => {
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 60);
+    });
+}
+

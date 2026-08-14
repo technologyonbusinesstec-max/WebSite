@@ -403,7 +403,498 @@
             </div>
         </div>
     </section>
-    <section id="programa" class="hackatob-section alt-bg"><h2>Agenda</h2></section>
+    <!-- SECCIÓN: PROGRAMA / AGENDA DE 4 DÍAS HACKATOB -->
+    <section id="programa" class="hackatob-schedule-section">
+        <div class="hackatob-section-header">
+            <span class="hackatob-eyebrow">AGENDA OFICIAL · HACKATOB 2026</span>
+            <h2 class="hackatob-section-title">Programa del <span class="text-cyan">HackaToB</span></h2>
+            <p class="hackatob-section-subtitle">
+                4 días intensivos de innovación, mentoría y desarrollo. El Día 1 es el PreHackaToB, martes y miércoles son Dev Days en EmprendeLab, y el jueves cerramos con el gran Demo Day en el Auditorio CIC.
+            </p>
+        </div>
+
+        <!-- Selector de Días (Tabs Interactivas) -->
+        <div class="hack-schedule-tabs" role="tablist" aria-label="Días del HackaToB">
+            <button class="hack-schedule-tab active" id="hack-tab-day1" role="tab" aria-selected="true" aria-controls="hack-day1" onclick="switchHackDay('hack-day1')">
+                <span class="tab-badge-pill">Lunes 17</span>
+                <span class="tab-day-number">Día 1</span>
+                <span class="tab-day-theme">PreHackaToB</span>
+            </button>
+            <button class="hack-schedule-tab" id="hack-tab-day2" role="tab" aria-selected="false" aria-controls="hack-day2" onclick="switchHackDay('hack-day2')">
+                <span class="tab-badge-pill">Martes 18</span>
+                <span class="tab-day-number">Día 2</span>
+                <span class="tab-day-theme">Dev Day I</span>
+            </button>
+            <button class="hack-schedule-tab" id="hack-tab-day3" role="tab" aria-selected="false" aria-controls="hack-day3" onclick="switchHackDay('hack-day3')">
+                <span class="tab-badge-pill">Miércoles 19</span>
+                <span class="tab-day-number">Día 3</span>
+                <span class="tab-day-theme">Dev Day II</span>
+            </button>
+            <button class="hack-schedule-tab" id="hack-tab-day4" role="tab" aria-selected="false" aria-controls="hack-day4" onclick="switchHackDay('hack-day4')">
+                <span class="tab-badge-pill">Jueves 20</span>
+                <span class="tab-day-number">Día 4</span>
+                <span class="tab-day-theme">Demo Day</span>
+            </button>
+        </div>
+
+        <!-- CONTENEDORES DE CADA DÍA -->
+        <div class="hack-schedule-content-wrapper">
+
+            <!-- DÍA 1: PREHACKATOB -->
+            <div id="hack-day1" class="hack-schedule-day active-day" role="tabpanel" aria-labelledby="hack-tab-day1">
+                <div class="hack-day-card-header">
+                    <div class="day-badge-top">DÍA 1 · PREHACKATOB</div>
+                    <h3 class="day-card-title">PreHackaToB — Thinking Ahead</h3>
+                    <p class="day-card-subtitle">Retos, equipos, ideación estratégica y workshops técnicos de inmersión.</p>
+                    
+                    <div class="day-meta-pills">
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>Lunes 17 de agosto</span>
+                        </div>
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span>9:00 a.m. – 7:45 p.m.</span>
+                        </div>
+                        <div class="meta-pill highlight-location">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>EmprendeLab (TEC Cartago)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-objective-box">
+                        <div class="objective-icon">🎯</div>
+                        <div class="objective-content">
+                            <strong>Objetivo del día:</strong>
+                            <p>Preparar a los participantes antes de los sprints: contexto del reto, producto y tecnología, integración de equipos, mentoría y herramientas para iniciar el martes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Día 1 -->
+                <div class="hack-timeline">
+
+                    <!-- Bloque 1 -->
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">09:00 – 09:50</div>
+                                <span class="hack-tag tag-apertura">Apertura & Bienvenida</span>
+                            </div>
+                            <h4 class="hack-block-title">Inicio del PreHackaToB</h4>
+                            <p class="hack-block-desc">Inauguración oficial de la competencia, visión general de la dinámica HackaToB, presentación cultural y lineamientos de propiedad intelectual.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Inauguración</span>
+                                <span class="activity-chip">Qué es HackaToB</span>
+                                <span class="activity-chip">Acto cultural</span>
+                                <span class="activity-chip">Propiedad intelectual</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 2 -->
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">09:50 – 12:50</div>
+                                <span class="hack-tag tag-ideacion">Tracks & Ideación</span>
+                            </div>
+                            <h4 class="hack-block-title">Definición de Retos & Equipos</h4>
+                            <p class="hack-block-desc">Workshop de formulación de propuesta de valor, selección de desafíos por track temático, integración y consolidación de equipos de trabajo.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Workshop propuesta de valor</span>
+                                <span class="activity-chip">GreenTrack</span>
+                                <span class="activity-chip">FinTrack</span>
+                                <span class="activity-chip">The Next Big Thing</span>
+                                <span class="activity-chip">Integración de equipo</span>
+                                <span class="activity-chip highlight-chip">Almuerzo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 3 -->
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">13:00 – 16:40</div>
+                                <span class="hack-tag tag-tech">Tech Workshops</span>
+                            </div>
+                            <h4 class="hack-block-title">Inmersión Tecnológica</h4>
+                            <p class="hack-block-desc">Talleres técnicos especializados para habilitar el desarrollo rápido de soluciones mediante Blockchain, IA y herramientas de aceleración.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Blockchain</span>
+                                <span class="activity-chip">Inteligencia Artificial</span>
+                                <span class="activity-chip">Acto cultural</span>
+                                <span class="activity-chip">Herramientas de IA para desarrollo</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 4 -->
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">16:45 – 19:15</div>
+                                <span class="hack-tag tag-mentoria">Mentoría & Pitching</span>
+                            </div>
+                            <h4 class="hack-block-title">UX/UI & Storytelling</h4>
+                            <p class="hack-block-desc">Diseño centrado en el usuario, selección de stack técnico de desarrollo y técnicas para construir un pitch impactante y memorable.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Modalidad UX/UI</span>
+                                <span class="activity-chip">Herramientas para stack</span>
+                                <span class="activity-chip">Pitch storytelling</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bloque 5 -->
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">19:20 – 19:45</div>
+                                <span class="hack-tag tag-cierre">Cierre de Jornada</span>
+                            </div>
+                            <h4 class="hack-block-title">Cierre del PreHackaToB & Networking</h4>
+                            <p class="hack-block-desc">Conclusiones de la jornada preparatoria, espacio de consultas y networking libre para afinar la estrategia antes de los Dev Days.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Resultado Día 1 -->
+                <div class="hack-result-card">
+                    <div class="result-icon">✨</div>
+                    <div class="result-text">
+                        <strong>Resultado esperado:</strong> Participantes completamente alineados con los retos y tecnologías, equipos 100% integrados y preparados para arrancar los sprints de desarrollo el martes.
+                    </div>
+                </div>
+            </div>
+
+            <!-- DÍA 2: DEV DAY I -->
+            <div id="hack-day2" class="hack-schedule-day" role="tabpanel" aria-labelledby="hack-tab-day2">
+                <div class="hack-day-card-header">
+                    <div class="day-badge-top">DÍA 2 · DEV DAY I</div>
+                    <h3 class="day-card-title">Descubrimiento, Diseño y Arquitectura</h3>
+                    <p class="day-card-subtitle">Dev Day I: validación con mentores, prototipado UX/UI y arquitectura técnica.</p>
+                    
+                    <div class="day-meta-pills">
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>Martes 18 de agosto</span>
+                        </div>
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span>10:00 a.m. – 2:00 p.m.</span>
+                        </div>
+                        <div class="meta-pill highlight-location">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>EmprendeLab (TEC Cartago)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-objective-box">
+                        <div class="objective-icon">🎯</div>
+                        <div class="objective-content">
+                            <strong>Objetivo del día:</strong>
+                            <p>Iniciar los sprints de desarrollo, definir la arquitectura del sistema, validar prototipos de interfaz con mentores y programar los módulos base del MVP.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Día 2 -->
+                <div class="hack-timeline">
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">10:00 – 10:30</div>
+                                <span class="hack-tag tag-apertura">Sprint Kickoff</span>
+                            </div>
+                            <h4 class="hack-block-title">Check-in & Standup Inicial</h4>
+                            <p class="hack-block-desc">Acreditación en EmprendeLab, alineación de metas técnicas del día y asignación de mentores especializados por track.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">10:30 – 12:00</div>
+                                <span class="hack-tag tag-tech">Sprint I</span>
+                            </div>
+                            <h4 class="hack-block-title">Arquitectura, Wireframes & Prototipado</h4>
+                            <p class="hack-block-desc">Diseño de interfaz en Figma, estructuración de bases de datos y creación de repositorios base con asesoría directa de mentores técnicos.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Diseño UI/UX</span>
+                                <span class="activity-chip">Setup de repositorios</span>
+                                <span class="activity-chip">Arquitectura de APIs</span>
+                                <span class="activity-chip">Mentoría 1-a-1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">12:00 – 13:00</div>
+                                <span class="hack-tag tag-mentoria">Mentoría & Almuerzo</span>
+                            </div>
+                            <h4 class="hack-block-title">Almuerzo & Feedback Intermedio</h4>
+                            <p class="hack-block-desc">Espacio de recarga y revisión de avances intermedios con el equipo de mentores para corregir desvíos antes de la tarde.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">13:00 – 14:00</div>
+                                <span class="hack-tag tag-tech">Sprint II</span>
+                            </div>
+                            <h4 class="hack-block-title">Desarrollo Core & Cierre Dev Day I</h4>
+                            <p class="hack-block-desc">Codificación de la lógica principal del prototipo y definición de metas para la jornada del miércoles.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="hack-result-card">
+                    <div class="result-icon">✨</div>
+                    <div class="result-text">
+                        <strong>Resultado esperado:</strong> Arquitectura definida, interfaces prototipadas y módulos principales del código fuente en desarrollo activo.
+                    </div>
+                </div>
+            </div>
+
+            <!-- DÍA 3: DEV DAY II -->
+            <div id="hack-day3" class="hack-schedule-day" role="tabpanel" aria-labelledby="hack-tab-day3">
+                <div class="hack-day-card-header">
+                    <div class="day-badge-top">DÍA 3 · DEV DAY II</div>
+                    <h3 class="day-card-title">Construcción, Validación y Entrega</h3>
+                    <p class="day-card-subtitle">Dev Day II: desarrollo final, mentorías de pitch y entrega digital de la solución.</p>
+                    
+                    <div class="day-meta-pills">
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>Miércoles 19 de agosto</span>
+                        </div>
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span>10:00 a.m. – 2:00 p.m. · Entrega: 11:59 p.m.</span>
+                        </div>
+                        <div class="meta-pill highlight-location">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>EmprendeLab (TEC Cartago)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-objective-box">
+                        <div class="objective-icon">🎯</div>
+                        <div class="objective-content">
+                            <strong>Objetivo del día:</strong>
+                            <p>Concluir el desarrollo del MVP, realizar ensayos de pitch ante mentores de oratoria, resolver bugs y enviar los entregables digitales antes de la medianoche.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Día 3 -->
+                <div class="hack-timeline">
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">10:00 – 10:30</div>
+                                <span class="hack-tag tag-apertura">Standup</span>
+                            </div>
+                            <h4 class="hack-block-title">Revisión de Entregables & Prioridades</h4>
+                            <p class="hack-block-desc">Verificación de la rúbrica de evaluación, estado de componentes y definición del alcance final del demo.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">10:30 – 12:30</div>
+                                <span class="hack-tag tag-mentoria">Sprint & Pitch Mentoring</span>
+                            </div>
+                            <h4 class="hack-block-title">Sprint Final & Ensayos de Pitch</h4>
+                            <p class="hack-block-desc">Integración frontend-backend y simulaciones de pitch con mentores de negocios y comunicación para perfeccionar la narrativa.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Integración final</span>
+                                <span class="activity-chip">Testing de demo</span>
+                                <span class="activity-chip">Ensayos de pitch 3min</span>
+                                <span class="activity-chip">Feedback de mentores</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">12:30 – 13:30</div>
+                                <span class="hack-tag tag-ideacion">Almuerzo & Setup</span>
+                            </div>
+                            <h4 class="hack-block-title">Almuerzo & Ajustes de Demostración</h4>
+                            <p class="hack-block-desc">Ajustes visuales de la presentación y preparación de los videos de respaldo para la demo.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">13:30 – 14:00</div>
+                                <span class="hack-tag tag-cierre">Cierre Presencial</span>
+                            </div>
+                            <h4 class="hack-block-title">Instrucciones de Entrega Digital</h4>
+                            <p class="hack-block-desc">Lineamientos para el envío de enlaces de repositorio GitHub, video demo de 2 minutos y diapositivas de pitch.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item highlight-item">
+                        <div class="hack-timeline-dot highlight-dot"></div>
+                        <div class="hack-timeline-content highlight-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge badge-critical">14:00 – 23:59</div>
+                                <span class="hack-tag tag-critico">⚡ Límite de Entrega</span>
+                            </div>
+                            <h4 class="hack-block-title">Sprint Asíncrono & Entrega Digital</h4>
+                            <p class="hack-block-desc">Periodo para commits finales, renderizado de video y carga en la plataforma. <strong>El formulario de entrega cierra a las 11:59 p.m. de forma estricta.</strong></p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="hack-result-card">
+                    <div class="result-icon">✨</div>
+                    <div class="result-text">
+                        <strong>Resultado esperado:</strong> MVP completado, repositorio y demo entregados digitalmente, y presentación lista para el Demo Day.
+                    </div>
+                </div>
+            </div>
+
+            <!-- DÍA 4: DEMO DAY -->
+            <div id="hack-day4" class="hack-schedule-day" role="tabpanel" aria-labelledby="hack-tab-day4">
+                <div class="hack-day-card-header highlight-demo-day">
+                    <div class="day-badge-top badge-gold">DÍA 4 · DEMO DAY FINAL</div>
+                    <h3 class="day-card-title">Evaluación, Premiación y Clausura</h3>
+                    <p class="day-card-subtitle">Demo Day: presentación en vivo ante el jurado de expertos, premiación y cierre.</p>
+                    
+                    <div class="day-meta-pills">
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                            <span>Jueves 20 de agosto</span>
+                        </div>
+                        <div class="meta-pill">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                            <span>8:00 a.m. – 3:00 p.m. (Llegada 7:30 a.m.)</span>
+                        </div>
+                        <div class="meta-pill highlight-location">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
+                            <span>Auditorio CIC (Centro de las Artes)</span>
+                        </div>
+                    </div>
+
+                    <div class="day-objective-box">
+                        <div class="objective-icon">🏆</div>
+                        <div class="objective-content">
+                            <strong>Objetivo del día:</strong>
+                            <p>Demostrar el valor, impacto y viabilidad de las soluciones en vivo ante el jurado calificador, interactuar en rondas de Q&A y coronar a los ganadores del HackaToB 2026.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline Día 4 -->
+                <div class="hack-timeline">
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">07:30 – 08:30</div>
+                                <span class="hack-tag tag-apertura">Acreditación</span>
+                            </div>
+                            <h4 class="hack-block-title">Llegada, Registro & Setup Técnico</h4>
+                            <p class="hack-block-desc">Acreditación de equipos finalistas, verificación de proyección en escenario y prueba de micrófonos.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">08:30 – 09:00</div>
+                                <span class="hack-tag tag-apertura">Inauguración</span>
+                            </div>
+                            <h4 class="hack-block-title">Apertura Oficial del Demo Day</h4>
+                            <p class="hack-block-desc">Bienvenida general, presentación formal del jurado de expertos de la industria y explicación de la dinámica de pitches.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item highlight-item">
+                        <div class="hack-timeline-dot highlight-dot"></div>
+                        <div class="hack-timeline-content highlight-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge badge-cyan">09:00 – 12:00</div>
+                                <span class="hack-tag tag-pitch">🔥 Rondas de Pitch</span>
+                            </div>
+                            <h4 class="hack-block-title">Presentaciones en Vivo & Q&A</h4>
+                            <p class="hack-block-desc">Pitches de los equipos finalistas agrupados por track (GreenTrack, FinTrack, The Next Big Thing) con demostración técnica en vivo y sesión de preguntas del jurado.</p>
+                            <div class="hack-activities-grid">
+                                <span class="activity-chip">Pitches GreenTrack</span>
+                                <span class="activity-chip">Pitches FinTrack</span>
+                                <span class="activity-chip">Pitches The Next Big Thing</span>
+                                <span class="activity-chip">Ronda Q&A Jueces</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item">
+                        <div class="hack-timeline-dot"></div>
+                        <div class="hack-timeline-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge">12:00 – 13:30</div>
+                                <span class="hack-tag tag-mentoria">Deliberación</span>
+                            </div>
+                            <h4 class="hack-block-title">Deliberación del Jurado & Almuerzo Networking</h4>
+                            <p class="hack-block-desc">Evaluación cuantitativa y cualitativa de los jueces. Almuerzo libre y espacio de networking con representantes de empresas patrocinadoras.</p>
+                        </div>
+                    </div>
+
+                    <div class="hack-timeline-item highlight-item">
+                        <div class="hack-timeline-dot highlight-gold-dot"></div>
+                        <div class="hack-timeline-content highlight-gold-content">
+                            <div class="hack-timeline-header">
+                                <div class="hack-time-badge badge-gold">13:30 – 15:00</div>
+                                <span class="hack-tag tag-gold">🏆 Premiación</span>
+                            </div>
+                            <h4 class="hack-block-title">Ceremonia de Premiación & Clausura Oficial</h4>
+                            <p class="hack-block-desc">Anuncio oficial de los 3 proyectos ganadores por track, entrega de cheques y reconocimientos, palabras de cierre y fotografía oficial.</p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="hack-result-card highlight-gold-result">
+                    <div class="result-icon">🏆</div>
+                    <div class="result-text">
+                        <strong>Resultado final:</strong> Proyectos evaluados, ganadores premiados y culminación de una experiencia transformadora en el HackaToB 2026.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
     <section id="mentores" class="hackatob-section"><h2>Mentores</h2></section>
     <section id="sponsors" class="hackatob-section alt-bg"><h2>Sponsors</h2></section>
     <section id="faq" class="hackatob-section"><h2>FAQ</h2></section>
