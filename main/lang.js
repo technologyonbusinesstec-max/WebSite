@@ -175,9 +175,9 @@ const translations = {
         "speaker_03_bio": "Líder de la industria compartiendo su visión en resiliencia.",
         "speaker_03_charla": "Panel Mujeres en Tech",
 
-        "speaker_04_name": "Wendy Badilla",
-        "speaker_04_role": "Microsoft",
-        "speaker_04_bio": "Experta de Microsoft enfocada en empoderamiento femenino en STEM.",
+        "speaker_04_name": "Karla Córdoba Brenes",
+        "speaker_04_role": "Presidenta Asociación Blockchain Costa Rica",
+        "speaker_04_bio": "Karla es apasionada por la innovación abierta y con impacto, nuevos tipos de dinero, tecnologías exponenciales y el diseño de Negocios Colaborativos y Monedas Sociales en Blockchain. Comunicadora Social y Máster en Desarrollo Comunitario. Co-Fundadora de Satisfied Vagabonds,  Cambiatus, CofiBlocks y ReFi Costa Rica.",
         "speaker_04_charla": "Panel Mujeres en Tech",
 
         "speaker_05_name": "Aaron Omodeo",
@@ -185,8 +185,8 @@ const translations = {
         "speaker_05_bio": "Especialista en finanzas prácticas y toma de decisiones de inversión.",
         "speaker_05_charla": "Finanzas personales en inversiones",
 
-        "speaker_06_name": "Cynthia Navarrete",
-        "speaker_06_role": "P&G",
+        "speaker_06_name": "Diego Loud",
+        "speaker_06_role": "Loud",
         "speaker_06_bio": "Estrategias de mercadeo para conectar con audiencias saturadas.",
         "speaker_06_charla": "Mercadeo en la era digital",
 
@@ -214,11 +214,6 @@ const translations = {
         "speaker_11_role": "Aso Blockchain CR",
         "speaker_11_bio": "Aplicaciones reales de la confianza digital más allá de cripto.",
         "speaker_11_charla": "Blockchain",
-
-        "speaker_12_name": "Diego Loud",
-        "speaker_12_role": "Loud",
-        "speaker_12_bio": "Estrategias de mercadeo para conectar con audiencias saturadas.",
-        "speaker_12_charla": "Mercadeo en la era digital",
 
         "speaker_13_name": "Ronald Arce",
         "speaker_13_role": "INCAE",
@@ -524,9 +519,9 @@ const translations = {
         "speaker_03_bio": "Industry leader sharing her vision on resilience.",
         "speaker_03_charla": "Women in Tech Panel",
 
-        "speaker_04_name": "Wendy Badilla",
-        "speaker_04_role": "Microsoft",
-        "speaker_04_bio": "Microsoft expert focused on female empowerment in STEM.",
+        "speaker_04_name": "Karla Córdoba Brenes",
+        "speaker_04_role": "President of the Costa Rica Blockchain Association",
+        "speaker_04_bio": "Karla is passionate about open and impactful innovation, new forms of money, exponential technologies, and the design of collaborative businesses and social currencies on the blockchain. She holds a degree in Social Communication and a master’s degree in Community Development. Co-founder of Satisfied Vagabonds, Cambiatus, CofiBlocks, and ReFi Costa Rica.",
         "speaker_04_charla": "Women in Tech Panel",
 
         "speaker_05_name": "Aaron Omodeo",
