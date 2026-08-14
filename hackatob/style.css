@@ -1,3 +1,22 @@
+/* Pantalla de Carga HackaToB (Mascota Spark) */
+.loader-logo.hackatob-loader-logo {
+    width: 140px;
+    height: auto;
+    animation: sparkLoaderPulse 1.4s ease-in-out infinite alternate;
+    filter: drop-shadow(0 0 25px rgba(0, 240, 255, 0.7));
+}
+
+@keyframes sparkLoaderPulse {
+    0% {
+        transform: scale(0.92) translateY(0);
+        filter: drop-shadow(0 0 15px rgba(0, 240, 255, 0.4));
+    }
+    100% {
+        transform: scale(1.06) translateY(-10px);
+        filter: drop-shadow(0 0 30px rgba(0, 240, 255, 0.9));
+    }
+}
+
 .hackathon-hero {
     position: relative;
     width: 100%;
