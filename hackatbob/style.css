@@ -1,0 +1,997 @@
+.hackathon-hero {
+    position: relative;
+    width: 100%;
+    min-height: 90vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    text-align: center;
+    padding: 2rem;
+    background: transparent;
+}
+
+.hackathon-hero-container {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    gap: 3rem;
+    text-align: left;
+    margin-top: 60px; /* Offset for navbar */
+}
+
+@media (max-width: 900px) {
+    .hackathon-hero-container {
+        flex-direction: column;
+        text-align: center;
+        margin-top: 80px;
+    }
+}
+
+.hackathon-hero-content-left {
+    flex: 1;
+    animation: fadeIn 1.5s ease-out;
+}
+
+.hackathon-hero-content-left .hero-rotator {
+    margin-bottom: 1.5rem;
+}
+
+@media (max-width: 900px) {
+    .hackathon-hero-content-left .hero-rotator {
+        height: 3.5rem;
+    }
+    .hackathon-hero-content-left .rotator-phrase {
+        font-size: clamp(1.4rem, 4vw, 1.8rem);
+        text-align: center;
+    }
+}
+
+.hackathon-description {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+}
+
+@media (max-width: 900px) {
+    .hackathon-description {
+        margin: 0 auto 2.5rem auto;
+    }
+}
+
+.hackathon-hero-content-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    animation: fadeIn 2s ease-out;
+}
+
+.hackatob-mascot {
+    max-width: 400px;
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    animation: float 6s ease-in-out infinite;
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hackatob-mascot.mascot-clicked {
+    animation: bounce 0.5s ease;
+}
+
+/* Custom Cursor Div */
+#custom-spark-cursor {
+    position: fixed;
+    pointer-events: none;
+    z-index: 999999;
+    transform: translate(-50%, -50%); /* Center over mouse pointer */
+    display: none;
+    width: 40px; /* Size of the mascot cursor */
+    height: 40px;
+}
+
+#custom-spark-cursor img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 0 5px rgba(0, 242, 254, 0.6));
+    animation: float-small 2s infinite ease-in-out;
+}
+
+/* Mascot cursor mode active */
+body.mascot-cursor-active,
+body.mascot-cursor-active * {
+    cursor: none !important;
+}
+
+body.mascot-cursor-active #custom-spark-cursor {
+    display: block;
+}
+
+@keyframes float-small {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1) rotate(10deg); }
+    100% { transform: scale(1); }
+}
+
+
+/* Sección de Métricas / Escala */
+.hackatob-metrics-section {
+    position: relative;
+    z-index: 2;
+    padding: 80px 20px 100px 20px;
+    width: 100%;
+}
+
+.metrics-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.metrics-title {
+    font-size: clamp(2.2rem, 4vw, 3.5rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 3.5rem;
+    text-align: left;
+    letter-spacing: -0.5px;
+}
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+}
+
+.metric-card {
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 2.2rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(0, 242, 254, 0.4);
+    box-shadow: 0 10px 25px rgba(0, 242, 254, 0.12);
+}
+
+.metric-number {
+    font-size: clamp(2.5rem, 3.5vw, 3.4rem);
+    font-weight: 800;
+    color: var(--color-cyan, #00f2fe);
+    line-height: 1;
+    margin-bottom: 0.8rem;
+    letter-spacing: -0.5px;
+}
+
+.metric-label {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.75);
+    font-weight: 500;
+    line-height: 1.35;
+}
+
+@media (max-width: 1024px) {
+    .metrics-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 640px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .metrics-title {
+        text-align: center;
+    }
+}
+
+/* Sección de Premios */
+.hackatob-prizes-section {
+    position: relative;
+    z-index: 2;
+    padding: 90px 20px;
+    width: 100%;
+}
+
+.prizes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.prizes-header {
+    margin-bottom: 3.5rem;
+    text-align: left;
+}
+
+.prizes-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-cyan, #00f2fe);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.prizes-title {
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.prizes-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+}
+
+.prizes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+    align-items: stretch;
+    margin-bottom: 2.5rem;
+}
+
+.prize-card-container {
+    perspective: 1200px;
+    height: 400px;
+    width: 100%;
+}
+
+.prize-card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transform-style: preserve-3d;
+    cursor: pointer;
+}
+
+/* Estado girado verticalmente */
+.prize-card-inner.is-flipped {
+    transform: rotateX(180deg);
+}
+
+.prize-card-front,
+.prize-card-back {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 22px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: rgba(15, 23, 42, 0.48);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 2.4rem 1.8rem 1.8rem 1.8rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.prize-card-front {
+    transform: rotateX(0deg);
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.prize-card-back {
+    transform: rotateX(180deg);
+    background: rgba(18, 25, 48, 0.88);
+    text-align: left;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+/* Hover de tarjetas */
+.prize-card-inner:hover .prize-card-front,
+.prize-card-inner:hover .prize-card-back {
+    border-color: rgba(255, 255, 255, 0.22);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+}
+
+/* Estilo destacado Primer Lugar */
+.prize-first .prize-card-front,
+.prize-first .prize-card-back {
+    border: 1.5px solid rgba(255, 215, 0, 0.45);
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.08);
+    background: linear-gradient(180deg, rgba(26, 32, 58, 0.65) 0%, rgba(15, 23, 42, 0.75) 100%);
+}
+
+.prize-first:hover .prize-card-front,
+.prize-first:hover .prize-card-back {
+    border-color: rgba(255, 215, 0, 0.75);
+    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+}
+
+/* Medallas */
+.prize-medal-wrapper {
+    position: relative;
+    margin-bottom: 0.8rem;
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.prize-medal {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.25rem;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
+    position: relative;
+    z-index: 2;
+}
+
+.prize-medal::before,
+.prize-medal::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    width: 12px;
+    height: 18px;
+    background: #3B82F6;
+    z-index: -1;
+}
+
+.prize-medal::before {
+    left: 7px;
+    transform: rotate(-25deg);
+    border-radius: 3px 0 0 0;
+}
+
+.prize-medal::after {
+    right: 7px;
+    transform: rotate(25deg);
+    border-radius: 0 3px 0 0;
+}
+
+.medal-gold {
+    background: linear-gradient(135deg, #FFE57F 0%, #F59E0B 100%);
+    color: #78350F;
+}
+
+.medal-silver {
+    background: linear-gradient(135deg, #F1F5F9 0%, #94A3B8 100%);
+    color: #1E293B;
+}
+
+.medal-bronze {
+    background: linear-gradient(135deg, #FED7AA 0%, #C2410C 100%);
+    color: #431407;
+}
+
+.prize-rank {
+    font-size: 0.82rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255, 255, 255, 0.65);
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+}
+
+.prize-amount {
+    font-size: clamp(1.35rem, 2vw, 1.75rem);
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.6rem;
+    line-height: 1.2;
+}
+
+.prize-desc {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.45;
+    margin-bottom: 1rem;
+    flex-grow: 1;
+}
+
+.prize-flip-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: var(--color-cyan, #00f2fe);
+    margin-top: auto;
+    padding: 0.35rem 0.75rem;
+    background: rgba(0, 242, 254, 0.08);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    border-radius: 50px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.prize-card-inner:hover .prize-flip-hint {
+    background: rgba(0, 242, 254, 0.18);
+}
+
+/* Cara Trasera Contenido */
+.prize-back-title {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.prize-back-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 auto 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+}
+
+.prize-back-list li {
+    font-size: 0.86rem;
+    color: rgba(255, 255, 255, 0.85);
+    line-height: 1.35;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.prize-back-list li::before {
+    content: '✦';
+    color: var(--color-cyan, #00f2fe);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+@media (max-width: 900px) {
+    .prizes-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .prize-card-container {
+        height: 380px;
+    }
+}
+
+/* Franja Divisora Cruzada (Crossed Marquee) HackaToB */
+.hackatob-divider-marquee {
+    background: transparent !important;
+    margin: 40px 0 60px 0;
+    height: 180px;
+}
+
+/* Sección de Tracks / Temas */
+.hackatob-tracks-section {
+    position: relative;
+    z-index: 2;
+    padding: 90px 20px 110px 20px;
+    width: 100%;
+}
+
+.tracks-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.tracks-header {
+    margin-bottom: 3.5rem;
+    text-align: left;
+}
+
+.tracks-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-cyan, #00f2fe);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.tracks-title {
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.tracks-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.4;
+}
+
+.tracks-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.8rem;
+    align-items: stretch;
+}
+
+.track-card {
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-radius: 22px;
+    padding: 2.2rem 1.8rem 2rem 1.8rem;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+}
+
+/* Capa de fondo temática en hover */
+.track-hover-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+    transform: scale(1.08);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+    z-index: 1;
+}
+
+.track-hover-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, rgba(4, 8, 20, 0.35) 0%, rgba(4, 8, 20, 0.68) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 2;
+}
+
+.track-card:hover .track-hover-bg {
+    opacity: 0.88;
+    transform: scale(1.03);
+}
+
+.track-card:hover .track-hover-overlay {
+    opacity: 1;
+}
+
+.track-card:hover .track-name,
+.track-card:hover .track-punchline {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+}
+
+.track-card:hover .track-desc {
+    color: #ffffff;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+}
+
+.track-card:hover .track-badge {
+    background: rgba(4, 8, 20, 0.72);
+    border-color: rgba(255, 255, 255, 0.3);
+    backdrop-filter: blur(8px);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.9);
+}
+
+.track-card-image {
+    position: absolute;
+    top: 1.2rem;
+    right: 1.2rem;
+    width: 85px;
+    height: 85px;
+    pointer-events: none;
+    z-index: 3;
+}
+
+.track-spark-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45));
+    animation: float-small 4s infinite ease-in-out;
+}
+
+.track-card-content {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.track-tag {
+    font-family: monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+    display: block;
+    text-transform: uppercase;
+}
+
+.track-name {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+    line-height: 1.2;
+}
+
+.track-punchline {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 1rem;
+    line-height: 1.35;
+}
+
+.track-desc {
+    font-size: 0.92rem;
+    color: rgba(255, 255, 255, 0.72);
+    line-height: 1.5;
+    margin-bottom: 1.8rem;
+    max-width: 92%;
+}
+
+.track-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+}
+
+.track-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    backdrop-filter: blur(4px);
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.track-badge:hover {
+    background: rgba(255, 255, 255, 0.18);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+/* Track específico: GreenTrack */
+.track-green {
+    border: 1.5px solid #22C55E;
+    box-shadow: 0 0 25px rgba(34, 197, 94, 0.12);
+}
+
+.track-green .track-tag {
+    color: #4ADE80;
+}
+
+.track-green:hover {
+    box-shadow: 0 12px 35px rgba(34, 197, 94, 0.25);
+    transform: translateY(-6px);
+    border-color: #4ADE80;
+}
+
+/* Track específico: FinTrack */
+.track-orange {
+    border: 1.5px solid #F97316;
+    box-shadow: 0 0 25px rgba(249, 115, 22, 0.12);
+}
+
+.track-orange .track-tag {
+    color: #FB923C;
+}
+
+.track-orange:hover {
+    box-shadow: 0 12px 35px rgba(249, 115, 22, 0.25);
+    transform: translateY(-6px);
+    border-color: #FB923C;
+}
+
+/* Track específico: The Next Big Thing */
+.track-purple {
+    border: 1.5px solid #A855F7;
+    box-shadow: 0 0 25px rgba(168, 85, 247, 0.12);
+}
+
+.track-purple .track-tag {
+    color: #C084FC;
+}
+
+.track-purple:hover {
+    box-shadow: 0 12px 35px rgba(168, 85, 247, 0.25);
+    transform: translateY(-6px);
+    border-color: #C084FC;
+}
+
+@media (max-width: 1024px) {
+    .tracks-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+}
+
+/* Sección de Sedes / Dónde ocurre */
+.hackatob-sedes-section {
+    position: relative;
+    z-index: 2;
+    padding: 90px 20px 110px 20px;
+    width: 100%;
+}
+
+.sedes-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.sedes-header {
+    margin-bottom: 3.5rem;
+    text-align: left;
+}
+
+.sedes-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--color-cyan, #00f2fe);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.sedes-title {
+    font-size: clamp(2.4rem, 4.5vw, 3.8rem);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.sedes-subtitle {
+    font-size: 1.15rem;
+    color: rgba(255, 255, 255, 0.7);
+    line-height: 1.45;
+    max-width: 800px;
+}
+
+.sedes-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+}
+
+.sede-card {
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 22px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
+}
+
+.sede-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0, 242, 254, 0.35);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+.sede-img-wrapper {
+    position: relative;
+    width: 100%;
+    height: 260px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.sede-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.sede-card:hover .sede-img {
+    transform: scale(1.04);
+}
+
+.sede-ref-badge {
+    position: absolute;
+    bottom: 1rem;
+    left: 1rem;
+    background: #FACC15;
+    color: #000000;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 0.35rem 0.8rem;
+    border-radius: 50px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.sede-body {
+    padding: 2rem 2rem 2.2rem 2rem;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.sede-name {
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 0.4rem;
+}
+
+.sede-role-tag {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-cyan, #00f2fe);
+    margin-bottom: 0.8rem;
+}
+
+.sede-role-highlight {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-cyan, #00f2fe);
+    margin-bottom: 0.8rem;
+    margin-top: -0.4rem;
+}
+
+.sede-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.sede-badge {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 0.35rem 0.75rem;
+    border-radius: 50px;
+    backdrop-filter: blur(4px);
+}
+
+.sede-desc {
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.75);
+    line-height: 1.5;
+    margin-top: auto;
+}
+
+.sede-maps-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 242, 254, 0.1);
+    color: var(--color-cyan, #00f2fe);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    padding: 0.65rem 1.25rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-decoration: none;
+    margin-top: auto;
+    width: fit-content;
+    transition: all 0.3s ease;
+}
+
+.sede-maps-btn:hover {
+    background: var(--color-cyan, #00f2fe);
+    color: #050b18;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 850px) {
+    .sedes-grid {
+        grid-template-columns: 1fr;
+        gap: 1.8rem;
+    }
+}
+
+/* Secciones del HackaToB */
+.hackatob-section {
+    padding: 100px 20px;
+    min-height: 40vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    position: relative;
+    z-index: 2;
+}
+
+.hackatob-section.alt-bg {
+    background: rgba(255, 255, 255, 0.02);
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.hackatob-section h2 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    background: linear-gradient(90deg, #fff, var(--color-cyan, #00f2fe));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
