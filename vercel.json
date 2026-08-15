@@ -26,6 +26,14 @@
     {
       "source": "/hackatbob/:path*",
       "destination": "/hackatob/:path*"
+    },
+    {
+      "source": "/hacktob",
+      "destination": "/hackatob"
+    },
+    {
+      "source": "/hacktob/:path*",
+      "destination": "/hackatob/:path*"
     }
   ],
   "headers": [

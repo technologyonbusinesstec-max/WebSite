@@ -1063,8 +1063,375 @@ body.mascot-cursor-active #custom-spark-cursor {
     background-color: #080D18;
 }
 
+/* ==========================================================================
+   SECCIÓN FAQ INTERACTIVO (STACK DE TARJETAS / MAZO 3D)
+   ========================================================================== */
 #faq.hackatob-section {
     background: transparent;
+    padding: 90px 20px 110px;
+    position: relative;
+    z-index: 3;
+    overflow: hidden;
+}
+
+.hackatob-faq-section {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.faq-deck-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 680px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    perspective: 1200px;
+    outline: none;
+    padding: 0 10px;
+}
+
+.faq-deck-wrapper:focus-visible {
+    outline: 2px solid rgba(0, 242, 254, 0.6);
+    outline-offset: 8px;
+    border-radius: 20px;
+}
+
+/* Indicador de ayuda superior */
+.faq-deck-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(0, 242, 254, 0.07);
+    border: 1px solid rgba(0, 242, 254, 0.2);
+    color: rgba(225, 245, 255, 0.85);
+    font-size: 0.82rem;
+    font-family: var(--font-tech, monospace);
+    letter-spacing: 0.5px;
+    padding: 6px 16px;
+    border-radius: 30px;
+    margin-bottom: 25px;
+    animation: faqHintPulse 3s ease-in-out infinite;
+    user-select: none;
+}
+
+.faq-deck-hint svg {
+    stroke: var(--color-cyan, #00f2fe);
+    animation: faqHintNudge 2s ease-in-out infinite alternate;
+}
+
+@keyframes faqHintPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(0, 242, 254, 0.05);
+        border-color: rgba(0, 242, 254, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(0, 242, 254, 0.18);
+        border-color: rgba(0, 242, 254, 0.4);
+    }
+}
+
+@keyframes faqHintNudge {
+    0% { transform: translateX(-3px); }
+    100% { transform: translateX(3px); }
+}
+
+/* Contenedor del Stack */
+.faq-stack-container {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    min-height: 290px;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    margin: 0 auto 30px;
+    touch-action: pan-y;
+}
+
+/* Tarjeta individual */
+.faq-stack-card {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: 100%;
+    background: linear-gradient(145deg, rgba(14, 21, 38, 0.95), rgba(7, 11, 22, 0.98));
+    border: 1px solid rgba(0, 242, 254, 0.22);
+    border-radius: 24px;
+    padding: 30px 34px;
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 35px rgba(0, 242, 254, 0.08);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 270px;
+    box-sizing: border-box;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+    transform-origin: center bottom;
+    transition: transform 0.45s cubic-bezier(0.34, 1.45, 0.64, 1),
+                opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+                filter 0.4s ease,
+                box-shadow 0.4s ease,
+                border-color 0.4s ease;
+    will-change: transform, opacity;
+}
+
+/* Efecto de resplandor interior */
+.faq-card-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.15), transparent 70%);
+    border-radius: 24px 24px 0 0;
+    pointer-events: none;
+}
+
+/* Estado al arrastrar (activo) */
+.faq-stack-card.is-dragging {
+    cursor: grabbing !important;
+    transition: none !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(0, 242, 254, 0.25) !important;
+    border-color: rgba(0, 242, 254, 0.5) !important;
+}
+
+/* Estado animando salida (fly-out) */
+.faq-stack-card.is-flying-out {
+    transition: transform 0.38s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.35s ease !important;
+    pointer-events: none;
+}
+
+/* Topbar de la tarjeta */
+.faq-card-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 2;
+}
+
+.faq-card-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-tech, monospace);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-cyan, #00f2fe);
+    background: rgba(0, 242, 254, 0.1);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+}
+
+.faq-badge-pulse {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-cyan, #00f2fe);
+    box-shadow: 0 0 8px var(--color-cyan, #00f2fe);
+    animation: faqPulse 1.8s infinite;
+}
+
+@keyframes faqPulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+}
+
+.faq-card-counter {
+    font-family: var(--font-tech, monospace);
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 1px;
+}
+
+/* Cuerpo de la tarjeta */
+.faq-card-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.faq-card-question {
+    font-size: clamp(1.22rem, 2.6vw, 1.48rem);
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.35;
+    margin: 0 0 14px;
+    letter-spacing: -0.3px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+.faq-card-answer {
+    font-size: clamp(0.95rem, 1.8vw, 1.04rem);
+    color: rgba(225, 238, 255, 0.88);
+    line-height: 1.65;
+    margin: 0;
+    font-weight: 400;
+}
+
+/* Pie de la tarjeta */
+.faq-card-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 18px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    position: relative;
+    z-index: 2;
+}
+
+.faq-drag-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.76rem;
+    color: rgba(255, 255, 255, 0.4);
+    font-family: var(--font-tech, monospace);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.faq-drag-badge svg {
+    stroke: rgba(0, 242, 254, 0.7);
+}
+
+/* Controles de Navegación y Dots */
+.faq-deck-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    margin-top: 10px;
+    position: relative;
+    z-index: 4;
+}
+
+.faq-ctrl-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(14, 21, 38, 0.85);
+    border: 1px solid rgba(0, 242, 254, 0.28);
+    color: var(--color-cyan, #00f2fe);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+    outline: none;
+}
+
+.faq-ctrl-btn:hover {
+    background: rgba(0, 242, 254, 0.15);
+    border-color: var(--color-cyan, #00f2fe);
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(0, 242, 254, 0.45);
+    transform: scale(1.08);
+}
+
+.faq-ctrl-btn:active {
+    transform: scale(0.92);
+}
+
+.faq-ctrl-btn:focus-visible {
+    outline: 2px solid var(--color-cyan, #00f2fe);
+    outline-offset: 4px;
+}
+
+.faq-dots-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(12, 18, 32, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 30px;
+    backdrop-filter: blur(10px);
+}
+
+.faq-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.25);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+    outline: none;
+}
+
+.faq-dot:hover {
+    background: rgba(0, 242, 254, 0.6);
+    transform: scale(1.2);
+}
+
+.faq-dot.active {
+    width: 28px;
+    background: linear-gradient(90deg, #00f2fe, #00b4d8);
+    box-shadow: 0 0 12px rgba(0, 242, 254, 0.7);
+}
+
+.faq-dot:focus-visible {
+    outline: 2px solid var(--color-cyan, #00f2fe);
+    outline-offset: 2px;
+}
+
+/* Responsividad */
+@media (max-width: 640px) {
+    #faq.hackatob-section {
+        padding: 70px 16px 90px;
+    }
+
+    .faq-stack-card {
+        padding: 22px 20px;
+        min-height: 290px;
+        border-radius: 20px;
+    }
+
+    .faq-stack-container {
+        min-height: 310px;
+    }
+
+    .faq-card-question {
+        font-size: 1.18rem;
+        margin-bottom: 10px;
+    }
+
+    .faq-card-answer {
+        font-size: 0.92rem;
+        line-height: 1.55;
+    }
+
+    .faq-ctrl-btn {
+        width: 42px;
+        height: 42px;
+    }
+
+    .faq-deck-hint {
+        font-size: 0.75rem;
+        padding: 5px 12px;
+    }
 }
 
 .hackatob-section.alt-bg {
@@ -1686,4 +2053,225 @@ body.mascot-cursor-active #custom-spark-cursor {
     stroke: #ffffff;
 }
 
+/* ==========================================================================
+   BOTÓN DESTACADO DE AGENDA (COLOR DORADO / GOLD CALLOUT)
+   ========================================================================== */
+.nav-link-agenda-gold {
+    color: #FFD700 !important;
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.5) !important;
+    padding: 5px 14px !important;
+    border-radius: 20px;
+    font-weight: 700 !important;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.25);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    letter-spacing: 0.3px;
+    animation: goldGlowPulse 2.6s ease-in-out infinite;
+}
 
+.nav-link-agenda-gold:hover {
+    background: rgba(255, 215, 0, 0.28);
+    border-color: #FFE600 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 22px rgba(255, 215, 0, 0.6);
+    transform: translateY(-1px) scale(1.04);
+}
+
+.mobile-link-agenda-gold {
+    color: #FFD700 !important;
+    background: linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 170, 0, 0.08));
+    border: 1px solid rgba(255, 215, 0, 0.5) !important;
+    border-radius: 12px;
+    padding: 10px 16px !important;
+    margin: 4px 0;
+    font-weight: 700 !important;
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.3);
+}
+
+@keyframes goldGlowPulse {
+    0%, 100% {
+        box-shadow: 0 0 12px rgba(255, 215, 0, 0.25);
+        border-color: rgba(255, 215, 0, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 22px rgba(255, 215, 0, 0.6), 0 0 32px rgba(255, 170, 0, 0.25);
+        border-color: #FFD700;
+    }
+}
+
+/* ==========================================================================
+   SECCIÓN PREVIEW DE AGENDA EN LA HOME DEL HACKATOB
+   ========================================================================== */
+.hackatob-schedule-preview-section {
+    padding: 90px 5% 110px;
+    max-width: 1150px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+}
+
+.agenda-preview-card {
+    position: relative;
+    background: linear-gradient(145deg, rgba(14, 21, 38, 0.88), rgba(7, 11, 22, 0.95));
+    border: 1px solid rgba(0, 242, 254, 0.25);
+    border-radius: 28px;
+    padding: 40px 36px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 35px rgba(0, 242, 254, 0.08);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+}
+
+.agenda-preview-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    background: radial-gradient(circle at 50% 0%, rgba(255, 215, 0, 0.12), rgba(0, 242, 254, 0.08), transparent 75%);
+    pointer-events: none;
+}
+
+.agenda-preview-days-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 35px;
+    position: relative;
+    z-index: 2;
+}
+
+.agenda-mini-day {
+    background: rgba(18, 26, 44, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 18px;
+    padding: 22px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    transition: all 0.35s ease;
+}
+
+.agenda-mini-day:hover {
+    transform: translateY(-4px);
+    background: rgba(22, 32, 54, 0.8);
+    border-color: rgba(0, 242, 254, 0.35);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+}
+
+.agenda-mini-day.highlight-gold {
+    border-color: rgba(255, 215, 0, 0.35);
+    background: linear-gradient(145deg, rgba(28, 36, 56, 0.75), rgba(35, 30, 15, 0.65));
+}
+
+.agenda-mini-day.highlight-gold:hover {
+    border-color: rgba(255, 215, 0, 0.6);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.15);
+}
+
+.mini-day-pill {
+    align-self: flex-start;
+    font-family: var(--font-tech, monospace);
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--color-cyan, #00f2fe);
+    background: rgba(0, 242, 254, 0.12);
+    border: 1px solid rgba(0, 242, 254, 0.3);
+    padding: 3px 10px;
+    border-radius: 12px;
+}
+
+.mini-day-pill.gold-pill {
+    color: #FFD700;
+    background: rgba(255, 215, 0, 0.15);
+    border-color: rgba(255, 215, 0, 0.45);
+}
+
+.agenda-mini-day h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 4px 0 0;
+}
+
+.agenda-mini-day p {
+    font-size: 0.88rem;
+    color: rgba(225, 235, 255, 0.75);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.agenda-preview-cta {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+}
+
+.btn-gold-agenda {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #FFD700, #FFAA00);
+    color: #080D18 !important;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.5px;
+    padding: 14px 32px;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.45), 0 8px 20px rgba(0, 0, 0, 0.35);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.btn-gold-agenda svg {
+    stroke: #080D18;
+    transition: transform 0.3s ease;
+}
+
+.btn-gold-agenda:hover {
+    background: linear-gradient(135deg, #FFE44D, #FFB81C);
+    box-shadow: 0 0 35px rgba(255, 215, 0, 0.75), 0 12px 28px rgba(0, 0, 0, 0.45);
+    transform: translateY(-3px) scale(1.03);
+    color: #000000 !important;
+}
+
+.btn-gold-agenda:hover svg {
+    transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+    .agenda-preview-days-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 580px) {
+    .agenda-preview-card {
+        padding: 26px 18px;
+        border-radius: 22px;
+    }
+    
+    .agenda-preview-days-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .btn-gold-agenda {
+        width: 100%;
+        justify-content: center;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+    }
+}
+.back-to-tob-btn {
+    white-space: nowrap;
+}

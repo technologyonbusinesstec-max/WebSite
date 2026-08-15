@@ -20,20 +20,20 @@
     <nav class="navbar" id="navbar">
         <!-- Izquierda: Volver al ToB -->
         <div class="navbar-left">
-            <a href="../main/index.html" class="btn btn-primary back-to-tob-btn">
+            <a href="../main/index.html" class="btn btn-primary back-to-tob-btn" data-i18n="hack_nav_back">
                 &larr; Volver al ToB
             </a>
         </div>
 
         <!-- Centro: Enlaces Ancla del HackaToB -->
         <div class="navbar-center">
-            <div class="nav-item"><a href="#premios" class="nav-link">Premios</a></div>
-            <div class="nav-item"><a href="#tracks" class="nav-link">Tracks</a></div>
-            <div class="nav-item"><a href="#sedes" class="nav-link">Sedes</a></div>
-            <div class="nav-item"><a href="#programa" class="nav-link">Agenda</a></div>
-            <div class="nav-item"><a href="#mentores" class="nav-link">Mentores</a></div>
-            <div class="nav-item"><a href="#sponsors" class="nav-link">Sponsors</a></div>
-            <div class="nav-item"><a href="#faq" class="nav-link">FAQ</a></div>
+            <div class="nav-item"><a href="#premios" class="nav-link" data-i18n="hack_nav_premios">Premios</a></div>
+            <div class="nav-item"><a href="#tracks" class="nav-link" data-i18n="hack_nav_tracks">Tracks</a></div>
+            <div class="nav-item"><a href="#sedes" class="nav-link" data-i18n="hack_nav_sedes">Sedes</a></div>
+            <div class="nav-item"><a href="/hackatob/agenda" class="nav-link nav-link-agenda-gold" data-i18n="hack_nav_agenda">Agenda</a></div>
+            <div class="nav-item"><a href="#mentores" class="nav-link" data-i18n="hack_nav_mentores">Mentores</a></div>
+            <div class="nav-item"><a href="#sponsors" class="nav-link" data-i18n="hack_nav_sponsors">Sponsors</a></div>
+            <div class="nav-item"><a href="#faq" class="nav-link" data-i18n="hack_nav_faq">FAQ</a></div>
         </div>
 
         <!-- Derecha: Botón Participar -->
@@ -43,7 +43,7 @@
                 <span class="lang-text">EN</span>
                 <div class="lang-slider"></div>
             </div>
-            <a href="https://www.luma.com" target="_blank" class="btn btn-primary">Participar</a>
+            <a href="https://www.luma.com" target="_blank" class="btn btn-primary" data-i18n="hack_nav_participar">Participar</a>
 
             <!-- Hamburger Menu Toggle (Mobile) -->
             <button class="menu-toggle" id="menuToggle" aria-label="Menú">
@@ -54,21 +54,21 @@
 
     <!-- Menú Móvil HackaToB -->
     <div class="mobile-nav" id="mobileNav">
-        <a href="../main/index.html" class="mobile-link" style="color: var(--color-cyan, #00f2fe); font-weight: bold;">&larr; Volver al ToB</a>
-        <a href="#premios" class="mobile-link">Premios</a>
-        <a href="#tracks" class="mobile-link">Tracks</a>
-        <a href="#sedes" class="mobile-link">Sedes</a>
-        <a href="#programa" class="mobile-link">Agenda</a>
-        <a href="#mentores" class="mobile-link">Mentores</a>
-        <a href="#sponsors" class="mobile-link">Sponsors</a>
-        <a href="#faq" class="mobile-link">FAQ</a>
+        <a href="../main/index.html" class="mobile-link" style="color: var(--color-cyan, #00f2fe); font-weight: bold;" data-i18n="hack_nav_back">&larr; Volver al ToB</a>
+        <a href="#premios" class="mobile-link" data-i18n="hack_nav_premios">Premios</a>
+        <a href="#tracks" class="mobile-link" data-i18n="hack_nav_tracks">Tracks</a>
+        <a href="#sedes" class="mobile-link" data-i18n="hack_nav_sedes">Sedes</a>
+        <a href="/hackatob/agenda" class="mobile-link mobile-link-agenda-gold" data-i18n="hack_nav_agenda">Agenda</a>
+        <a href="#mentores" class="mobile-link" data-i18n="hack_nav_mentores">Mentores</a>
+        <a href="#sponsors" class="mobile-link" data-i18n="hack_nav_sponsors">Sponsors</a>
+        <a href="#faq" class="mobile-link" data-i18n="hack_nav_faq">FAQ</a>
         <div class="mobile-actions">
             <div class="lang-selector" id="langToggleMobile" data-lang="ES">
                 <span class="lang-text active">ES</span>
                 <span class="lang-text">EN</span>
                 <div class="lang-slider"></div>
             </div>
-            <a href="https://www.luma.com" target="_blank" class="btn btn-primary" style="width: 100%;">Participar</a>
+            <a href="https://www.luma.com" target="_blank" class="btn btn-primary" style="width: 100%;" data-i18n="hack_nav_participar">Participar</a>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
     <section class="hackathon-hero">
         <div class="hackathon-hero-container">
             <div class="hackathon-hero-content-left">
-                <p class="hero-eyebrow">Technology on Business</p>
+                <p class="hero-eyebrow" data-i18n="hero_eyebrow">Technology on Business</p>
                 <h1 class="hero-title hackatob-hero-title">Hacka<br>ToB<br>2026</h1>
                 
                 <!-- Línea rotativa de frases -->
@@ -84,7 +84,7 @@
                     <span class="rotator-phrase" id="hackRotatorPhrase">Innova. Conecta. Transforma.</span>
                 </div>
 
-                <a href="https://www.luma.com" target="_blank" class="btn btn-primary btn-large">Quiero participar</a>
+                <a href="https://www.luma.com" target="_blank" class="btn btn-primary btn-large" data-i18n="hack_hero_cta">Quiero participar</a>
             </div>
             
             <div class="hackathon-hero-content-right">
@@ -96,27 +96,27 @@
     <!-- Sección de Métricas / Escala -->
     <section class="hackatob-metrics-section">
         <div class="metrics-container">
-            <h2 class="metrics-title">La escala de la primera<br>edición.</h2>
+            <h2 class="metrics-title" data-i18n="hack_metrics_title">La escala de la primera<br>edición.</h2>
             <div class="metrics-grid">
                 <div class="metric-card" style="--card-bg: url('../imagenes/hackatob/indicador01.webp');">
                     <span class="metric-number" data-target="80" data-prefix="">0</span>
-                    <span class="metric-label">Estudiantes esperados</span>
+                    <span class="metric-label" data-i18n="hack_stat_1">Estudiantes esperados</span>
                 </div>
                 <div class="metric-card" style="--card-bg: url('../imagenes/hackatob/indicador02webp.jpeg');">
                     <span class="metric-number" data-target="15" data-prefix="+">0</span>
-                    <span class="metric-label">Proyectos</span>
+                    <span class="metric-label" data-i18n="hack_stat_2">Proyectos</span>
                 </div>
                 <div class="metric-card" style="--card-bg: url('../imagenes/hackatob/indicador03.webp');">
                     <span class="metric-number" data-target="3" data-prefix="">0</span>
-                    <span class="metric-label">Tracks</span>
+                    <span class="metric-label" data-i18n="hack_stat_3">Tracks</span>
                 </div>
                 <div class="metric-card" style="--card-bg: url('../imagenes/hackatob/indicador04.webp');">
                     <span class="metric-number" data-target="15" data-prefix="">0</span>
-                    <span class="metric-label">Mentores</span>
+                    <span class="metric-label" data-i18n="hack_stat_4">Mentores</span>
                 </div>
                 <div class="metric-card" style="--card-bg: url('../imagenes/hackatob/indicadores05.webp');">
                     <span class="metric-number" data-target="5" data-prefix="">0</span>
-                    <span class="metric-label">Jueces Demo Day</span>
+                    <span class="metric-label" data-i18n="hack_stat_5">Jueces Demo Day</span>
                 </div>
             </div>
         </div>
@@ -126,8 +126,8 @@
     <section id="premios" class="hackatob-prizes-section">
         <div class="prizes-container">
             <div class="prizes-header">
-                <span class="prizes-eyebrow">PREMIOS</span>
-                <h2 class="prizes-title">Trofeos, experiencias y<br>reconocimiento.</h2>
+                <span class="prizes-eyebrow" data-i18n="hack_prizes_header_eyebrow">PREMIOS</span>
+                <h2 class="prizes-title" data-i18n="hack_prizes_header_title">Trofeos, experiencias y<br>reconocimiento.</h2>
             </div>
 
             <!-- Podio de Premios con Giro Vertical 3D -->
@@ -142,26 +142,26 @@
                                     <span class="medal-num">2</span>
                                 </div>
                             </div>
-                            <span class="prize-rank">SEGUNDO LUGAR</span>
-                            <h3 class="prize-amount">Premio Plata</h3>
-                            <p class="prize-desc">Reconocimiento oficial y trofeo conmemorativo para el segundo lugar del Demo Day.</p>
+                            <span class="prize-rank" data-i18n="hack_prize_2_rank">SEGUNDO LUGAR</span>
+                            <h3 class="prize-amount" data-i18n="hack_prize_2_amount">Premio Plata</h3>
+                            <p class="prize-desc" data-i18n="hack_prize_2_desc">Reconocimiento oficial y trofeo conmemorativo para el segundo lugar del Demo Day.</p>
                             <div class="prize-flip-hint">
-                                <span>Ver detalles</span>
+                                <span data-i18n="hack_prize_details">Ver detalles</span>
                                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             </div>
                         </div>
                         <!-- Cara Trasera -->
                         <div class="prize-card-back">
-                            <span class="prize-rank">BENEFICIOS 2° LUGAR</span>
-                            <h4 class="prize-back-title">Premio Plata</h4>
+                            <span class="prize-rank" data-i18n="hack_prize_2_back_rank">BENEFICIOS 2° LUGAR</span>
+                            <h4 class="prize-back-title" data-i18n="hack_prize_2_back_title">Premio Plata</h4>
                             <ul class="prize-back-list">
-                                <li>Trofeo conmemorativo Top 3</li>
-                                <li>Exposición en la página oficial</li>
-                                <li>Magneto + Certificado de participación</li>
-                                <li>Acceso a workshops y mentorías</li>
+                                <li data-i18n="hack_prize_2_li1">Trofeo conmemorativo Top 3</li>
+                                <li data-i18n="hack_prize_2_li2">Exposición en la página oficial</li>
+                                <li data-i18n="hack_prize_2_li3">Magneto + Certificado de participación</li>
+                                <li data-i18n="hack_prize_2_li4">Acceso a workshops y mentorías</li>
                             </ul>
                             <div class="prize-flip-hint">
-                                <span>Volver al frente</span>
+                                <span data-i18n="hack_prize_back">Volver al frente</span>
                                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             </div>
                         </div>
@@ -178,27 +178,27 @@
                                     <span class="medal-num">1</span>
                                 </div>
                             </div>
-                            <span class="prize-rank">PRIMER LUGAR</span>
-                            <h3 class="prize-amount">Rainforest Adventures</h3>
-                            <p class="prize-desc">2 entradas dobles a Rainforest Adventures (canopy o teleférico) + trofeos de campeones.</p>
+                            <span class="prize-rank" data-i18n="hack_prize_1_rank">PRIMER LUGAR</span>
+                            <h3 class="prize-amount" data-i18n="hack_prize_1_amount">Rainforest Adventures</h3>
+                            <p class="prize-desc" data-i18n="hack_prize_1_desc">2 entradas dobles a Rainforest Adventures (canopy o teleférico) + trofeos de campeones.</p>
                             <div class="prize-flip-hint">
-                                <span>Ver detalles</span>
+                                <span data-i18n="hack_prize_details">Ver detalles</span>
                                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             </div>
                         </div>
                         <!-- Cara Trasera -->
                         <div class="prize-card-back">
-                            <span class="prize-rank">BENEFICIOS 1° LUGAR</span>
-                            <h4 class="prize-back-title">Gran Ganador ToB</h4>
+                            <span class="prize-rank" data-i18n="hack_prize_1_back_rank">BENEFICIOS 1° LUGAR</span>
+                            <h4 class="prize-back-title" data-i18n="hack_prize_1_back_title">Gran Ganador ToB</h4>
                             <ul class="prize-back-list">
-                                <li>2 Entradas dobles a Rainforest Adventures</li>
-                                <li>Trofeos individuales de Campeones</li>
-                                <li>Exposición destacada de proyecto</li>
-                                <li>Formación y mentoría exclusiva WWT</li>
-                                <li>Magneto + Certificado de participación</li>
+                                <li data-i18n="hack_prize_1_li1">2 Entradas dobles a Rainforest Adventures</li>
+                                <li data-i18n="hack_prize_1_li2">Trofeos individuales de Campeones</li>
+                                <li data-i18n="hack_prize_1_li3">Exposición destacada de proyecto</li>
+                                <li data-i18n="hack_prize_1_li4">Formación y mentoría exclusiva WWT</li>
+                                <li data-i18n="hack_prize_1_li5">Magneto + Certificado de participación</li>
                             </ul>
                             <div class="prize-flip-hint">
-                                <span>Volver al frente</span>
+                                <span data-i18n="hack_prize_back">Volver al frente</span>
                                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             </div>
                         </div>
@@ -215,26 +215,26 @@
                                     <span class="medal-num">3</span>
                                 </div>
                             </div>
-                            <span class="prize-rank">TERCER LUGAR</span>
-                            <h3 class="prize-amount">Premio Bronce</h3>
-                            <p class="prize-desc">Reconocimiento oficial y trofeo conmemorativo para el tercer lugar del Demo Day.</p>
+                            <span class="prize-rank" data-i18n="hack_prize_3_rank">TERCER LUGAR</span>
+                            <h3 class="prize-amount" data-i18n="hack_prize_3_amount">Premio Bronce</h3>
+                            <p class="prize-desc" data-i18n="hack_prize_3_desc">Reconocimiento oficial y trofeo conmemorativo para el tercer lugar del Demo Day.</p>
                             <div class="prize-flip-hint">
-                                <span>Ver detalles</span>
+                                <span data-i18n="hack_prize_details">Ver detalles</span>
                                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             </div>
                         </div>
                         <!-- Cara Trasera -->
                         <div class="prize-card-back">
-                            <span class="prize-rank">BENEFICIOS 3° LUGAR</span>
-                            <h4 class="prize-back-title">Premio Bronce</h4>
+                            <span class="prize-rank" data-i18n="hack_prize_3_back_rank">BENEFICIOS 3° LUGAR</span>
+                            <h4 class="prize-back-title" data-i18n="hack_prize_3_back_title">Premio Bronce</h4>
                             <ul class="prize-back-list">
-                                <li>Trofeo conmemorativo Top 3</li>
-                                <li>Exposición en la página oficial</li>
-                                <li>Magneto + Certificado de participación</li>
-                                <li>Acceso a workshops y formación</li>
+                                <li data-i18n="hack_prize_3_li1">Trofeo conmemorativo Top 3</li>
+                                <li data-i18n="hack_prize_3_li2">Exposición en la página oficial</li>
+                                <li data-i18n="hack_prize_3_li3">Magneto + Certificado de participación</li>
+                                <li data-i18n="hack_prize_3_li4">Acceso a workshops y formación</li>
                             </ul>
                             <div class="prize-flip-hint">
-                                <span>Volver al frente</span>
+                                <span data-i18n="hack_prize_back">Volver al frente</span>
                                 <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                             </div>
                         </div>
@@ -249,20 +249,20 @@
         <!-- Franja 1 (Moviéndose a la izquierda) -->
         <div class="marquee-stripe marquee-1">
             <div class="marquee-track track-left">
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
             </div>
         </div>
 
         <!-- Franja 2 (Moviéndose a la derecha) -->
         <div class="marquee-stripe marquee-2">
             <div class="marquee-track track-right">
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
-                <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+                <span class="marquee-text" data-i18n="hack_marquee_track">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
             </div>
         </div>
     </div>
@@ -271,8 +271,8 @@
     <section id="tracks" class="hackatob-tracks-section">
         <div class="tracks-container">
             <div class="tracks-header">
-                <span class="tracks-eyebrow">TEMAS</span>
-                <h2 class="tracks-title">Tres tracks. Tres Sparks.</h2>
+                <span class="tracks-eyebrow" data-i18n="hack_tracks_header_eyebrow">TEMAS</span>
+                <h2 class="tracks-title" data-i18n="hack_tracks_header_title">Tres tracks. Tres Sparks.</h2>
             </div>
 
             <div class="tracks-grid">
@@ -286,8 +286,8 @@
                     <div class="track-card-content">
                         <span class="track-tag">GT · GreenTrack</span>
                         <h3 class="track-name">GreenTrack</h3>
-                        <h4 class="track-punchline">Innovación para un futuro sostenible</h4>
-                        <p class="track-desc">Soluciones ambientales relacionadas con sostenibilidad, agricultura, residuos, comunidades y recursos naturales.</p>
+                        <h4 class="track-punchline" data-i18n="hack_t1_punch">Innovación para un futuro sostenible</h4>
+                        <p class="track-desc" data-i18n="hack_t1_desc">Soluciones ambientales relacionadas con sostenibilidad, agricultura, residuos, comunidades y recursos naturales.</p>
                         <div class="track-badges">
                             <span class="track-badge">Biodiversidad</span>
                             <span class="track-badge">Agua</span>
@@ -308,8 +308,8 @@
                     <div class="track-card-content">
                         <span class="track-tag">FT · FinTrack</span>
                         <h3 class="track-name">FinTrack</h3>
-                        <h4 class="track-punchline">Soluciones para una economía más accesible</h4>
-                        <p class="track-desc">Soluciones financieras, fintech, transparencia, educación e inclusión económica.</p>
+                        <h4 class="track-punchline" data-i18n="hack_t2_punch">Soluciones para una economía más accesible</h4>
+                        <p class="track-desc" data-i18n="hack_t2_desc">Soluciones financieras, fintech, transparencia, educación e inclusión económica.</p>
                         <div class="track-badges">
                             <span class="track-badge">Inclusión</span>
                             <span class="track-badge">Pagos</span>
@@ -330,8 +330,8 @@
                     <div class="track-card-content">
                         <span class="track-tag">TNBT · The Next Big Thing</span>
                         <h3 class="track-name">The Next Big Thing</h3>
-                        <h4 class="track-punchline">Construye lo que todavía no existe</h4>
-                        <p class="track-desc">Soluciones abiertas con alto potencial de impacto, crecimiento o disrupción.</p>
+                        <h4 class="track-punchline" data-i18n="hack_t3_punch">Construye lo que todavía no existe</h4>
+                        <p class="track-desc" data-i18n="hack_t3_desc">Soluciones abiertas con alto potencial de impacto, crecimiento o disrupción.</p>
                         <div class="track-badges">
                             <span class="track-badge">IA</span>
                             <span class="track-badge">Automatización</span>
@@ -348,8 +348,8 @@
     <section id="sedes" class="hackatob-sedes-section">
         <div class="sedes-container">
             <div class="sedes-header">
-                <span class="sedes-eyebrow">DÓNDE OCURRE</span>
-                <h2 class="sedes-title">EmprendeLab.</h2>
+                <span class="sedes-eyebrow" data-i18n="hack_sedes_header_eyebrow">DÓNDE OCURRE</span>
+                <h2 class="sedes-title" data-i18n="hack_sedes_header_title">EmprendeLab.</h2>
             </div>
 
             <div class="sedes-grid single-sede">
@@ -360,7 +360,7 @@
                     </div>
                     <div class="sede-body">
                         <h3 class="sede-name">EmprendeLab</h3>
-                        <p class="sede-role-tag">Sede Oficial · TEC Cartago</p>
+                        <p class="sede-role-tag" data-i18n="hack_sede_role">Sede Oficial · TEC Cartago</p>
                         <div class="sede-badges">
                             <span class="sede-badge">Lun 17</span>
                             <span class="sede-badge">Mar 18</span>
@@ -372,548 +372,65 @@
                                 <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
                                 <circle cx="12" cy="10" r="3"/>
                             </svg>
-                            <span>Cómo llegar</span>
+                            <span data-i18n="hack_sede_maps">Cómo llegar</span>
                         </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- SECCIÓN: PROGRAMA / AGENDA DE 4 DÍAS HACKATOB -->
-    <section id="programa" class="hackatob-schedule-section">
+    <!-- SECCIÓN: ACCESO DIRECTO A LA AGENDA / PROGRAMA OFICIAL -->
+    <section id="programa" class="hackatob-schedule-preview-section">
         <div class="hackatob-section-header">
-            <span class="hackatob-eyebrow">AGENDA OFICIAL · HACKATOB 2026</span>
-            <h2 class="hackatob-section-title">Programa del <span class="text-cyan">HackaToB</span></h2>
+            <h2 class="hackatob-section-title" data-i18n="hack_agenda_preview_title">Programa & <span class="text-cyan">Agenda</span></h2>
+            <p class="hackatob-section-subtitle" data-i18n="hack_agenda_preview_subtitle">Descubre el cronograma completo día por día, workshops, mentorías y entregables del 17 al 20 de agosto.</p>
         </div>
 
-        <!-- Selector de Días (Tabs Interactivas) -->
-        <div class="hack-schedule-tabs" role="tablist" aria-label="Días del HackaToB">
-            <button class="hack-schedule-tab active" id="hack-tab-day1" role="tab" aria-selected="true" aria-controls="hack-day1" onclick="switchHackDay('hack-day1')">
-                <span class="tab-badge-pill">Lunes 17</span>
-                <span class="tab-day-number">Día 1</span>
-                <span class="tab-day-theme">PreHackaToB</span>
-            </button>
-            <button class="hack-schedule-tab" id="hack-tab-day2" role="tab" aria-selected="false" aria-controls="hack-day2" onclick="switchHackDay('hack-day2')">
-                <span class="tab-badge-pill">Martes 18</span>
-                <span class="tab-day-number">Día 2</span>
-                <span class="tab-day-theme">Dev Day I</span>
-            </button>
-            <button class="hack-schedule-tab" id="hack-tab-day3" role="tab" aria-selected="false" aria-controls="hack-day3" onclick="switchHackDay('hack-day3')">
-                <span class="tab-badge-pill">Miércoles 19</span>
-                <span class="tab-day-number">Día 3</span>
-                <span class="tab-day-theme">Dev Day II</span>
-            </button>
-            <button class="hack-schedule-tab" id="hack-tab-day4" role="tab" aria-selected="false" aria-controls="hack-day4" onclick="switchHackDay('hack-day4')">
-                <span class="tab-badge-pill">Jueves 20</span>
-                <span class="tab-day-number">Día 4</span>
-                <span class="tab-day-theme">Demo Day</span>
-            </button>
-        </div>
-
-        <!-- CONTENEDORES DE CADA DÍA -->
-        <div class="hack-schedule-content-wrapper">
-
-            <!-- DÍA 1: PREHACKATOB -->
-            <div id="hack-day1" class="hack-schedule-day active-day" role="tabpanel" aria-labelledby="hack-tab-day1">
-                <div class="hack-day-card-header">
-                    <div class="day-badge-top">DÍA 1 · PREHACKATOB</div>
-                    <h3 class="day-card-title">PreHackaToB — Thinking Ahead</h3>
-                    <p class="day-card-subtitle">PreHackaToB: retos, equipos, ideación y workshops.</p>
-                    
-                    <div class="day-meta-pills">
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            <span>Lunes 17 de agosto</span>
-                        </div>
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            <span>9:00 a.m. – 7:45 p.m.</span>
-                        </div>
-                        <div class="meta-pill highlight-location">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                            <span>EmprendeLab</span>
-                        </div>
-                    </div>
-
-                    <div class="day-objective-box">
-                        <div class="objective-content">
-                            <strong>Objetivo:</strong>
-                            <p>Preparar a los participantes antes de los sprints: contexto del reto, producto y tecnología, integración de equipos, mentoría y herramientas para iniciar el martes.</p>
-                        </div>
-                    </div>
+        <div class="agenda-preview-card">
+            <div class="agenda-preview-glow"></div>
+            <div class="agenda-preview-days-grid">
+                <div class="agenda-mini-day">
+                    <span class="mini-day-pill">Lun 17</span>
+                    <h4 data-i18n="hack_agenda_d1_title">Día 1: PreHackaToB</h4>
+                    <p data-i18n="hack_agenda_d1_desc">Ideación, retos y formación de equipos en EmprendeLab.</p>
                 </div>
-
-                <!-- Timeline Día 1 -->
-                <div class="hack-timeline">
-
-                    <!-- Bloque 1 -->
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">09:00 – 09:50</div>
-                                <span class="hack-tag tag-apertura">Inicio</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Inauguración</span>
-                                <span class="activity-chip">Qué es HackaToB</span>
-                                <span class="activity-chip">Acto cultural</span>
-                                <span class="activity-chip">Propiedad intelectual</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque 2 -->
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">09:50 – 12:50</div>
-                                <span class="hack-tag tag-ideacion">Tracks</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Workshop propuesta de valor</span>
-                                <span class="activity-chip">GreenTrack / FinTrack / The Next Big Thing</span>
-                                <span class="activity-chip">Integración de equipo</span>
-                                <span class="activity-chip highlight-chip">Almuerzo</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque 3 -->
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">13:00 – 16:40</div>
-                                <span class="hack-tag tag-tech">Tech</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Blockchain</span>
-                                <span class="activity-chip">IA</span>
-                                <span class="activity-chip">Acto cultural</span>
-                                <span class="activity-chip">Herramienta IA</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque 4 -->
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">16:45 – 19:15</div>
-                                <span class="hack-tag tag-mentoria">Mentoría</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Modalidad UX/UI</span>
-                                <span class="activity-chip">Herramientas para stack</span>
-                                <span class="activity-chip">Pitch storytelling</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Bloque 5 -->
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">19:20 – 19:45</div>
-                                <span class="hack-tag tag-cierre">Cierre</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Cierre del PreHackaToB</span>
-                                <span class="activity-chip">Networking</span>
-                            </div>
-                        </div>
-                    </div>
-
+                <div class="agenda-mini-day">
+                    <span class="mini-day-pill">Mar 18</span>
+                    <h4 data-i18n="hack_agenda_d2_title">Día 2: Dev Day I</h4>
+                    <p data-i18n="hack_agenda_d2_desc">Desarrollo técnico, arquitectura y mentorías especializadas.</p>
                 </div>
-
-                <!-- Resultado Día 1 -->
-                <div class="hack-result-card">
-                    <div class="result-text">
-                        <strong>Resultado:</strong> Participantes alineados con retos y tecnologías, equipos integrados y listos para los sprints.
-                    </div>
+                <div class="agenda-mini-day">
+                    <span class="mini-day-pill">Mié 19</span>
+                    <h4 data-i18n="hack_agenda_d3_title">Día 3: Dev Day II</h4>
+                    <p data-i18n="hack_agenda_d3_desc">Prototipado final, validación y entrega digital 23:59.</p>
+                </div>
+                <div class="agenda-mini-day highlight-gold">
+                    <span class="mini-day-pill gold-pill">Jue 20</span>
+                    <h4 data-i18n="hack_agenda_d4_title">Día 4: Demo Day</h4>
+                    <p data-i18n="hack_agenda_d4_desc">Pitches ante jurado, evaluación en vivo y premiación.</p>
                 </div>
             </div>
 
-            <!-- DÍA 2: DEV DAY I -->
-            <div id="hack-day2" class="hack-schedule-day" role="tabpanel" aria-labelledby="hack-tab-day2">
-                <div class="hack-day-card-header">
-                    <div class="day-badge-top">DÍA 2 · DEV DAY I</div>
-                    <h3 class="day-card-title">Dev Day I · Descubrimiento, diseño y arquitectura</h3>
-                    <p class="day-card-subtitle">Dev Day I: validación, diseño y desarrollo.</p>
-                    
-                    <div class="day-meta-pills">
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            <span>Martes 18 de agosto</span>
-                        </div>
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            <span>10:00 a.m. – 2:00 p.m.</span>
-                        </div>
-                        <div class="meta-pill highlight-location">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                            <span>EmprendeLab</span>
-                        </div>
-                    </div>
-
-                    <div class="day-objective-box">
-                        <div class="objective-content">
-                            <strong>Objetivo:</strong>
-                            <p>Transformar el reto en una solución definida y construible: validar problema, acotar alcance, diseñar flujo y preparar arquitectura y backlog.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Timeline Día 2 -->
-                <div class="hack-timeline">
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">10:00 – 10:10</div>
-                                <span class="hack-tag tag-apertura">Stand-up</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Roles, meta de sprints, bloqueos y criterio de éxito</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">10:10 – 11:35</div>
-                                <span class="hack-tag tag-tech">Sprint 1</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Descubrir y definir · usuario, problema, propuesta de valor</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">11:35 – 11:50</div>
-                                <span class="hack-tag tag-mentoria">Checkpoint 1</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Gate de problema</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">11:50 – 12:10</div>
-                                <span class="hack-tag tag-cierre">Pausa</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Receso</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">12:10 – 13:35</div>
-                                <span class="hack-tag tag-tech">Sprint 2</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Diseñar y estructurar · flujo, prototipo, stack, backlog</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">13:35 – 14:00</div>
-                                <span class="hack-tag tag-mentoria">Checkpoint 2 + Cierre</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Gate de solución</span>
-                                <span class="activity-chip">Compromiso para el miércoles</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Resultado Día 2 -->
-                <div class="hack-result-card">
-                    <div class="result-text">
-                        <strong>Resultado:</strong> Problema y usuario validados, propuesta de valor, flujo principal, arquitectura y backlog priorizado.
-                    </div>
-                </div>
+            <div class="agenda-preview-cta">
+                <a href="/hackatob/agenda" class="btn btn-gold-agenda">
+                    <span data-i18n="hack_agenda_cta">Explorar la Agenda Completa</span>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </a>
             </div>
-
-            <!-- DÍA 3: DEV DAY II -->
-            <div id="hack-day3" class="hack-schedule-day" role="tabpanel" aria-labelledby="hack-tab-day3">
-                <div class="hack-day-card-header">
-                    <div class="day-badge-top">DÍA 3 · DEV DAY II</div>
-                    <h3 class="day-card-title">Dev Day II · Construcción, validación y entrega</h3>
-                    <p class="day-card-subtitle">Dev Day II: construcción, mentorías y preparación del pitch.</p>
-                    
-                    <div class="day-meta-pills">
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            <span>Miércoles 19 de agosto</span>
-                        </div>
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            <span>10:00 a.m. – 2:00 p.m. · Entrega digital 11:59 p.m.</span>
-                        </div>
-                        <div class="meta-pill highlight-location">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                            <span>EmprendeLab</span>
-                        </div>
-                    </div>
-
-                    <div class="day-objective-box">
-                        <div class="objective-content">
-                            <strong>Objetivo:</strong>
-                            <p>Construir el núcleo demostrable, integrar, probar lo crítico y cerrar con entrega defendible e historia clara para el Demo Day.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Timeline Día 3 -->
-                <div class="hack-timeline">
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">10:00 – 10:10</div>
-                                <span class="hack-tag tag-apertura">Stand-up</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Freeze de alcance</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">10:10 – 11:35</div>
-                                <span class="hack-tag tag-tech">Sprint 3</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Construir e integrar el flujo principal</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">11:35 – 11:50</div>
-                                <span class="hack-tag tag-mentoria">Checkpoint 3</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Gate funcional</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">11:50 – 12:10</div>
-                                <span class="hack-tag tag-cierre">Pausa</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Receso</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">12:10 – 13:35</div>
-                                <span class="hack-tag tag-tech">Sprint 4</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Validar y cerrar · README, pitch, demo, video ≤2 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item highlight-item">
-                        <div class="hack-timeline-dot highlight-dot"></div>
-                        <div class="hack-timeline-content highlight-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge badge-critical">13:35 – 14:00</div>
-                                <span class="hack-tag tag-critico">Checkpoint 4 + Cierre</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Gate de entrega</span>
-                                <span class="activity-chip">Plan antes de las 23:59</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Resultado Día 3 -->
-                <div class="hack-result-card">
-                    <div class="result-text">
-                        <strong>Resultado:</strong> Entrega oficial lista. Límite digital: miércoles 19 · 23:59.
-                    </div>
-                </div>
-            </div>
-
-            <!-- DÍA 4: DEMO DAY -->
-            <div id="hack-day4" class="hack-schedule-day" role="tabpanel" aria-labelledby="hack-tab-day4">
-                <div class="hack-day-card-header highlight-demo-day">
-                    <div class="day-badge-top badge-gold">DÍA 4 · DEMO DAY</div>
-                    <h3 class="day-card-title">Demo Day · Evaluación, premiación y cierre</h3>
-                    <p class="day-card-subtitle">Demo Day: presentación ante jueces, premiación y cierre.</p>
-                    
-                    <div class="day-meta-pills">
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                            <span>Jueves 20 de agosto</span>
-                        </div>
-                        <div class="meta-pill">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-                            <span>8:00 a.m. – 3:00 p.m. (Llegada 7:30 a.m.)</span>
-                        </div>
-                        <div class="meta-pill highlight-location">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/><circle cx="12" cy="10" r="3"/></svg>
-                            <span>EmprendeLab</span>
-                        </div>
-                    </div>
-
-                    <div class="day-objective-box">
-                        <div class="objective-content">
-                            <strong>Objetivo:</strong>
-                            <p>Presentar ante el jurado, evaluar con consistencia y cerrar con premiación.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Timeline Día 4 -->
-                <div class="hack-timeline">
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">07:30 – 08:00</div>
-                                <span class="hack-tag tag-apertura">Llegada</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Acreditación y prueba técnica</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">08:00 – 08:15</div>
-                                <span class="hack-tag tag-apertura">Apertura</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Reglas, tiempos y paneles</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item highlight-item">
-                        <div class="hack-timeline-dot highlight-dot"></div>
-                        <div class="hack-timeline-content highlight-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge badge-cyan">08:15 – 12:00</div>
-                                <span class="hack-tag tag-pitch">Presentaciones</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Video ≤2 min + pitch 5 min + Q&A ≤10 min</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">12:00 – 13:00</div>
-                                <span class="hack-tag tag-cierre">Pausa</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Contingencia / pausa: proyectos restantes o receso</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item">
-                        <div class="hack-timeline-dot"></div>
-                        <div class="hack-timeline-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge">13:00 – 14:00</div>
-                                <span class="hack-tag tag-mentoria">Deliberación</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Jurado + validación de acta</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="hack-timeline-item highlight-item">
-                        <div class="hack-timeline-dot highlight-gold-dot"></div>
-                        <div class="hack-timeline-content highlight-gold-content">
-                            <div class="hack-timeline-header">
-                                <div class="hack-time-badge badge-gold">14:00 – 15:00</div>
-                                <span class="hack-tag tag-gold">🏆 Premiación</span>
-                            </div>
-                            <div class="hack-activities-grid">
-                                <span class="activity-chip">Reconocimientos, certificados y cierre oficial</span>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Resultado Día 4 -->
-                <div class="hack-result-card highlight-gold-result">
-                    <div class="result-text">
-                        <strong>Resultado:</strong> Resultados formalizados, premiación y cierre de HackaToB 2026.
-                    </div>
-                </div>
-            </div>
-
         </div>
     </section>
-    <section id="mentores" class="hackatob-section"><h2>Mentores</h2></section>
+    <section id="mentores" class="hackatob-section"><h2 data-i18n="hack_mentores_title">Mentores</h2></section>
     <!-- SECCIÓN: PARTNERS & SPONSORS HACKATOB -->
     <section id="sponsors" class="sponsors-section hackatob-sponsors-section">
         <!-- 1. Cabecera Partners (Con el mismo diseño de Sponsors) -->
-        <h3 class="main-sponsors-title">Partners HackaToB</h3>
+        <h3 class="main-sponsors-title" data-i18n="hack_partners_title">Partners HackaToB</h3>
 
         <!-- Plataforma oficial del hackathon -->
         <div class="hackatob-platform-badge-container">
-            <span class="platform-label">Plataforma del hackathon:</span>
+            <span class="platform-label" data-i18n="hack_platform_label">Plataforma del hackathon:</span>
             <a href="https://techrebel.io/" target="_blank" rel="noopener noreferrer" class="techrebel-badge-btn">
                 <span>TechRebel</span>
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -1021,7 +538,147 @@
             </div>
         </div>
     </section>
-    <section id="faq" class="hackatob-section"><h2>FAQ</h2></section>
+    <!-- SECCIÓN: PREGUNTAS FRECUENTES (FAQ INTERACTIVO EN STACK) -->
+    <section id="faq" class="hackatob-section hackatob-faq-section" aria-label="Preguntas Frecuentes">
+        <div class="hackatob-section-header">
+            <h2 class="hackatob-section-title" data-i18n="hack_faq_title">Preguntas <span class="text-cyan">Frecuentes</span></h2>
+            <p class="hackatob-section-subtitle" data-i18n="hack_faq_subtitle">Todo lo que necesitas saber antes de despegar en el HackaToB 2026.</p>
+        </div>
+
+        <div class="faq-deck-wrapper" id="faqDeckWrapper" tabindex="0" role="region" aria-label="Tarjetas de preguntas frecuentes">
+            <!-- Contenedor del mazo de tarjetas apiladas -->
+            <div class="faq-stack-container" id="faqStackContainer">
+                <!-- Tarjeta 1 -->
+                <article class="faq-stack-card" data-index="0" role="group" aria-label="Pregunta 1 de 6">
+                    <div class="faq-card-glow"></div>
+                    <div class="faq-card-topbar">
+                        <span class="faq-card-badge"><span class="faq-badge-pulse"></span> <span data-i18n="hack_faq_tag1">PARTICIPACIÓN</span></span>
+                    </div>
+                    <div class="faq-card-body">
+                        <h3 class="faq-card-question" data-i18n="hack_faq_q1">¿Quién puede participar?</h3>
+                        <p class="faq-card-answer" data-i18n="hack_faq_a1">Estudiantes de todas las carreras, universidades y colegios/escuelas. No necesitas un proyecto terminado ni ser de una carrera tecnológica.</p>
+                    </div>
+                    <div class="faq-card-bottom">
+                        <span class="faq-drag-badge">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>
+                            <span data-i18n="hack_faq_drag_hint">Arrastra para descartar</span>
+                        </span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 2 -->
+                <article class="faq-stack-card" data-index="1" role="group" aria-label="Pregunta 2 de 6">
+                    <div class="faq-card-glow"></div>
+                    <div class="faq-card-topbar">
+                        <span class="faq-card-badge"><span class="faq-badge-pulse"></span> <span data-i18n="hack_faq_tag2">EQUIPOS</span></span>
+                    </div>
+                    <div class="faq-card-body">
+                        <h3 class="faq-card-question" data-i18n="hack_faq_q2">¿Necesito equipo?</h3>
+                        <p class="faq-card-answer" data-i18n="hack_faq_a2">No. Puedes postularte individualmente; habrá integración de equipos en el PreHackaToB. Máximo 4 personas por equipo.</p>
+                    </div>
+                    <div class="faq-card-bottom">
+                        <span class="faq-drag-badge">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>
+                            <span data-i18n="hack_faq_drag_hint">Arrastra para descartar</span>
+                        </span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 3 -->
+                <article class="faq-stack-card" data-index="2" role="group" aria-label="Pregunta 3 de 6">
+                    <div class="faq-card-glow"></div>
+                    <div class="faq-card-topbar">
+                        <span class="faq-card-badge"><span class="faq-badge-pulse"></span> <span data-i18n="hack_faq_tag3">PERFIL</span></span>
+                    </div>
+                    <div class="faq-card-body">
+                        <h3 class="faq-card-question" data-i18n="hack_faq_q3">¿Necesito saber programar?</h3>
+                        <p class="faq-card-answer" data-i18n="hack_faq_a3">No. Se valoran equipos interdisciplinarios: tecnología, UX/UI, producto, negocio e impacto.</p>
+                    </div>
+                    <div class="faq-card-bottom">
+                        <span class="faq-drag-badge">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>
+                            <span data-i18n="hack_faq_drag_hint">Arrastra para descartar</span>
+                        </span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 4 -->
+                <article class="faq-stack-card" data-index="3" role="group" aria-label="Pregunta 4 de 6">
+                    <div class="faq-card-glow"></div>
+                    <div class="faq-card-topbar">
+                        <span class="faq-card-badge"><span class="faq-badge-pulse"></span> <span data-i18n="hack_faq_tag4">PREHACKATOB</span></span>
+                    </div>
+                    <div class="faq-card-body">
+                        <h3 class="faq-card-question" data-i18n="hack_faq_q4">¿Qué es el PreHackaToB?</h3>
+                        <p class="faq-card-answer" data-i18n="hack_faq_a4">Es el Día 1 (lunes 17) en EmprendeLab: retos, equipos, ideación y workshops para llegar listos a los Dev Days.</p>
+                    </div>
+                    <div class="faq-card-bottom">
+                        <span class="faq-drag-badge">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>
+                            <span data-i18n="hack_faq_drag_hint">Arrastra para descartar</span>
+                        </span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 5 -->
+                <article class="faq-stack-card" data-index="4" role="group" aria-label="Pregunta 5 de 6">
+                    <div class="faq-card-glow"></div>
+                    <div class="faq-card-topbar">
+                        <span class="faq-card-badge"><span class="faq-badge-pulse"></span> <span data-i18n="hack_faq_tag5">HORARIOS & SEDES</span></span>
+                    </div>
+                    <div class="faq-card-body">
+                        <h3 class="faq-card-question" data-i18n="hack_faq_q5">¿Dónde y a qué horas?</h3>
+                        <p class="faq-card-answer" data-i18n="hack_faq_a5">Lun 17 · 9:00 a.m.–7:45 p.m. EmprendeLab · Mar–Mié 10:00 a.m.–2:00 p.m. EmprendeLab · Jue 20 Demo Day 8:00 a.m.–3:00 p.m. Auditorio CIC. Entrega digital miércoles 23:59.</p>
+                    </div>
+                    <div class="faq-card-bottom">
+                        <span class="faq-drag-badge">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>
+                            <span data-i18n="hack_faq_drag_hint">Arrastra para descartar</span>
+                        </span>
+                    </div>
+                </article>
+
+                <!-- Tarjeta 6 -->
+                <article class="faq-stack-card" data-index="5" role="group" aria-label="Pregunta 6 de 6">
+                    <div class="faq-card-glow"></div>
+                    <div class="faq-card-topbar">
+                        <span class="faq-card-badge"><span class="faq-badge-pulse"></span> <span data-i18n="hack_faq_tag6">PREMIOS</span></span>
+                    </div>
+                    <div class="faq-card-body">
+                        <h3 class="faq-card-question" data-i18n="hack_faq_q6">¿Cuáles son los premios?</h3>
+                        <p class="faq-card-answer" data-i18n="hack_faq_a6">🥇 US$200 + 2 entradas dobles a Rainforest Adventures · 🥈 US$100 · 🥉 US$50. Top 3: trofeos + exposición en la página oficial. Todos: certificado digital de participación.</p>
+                    </div>
+                    <div class="faq-card-bottom">
+                        <span class="faq-drag-badge">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>
+                            <span data-i18n="hack_faq_drag_hint">Arrastra para descartar</span>
+                        </span>
+                    </div>
+                </article>
+            </div>
+
+            <!-- Navegación inferior: Flechas y Dots -->
+            <div class="faq-deck-controls">
+                <button class="faq-ctrl-btn" id="faqPrevBtn" aria-label="Pregunta anterior" title="Pregunta anterior">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+
+                <div class="faq-dots-wrapper" id="faqDotsWrapper" role="tablist" aria-label="Selector de tarjeta de pregunta">
+                    <!-- Los dots se sincronizan con JS -->
+                </div>
+
+                <button class="faq-ctrl-btn" id="faqNextBtn" aria-label="Siguiente pregunta" title="Siguiente pregunta">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
 
     <!-- Star Trail Canvas (Efecto Global) -->
     <canvas id="globalStarCanvas" class="global-star-canvas" aria-hidden="true"></canvas>
@@ -1032,7 +689,7 @@
             <!-- Marca -->
             <div class="footer-col footer-col-brand">
                 <h3 class="hackatob-footer-title">HackaToB 2026</h3>
-                <p class="footer-desc">El Hackathon oficial del congreso Technology on Business.</p>
+                <p class="footer-desc" data-i18n="hack_footer_desc">El Hackathon oficial del congreso Technology on Business.</p>
                 <div class="footer-social">
                     <a href="https://www.instagram.com/tob.tec/" target="_blank" class="social-link-footer" aria-label="Instagram">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
@@ -1049,29 +706,29 @@
 
             <!-- Navegación del HackaToB -->
             <div class="footer-col">
-                <h4 class="footer-title">HackaToB</h4>
+                <h4 class="footer-title" data-i18n="hack_footer_col1">HackaToB</h4>
                 <ul class="footer-links">
-                    <li><a href="#premios">Premios</a></li>
-                    <li><a href="#tracks">Tracks</a></li>
-                    <li><a href="#sedes">Sedes</a></li>
-                    <li><a href="#programa">Agenda</a></li>
+                    <li><a href="#premios" data-i18n="hack_nav_premios">Premios</a></li>
+                    <li><a href="#tracks" data-i18n="hack_nav_tracks">Tracks</a></li>
+                    <li><a href="#sedes" data-i18n="hack_nav_sedes">Sedes</a></li>
+                    <li><a href="#programa" data-i18n="hack_nav_agenda">Agenda</a></li>
                 </ul>
             </div>
             
             <div class="footer-col">
-                <h4 class="footer-title">Recursos</h4>
+                <h4 class="footer-title" data-i18n="hack_footer_recursos">Recursos</h4>
                 <ul class="footer-links">
-                    <li><a href="#mentores">Mentores</a></li>
-                    <li><a href="#faq">Preguntas Frecuentes</a></li>
-                    <li><a href="../main/index.html" style="color: var(--color-cyan, #00f2fe);">Volver al ToB</a></li>
+                    <li><a href="#mentores" data-i18n="hack_nav_mentores">Mentores</a></li>
+                    <li><a href="#faq" data-i18n="hack_nav_faq">Preguntas Frecuentes</a></li>
+                    <li><a href="../main/index.html" style="color: var(--color-cyan, #00f2fe);" data-i18n="hack_nav_back">Volver al ToB</a></li>
                 </ul>
             </div>
             
             <div class="footer-col">
-                <h4 class="footer-title">Organización</h4>
+                <h4 class="footer-title" data-i18n="hack_footer_col2">Organización</h4>
                 <ul class="footer-links">
                     <li><a href="mailto:tob@itcr.ac.cr">tob@itcr.ac.cr</a></li>
-                    <li class="footer-address">Centro de las Artes,<br>TEC, Cartago</li>
+                    <li class="footer-address" data-i18n="hack_footer_address">Centro de las Artes,<br>TEC, Cartago</li>
                 </ul>
             </div>
         </div>
@@ -1079,7 +736,7 @@
         <!-- Bottom bar -->
         <div class="footer-bottom">
             <div class="footer-bottom-content">
-                <p class="footer-copy">&copy; 2026 HackaToB - Technology on Business. Todos los derechos reservados.</p>
+                <p class="footer-copy" data-i18n="hack_footer_copy">&copy; 2026 HackaToB - Technology on Business. Todos los derechos reservados.</p>
                 <div class="footer-bottom-actions">
                     <button class="scroll-top-btn" id="scrollTopBtn" aria-label="Volver arriba">
                         <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
