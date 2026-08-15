@@ -334,8 +334,9 @@ body.mascot-cursor-active #custom-spark-cursor {
 .hackatob-prizes-section {
     position: relative;
     z-index: 2;
-    padding: 90px 20px;
+    padding: 100px 20px;
     width: 100%;
+    background-color: #080D18;
 }
 
 .prizes-container {
@@ -377,135 +378,102 @@ body.mascot-cursor-active #custom-spark-cursor {
 .prizes-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 1.8rem;
+    gap: 2rem;
     align-items: stretch;
-    margin-bottom: 2.5rem;
 }
 
 .prize-card-container {
     perspective: 1200px;
     height: 400px;
-    width: 100%;
 }
 
 .prize-card-inner {
     position: relative;
     width: 100%;
     height: 100%;
-    text-align: center;
-    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 24px;
+    transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
     transform-style: preserve-3d;
     cursor: pointer;
 }
 
-/* Estado girado verticalmente */
-.prize-card-inner.is-flipped {
-    transform: rotateX(180deg);
+.prize-card-container:hover .prize-card-inner {
+    transform: rotateY(180deg);
 }
 
 .prize-card-front,
 .prize-card-back {
     position: absolute;
-    top: 0;
-    left: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
-    border-radius: 22px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: rgba(15, 23, 42, 0.48);
-    box-sizing: border-box;
+    backface-visibility: hidden;
+    border-radius: 24px;
+    padding: 2.2rem 1.8rem;
     display: flex;
     flex-direction: column;
-    padding: 2.4rem 1.8rem 1.8rem 1.8rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    align-items: center;
+    text-align: center;
 }
 
 .prize-card-front {
-    transform: rotateX(0deg);
-    align-items: center;
-    text-align: center;
-    justify-content: space-between;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
 }
 
 .prize-card-back {
-    transform: rotateX(180deg);
-    background: rgba(18, 25, 48, 0.88);
-    text-align: left;
-    align-items: flex-start;
-    justify-content: space-between;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transform: rotateY(180deg);
+    justify-content: flex-start;
 }
 
-/* Hover de tarjetas */
-.prize-card-inner:hover .prize-card-front,
-.prize-card-inner:hover .prize-card-back {
-    border-color: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+/* Variantes de Podio (Bordes Luminosos) */
+.prize-first {
+    border: 2px solid rgba(251, 191, 36, 0.8);
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.2);
 }
 
-/* Estilo destacado Primer Lugar */
-.prize-first .prize-card-front,
-.prize-first .prize-card-back {
-    border: 1.5px solid rgba(255, 215, 0, 0.45);
-    box-shadow: 0 0 35px rgba(255, 215, 0, 0.08);
-    background: linear-gradient(180deg, rgba(26, 32, 58, 0.65) 0%, rgba(15, 23, 42, 0.75) 100%);
+.prize-second {
+    border: 1.5px solid rgba(148, 163, 184, 0.6);
+    box-shadow: 0 0 25px rgba(148, 163, 184, 0.12);
 }
 
-.prize-first:hover .prize-card-front,
-.prize-first:hover .prize-card-back {
-    border-color: rgba(255, 215, 0, 0.75);
-    box-shadow: 0 15px 40px rgba(255, 215, 0, 0.2);
+.prize-third {
+    border: 1.5px solid rgba(251, 146, 60, 0.6);
+    box-shadow: 0 0 25px rgba(194, 65, 12, 0.12);
 }
 
-/* Medallas */
+.prize-card-container:hover .prize-first {
+    box-shadow: 0 15px 45px rgba(245, 158, 11, 0.35);
+}
+
+.prize-card-container:hover .prize-second {
+    box-shadow: 0 12px 35px rgba(148, 163, 184, 0.25);
+}
+
+.prize-card-container:hover .prize-third {
+    box-shadow: 0 12px 35px rgba(194, 65, 12, 0.25);
+}
+
+/* Medalla / Número de Podio */
 .prize-medal-wrapper {
-    position: relative;
     margin-bottom: 0.8rem;
-    width: 54px;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .prize-medal {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 1.35rem;
     font-weight: 800;
-    font-size: 1.25rem;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.35);
-    position: relative;
-    z-index: 2;
-}
-
-.prize-medal::before,
-.prize-medal::after {
-    content: '';
-    position: absolute;
-    top: -8px;
-    width: 12px;
-    height: 18px;
-    background: #3B82F6;
-    z-index: -1;
-}
-
-.prize-medal::before {
-    left: 7px;
-    transform: rotate(-25deg);
-    border-radius: 3px 0 0 0;
-}
-
-.prize-medal::after {
-    right: 7px;
-    transform: rotate(25deg);
-    border-radius: 0 3px 0 0;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
 
 .medal-gold {
@@ -637,7 +605,7 @@ body.mascot-cursor-active #custom-spark-cursor {
 
 .tracks-header {
     margin-bottom: 3.5rem;
-    text-align: left;
+    text-align: center;
 }
 
 .tracks-eyebrow {
@@ -886,8 +854,9 @@ body.mascot-cursor-active #custom-spark-cursor {
 .hackatob-sedes-section {
     position: relative;
     z-index: 2;
-    padding: 90px 20px 110px 20px;
+    padding: 100px 20px 110px 20px;
     width: 100%;
+    background-color: #080D18;
 }
 
 .sedes-container {
@@ -1088,6 +1057,14 @@ body.mascot-cursor-active #custom-spark-cursor {
     color: #ffffff;
     position: relative;
     z-index: 2;
+}
+
+#mentores.hackatob-section {
+    background-color: #080D18;
+}
+
+#faq.hackatob-section {
+    background: transparent;
 }
 
 .hackatob-section.alt-bg {
