@@ -892,6 +892,12 @@ body.mascot-cursor-active #custom-spark-cursor {
     gap: 2rem;
 }
 
+.sedes-grid.single-sede {
+    grid-template-columns: 1fr;
+    max-width: 580px;
+    margin: 0 auto;
+}
+
 .sede-card {
     background: rgba(15, 23, 42, 0.45);
     backdrop-filter: blur(14px);
