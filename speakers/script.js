@@ -39,18 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // LANG TOGGLE
-    ['langToggle', 'langToggleMobile'].forEach(id => {
-        const toggle = document.getElementById(id);
-        if (!toggle) return;
-        toggle.addEventListener('click', () => {
-            const isES = toggle.getAttribute('data-lang') === 'ES';
-            toggle.setAttribute('data-lang', isES ? 'EN' : 'ES');
-            const [t0, t1] = toggle.querySelectorAll('.lang-text');
-            t0.classList.toggle('active', !isES);
-            t1.classList.toggle('active', isES);
-        });
-    });
 
     // MODAL "Error del sistema" del botón cerrar
     const closeBtn = document.getElementById('termCloseBtn');

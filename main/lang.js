@@ -175,9 +175,9 @@ const translations = {
         "speaker_03_bio": "Líder de la industria compartiendo su visión en resiliencia.",
         "speaker_03_charla": "Panel Mujeres en Tech",
 
-        "speaker_04_name": "Karla Córdoba Brenes",
-        "speaker_04_role": "Presidenta Asociación Blockchain Costa Rica",
-        "speaker_04_bio": "Karla es apasionada por la innovación abierta y con impacto, nuevos tipos de dinero, tecnologías exponenciales y el diseño de Negocios Colaborativos y Monedas Sociales en Blockchain. Comunicadora Social y Máster en Desarrollo Comunitario. Co-Fundadora de Satisfied Vagabonds,  Cambiatus, CofiBlocks y ReFi Costa Rica.",
+        "speaker_04_name": "Wendy Badilla",
+        "speaker_04_role": "Microsoft",
+        "speaker_04_bio": "Experta de Microsoft enfocada en empoderamiento femenino en STEM.",
         "speaker_04_charla": "Panel Mujeres en Tech",
 
         "speaker_05_name": "Aaron Omodeo",
@@ -215,10 +215,55 @@ const translations = {
         "speaker_11_bio": "Aplicaciones reales de la confianza digital más allá de cripto.",
         "speaker_11_charla": "Blockchain",
 
-        "speaker_13_name": "Ronald Arce",
-        "speaker_13_role": "INCAE",
-        "speaker_13_bio": "Cómo la IA está redefiniendo los modelos de negocio.",
-        "speaker_13_charla": "IA",
+        "speaker_12_name": "Ronald Arce",
+        "speaker_12_role": "INCAE",
+        "speaker_12_bio": "Cómo la IA está redefiniendo los modelos de negocio.",
+        "speaker_12_charla": "IA",
+
+        "speaker_13_name": "Muy pronto...",
+        "speaker_13_role": "Por definir",
+        "speaker_13_bio": "",
+        "speaker_13_charla": "...",
+
+        "speaker_14_name": "Muy pronto...",
+        "speaker_14_role": "Por definir",
+        "speaker_14_bio": "",
+        "speaker_14_charla": "...",
+
+        "speaker_15_name": "Muy pronto...",
+        "speaker_15_role": "Por definir",
+        "speaker_15_bio": "",
+        "speaker_15_charla": "...",
+
+        "speaker_16_name": "Muy pronto...",
+        "speaker_16_role": "Por definir",
+        "speaker_16_bio": "",
+        "speaker_16_charla": "...",
+
+        "speaker_17_name": "Muy pronto...",
+        "speaker_17_role": "Por definir",
+        "speaker_17_bio": "",
+        "speaker_17_charla": "...",
+
+        "speaker_18_name": "Rubén Monarca",
+        "speaker_18_role": "Actividad Cultural",
+        "speaker_18_bio": "",
+        "speaker_18_charla": "...",
+
+        "speaker_19_name": "Nestor Morales",
+        "speaker_19_role": "Actividad Cultural",
+        "speaker_19_bio": "",
+        "speaker_19_charla": "...",
+
+        "speaker_20_name": "Pedro Leiva",
+        "speaker_20_role": "Actividad Cultural",
+        "speaker_20_bio": "",
+        "speaker_20_charla": "...",
+
+        "speaker_21_name": "Melody Coto",
+        "speaker_21_role": "Actividad Cultural",
+        "speaker_21_bio": "",
+        "speaker_21_charla": "...",
 
         // Program Day 1
         "prog_d1_tab": "Día 1 - 18 de Agosto",
@@ -803,9 +848,9 @@ const translations = {
         "speaker_03_bio": "Industry leader sharing her vision on resilience.",
         "speaker_03_charla": "Women in Tech Panel",
 
-        "speaker_04_name": "Karla Córdoba Brenes",
-        "speaker_04_role": "President of the Costa Rica Blockchain Association",
-        "speaker_04_bio": "Karla is passionate about open and impactful innovation, new forms of money, exponential technologies, and the design of collaborative businesses and social currencies on the blockchain. She holds a degree in Social Communication and a master’s degree in Community Development. Co-founder of Satisfied Vagabonds, Cambiatus, CofiBlocks, and ReFi Costa Rica.",
+        "speaker_04_name": "Wendy Badilla",
+        "speaker_04_role": "Microsoft",
+        "speaker_04_bio": "Microsoft expert focused on female empowerment in STEM.",
         "speaker_04_charla": "Women in Tech Panel",
 
         "speaker_05_name": "Aaron Omodeo",
@@ -816,7 +861,82 @@ const translations = {
         "speaker_06_name": "Diego Loud",
         "speaker_06_role": "Loud",
         "speaker_06_bio": "Marketing strategies to connect with saturated audiences.",
-        "speaker_06_charla": "Marketing in the digital age.",
+        "speaker_06_charla": "Marketing in the digital age",
+
+        "speaker_07_name": "María José Artavia",
+        "speaker_07_role": "ATI",
+        "speaker_07_bio": "Director giving the official opening for TOB-ATI 2026.",
+        "speaker_07_charla": "Inauguration",
+
+        "speaker_08_name": "Alek Castillo",
+        "speaker_08_role": "Lyfter",
+        "speaker_08_bio": "Expert in adaptive leadership in fast-paced changing environments.",
+        "speaker_08_charla": "Leadership in the era of digital transformation",
+
+        "speaker_09_name": "Alejandro Hidalgo",
+        "speaker_09_role": "P&G",
+        "speaker_09_bio": "Applying agile methodologies to deliver value faster.",
+        "speaker_09_charla": "Agile Methodologies",
+
+        "speaker_10_name": "Gerardo Nájera",
+        "speaker_10_role": "Sefisa",
+        "speaker_10_bio": "Cybersecurity strategies to protect vital information.",
+        "speaker_10_charla": "Cybersecurity",
+
+        "speaker_11_name": "Karla Córdoba",
+        "speaker_11_role": "Aso Blockchain CR",
+        "speaker_11_bio": "Real-world applications of digital trust beyond crypto.",
+        "speaker_11_charla": "Blockchain",
+
+        "speaker_12_name": "Ronald Arce",
+        "speaker_12_role": "INCAE",
+        "speaker_12_bio": "How AI is redefining business models.",
+        "speaker_12_charla": "AI",
+
+        "speaker_13_name": "Coming soon...",
+        "speaker_13_role": "To be defined",
+        "speaker_13_bio": "",
+        "speaker_13_charla": "...",
+
+        "speaker_14_name": "Coming soon...",
+        "speaker_14_role": "To be defined",
+        "speaker_14_bio": "",
+        "speaker_14_charla": "...",
+
+        "speaker_15_name": "Coming soon...",
+        "speaker_15_role": "To be defined",
+        "speaker_15_bio": "",
+        "speaker_15_charla": "...",
+
+        "speaker_16_name": "Coming soon...",
+        "speaker_16_role": "To be defined",
+        "speaker_16_bio": "",
+        "speaker_16_charla": "...",
+
+        "speaker_17_name": "Coming soon...",
+        "speaker_17_role": "To be defined",
+        "speaker_17_bio": "",
+        "speaker_17_charla": "...",
+
+        "speaker_18_name": "Rubén Monarca",
+        "speaker_18_role": "Cultural Activity",
+        "speaker_18_bio": "",
+        "speaker_18_charla": "...",
+
+        "speaker_19_name": "Nestor Morales",
+        "speaker_19_role": "Cultural Activity",
+        "speaker_19_bio": "",
+        "speaker_19_charla": "...",
+
+        "speaker_20_name": "Pedro Leiva",
+        "speaker_20_role": "Cultural Activity",
+        "speaker_20_bio": "",
+        "speaker_20_charla": "...",
+
+        "speaker_21_name": "Melody Coto",
+        "speaker_21_role": "Cultural Activity",
+        "speaker_21_bio": "",
+        "speaker_21_charla": "...",
 
         // Location
         "loc_label": "Meeting Point",
