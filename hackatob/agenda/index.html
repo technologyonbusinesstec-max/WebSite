@@ -81,25 +81,40 @@
                 <p class="hackatob-section-subtitle" data-i18n="hack_agenda_page_subtitle">4 días de aprendizaje, innovación y desarrollo tecnológico en el Instituto Tecnológico de Costa Rica.</p>
             </div>
 
+            <!-- Mascota Tiburón arrimada a la derecha con Burbuja de Diálogo -->
+            <div class="hero-mascot-dock hackatob-agenda-mascot-dock">
+                <div class="mascot-speech-bubble">
+                    <span class="bubble-tag" data-i18n="mascot_hack_tag">
+                        <svg class="weather-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#21d0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="8" y1="19" x2="8" y2="22"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="16" y1="19" x2="16" y2="22"/></svg>
+                        ESTADO DEL CLIMA
+                    </span>
+                    <p class="bubble-text" data-i18n="mascot_hack_msg">HackaTob también sacó el paraguas, nueva fecha muy pronto.</p>
+                    <div class="bubble-tail"></div>
+                </div>
+                <div class="mascot-shark-figure">
+                    <img src="../../imagenes/mascotas/tiburon.webp" alt="Mascota Tiburón ToB" class="floating-shark-img" width="170" height="220">
+                </div>
+            </div>
+
             <!-- Selector de Días (Tabs Interactivas) -->
             <div class="hack-schedule-tabs" role="tablist" aria-label="Días del HackaToB">
                 <button class="hack-schedule-tab active" id="hack-tab-day1" role="tab" aria-selected="true" aria-controls="hack-day1" onclick="switchHackDay('hack-day1')">
-                    <span class="tab-badge-pill" data-i18n="hack_tab_d1_badge">Lunes 17</span>
+                    <span class="tab-badge-pill" data-i18n="hack_tab_d1_badge">Día 1</span>
                     <span class="tab-day-number" data-i18n="hack_tab_d1_num">Día 1</span>
                     <span class="tab-day-theme" data-i18n="hack_tab_d1_theme">PreHackaToB</span>
                 </button>
                 <button class="hack-schedule-tab" id="hack-tab-day2" role="tab" aria-selected="false" aria-controls="hack-day2" onclick="switchHackDay('hack-day2')">
-                    <span class="tab-badge-pill" data-i18n="hack_tab_d2_badge">Martes 18</span>
+                    <span class="tab-badge-pill" data-i18n="hack_tab_d2_badge">Día 2</span>
                     <span class="tab-day-number" data-i18n="hack_tab_d2_num">Día 2</span>
                     <span class="tab-day-theme" data-i18n="hack_tab_d2_theme">Dev Day I</span>
                 </button>
                 <button class="hack-schedule-tab" id="hack-tab-day3" role="tab" aria-selected="false" aria-controls="hack-day3" onclick="switchHackDay('hack-day3')">
-                    <span class="tab-badge-pill" data-i18n="hack_tab_d3_badge">Miércoles 19</span>
+                    <span class="tab-badge-pill" data-i18n="hack_tab_d3_badge">Día 3</span>
                     <span class="tab-day-number" data-i18n="hack_tab_d3_num">Día 3</span>
                     <span class="tab-day-theme" data-i18n="hack_tab_d3_theme">Dev Day II</span>
                 </button>
                 <button class="hack-schedule-tab" id="hack-tab-day4" role="tab" aria-selected="false" aria-controls="hack-day4" onclick="switchHackDay('hack-day4')">
-                    <span class="tab-badge-pill" data-i18n="hack_tab_d4_badge">Jueves 20</span>
+                    <span class="tab-badge-pill" data-i18n="hack_tab_d4_badge">Día 4</span>
                     <span class="tab-day-number" data-i18n="hack_tab_d4_num">Día 4</span>
                     <span class="tab-day-theme" data-i18n="hack_tab_d4_theme">Demo Day</span>
                 </button>
@@ -118,7 +133,7 @@
                         <div class="day-meta-pills">
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                <span data-i18n="hack_d1_date">Lunes 17 de agosto</span>
+                                <span data-i18n="hack_d1_date">Día 1 · Por confirmar</span>
                             </div>
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -243,7 +258,7 @@
                         <div class="day-meta-pills">
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                <span data-i18n="hack_d2_date">Martes 18 de agosto</span>
+                                <span data-i18n="hack_d2_date">Día 2 · Por confirmar</span>
                             </div>
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -365,7 +380,7 @@
                         <div class="day-meta-pills">
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                <span data-i18n="hack_d3_date">Miércoles 19 de agosto</span>
+                                <span data-i18n="hack_d3_date">Día 3 · Por confirmar</span>
                             </div>
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -472,7 +487,7 @@
                     <!-- Resultado Día 3 -->
                     <div class="hack-result-card">
                         <div class="result-text">
-                            <strong data-i18n="hack_d3_res_label">Resultado:</strong> <span data-i18n="hack_d3_res_text">Entrega oficial lista. Límite digital: miércoles 19 · 23:59.</span>
+                            <strong data-i18n="hack_d3_res_label">Resultado:</strong> <span data-i18n="hack_d3_res_text">Entrega oficial lista. Límite digital: Día 3 · 23:59.</span>
                         </div>
                     </div>
                 </div>
@@ -487,7 +502,7 @@
                         <div class="day-meta-pills">
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                <span data-i18n="hack_d4_date">Jueves 20 de agosto</span>
+                                <span data-i18n="hack_d4_date">Día 4 · Por confirmar</span>
                             </div>
                             <div class="meta-pill">
                                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>

@@ -137,6 +137,8 @@
 
     <!-- Hero Section -->
     <header class="hero" id="hero">
+        <!-- Canvas de Lluvia (Efecto exclusivo del Hero) -->
+        <canvas id="heroRainCanvas" class="hero-rain-canvas" aria-hidden="true"></canvas>
 
         <div class="hero-content">
             <!-- Eyebrow (ocultar con display:none en CSS si no convence visualmente) -->
@@ -149,22 +151,30 @@
                 <span class="rotator-phrase" id="rotatorPhrase"></span>
             </div>
 
-            <div class="hero-countdown" id="countdown">
-                <div class="time-box">
-                    <span class="time-value" id="days">00</span>
-                    <span class="time-label" data-i18n="hero_time_days">DÍAS</span>
+            <!-- 4 Cajas de Status (ERR / 404 / RE / SYNC) -->
+            <div class="hero-status-container" id="heroStatusContainer">
+                <div class="hero-status-boxes">
+                    <div class="status-box">
+                        <span class="status-value glitch-text" data-text="ERR">ERR</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-value glitch-text" data-text="404">404</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-value glitch-text" data-text="RE">RE</span>
+                    </div>
+                    <div class="status-box">
+                        <span class="status-value glitch-text" data-text="SYNC">SYNC</span>
+                    </div>
                 </div>
-                <div class="time-box">
-                    <span class="time-value" id="hours">00</span>
-                    <span class="time-label" data-i18n="hero_time_hrs">HRS</span>
-                </div>
-                <div class="time-box">
-                    <span class="time-value" id="minutes">00</span>
-                    <span class="time-label" data-i18n="hero_time_min">MIN</span>
-                </div>
-                <div class="time-box">
-                    <span class="time-value" id="seconds">00</span>
-                    <span class="time-label" data-i18n="hero_time_seg">SEG</span>
+
+                <!-- Texto: System.Weather.Exception: lluvia detectada -->
+                <p class="hero-status-msg" data-i18n="hero_status_msg">System.Weather.Exception: lluvia detectada</p>
+
+                <!-- Debajo del mensaje: Nueva fecha por confirmar -->
+                <div class="hero-new-date">
+                    <span class="new-date-dot"></span>
+                    <span class="new-date-text" data-i18n="hero_new_date">Nueva fecha por confirmar</span>
                 </div>
             </div>
 
@@ -226,22 +236,22 @@
         <div class="marquee-stripe marquee-1">
             <div class="marquee-track track-left">
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
@@ -252,22 +262,22 @@
         <div class="marquee-stripe marquee-2">
             <div class="marquee-track track-right">
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
                 <span class="marquee-text" data-i18n="marquee_text">15 ANIVERSARIO <span class="text-cyan">✦</span>
-                    18-19 AGOSTO 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
+                    CUANDO ESCAMPE 2026 <span class="text-cyan">✦</span> MASTER THE CHAOS <span class="text-cyan">✦</span>
                     TECHNOLOGY ON
                     BUSINESS <span class="text-cyan">✦</span> ATI <span class="text-cyan">✦</span> DISRUPCIÓN <span
                         class="text-cyan">✦</span> NETWORKING <span class="text-cyan">✦</span> </span>
@@ -780,6 +790,22 @@
                 expertos de la industria,
                 descubrir tecnologías emergentes y conectar con personas que comparten tu pasión por la innovación, los
                 negocios y el futuro digital.</p>
+
+        </div>
+
+        <!-- Mascota Tiburón arrimada a la derecha con Burbuja de Diálogo -->
+        <div class="hero-mascot-dock">
+            <div class="mascot-speech-bubble">
+                <span class="bubble-tag" data-i18n="mascot_speakers_tag">
+                    <svg class="weather-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#21d0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="8" y1="19" x2="8" y2="22"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="16" y1="19" x2="16" y2="22"/></svg>
+                    ESTADO DEL CLIMA
+                </span>
+                <p class="bubble-text" data-i18n="mascot_speakers_msg">Los speakers también se mojaron, nueva fecha en camino.</p>
+                <div class="bubble-tail"></div>
+            </div>
+            <div class="mascot-shark-figure">
+                <img src="../imagenes/mascotas/tiburon.webp" alt="Mascota Tiburón ToB" class="floating-shark-img" width="170" height="220">
+            </div>
         </div>
 
         <div class="speakers-grid" id="speakersGrid">

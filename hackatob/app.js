@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Convierte ideas en soluciones",
         "Transformación",
         "Tecnología",
-        "17 al 20 de agosto",
+        "Cuando escampe, 2026",
         "4 días de aprendizaje",
         "Instituto Tecnológico de Costa Rica"
     ];
@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
         "Turn ideas into solutions",
         "Transformation",
         "Technology",
-        "August 17 to 20",
+        "When the rain clears, 2026",
         "4 days of learning",
         "Costa Rica Institute of Technology"
     ];

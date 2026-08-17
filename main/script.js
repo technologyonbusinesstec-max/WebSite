@@ -40,6 +40,198 @@ document.addEventListener('DOMContentLoaded', () => {
         updateNavbar(); // Ejecutar al cargar
     }
 
+    // ★ EFECTO DE LLUVIA EXCLUSIVO EN EL HERO ★
+    const heroRainCanvas = document.getElementById('heroRainCanvas');
+    const heroEl = document.getElementById('hero');
+
+    if (heroRainCanvas && heroEl) {
+        const ctx = heroRainCanvas.getContext('2d');
+        let width = 0;
+        let height = 0;
+        let dpr = 1;
+        let animationFrameId = null;
+        let isHeroVisible = true;
+
+        // Capas de lluvia para efecto de profundidad 3D
+        const LAYER_CONFIGS = [
+            { count: 75, minLen: 10, maxLen: 18, minSpeed: 11, maxSpeed: 16, width: 0.9, color: 'rgba(83, 121, 174, ', alphaBase: 0.28 }, // Fondo
+            { count: 55, minLen: 18, maxLen: 30, minSpeed: 18, maxSpeed: 25, width: 1.3, color: 'rgba(33, 208, 255, ', alphaBase: 0.45 },  // Capa media (Cyan ToB)
+            { count: 35, minLen: 28, maxLen: 46, minSpeed: 27, maxSpeed: 36, width: 1.8, color: 'rgba(235, 248, 255, ', alphaBase: 0.75 }   // Primer plano
+        ];
+
+        // Inclinación diagonal suave
+        const WIND_ANGLE = 0.16;
+
+        let drops = [];
+        let splashes = [];
+        const MAX_SPLASHES = 60;
+
+        function createDrop(layer, randomY = false) {
+            const speed = layer.minSpeed + Math.random() * (layer.maxSpeed - layer.minSpeed);
+            const length = layer.minLen + Math.random() * (layer.maxLen - layer.minLen);
+            const alpha = layer.alphaBase * (0.8 + Math.random() * 0.4);
+            const vx = speed * WIND_ANGLE;
+            const vy = speed;
+
+            return {
+                x: Math.random() * (width + 300) - 150,
+                y: randomY ? Math.random() * height : -length - Math.random() * 50,
+                length,
+                speed,
+                vx,
+                vy,
+                width: layer.width,
+                color: layer.color,
+                alpha,
+                layerIndex: LAYER_CONFIGS.indexOf(layer)
+            };
+        }
+
+        function initDrops() {
+            drops = [];
+            LAYER_CONFIGS.forEach(layer => {
+                for (let i = 0; i < layer.count; i++) {
+                    drops.push(createDrop(layer, true));
+                }
+            });
+        }
+
+        function createSplash(x, y, layerIndex) {
+            if (splashes.length >= MAX_SPLASHES) return;
+            const count = layerIndex === 2 ? 3 : 2;
+            for (let i = 0; i < count; i++) {
+                splashes.push({
+                    x,
+                    y,
+                    vx: (Math.random() - 0.5) * 3 + 1,
+                    vy: -(Math.random() * 2.5 + 1.2),
+                    radius: Math.random() * 1.2 + 0.6,
+                    alpha: 0.6,
+                    decay: 0.04 + Math.random() * 0.03,
+                    color: layerIndex === 2 ? 'rgba(235, 248, 255, ' : 'rgba(33, 208, 255, '
+                });
+            }
+        }
+
+        function resize() {
+            const rect = heroEl.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height;
+            dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+            heroRainCanvas.width = width * dpr;
+            heroRainCanvas.height = height * dpr;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+            if (drops.length === 0) {
+                initDrops();
+            }
+        }
+
+        function render() {
+            if (!isHeroVisible) {
+                animationFrameId = null;
+                return;
+            }
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Actualizar y dibujar gotas
+            for (let i = 0; i < drops.length; i++) {
+                const drop = drops[i];
+
+                drop.x += drop.vx;
+                drop.y += drop.vy;
+
+                // Dibujar trazo con degradado para realismo (cabeza más brillante, cola difusa)
+                const tailX = drop.x - drop.vx * (drop.length / drop.speed);
+                const tailY = drop.y - drop.length;
+
+                const grad = ctx.createLinearGradient(tailX, tailY, drop.x, drop.y);
+                grad.addColorStop(0, `${drop.color}0)`);
+                grad.addColorStop(1, `${drop.color}${drop.alpha})`);
+
+                ctx.strokeStyle = grad;
+                ctx.lineWidth = drop.width;
+                ctx.beginPath();
+                ctx.moveTo(tailX, tailY);
+                ctx.lineTo(drop.x, drop.y);
+                ctx.stroke();
+
+                // Colisión con la base del Hero
+                if (drop.y >= height) {
+                    if (drop.layerIndex >= 1 && Math.random() > 0.4) {
+                        createSplash(drop.x, height - 2, drop.layerIndex);
+                    }
+                    // Reiniciar arriba
+                    drop.x = Math.random() * (width + 300) - 150;
+                    drop.y = -drop.length - Math.random() * 20;
+                }
+            }
+
+            // Actualizar y dibujar salpicaduras en el suelo del hero
+            for (let i = splashes.length - 1; i >= 0; i--) {
+                const s = splashes[i];
+                s.x += s.vx;
+                s.y += s.vy;
+                s.vy += 0.25; // Gravedad
+                s.alpha -= s.decay;
+
+                if (s.alpha <= 0 || s.y > height) {
+                    splashes.splice(i, 1);
+                    continue;
+                }
+
+                ctx.fillStyle = `${s.color}${s.alpha})`;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            animationFrameId = requestAnimationFrame(render);
+        }
+
+        function startLoop() {
+            if (!animationFrameId && isHeroVisible) {
+                animationFrameId = requestAnimationFrame(render);
+            }
+        }
+
+        function stopLoop() {
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+        }
+
+        // Observer para optimización: pausar la lluvia cuando el hero sale de la pantalla
+        if ('IntersectionObserver' in window) {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    isHeroVisible = entry.isIntersecting;
+                    if (isHeroVisible) {
+                        startLoop();
+                    } else {
+                        stopLoop();
+                    }
+                });
+            }, { threshold: 0.05 });
+            observer.observe(heroEl);
+        }
+
+        if ('ResizeObserver' in window) {
+            const ro = new ResizeObserver(() => {
+                resize();
+            });
+            ro.observe(heroEl);
+        } else {
+            window.addEventListener('resize', resize);
+        }
+
+        resize();
+        startLoop();
+    }
+
     // Lógica del menú hamburguesa
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
@@ -894,6 +1086,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof applyTranslations === 'function') {
         applyTranslations(localStorage.getItem('tob_lang') || 'es');
     }
+
+    // Inicializar interacción de lluvia al hacer clic en el tiburón
+    initSharkRainToggle();
 });
 
 function openAtiModal(e) {
@@ -909,4 +1104,187 @@ function closeAtiModal() {
     if (!modal) return;
     modal.classList.remove('active');
     document.body.style.overflow = '';
+}
+
+// =========================================================
+// INTERACTIVE SHARK RAIN TOGGLE (Speakers / Programa / HackaToB)
+// =========================================================
+function initSharkRainToggle() {
+    let rainCanvas = null;
+    let ctx = null;
+    let animationFrameId = null;
+    let isRaining = false;
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+
+    const LAYER_CONFIGS = [
+        { count: 85, minLen: 12, maxLen: 22, minSpeed: 12, maxSpeed: 18, width: 1.0, color: 'rgba(83, 121, 174, ', alphaBase: 0.35 },
+        { count: 65, minLen: 20, maxLen: 34, minSpeed: 19, maxSpeed: 26, width: 1.4, color: 'rgba(33, 208, 255, ', alphaBase: 0.55 },
+        { count: 40, minLen: 30, maxLen: 50, minSpeed: 28, maxSpeed: 38, width: 2.0, color: 'rgba(235, 248, 255, ', alphaBase: 0.85 }
+    ];
+    const WIND_ANGLE = 0.16;
+    let drops = [];
+    let splashes = [];
+    const MAX_SPLASHES = 70;
+
+    function createDrop(layer, randomY = false) {
+        const speed = layer.minSpeed + Math.random() * (layer.maxSpeed - layer.minSpeed);
+        const length = layer.minLen + Math.random() * (layer.maxLen - layer.minLen);
+        const alpha = layer.alphaBase * (0.8 + Math.random() * 0.4);
+        return {
+            x: Math.random() * (width + 300) - 150,
+            y: randomY ? Math.random() * height : -length - Math.random() * 50,
+            length,
+            speed,
+            vx: speed * WIND_ANGLE,
+            vy: speed,
+            width: layer.width,
+            color: layer.color,
+            alpha,
+            layerIndex: LAYER_CONFIGS.indexOf(layer)
+        };
+    }
+
+    function createSplash(x, y, layerIndex) {
+        if (splashes.length >= MAX_SPLASHES) return;
+        const count = layerIndex === 2 ? 3 : 2;
+        for (let i = 0; i < count; i++) {
+            splashes.push({
+                x,
+                y,
+                vx: (Math.random() - 0.5) * 3.5 + 1.2,
+                vy: -(Math.random() * 2.8 + 1.2),
+                radius: Math.random() * 1.3 + 0.7,
+                alpha: 0.7,
+                decay: 0.04 + Math.random() * 0.03,
+                color: layerIndex === 2 ? 'rgba(235, 248, 255, ' : 'rgba(33, 208, 255, '
+            });
+        }
+    }
+
+    function resize() {
+        if (!rainCanvas) return;
+        width = window.innerWidth;
+        height = window.innerHeight;
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        rainCanvas.width = width * dpr;
+        rainCanvas.height = height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
+    function render() {
+        if (!isRaining || !ctx) return;
+
+        ctx.clearRect(0, 0, width, height);
+
+        for (let i = 0; i < drops.length; i++) {
+            const drop = drops[i];
+            drop.x += drop.vx;
+            drop.y += drop.vy;
+
+            const tailX = drop.x - drop.vx * (drop.length / drop.speed);
+            const tailY = drop.y - drop.length;
+
+            const grad = ctx.createLinearGradient(tailX, tailY, drop.x, drop.y);
+            grad.addColorStop(0, `${drop.color}0)`);
+            grad.addColorStop(1, `${drop.color}${drop.alpha})`);
+
+            ctx.strokeStyle = grad;
+            ctx.lineWidth = drop.width;
+            ctx.beginPath();
+            ctx.moveTo(tailX, tailY);
+            ctx.lineTo(drop.x, drop.y);
+            ctx.stroke();
+
+            if (drop.y >= height) {
+                if (drop.layerIndex >= 1 && Math.random() > 0.35) {
+                    createSplash(drop.x, height - 3, drop.layerIndex);
+                }
+                drop.x = Math.random() * (width + 300) - 150;
+                drop.y = -drop.length - Math.random() * 25;
+            }
+        }
+
+        for (let i = splashes.length - 1; i >= 0; i--) {
+            const s = splashes[i];
+            s.x += s.vx;
+            s.y += s.vy;
+            s.vy += 0.25;
+            s.alpha -= s.decay;
+
+            if (s.alpha <= 0 || s.y > height) {
+                splashes.splice(i, 1);
+                continue;
+            }
+
+            ctx.fillStyle = `${s.color}${s.alpha})`;
+            ctx.beginPath();
+            ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        animationFrameId = requestAnimationFrame(render);
+    }
+
+    function startRain() {
+        if (!rainCanvas) {
+            rainCanvas = document.createElement('canvas');
+            rainCanvas.id = 'sharkRainCanvas';
+            rainCanvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9998;transition:opacity 0.4s ease;opacity:0;';
+            document.body.appendChild(rainCanvas);
+            ctx = rainCanvas.getContext('2d');
+            window.addEventListener('resize', resize, { passive: true });
+        }
+
+        resize();
+        drops = [];
+        splashes = [];
+        LAYER_CONFIGS.forEach(layer => {
+            for (let i = 0; i < layer.count; i++) {
+                drops.push(createDrop(layer, true));
+            }
+        });
+
+        isRaining = true;
+        rainCanvas.style.opacity = '1';
+        if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(render);
+        }
+    }
+
+    function stopRain() {
+        isRaining = false;
+        if (rainCanvas) {
+            rainCanvas.style.opacity = '0';
+            setTimeout(() => {
+                if (!isRaining && rainCanvas && rainCanvas.parentNode) {
+                    if (animationFrameId) {
+                        cancelAnimationFrame(animationFrameId);
+                        animationFrameId = null;
+                    }
+                    ctx && ctx.clearRect(0, 0, width, height);
+                }
+            }, 400);
+        }
+    }
+
+    const sharkElements = document.querySelectorAll('.mascot-shark-figure, .mascot-shark-img, .floating-shark-img');
+    sharkElements.forEach(el => {
+        el.style.cursor = 'pointer';
+        el.setAttribute('title', '¡Haz clic para hacer llover / parar la lluvia!');
+        el.addEventListener('click', (e) => {
+            e.stopPropagation();
+            el.classList.add('shark-clicked');
+            setTimeout(() => el.classList.remove('shark-clicked'), 400);
+
+            if (isRaining) {
+                stopRain();
+                document.querySelectorAll('.hero-mascot-dock').forEach(dock => dock.classList.remove('raining-active'));
+            } else {
+                startRain();
+                document.querySelectorAll('.hero-mascot-dock').forEach(dock => dock.classList.add('raining-active'));
+            }
+        });
+    });
 }

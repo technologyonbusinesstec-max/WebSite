@@ -22,6 +22,8 @@ const translations = {
         // Hero
         "hero_eyebrow": "Technology on Business",
         "hero_title": "Master <br><span class=\"text-cyan\">The </span>Chaos",
+        "hero_status_msg": "System.Weather.Exception: lluvia detectada",
+        "hero_new_date": "Nueva fecha por confirmar",
         "hero_time_days": "DÍAS",
         "hero_time_hrs": "HRS",
         "hero_time_min": "MIN",
@@ -36,7 +38,7 @@ const translations = {
         "planet_6": "Integración",
 
         // Marquee
-        "marquee_text": "15 ANIVERSARIO <span class=\"text-cyan\">✦</span> 18-19 AGOSTO 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPCIÓN <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
+        "marquee_text": "15 ANIVERSARIO <span class=\"text-cyan\">✦</span> CUANDO ESCAMPE 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPCIÓN <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
 
         // About
         "about_title": "Technology on Business",
@@ -76,8 +78,8 @@ const translations = {
         "phrase_5": "18 conferencias",
         "phrase_6": 'Estudiantes de <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Congreso de tecnología",
-        "phrase_8": "18-19 de agosto 2026",
-        "phrase_9": "HackaTob del 17 al 20 de agosto",
+        "phrase_8": "Cuando escampe, 2026",
+        "phrase_9": "HackaTob: Nueva fecha por confirmar",
 
         // Sponsors
         "sponsors_title": "Nuestros Partners",
@@ -102,6 +104,12 @@ const translations = {
         "speak_title": "Las grandes ideas comienzan con una conversación.",
         "speak_desc": "En el ToB tendrás la oportunidad de escuchar a expertos de la industria, descubrir tecnologías emergentes y conectar con personas que comparten tu pasión por la innovación, los negocios y el futuro digital.",
         "speak_btn": "Ver más expositores",
+        "mascot_speakers_tag": "ESTADO DEL CLIMA",
+        "mascot_speakers_msg": "Los speakers también se mojaron, nueva fecha en camino.",
+        "mascot_prog_tag": "ESTADO DEL CLIMA",
+        "mascot_prog_msg": "El programa está completo, solo le falta la fecha (y que deje de llover).",
+        "mascot_hack_tag": "ESTADO DEL CLIMA",
+        "mascot_hack_msg": "HackaTob también sacó el paraguas, nueva fecha muy pronto.",
 
         // Location
         "loc_label": "Punto de Encuentro",
@@ -266,8 +274,8 @@ const translations = {
         "speaker_21_charla": "...",
 
         // Program Day 1
-        "prog_d1_tab": "Día 1 - 18 de Agosto",
-        "prog_d2_tab": "Día 2 - 19 de Agosto",
+        "prog_d1_tab": "Día 1 - Por confirmar",
+        "prog_d2_tab": "Día 2 - Por confirmar",
 
         "prog_d1_block1_title": "BLOQUE - INICIO",
         "prog_d1_t1_title": "Inauguración",
@@ -418,10 +426,10 @@ const translations = {
         "prog_hero_eyebrow": "Technology on Business 2026",
         "prog_hero_title": "Programa del <span class=\"text-cyan\">Evento</span>",
         "prog_hero_slogan": "Dos días de conferencias, talleres y networking con los líderes de la industria tecnológica.",
-        "prog_date1": "18 de Agosto, 2026",
-        "prog_date2": "19 de Agosto, 2026",
+        "prog_date1": "Cuando escampe, 2026",
+        "prog_date2": "Cuando escampe, 2026",
         "prog_tab1_day": "Día 1",
-        "prog_tab1_date": "18 de Agosto",
+        "prog_tab1_date": "Por confirmar",
         "prog_tab2_day": "Día 2",
 
         // HackaToB Navbar & General
@@ -533,7 +541,7 @@ const translations = {
 
         // HackaToB Agenda Preview & Dedicated
         "hack_agenda_preview_title": "Programa & <span class=\"text-cyan\">Agenda</span>",
-        "hack_agenda_preview_subtitle": "Descubre el cronograma completo día por día, workshops, mentorías y entregables del 17 al 20 de agosto.",
+        "hack_agenda_preview_subtitle": "Descubre el cronograma completo día por día, workshops, mentorías y entregables cuando escampe, 2026.",
         "hack_agenda_d1_title": "Día 1: PreHackaToB",
         "hack_agenda_d1_desc": "Ideación, retos y formación de equipos en EmprendeLab.",
         "hack_agenda_d2_title": "Día 2: Dev Day I",
@@ -549,16 +557,16 @@ const translations = {
         "hack_agenda_page_subtitle": "4 días de aprendizaje, innovación y desarrollo tecnológico en el Instituto Tecnológico de Costa Rica.",
 
         // HackaToB Tabs
-        "hack_tab_d1_badge": "Lunes 17",
+        "hack_tab_d1_badge": "Día 1",
         "hack_tab_d1_num": "Día 1",
         "hack_tab_d1_theme": "PreHackaToB",
-        "hack_tab_d2_badge": "Martes 18",
+        "hack_tab_d2_badge": "Día 2",
         "hack_tab_d2_num": "Día 2",
         "hack_tab_d2_theme": "Dev Day I",
-        "hack_tab_d3_badge": "Miércoles 19",
+        "hack_tab_d3_badge": "Día 3",
         "hack_tab_d3_num": "Día 3",
         "hack_tab_d3_theme": "Dev Day II",
-        "hack_tab_d4_badge": "Jueves 20",
+        "hack_tab_d4_badge": "Día 4",
         "hack_tab_d4_num": "Día 4",
         "hack_tab_d4_theme": "Demo Day",
 
@@ -566,7 +574,7 @@ const translations = {
         "hack_d1_badge": "DÍA 1 · PREHACKATOB",
         "hack_d1_title": "PreHackaToB — Thinking Ahead",
         "hack_d1_subtitle": "PreHackaToB: retos, equipos, ideación y workshops.",
-        "hack_d1_date": "Lunes 17 de agosto",
+        "hack_d1_date": "Día 1 · Por confirmar",
         "hack_d1_hours": "9:00 a.m. – 7:45 p.m.",
         "hack_d1_obj_label": "Objetivo:",
         "hack_d1_obj_text": "Preparar a los participantes antes de los sprints: contexto del reto, producto y tecnología, integración de equipos, mentoría y herramientas para iniciar el martes.",
@@ -599,7 +607,7 @@ const translations = {
         "hack_d2_badge": "DÍA 2 · DEV DAY I",
         "hack_d2_title": "Dev Day I · Descubrimiento, diseño y arquitectura",
         "hack_d2_subtitle": "Dev Day I: validación, diseño y desarrollo.",
-        "hack_d2_date": "Martes 18 de agosto",
+        "hack_d2_date": "Día 2 · Por confirmar",
         "hack_d2_hours": "10:00 a.m. – 2:00 p.m.",
         "hack_d2_obj_label": "Objetivo:",
         "hack_d2_obj_text": "Transformar el reto en una solución definida y construible: validar problema, acotar alcance, diseñar flujo y preparar arquitectura y backlog.",
@@ -623,7 +631,7 @@ const translations = {
         "hack_d3_badge": "DÍA 3 · DEV DAY II",
         "hack_d3_title": "Dev Day II · Construcción, validación y entrega",
         "hack_d3_subtitle": "Dev Day II: construcción, mentorías y preparación del pitch.",
-        "hack_d3_date": "Miércoles 19 de agosto",
+        "hack_d3_date": "Día 3 · Por confirmar",
         "hack_d3_hours": "10:00 a.m. – 2:00 p.m. · Entrega digital 11:59 p.m.",
         "hack_d3_obj_label": "Objetivo:",
         "hack_d3_obj_text": "Construir el núcleo demostrable, integrar, probar lo crítico y cerrar con entrega defendible e historia clara para el Demo Day.",
@@ -641,13 +649,13 @@ const translations = {
         "hack_d3_chip_6_1": "Gate de entrega",
         "hack_d3_chip_6_2": "Plan antes de las 23:59",
         "hack_d3_res_label": "Resultado:",
-        "hack_d3_res_text": "Entrega oficial lista. Límite digital: miércoles 19 · 23:59.",
+        "hack_d3_res_text": "Entrega oficial lista. Límite digital: Día 3 · 23:59.",
 
         // HackaToB Day 4
         "hack_d4_badge": "DÍA 4 · DEMO DAY",
         "hack_d4_title": "Demo Day · Evaluación, premiación y cierre",
         "hack_d4_subtitle": "Demo Day: presentación ante jueces, premiación y cierre.",
-        "hack_d4_date": "Jueves 20 de agosto",
+        "hack_d4_date": "Día 4 · Por confirmar",
         "hack_d4_hours": "8:00 a.m. – 3:00 p.m. (Llegada 7:30 a.m.)",
         "hack_d4_obj_label": "Objetivo:",
         "hack_d4_obj_text": "Presentar ante el jurado, evaluar con consistencia y cerrar con premiación.",
@@ -656,13 +664,14 @@ const translations = {
         "hack_d4_tag_2": "Apertura",
         "hack_d4_chip_2_1": "Reglas, tiempos y paneles",
         "hack_d4_tag_3": "Presentaciones",
-        "hack_d4_chip_3_1": "Video ≤2 min + pitch 5 min + Q&A ≤10 min",
-        "hack_d4_tag_4": "Pausa",
-        "hack_d4_chip_4_1": "Contingencia / pausa: proyectos restantes o receso",
+        "hack_d4_chip_3_1": "Pitches + Q&A jurado",
+        "hack_d4_tag_4": "Feria",
+        "hack_d4_chip_4_1": "Demostración de stands",
         "hack_d4_tag_5": "Deliberación",
-        "hack_d4_chip_5_1": "Jurado + validación de acta",
-        "hack_d4_tag_6": "🏆 Premiación",
-        "hack_d4_chip_6_1": "Reconocimientos, certificados y cierre oficial",
+        "hack_d4_chip_5_1": "Calificación y selección",
+        "hack_d4_tag_6": "Premiación",
+        "hack_d4_chip_6_1": "Top 3 + menciones",
+        "hack_d4_chip_6_2": "Clausura oficial",
         "hack_d4_res_label": "Resultado:",
         "hack_d4_res_text": "Resultados formalizados, premiación y cierre de HackaToB 2026.",
 
@@ -707,7 +716,7 @@ const translations = {
         "hack_footer_col2": "Organización",
         "hack_footer_address": "Centro de las Artes,<br>TEC, Cartago",
         "hack_footer_copy": "&copy; 2026 HackaToB - Technology on Business. Todos los derechos reservados.",
-        "prog_tab2_date": "19 de Agosto",
+        "prog_tab2_date": "Por confirmar",
         "prog_footer_address": "Área de Tecnología de Información · <strong>ATI TEC</strong><br>Tecnológico de Costa Rica",
         "prog_footer_copy": "© 2026 Technology on Business · ToB. Todos los derechos reservados."
     },
@@ -734,6 +743,8 @@ const translations = {
         // Hero
         "hero_eyebrow": "Technology on Business",
         "hero_title": "Master <br><span class=\"text-cyan\">The </span>Chaos",
+        "hero_status_msg": "System.Weather.Exception: rain detected",
+        "hero_new_date": "New date to be confirmed",
         "hero_time_days": "DAYS",
         "hero_time_hrs": "HRS",
         "hero_time_min": "MIN",
@@ -748,7 +759,7 @@ const translations = {
         "planet_6": "Integration",
 
         // Marquee
-        "marquee_text": "15TH ANNIVERSARY <span class=\"text-cyan\">✦</span> AUGUST 18-19 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPTION <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
+        "marquee_text": "15TH ANNIVERSARY <span class=\"text-cyan\">✦</span> WHEN THE RAIN CLEARS 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPTION <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
 
         // About
         "about_title": "Technology on Business",
@@ -788,8 +799,8 @@ const translations = {
         "phrase_5": "18 conferences",
         "phrase_6": 'Students of <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Technology Congress",
-        "phrase_8": "August 18-19, 2026",
-        "phrase_9": "HackaTob from August 17 to 20",
+        "phrase_8": "When the rain clears, 2026",
+        "phrase_9": "HackaTob: New date to be confirmed",
 
         // Sponsors
         "sponsors_title": "Our Partners",
@@ -814,6 +825,12 @@ const translations = {
         "speak_title": "Great ideas begin with a conversation.",
         "speak_desc": "At ToB you will have the opportunity to listen to industry experts, discover emerging technologies, and connect with people who share your passion for innovation, business, and the digital future.",
         "speak_btn": "See more speakers",
+        "mascot_speakers_tag": "WEATHER STATUS",
+        "mascot_speakers_msg": "Speakers got soaked too, new date on the way.",
+        "mascot_prog_tag": "WEATHER STATUS",
+        "mascot_prog_msg": "The program is complete, it just needs the date (and for the rain to stop).",
+        "mascot_hack_tag": "WEATHER STATUS",
+        "mascot_hack_msg": "HackaTob also pulled out the umbrella, new date very soon.",
 
         // Presenters (Specific)
         "presenter_1_name": "Anthony Fuentes",
@@ -978,8 +995,8 @@ const translations = {
         "coord_role_7": "Logistics Manager",
 
         // Program Day 1
-        "prog_d1_tab": "Day 1 - August 18",
-        "prog_d2_tab": "Day 2 - August 19",
+        "prog_d1_tab": "Day 1 - To be confirmed",
+        "prog_d2_tab": "Day 2 - To be confirmed",
 
         "prog_d1_block1_title": "BLOCK - START",
         "prog_d1_t1_title": "Inauguration",
@@ -1130,12 +1147,12 @@ const translations = {
         "prog_hero_eyebrow": "Technology on Business 2026",
         "prog_hero_title": "Event <span class=\"text-cyan\">Program</span>",
         "prog_hero_slogan": "Two days of conferences, workshops, and networking with technology industry leaders.",
-        "prog_date1": "August 18, 2026",
-        "prog_date2": "August 19, 2026",
+        "prog_date1": "When the rain clears, 2026",
+        "prog_date2": "When the rain clears, 2026",
         "prog_tab1_day": "Day 1",
-        "prog_tab1_date": "August 18",
+        "prog_tab1_date": "To be confirmed",
         "prog_tab2_day": "Day 2",
-        "prog_tab2_date": "August 19",
+        "prog_tab2_date": "To be confirmed",
         "prog_footer_address": "Information Technology Area · <strong>ATI TEC</strong><br>Costa Rica Institute of Technology",
         "prog_footer_copy": "© 2026 Technology on Business · ToB. All rights reserved.",
 
@@ -1248,7 +1265,7 @@ const translations = {
 
         // HackaToB Agenda Preview & Dedicated
         "hack_agenda_preview_title": "Program & <span class=\"text-cyan\">Schedule</span>",
-        "hack_agenda_preview_subtitle": "Explore the full day-by-day schedule, workshops, mentorship sessions, and deliverables from August 17 to 20.",
+        "hack_agenda_preview_subtitle": "Explore the full day-by-day schedule, workshops, mentorship sessions, and deliverables when the rain clears, 2026.",
         "hack_agenda_d1_title": "Day 1: PreHackaToB",
         "hack_agenda_d1_desc": "Ideation, challenges, and team formation at EmprendeLab.",
         "hack_agenda_d2_title": "Day 2: Dev Day I",
@@ -1264,16 +1281,16 @@ const translations = {
         "hack_agenda_page_subtitle": "4 days of learning, innovation, and tech development at Costa Rica Institute of Technology.",
 
         // HackaToB Tabs
-        "hack_tab_d1_badge": "Monday 17",
+        "hack_tab_d1_badge": "Day 1",
         "hack_tab_d1_num": "Day 1",
         "hack_tab_d1_theme": "PreHackaToB",
-        "hack_tab_d2_badge": "Tuesday 18",
+        "hack_tab_d2_badge": "Day 2",
         "hack_tab_d2_num": "Day 2",
         "hack_tab_d2_theme": "Dev Day I",
-        "hack_tab_d3_badge": "Wednesday 19",
+        "hack_tab_d3_badge": "Day 3",
         "hack_tab_d3_num": "Day 3",
         "hack_tab_d3_theme": "Dev Day II",
-        "hack_tab_d4_badge": "Thursday 20",
+        "hack_tab_d4_badge": "Day 4",
         "hack_tab_d4_num": "Day 4",
         "hack_tab_d4_theme": "Demo Day",
 
@@ -1281,7 +1298,7 @@ const translations = {
         "hack_d1_badge": "DAY 1 · PREHACKATOB",
         "hack_d1_title": "PreHackaToB — Thinking Ahead",
         "hack_d1_subtitle": "PreHackaToB: challenges, teams, ideation, and workshops.",
-        "hack_d1_date": "Monday, August 17",
+        "hack_d1_date": "Day 1 · To be confirmed",
         "hack_d1_hours": "9:00 AM – 7:45 PM",
         "hack_d1_obj_label": "Objective:",
         "hack_d1_obj_text": "Prepare participants before the sprints: challenge context, product & technology, team integration, mentoring, and tools to kick off Tuesday.",
@@ -1314,7 +1331,7 @@ const translations = {
         "hack_d2_badge": "DAY 2 · DEV DAY I",
         "hack_d2_title": "Dev Day I · Discovery, design & architecture",
         "hack_d2_subtitle": "Dev Day I: validation, design, and development.",
-        "hack_d2_date": "Tuesday, August 18",
+        "hack_d2_date": "Day 2 · To be confirmed",
         "hack_d2_hours": "10:00 AM – 2:00 PM",
         "hack_d2_obj_label": "Objective:",
         "hack_d2_obj_text": "Transform the challenge into a defined, buildable solution: validate the problem, narrow scope, design user flow, and prepare architecture and backlog.",
@@ -1338,7 +1355,7 @@ const translations = {
         "hack_d3_badge": "DAY 3 · DEV DAY II",
         "hack_d3_title": "Dev Day II · Construction, validation & delivery",
         "hack_d3_subtitle": "Dev Day II: construction, mentoring, and pitch prep.",
-        "hack_d3_date": "Wednesday, August 19",
+        "hack_d3_date": "Day 3 · To be confirmed",
         "hack_d3_hours": "10:00 AM – 2:00 PM · Digital submission 11:59 PM",
         "hack_d3_obj_label": "Objective:",
         "hack_d3_obj_text": "Build the demonstrable core, integrate, test critical features, and close with a defensible delivery and clear story for Demo Day.",
@@ -1356,13 +1373,13 @@ const translations = {
         "hack_d3_chip_6_1": "Delivery gate",
         "hack_d3_chip_6_2": "Action plan before 11:59 PM",
         "hack_d3_res_label": "Outcome:",
-        "hack_d3_res_text": "Official submission ready. Digital deadline: Wednesday 19 · 11:59 PM.",
+        "hack_d3_res_text": "Official submission ready. Digital deadline: Day 3 · 11:59 PM.",
 
         // HackaToB Day 4
         "hack_d4_badge": "DAY 4 · DEMO DAY",
         "hack_d4_title": "Demo Day · Evaluation, awards & closing",
         "hack_d4_subtitle": "Demo Day: pitch to judges, awards ceremony, and closing.",
-        "hack_d4_date": "Thursday, August 20",
+        "hack_d4_date": "Day 4 · To be confirmed",
         "hack_d4_hours": "8:00 AM – 3:00 PM (Arrival 7:30 AM)",
         "hack_d4_obj_label": "Objective:",
         "hack_d4_obj_text": "Present before the jury, evaluate consistently, and conclude with the awards ceremony.",
