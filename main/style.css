@@ -1387,6 +1387,9 @@ body {
     .speakers-section .hero-mascot-dock {
         right: 3.5rem;
         top: 140px;
+    }
+}
+
 @media (max-width: 1200px) {
     .speakers-section .hero-mascot-dock {
         position: static;
