@@ -1387,17 +1387,12 @@ body {
     .speakers-section .hero-mascot-dock {
         right: 3.5rem;
         top: 140px;
-    }
-}
-
 @media (max-width: 1200px) {
     .speakers-section .hero-mascot-dock {
         position: static;
-        margin: 2rem auto 2.5rem auto;
+        margin: 1.5rem auto;
         justify-content: center;
     }
-}
-    filter: drop-shadow(0 14px 24px rgba(0, 0, 0, 0.6)) drop-shadow(0 0 18px rgba(33, 208, 255, 0.25));
 }
 
 @keyframes shark-swim-bob {
@@ -1418,37 +1413,50 @@ body {
     }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 900px) {
     .hero-mascot-dock {
-        flex-direction: column-reverse;
+        flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 1rem;
+        gap: 0.6rem;
+        width: 100%;
+        margin: 1rem auto;
     }
     .mascot-shark-figure {
-        width: 120px;
-        height: 155px;
+        order: 1;
+        width: 115px;
+        height: 150px;
     }
     .mascot-speech-bubble {
-        max-width: 100%;
+        order: 2;
+        max-width: 92vw;
+        width: 320px;
+        text-align: center;
+        transform: scale(0.9) translateY(-6px);
     }
+    .hero-mascot-dock.bubble-open .mascot-speech-bubble {
+        transform: scale(1) translateY(0);
+    }
+    /* Pointer tail is at TOP of bubble pointing UP to shark! */
     .mascot-speech-bubble .bubble-tail {
-        right: 50%;
-        bottom: -13px;
-        top: auto;
-        transform: translateX(50%);
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 14px solid rgba(33, 208, 255, 0.6);
-        border-bottom: none;
-    }
-    .mascot-speech-bubble .bubble-tail::after {
-        right: -9px;
-        top: -14px;
+        top: -12px;
+        bottom: auto;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        border-bottom: 12px solid rgba(33, 208, 255, 0.6);
+        border-top: none;
         border-left: 9px solid transparent;
         border-right: 9px solid transparent;
-        border-top: 13px solid #0d1a33;
-        border-bottom: none;
+    }
+    .mascot-speech-bubble .bubble-tail::after {
+        top: 2px;
+        left: -8px;
+        right: auto;
+        border-bottom: 11px solid #0d1a33;
+        border-top: none;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
     }
 }
 

@@ -465,10 +465,19 @@ body {
 .programa-hero-content {
     position: relative;
     z-index: 2;
-    max-width: 1050px;
-    width: 95%;
+    max-width: 1200px;
+    width: 92%;
     margin: 0 auto;
     padding: 0 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+}
+
+.programa-hero-text {
+    flex: 1;
+    max-width: 680px;
 }
 
 .programa-eyebrow {
@@ -1145,14 +1154,14 @@ body {
 }
 
 .hero-mascot-dock {
-    position: absolute;
-    right: 2rem;
-    bottom: 35px;
+    position: relative;
+    right: auto;
+    bottom: auto;
     display: flex;
     align-items: center;
     gap: 1.25rem;
     z-index: 10;
-    max-width: 480px;
+    flex-shrink: 0;
     pointer-events: auto;
 }
 
@@ -1267,8 +1276,8 @@ body {
 
 .mascot-shark-figure {
     flex-shrink: 0;
-    width: 170px;
-    height: 220px;
+    width: 160px;
+    height: 210px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1327,57 +1336,69 @@ body {
     }
 }
 
-@media (min-width: 1400px) {
-    .hero-mascot-dock {
-        right: 3.5rem;
-        bottom: 45px;
+@media (max-width: 900px) {
+    .programa-hero {
+        padding-top: 100px;
+        padding-bottom: 40px;
+        min-height: auto;
     }
-    .mascot-shark-figure {
-        width: 190px;
-        height: 240px;
-    }
-}
-
-@media (max-width: 1180px) {
-    .hero-mascot-dock {
-        position: static;
-        margin: 2.5rem auto 0 auto;
-        max-width: 100%;
-        justify-content: center;
-    }
-}
-
-@media (max-width: 640px) {
-    .hero-mascot-dock {
-        flex-direction: column-reverse;
+    .programa-hero-content {
+        flex-direction: column;
         align-items: center;
         text-align: center;
-        gap: 1.2rem;
+        gap: 1.5rem;
     }
-    .mascot-shark-figure {
-        width: 140px;
-        height: 180px;
-    }
-    .mascot-speech-bubble {
-        max-width: 100%;
+    .programa-hero-text {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
     }
-    .mascot-speech-bubble .bubble-tail {
-        right: 50%;
-        bottom: -13px;
-        top: auto;
-        transform: translateX(50%);
-        border-left: 10px solid transparent;
-        border-right: 10px solid transparent;
-        border-top: 14px solid rgba(33, 208, 255, 0.6);
-        border-bottom: none;
+    .programa-dates {
+        justify-content: center;
     }
-    .mascot-speech-bubble .bubble-tail::after {
-        right: -9px;
-        top: -14px;
+    .hero-mascot-dock {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 0.6rem;
+        width: 100%;
+        margin: 1rem auto 0 auto;
+    }
+    .mascot-shark-figure {
+        order: 1;
+        width: 115px;
+        height: 150px;
+    }
+    .mascot-speech-bubble {
+        order: 2;
+        max-width: 92vw;
+        width: 320px;
+        text-align: center;
+        transform: scale(0.9) translateY(-6px);
+    }
+    .hero-mascot-dock.bubble-open .mascot-speech-bubble {
+        transform: scale(1) translateY(0);
+    }
+    /* Tail at TOP pointing UP to shark */
+    .mascot-speech-bubble .bubble-tail {
+        top: -12px;
+        bottom: auto;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        border-bottom: 12px solid rgba(33, 208, 255, 0.6);
+        border-top: none;
         border-left: 9px solid transparent;
         border-right: 9px solid transparent;
-        border-top: 13px solid #0d1a33;
-        border-bottom: none;
+    }
+    .mascot-speech-bubble .bubble-tail::after {
+        top: 2px;
+        left: -8px;
+        right: auto;
+        border-bottom: 11px solid #0a142a;
+        border-top: none;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
     }
 }

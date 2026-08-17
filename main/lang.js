@@ -104,11 +104,11 @@ const translations = {
         "speak_title": "Las grandes ideas comienzan con una conversación.",
         "speak_desc": "En el ToB tendrás la oportunidad de escuchar a expertos de la industria, descubrir tecnologías emergentes y conectar con personas que comparten tu pasión por la innovación, los negocios y el futuro digital.",
         "speak_btn": "Ver más expositores",
-        "mascot_speakers_tag": "ESTADO DEL CLIMA",
+        "mascot_speakers_tag": "AVISO DEL TIBURÓN TOB",
         "mascot_speakers_msg": "Los speakers también se mojaron, nueva fecha en camino.",
-        "mascot_prog_tag": "ESTADO DEL CLIMA",
+        "mascot_prog_tag": "AVISO DEL TIBURÓN TOB",
         "mascot_prog_msg": "El programa está completo, solo le falta la fecha (y que deje de llover).",
-        "mascot_hack_tag": "ESTADO DEL CLIMA",
+        "mascot_hack_tag": "AVISO DEL TIBURÓN TOB",
         "mascot_hack_msg": "HackaTob también sacó el paraguas, nueva fecha muy pronto.",
 
         // Location
@@ -825,11 +825,11 @@ const translations = {
         "speak_title": "Great ideas begin with a conversation.",
         "speak_desc": "At ToB you will have the opportunity to listen to industry experts, discover emerging technologies, and connect with people who share your passion for innovation, business, and the digital future.",
         "speak_btn": "See more speakers",
-        "mascot_speakers_tag": "WEATHER STATUS",
+        "mascot_speakers_tag": "TOB SHARK WEATHER NOTICE",
         "mascot_speakers_msg": "Speakers got soaked too, new date on the way.",
-        "mascot_prog_tag": "WEATHER STATUS",
+        "mascot_prog_tag": "TOB SHARK WEATHER NOTICE",
         "mascot_prog_msg": "The program is complete, it just needs the date (and for the rain to stop).",
-        "mascot_hack_tag": "WEATHER STATUS",
+        "mascot_hack_tag": "TOB SHARK WEATHER NOTICE",
         "mascot_hack_msg": "HackaTob also pulled out the umbrella, new date very soon.",
 
         // Presenters (Specific)
