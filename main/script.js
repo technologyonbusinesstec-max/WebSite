@@ -1269,22 +1269,47 @@ function initSharkRainToggle() {
         }
     }
 
-    const sharkElements = document.querySelectorAll('.mascot-shark-figure, .mascot-shark-img, .floating-shark-img');
+    const sharkElements = document.querySelectorAll('.mascot-shark-figure, .floating-shark-img');
     sharkElements.forEach(el => {
         el.style.cursor = 'pointer';
-        el.setAttribute('title', '¡Haz clic para hacer llover / parar la lluvia!');
+        el.setAttribute('title', '¡Haz clic para ver el aviso de clima!');
         el.addEventListener('click', (e) => {
             e.stopPropagation();
             el.classList.add('shark-clicked');
             setTimeout(() => el.classList.remove('shark-clicked'), 400);
 
-            if (isRaining) {
+            const dock = el.closest('.hero-mascot-dock');
+            const wasOpen = dock ? dock.classList.contains('bubble-open') : false;
+
+            if (wasOpen) {
+                dock && dock.classList.remove('bubble-open', 'raining-active');
                 stopRain();
-                document.querySelectorAll('.hero-mascot-dock').forEach(dock => dock.classList.remove('raining-active'));
             } else {
+                dock && dock.classList.add('bubble-open', 'raining-active');
                 startRain();
-                document.querySelectorAll('.hero-mascot-dock').forEach(dock => dock.classList.add('raining-active'));
             }
         });
+    });
+
+    // Close buttons inside bubbles
+    document.querySelectorAll('.bubble-close-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            const dock = btn.closest('.hero-mascot-dock');
+            if (dock) {
+                dock.classList.remove('bubble-open', 'raining-active');
+            }
+            stopRain();
+        });
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.hero-mascot-dock')) {
+            document.querySelectorAll('.hero-mascot-dock.bubble-open').forEach(dock => {
+                dock.classList.remove('bubble-open', 'raining-active');
+            });
+            stopRain();
+        }
     });
 }
