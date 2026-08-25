@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HackaToB - Technology On Business</title>
-    <link rel="icon" type="image/svg+xml" href="/imagenes/hackatob/hackatob-logo.svg">
-    <link rel="stylesheet" href="/main/style.css?v=2">
-    <link rel="stylesheet" href="/hackatob/style.css">
+    <link rel="icon" type="image/webp" href="../imagenes/Miniatura/Miniatura.webp">
+    <link rel="stylesheet" href="../main/style.css?v=2">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <!-- Pantalla de Carga -->
     <div id="loader-wrapper" class="loader-wrapper">
-        <img src="/imagenes/hackatob/spark.webp" alt="Cargando HackaToB..." class="loader-logo hackatob-loader-logo">
+        <img src="../imagenes/hackatob/spark.webp" alt="Cargando HackaToB..." class="loader-logo hackatob-loader-logo">
     </div>
 
     <!-- NavBar Específico del HackaToB -->
@@ -30,7 +30,7 @@
             <div class="nav-item"><a href="#premios" class="nav-link" data-i18n="hack_nav_premios">Premios</a></div>
             <div class="nav-item"><a href="#tracks" class="nav-link" data-i18n="hack_nav_tracks">Tracks</a></div>
             <div class="nav-item"><a href="#sedes" class="nav-link" data-i18n="hack_nav_sedes">Sedes</a></div>
-            <div class="nav-item"><a href="/hackatob/agenda" class="nav-link nav-link-agenda-gold" data-i18n="hack_nav_agenda">Agenda</a></div>
+            <div class="nav-item"><a href="agenda/index.html" class="nav-link nav-link-agenda-gold" data-i18n="hack_nav_agenda">Agenda</a></div>
             <div class="nav-item"><a href="#mentores" class="nav-link" data-i18n="hack_nav_mentores">Mentores</a></div>
             <div class="nav-item"><a href="#sponsors" class="nav-link" data-i18n="hack_nav_sponsors">Sponsors</a></div>
             <div class="nav-item"><a href="#faq" class="nav-link" data-i18n="hack_nav_faq">FAQ</a></div>
@@ -58,7 +58,7 @@
         <a href="#premios" class="mobile-link" data-i18n="hack_nav_premios">Premios</a>
         <a href="#tracks" class="mobile-link" data-i18n="hack_nav_tracks">Tracks</a>
         <a href="#sedes" class="mobile-link" data-i18n="hack_nav_sedes">Sedes</a>
-        <a href="/hackatob/agenda" class="mobile-link mobile-link-agenda-gold" data-i18n="hack_nav_agenda">Agenda</a>
+        <a href="agenda/index.html" class="mobile-link mobile-link-agenda-gold" data-i18n="hack_nav_agenda">Agenda</a>
         <a href="#mentores" class="mobile-link" data-i18n="hack_nav_mentores">Mentores</a>
         <a href="#sponsors" class="mobile-link" data-i18n="hack_nav_sponsors">Sponsors</a>
         <a href="#faq" class="mobile-link" data-i18n="hack_nav_faq">FAQ</a>
@@ -92,21 +92,8 @@
             </div>
         </div>
 
-        <!-- Mascota Tiburón arrimada a la derecha con Burbuja de Diálogo -->
-        <div class="hero-mascot-dock hackatob-hero-mascot-dock">
-            <div class="mascot-speech-bubble">
-                <button class="bubble-close-btn" aria-label="Cerrar mensaje">&times;</button>
-                <span class="bubble-tag" data-i18n="mascot_hack_tag">
-                    <svg class="weather-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#21d0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="8" y1="19" x2="8" y2="22"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="16" y1="19" x2="16" y2="22"/></svg>
-                    AVISO DEL TIBURÓN TOB
-                </span>
-                <p class="bubble-text" data-i18n="mascot_hack_msg">HackaTob también sacó el paraguas, nueva fecha muy pronto.</p>
-                <div class="bubble-tail"></div>
-            </div>
-            <div class="mascot-shark-figure">
-                <img src="../imagenes/mascotas/tiburon.webp" alt="Mascota Tiburón ToB" class="floating-shark-img" width="170" height="220">
-            </div>
-        </div>
+
+
     </section>
 
     <!-- Sección de Métricas / Escala -->
@@ -428,7 +415,7 @@
             </div>
 
             <div class="agenda-preview-cta">
-                <a href="/hackatob/agenda" class="btn btn-gold-agenda">
+                <a href="agenda/index.html" class="btn btn-gold-agenda">
                     <span data-i18n="hack_agenda_cta">Explorar la Agenda Completa</span>
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
@@ -461,44 +448,38 @@
         <div class="sponsors-marquee-wrapper">
             <div class="sponsors-marquee marquee-left">
                 <div class="sponsors-track">
-                    <!-- Set 1 (6 logos de partners de HackaToB) -->
+                    <!-- Set 1 (5 logos de partners de HackaToB) -->
                     <a href="#" class="partner-logo-link" aria-label="Partner 1">
-                        <img src="/imagenes/hackatob/partner01.webp" alt="Partner 01" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner01.webp" alt="Partner 01" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 2">
-                        <img src="/imagenes/hackatob/partner02.webp" alt="Partner 02" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner02.webp" alt="Partner 02" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 3">
-                        <img src="/imagenes/hackatob/partner03.webp" alt="Partner 03" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner03.webp" alt="Partner 03" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 4">
-                        <img src="/imagenes/hackatob/partner04.webp" alt="Partner 04" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
-                    </a>
-                    <a href="#" class="partner-logo-link" aria-label="Partner 5">
-                        <img src="/imagenes/hackatob/partner05.webp" alt="Partner 05" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner04.webp" alt="Partner 04" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 6">
-                        <img src="/imagenes/hackatob/partner06.webp" alt="Partner 06" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner06.webp" alt="Partner 06" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
 
                     <!-- Duplicado del Set 1 para el loop continuo infinito -->
                     <a href="#" class="partner-logo-link" aria-label="Partner 1">
-                        <img src="/imagenes/hackatob/partner01.webp" alt="Partner 01" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner01.webp" alt="Partner 01" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 2">
-                        <img src="/imagenes/hackatob/partner02.webp" alt="Partner 02" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner02.webp" alt="Partner 02" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 3">
-                        <img src="/imagenes/hackatob/partner03.webp" alt="Partner 03" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner03.webp" alt="Partner 03" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 4">
-                        <img src="/imagenes/hackatob/partner04.webp" alt="Partner 04" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
-                    </a>
-                    <a href="#" class="partner-logo-link" aria-label="Partner 5">
-                        <img src="/imagenes/hackatob/partner05.webp" alt="Partner 05" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner04.webp" alt="Partner 04" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                     <a href="#" class="partner-logo-link" aria-label="Partner 6">
-                        <img src="/imagenes/hackatob/partner06.webp" alt="Partner 06" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/partner06.webp" alt="Partner 06" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
                     </a>
                 </div>
             </div>
@@ -515,7 +496,7 @@
                 <div class="main-sponsor-item">
                     <div class="main-sponsor-card">
                         <div class="main-sponsor-glow"></div>
-                        <img src="/imagenes/hackatob/sponsors/sponsor01.webp" alt="Sponsor HackaToB 01" class="main-sponsor-img" loading="lazy" width="600" height="300" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/sponsors/sponsor01.webp" alt="Sponsor HackaToB 01" class="main-sponsor-img" loading="lazy" width="600" height="300" onerror="this.style.display='none'">
                     </div>
                     <div class="main-sponsor-socials">
                         <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram Sponsor 1">
@@ -539,7 +520,7 @@
                 <div class="main-sponsor-item">
                     <div class="main-sponsor-card">
                         <div class="main-sponsor-glow"></div>
-                        <img src="/imagenes/hackatob/sponsors/sponsor02.webp" alt="Sponsor HackaToB 02" class="main-sponsor-img" loading="lazy" width="600" height="300" onerror="this.style.display='none'">
+                        <img src="../imagenes/hackatob/sponsors/sponsor02.webp" alt="Sponsor HackaToB 02" class="main-sponsor-img" loading="lazy" width="600" height="300" onerror="this.style.display='none'">
                     </div>
                     <div class="main-sponsor-socials">
                         <a href="https://www.instagram.com/rainforestadventurescr/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram Rainforest Adventures">
@@ -727,7 +708,7 @@
                     <li><a href="#premios" data-i18n="hack_nav_premios">Premios</a></li>
                     <li><a href="#tracks" data-i18n="hack_nav_tracks">Tracks</a></li>
                     <li><a href="#sedes" data-i18n="hack_nav_sedes">Sedes</a></li>
-                    <li><a href="#programa" data-i18n="hack_nav_agenda">Agenda</a></li>
+                    <li><a href="agenda/index.html" data-i18n="hack_nav_agenda">Agenda</a></li>
                 </ul>
             </div>
             
@@ -735,15 +716,15 @@
                 <h4 class="footer-title" data-i18n="hack_footer_recursos">Recursos</h4>
                 <ul class="footer-links">
                     <li><a href="#mentores" data-i18n="hack_nav_mentores">Mentores</a></li>
-                    <li><a href="#faq" data-i18n="hack_nav_faq">Preguntas Frecuentes</a></li>
-                    <li><a href="../main/index.html" style="color: var(--color-cyan, #00f2fe);" data-i18n="hack_nav_back">Volver al ToB</a></li>
+                    <li><a href="#faq" data-i18n="hack_nav_faq">FAQ</a></li>
+                    <li><a href="../main/index.html" style="color: var(--color-cyan, #00f2fe);" data-i18n="hack_nav_back">&larr; Volver al ToB</a></li>
                 </ul>
             </div>
             
             <div class="footer-col">
                 <h4 class="footer-title" data-i18n="hack_footer_col2">Organización</h4>
                 <ul class="footer-links">
-                    <li><a href="mailto:tob@itcr.ac.cr">tob@itcr.ac.cr</a></li>
+                    <li><a href="mailto:administracion@tobcr.com">administracion@tobcr.com</a></li>
                     <li class="footer-address" data-i18n="hack_footer_address">Centro de las Artes,<br>TEC, Cartago</li>
                 </ul>
             </div>
@@ -764,9 +745,9 @@
         </div>
     </footer>
 
-    <script src="/main/lang.js"></script>
-    <script src="/main/script.js"></script>
-    <script src="/hackatob/app.js"></script>
+    <script src="../main/lang.js"></script>
+    <script src="../main/script.js"></script>
+    <script src="app.js"></script>
 </body>
 
 </html>

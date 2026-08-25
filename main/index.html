@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToB - Technology On Business</title>
-    <link rel="icon" type="image/webp" href="/imagenes/Miniatura/Miniatura.webp">
-    <link rel="stylesheet" href="/main/style.css?v=2">
+    <link rel="icon" type="image/webp" href="../imagenes/Miniatura/Miniatura.webp">
+    <link rel="stylesheet" href="style.css?v=2">
 </head>
 
 <body>
@@ -137,8 +137,6 @@
 
     <!-- Hero Section -->
     <header class="hero" id="hero">
-        <!-- Canvas de Lluvia (Efecto exclusivo del Hero) -->
-        <canvas id="heroRainCanvas" class="hero-rain-canvas" aria-hidden="true"></canvas>
 
         <div class="hero-content">
             <!-- Eyebrow (ocultar con display:none en CSS si no convence visualmente) -->
@@ -496,10 +494,7 @@
             <!-- FILA 2: Movimiento hacia la Derecha -->
             <div class="sponsors-marquee marquee-right">
                 <div class="sponsors-track">
-                    <!-- Set 2 (patrocinadores 07-12) -->
-                    <a href="https://crtechgaming.com/" target="_blank" rel="noopener"><img
-                            src="../imagenes/patrocinadores/patrocinador07.webp" alt="Microsoft" class="sponsor-logo"
-                            loading="lazy" width="200" height="200"></a>
+                    <!-- Set 2 (patrocinadores 08-12) -->
                     <a href="https://www.equifax.com" target="_blank" rel="noopener"><img
                             src="../imagenes/patrocinadores/patrocinador08.webp" alt="Equifax" class="sponsor-logo"
                             loading="lazy" width="697" height="344"></a>
@@ -515,9 +510,6 @@
                             class="sponsor-logo" loading="lazy" width="1198" height="400"></a>
 
                     <!-- Duplicado del Set 2 para el loop infinito -->
-                    <a href="https://crtechgaming.com/" target="_blank" rel="noopener"><img
-                            src="../imagenes/patrocinadores/patrocinador07.webp" alt="Microsoft" class="sponsor-logo"
-                            loading="lazy" width="200" height="200"></a>
                     <a href="https://www.equifax.com" target="_blank" rel="noopener"><img
                             src="../imagenes/patrocinadores/patrocinador08.webp" alt="Equifax" class="sponsor-logo"
                             loading="lazy" width="697" height="344"></a>
@@ -607,16 +599,16 @@
                     </div>
                 </div>
 
-                <!-- Sponsor 3: CR Tech -->
+                <!-- Sponsor 3: Rainforest Adventures -->
                 <div class="main-sponsor-item">
                     <div class="main-sponsor-card">
                         <div class="main-sponsor-glow"></div>
-                        <img src="../imagenes/patrocinadores/sponsors/crtech.webp" alt="CR Tech"
-                            class="main-sponsor-img" loading="lazy" width="200" height="200">
+                        <img src="../imagenes/patrocinadores/sponsors/imagen03.webp" alt="Rainforest Adventures"
+                            class="main-sponsor-img" loading="lazy" width="600" height="300">
                     </div>
                     <div class="main-sponsor-socials">
-                        <a href="https://www.instagram.com/crtech_store/" target="_blank" rel="noopener"
-                            class="sponsor-social-btn instagram" aria-label="Instagram CR Tech">
+                        <a href="https://www.instagram.com/rainforestadventurescr/" target="_blank" rel="noopener"
+                            class="sponsor-social-btn instagram" aria-label="Instagram Rainforest Adventures">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
@@ -624,8 +616,8 @@
                                 <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                             </svg>
                         </a>
-                        <a href="https://crtechgaming.com/" target="_blank" rel="noopener"
-                            class="sponsor-social-btn website" aria-label="Sitio Web CR Tech">
+                        <a href="https://rainforestadventure.com/" target="_blank" rel="noopener"
+                            class="sponsor-social-btn website" aria-label="Sitio Web Rainforest Adventures">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                                 stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="10"></circle>
@@ -793,21 +785,6 @@
 
         </div>
 
-        <!-- Mascota Tiburón arrimada a la derecha con Burbuja de Diálogo -->
-        <div class="hero-mascot-dock">
-            <div class="mascot-speech-bubble">
-                <button class="bubble-close-btn" aria-label="Cerrar mensaje">&times;</button>
-                <span class="bubble-tag" data-i18n="mascot_speakers_tag">
-                    <svg class="weather-icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#21d0ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/><line x1="8" y1="19" x2="8" y2="22"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="16" y1="19" x2="16" y2="22"/></svg>
-                    AVISO DEL TIBURÓN TOB
-                </span>
-                <p class="bubble-text" data-i18n="mascot_speakers_msg">Los speakers también se mojaron, nueva fecha en camino.</p>
-                <div class="bubble-tail"></div>
-            </div>
-            <div class="mascot-shark-figure">
-                <img src="../imagenes/mascotas/tiburon.webp" alt="Mascota Tiburón ToB" class="floating-shark-img" width="170" height="220">
-            </div>
-        </div>
 
         <div class="speakers-grid" id="speakersGrid">
             <!-- Las tarjetas de los speakers se inyectarán aquí vía JS -->
@@ -943,7 +920,7 @@
             <div class="footer-col">
                 <h4 class="footer-title" data-i18n="footer_contact">Contacto</h4>
                 <ul class="footer-links">
-                    <li><a href="mailto:tob@itcr.ac.cr">tob@itcr.ac.cr</a></li>
+                    <li><a href="mailto:administracion@tobcr.com">administracion@tobcr.com</a></li>
                     <li><a href="tel:+50670880176">+506 7088 0176</a></li>
                     <li class="footer-address" data-i18n="footer_address">Centro de las Artes,<br>TEC, Cartago</li>
                 </ul>
@@ -1083,8 +1060,8 @@
         </div>
     </div>
 
-    <script src="/main/lang.js"></script>
-    <script src="/main/script.js"></script>
+    <script src="lang.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>
