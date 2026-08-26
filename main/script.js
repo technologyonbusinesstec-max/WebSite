@@ -563,17 +563,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // HOVER 3D SPEAKERS (Existente)
-    const speakerCards = document.querySelectorAll('.speaker-card-inner');
-    speakerCards.forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            card.style.transform = 'rotateY(180deg)';
-        });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateY(0deg)';
-        });
-    });
-
     // BACK TO TOP (FOOTER)
     const scrollTopBtn = document.getElementById('scrollTopBtn');
     if (scrollTopBtn) {
@@ -590,7 +579,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { foto: "../imagenes/speakers/speaker01.webp", nombre: "Pedro Gutiérrez", puesto: "Avify", descripcion: "CEO de Avify. Compartirá el camino de construir una startup.", linkedin: "https://www.linkedin.com/in/peter-gg/", instagram: "#", charla: "Empresa de 0 a 1M" },
         { foto: "../imagenes/speakers/speaker02.webp", nombre: "Tamara Sancho", puesto: "P&G", descripcion: "Transformando el miedo en una herramienta de crecimiento profesional.", linkedin: "https://www.linkedin.com/in/tamarajudit/", instagram: "#", charla: "Extraordinary Fears" },
         { foto: "../imagenes/speakers/speaker03.webp", nombre: "Pilar Sánchez", puesto: "Avify", descripcion: "Líder de la industria compartiendo su visión en resiliencia.", linkedin: "https://www.linkedin.com/in/tamarajudit/?locale=Pilar%20S%C3%A1nchez%20Avify", instagram: "#", charla: "Panel Mujeres en Tech" },
-        { foto: "../imagenes/speakers/speaker11.webp", nombre: "Wendy Badilla", puesto: "Microsoft", descripcion: "Experta de Microsoft enfocada en empoderamiento femenino en STEM.", linkedin: "https://www.linkedin.com/in/wendy-badilla-225630a0/", instagram: "#", charla: "Panel Mujeres en Tech" },
+        { foto: "../imagenes/speakers/speaker04.webp", nombre: "Wendy Badilla", puesto: "Microsoft", descripcion: "Experta de Microsoft enfocada en empoderamiento femenino en STEM.", linkedin: "https://www.linkedin.com/in/wendy-badilla-225630a0/", instagram: "#", charla: "Panel Mujeres en Tech" },
         { foto: "../imagenes/speakers/speaker05.webp", nombre: "Aaron Omodeo", puesto: "Doji Club", descripcion: "Especialista en finanzas prácticas y toma de decisiones de inversión.", linkedin: "https://www.linkedin.com/in/aaron-omodeo/", instagram: "#", charla: "Finanzas personales en inversiones" },
         { foto: "../imagenes/speakers/speaker12.webp", nombre: "Diego Loud", puesto: "Loud", descripcion: "Estrategias de mercadeo para conectar con audiencias saturadas.", linkedin: "https://www.linkedin.com/in/diegomartinezj/", instagram: "#", charla: "Mercadeo en la era digital" },
         { foto: "../imagenes/speakers/speaker07.webp", nombre: "María José Artavia", puesto: "Directora", descripcion: "Directora dando apertura oficial a TOB-ATI 2026.", linkedin: "#", instagram: "#", charla: "Inauguración" },
@@ -601,68 +590,29 @@ document.addEventListener('DOMContentLoaded', () => {
         { foto: "../imagenes/speakers/speaker13.webp", nombre: "Ronald Arce", puesto: "INCAE", descripcion: "Cómo la IA está redefiniendo los modelos de negocio.", linkedin: "#", instagram: "#", charla: "IA" }
     ];
 
-    // Paleta de colores derivados de la marca para las tarjetas
-    const speakerColors = [
-        '#0474C4', // --color-primary
-        '#06457F', // --color-primary-dark
-        '#5379AE', // --color-secondary
-        '#2C444C', // --color-dark-teal
-        '#21d0ff', // cyan
-        '#09095d'  // azul profundo (usado en marquee)
-    ];
-
     const speakersGrid = document.getElementById('speakersGrid');
     const btnMoreSpeakers = document.getElementById('btn-more-speakers');
-    let isShowingAll = false;
 
     function renderSpeakerCard(speaker, index, isHidden = false) {
-        const colorIndex = index % speakerColors.length;
-        let bgColor = speakerColors[colorIndex];
-        // Para colores muy claros como el cyan, oscurecer el texto para mejor contraste
-        const isLightBg = bgColor === '#21d0ff';
-        const textColorStr = isLightBg ? 'color: #0b0e14;' : '';
-        const roleColorStr = isLightBg ? 'color: rgba(11, 14, 20, 0.85);' : '';
-        const btnBgColor = isLightBg ? '#0b0e14' : '#ffffff';
-        const btnTextColor = isLightBg ? '#ffffff' : 'var(--color-background)';
-
         const hiddenClass = isHidden ? 'style="display:none;"' : '';
         const i18nId = String(index + 1).padStart(2, '0');
+
         return `
-            <div class="speaker-card" data-index="${index}" ${hiddenClass}>
-                <div class="speaker-inner">
-                    <!-- Frente -->
-                    <div class="speaker-front" style="--speaker-color: ${bgColor};">
-                        <div class="speaker-photo-wrapper">
-                            <img src="${speaker.foto}" alt="${speaker.nombre}" class="speaker-photo">
-                        </div>
-                        <div class="speaker-info" style="${textColorStr}">
-                            <h3 class="speaker-name" data-i18n="speaker_${i18nId}_name">${speaker.nombre}</h3>
-                            <p class="speaker-role" style="${roleColorStr}" data-i18n="speaker_${i18nId}_role">${speaker.puesto}</p>
-                        </div>
-                    </div>
-                    <!-- Reverso -->
-                    <div class="speaker-back" style="--speaker-color: ${bgColor}; ${textColorStr}">
-                        <h3 class="speaker-name" data-i18n="speaker_${i18nId}_name">${speaker.nombre}</h3>
-                        <p class="speaker-role" style="${roleColorStr}" data-i18n="speaker_${i18nId}_role">${speaker.puesto}</p>
-                        <p class="speaker-bio" style="${roleColorStr}" data-i18n="speaker_${i18nId}_bio">${speaker.descripcion}</p>
-                        <p class="speaker-talk" style="${textColorStr}">
-                            <span style="${roleColorStr}">Charla:</span>
-                            <span data-i18n="speaker_${i18nId}_charla">${speaker.charla}</span>
-                        </p>
-                        <div class="speaker-socials">
-                            ${speaker.linkedin && speaker.linkedin !== "#" ? `
-                            <a href="${speaker.linkedin}" target="_blank" rel="noopener noreferrer" class="social-link" style="background: ${isLightBg ? 'rgba(0,0,0,0.1)' : ''}; color: ${isLightBg ? '#0b0e14' : '#fff'}">
-                                <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
-                            </a>` : ''}
-                            ${speaker.instagram && speaker.instagram !== "#" ? `
-                            <a href="${speaker.instagram}" target="_blank" rel="noopener noreferrer" class="social-link" style="background: ${isLightBg ? 'rgba(0,0,0,0.1)' : ''}; color: ${isLightBg ? '#0b0e14' : '#fff'}">
-                                <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
-                            </a>` : ''}
-                        </div>
-                    </div>
+            <div class="speaker-simple-card" data-index="${index}" ${hiddenClass}>
+                <div class="speaker-avatar-wrap">
+                    <img src="${speaker.foto}" alt="${speaker.nombre}" class="speaker-avatar" loading="lazy">
                 </div>
+                <h3 class="speaker-simple-name" data-i18n="speaker_${i18nId}_name">${speaker.nombre}</h3>
+                <p class="speaker-simple-role" data-i18n="speaker_${i18nId}_role">${speaker.puesto}</p>
             </div>
         `;
+    }
+
+    if (speakersGrid) {
+        // Generar HTML, mostrando 6 tarjetas en la página principal
+        const showAll = speakersGrid.hasAttribute('data-show-all');
+        const cardsHTML = speakersData.map((sp, i) => renderSpeakerCard(sp, i, showAll ? false : i >= 6)).join('');
+        speakersGrid.innerHTML = cardsHTML;
     }
 
     if (speakersGrid) {
