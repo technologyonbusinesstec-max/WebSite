@@ -1,0 +1,1393 @@
+---
+// src/pages/hackatob.astro
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="HackaToB 2026 – Technology on Business" description="El Hackathon oficial del congreso Technology on Business." hideNavbar={true} hideFooter={true}>
+
+  <!-- ───── NAVBAR HACKATOB ───── -->
+  <nav class="hack-navbar" id="hackNavbar">
+    <div class="hack-navbar-left">
+      <a href="/" class="hack-back-btn">&larr; Volver al ToB</a>
+    </div>
+    <div class="hack-navbar-center">
+      <a href="#premios" class="hack-nav-link">Premios</a>
+      <a href="#tracks" class="hack-nav-link">Tracks</a>
+      <a href="#sedes" class="hack-nav-link">Sedes</a>
+      <a href="#agenda-preview" class="hack-nav-link hack-nav-link-gold">Agenda</a>
+      <a href="#mentores" class="hack-nav-link">Mentores</a>
+      <a href="#sponsors" class="hack-nav-link">Sponsors</a>
+      <a href="#faq" class="hack-nav-link">FAQ</a>
+    </div>
+    <div class="hack-navbar-right">
+      <div class="hack-lang-selector" id="hackLangToggle">
+        <span class="hack-lang-text active">ES</span>
+        <span class="hack-lang-text">EN</span>
+      </div>
+      <a href="https://techrebel.io/" target="_blank" rel="noopener noreferrer" class="hack-participate-btn">Participar</a>
+      <button class="hack-menu-toggle" id="hackMenuToggle" aria-label="Menú">
+        <span class="hack-hamburger"></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Menú Móvil HackaToB -->
+  <div class="hack-mobile-nav" id="hackMobileNav">
+    <a href="/" class="hack-mobile-link" style="color: #21d0ff; font-weight: bold;">&larr; Volver al ToB</a>
+    <a href="#premios" class="hack-mobile-link">Premios</a>
+    <a href="#tracks" class="hack-mobile-link">Tracks</a>
+    <a href="#sedes" class="hack-mobile-link">Sedes</a>
+    <a href="#agenda-preview" class="hack-mobile-link" style="color: #ffd700;">Agenda</a>
+    <a href="#mentores" class="hack-mobile-link">Mentores</a>
+    <a href="#sponsors" class="hack-mobile-link">Sponsors</a>
+    <a href="#faq" class="hack-mobile-link">FAQ</a>
+    <div class="hack-mobile-actions" style="margin-top: 10px;">
+      <a href="https://techrebel.io/" target="_blank" rel="noopener noreferrer" class="hack-participate-btn" style="display: block; text-align: center; width: 100%;">Participar</a>
+    </div>
+  </div>
+
+  <!-- ───── HERO ───── -->
+  <section class="hackathon-hero">
+    <div class="hackathon-hero-container">
+      <div class="hackathon-hero-content-left">
+        <p class="hero-eyebrow">TECHNOLOGY ON BUSINESS</p>
+        <h1 class="hero-title hackatob-hero-title">
+          <span class="htitle-white">Hacka</span><br>
+          <span class="htitle-cyan">ToB</span><br>
+          <span class="htitle-cyan">2026</span>
+        </h1>
+        <div class="hero-rotator" aria-live="polite">
+          <span class="rotator-phrase entering" id="hackRotatorPhrase">Convierte ideas en soluciones</span>
+        </div>
+        <a href="https://techrebel.io/" target="_blank" rel="noopener noreferrer" class="hack-hero-cta">Quiero participar</a>
+      </div>
+      <div class="hackathon-hero-content-right">
+        <img src="/imagenes/hackatob/spark.webp" alt="Mascota Spark" class="hackatob-mascot" id="mascotSpark">
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── MÉTRICAS ───── -->
+  <section class="hackatob-metrics-section">
+    <div class="metrics-container">
+      <h2 class="metrics-title">La escala de la primera<br>edición.</h2>
+      <div class="metrics-grid">
+        <div class="metric-card" style="--card-bg: url('/imagenes/hackatob/indicador01.webp');">
+          <span class="metric-number" data-target="80" data-prefix="">0</span>
+          <span class="metric-label">Estudiantes esperados</span>
+        </div>
+        <div class="metric-card" style="--card-bg: url('/imagenes/hackatob/indicador02webp.jpeg');">
+          <span class="metric-number" data-target="15" data-prefix="+">0</span>
+          <span class="metric-label">Proyectos</span>
+        </div>
+        <div class="metric-card" style="--card-bg: url('/imagenes/hackatob/indicador03.webp');">
+          <span class="metric-number" data-target="3" data-prefix="">0</span>
+          <span class="metric-label">Tracks</span>
+        </div>
+        <div class="metric-card" style="--card-bg: url('/imagenes/hackatob/indicador04.webp');">
+          <span class="metric-number" data-target="15" data-prefix="">0</span>
+          <span class="metric-label">Mentores</span>
+        </div>
+        <div class="metric-card" style="--card-bg: url('/imagenes/hackatob/indicadores05.webp');">
+          <span class="metric-number" data-target="5" data-prefix="">0</span>
+          <span class="metric-label">Jueces Demo Day</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── PREMIOS ───── -->
+  <section id="premios" class="hackatob-prizes-section">
+    <div class="prizes-container">
+      <div class="prizes-header">
+        <span class="prizes-eyebrow">PREMIOS</span>
+        <h2 class="prizes-title">Trofeos, experiencias y<br>reconocimiento.</h2>
+      </div>
+      <div class="prizes-grid">
+        <!-- Segundo Lugar -->
+        <div class="prize-card-container">
+          <div class="prize-card-inner prize-second">
+            <div class="prize-card-front">
+              <div class="prize-medal-wrapper">
+                <div class="prize-medal medal-silver"><span class="medal-num">2</span></div>
+              </div>
+              <span class="prize-rank">SEGUNDO LUGAR</span>
+              <h3 class="prize-amount">Premio Plata</h3>
+              <p class="prize-desc">Reconocimiento oficial y trofeo conmemorativo para el segundo lugar del Demo Day.</p>
+              <div class="prize-flip-hint">
+                <span>Ver detalles</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+            </div>
+            <div class="prize-card-back">
+              <span class="prize-rank">BENEFICIOS 2° LUGAR</span>
+              <h4 class="prize-back-title">Premio Plata</h4>
+              <ul class="prize-back-list">
+                <li>Trofeo conmemorativo Top 3</li>
+                <li>Exposición en la página oficial</li>
+                <li>Magneto + Certificado de participación</li>
+                <li>Acceso a workshops y mentorías</li>
+              </ul>
+              <div class="prize-flip-hint">
+                <span>Volver al frente</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Primer Lugar -->
+        <div class="prize-card-container">
+          <div class="prize-card-inner prize-first">
+            <div class="prize-card-front">
+              <div class="prize-medal-wrapper">
+                <div class="prize-medal medal-gold"><span class="medal-num">1</span></div>
+              </div>
+              <span class="prize-rank">PRIMER LUGAR</span>
+              <h3 class="prize-amount">Rainforest Adventures</h3>
+              <p class="prize-desc">2 entradas dobles a Rainforest Adventures (canopy o teleférico) + trofeos de campeones.</p>
+              <div class="prize-flip-hint">
+                <span>Ver detalles</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+            </div>
+            <div class="prize-card-back">
+              <span class="prize-rank">BENEFICIOS 1° LUGAR</span>
+              <h4 class="prize-back-title">Gran Ganador ToB</h4>
+              <ul class="prize-back-list">
+                <li>2 Entradas dobles a Rainforest Adventures</li>
+                <li>Trofeos individuales de Campeones</li>
+                <li>Exposición destacada de proyecto</li>
+                <li>Formación y mentoría exclusiva WWT</li>
+                <li>Magneto + Certificado de participación</li>
+              </ul>
+              <div class="prize-flip-hint">
+                <span>Volver al frente</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tercer Lugar -->
+        <div class="prize-card-container">
+          <div class="prize-card-inner prize-third">
+            <div class="prize-card-front">
+              <div class="prize-medal-wrapper">
+                <div class="prize-medal medal-bronze"><span class="medal-num">3</span></div>
+              </div>
+              <span class="prize-rank">TERCER LUGAR</span>
+              <h3 class="prize-amount">Premio Bronce</h3>
+              <p class="prize-desc">Reconocimiento oficial y trofeo conmemorativo para el tercer lugar del Demo Day.</p>
+              <div class="prize-flip-hint">
+                <span>Ver detalles</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+            </div>
+            <div class="prize-card-back">
+              <span class="prize-rank">BENEFICIOS 3° LUGAR</span>
+              <h4 class="prize-back-title">Premio Bronce</h4>
+              <ul class="prize-back-list">
+                <li>Trofeo conmemorativo Top 3</li>
+                <li>Exposición en la página oficial</li>
+                <li>Magneto + Certificado de participación</li>
+                <li>Acceso a workshops y formación</li>
+              </ul>
+              <div class="prize-flip-hint">
+                <span>Volver al frente</span>
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── MARQUEE DIVISOR ───── -->
+  <div class="divider-marquee hackatob-divider-marquee">
+    <div class="marquee-stripe marquee-1">
+      <div class="marquee-track track-left">
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+      </div>
+    </div>
+    <div class="marquee-stripe marquee-2">
+      <div class="marquee-track track-right">
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+        <span class="marquee-text">HACKATOB <span class="text-cyan">✦</span> FUTURO <span class="text-cyan">✦</span> EMPRENDIMIENTO <span class="text-cyan">✦</span> IMPACTO <span class="text-cyan">✦</span> COMPETENCIA <span class="text-cyan">✦</span> APRENDIZAJE <span class="text-cyan">✦</span> </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ───── TRACKS ───── -->
+  <section id="tracks" class="hackatob-tracks-section">
+    <div class="tracks-container">
+      <div class="tracks-header">
+        <span class="tracks-eyebrow">TEMAS</span>
+        <h2 class="tracks-title">Tres tracks. Tres Sparks.</h2>
+      </div>
+      <div class="tracks-grid">
+        <!-- Track 1: GreenTrack -->
+        <a href="https://www.bbva.com/es/sostenibilidad/inteligencia-artificial-y-sostenibilidad-casos-de-exito-y-soluciones-reales/" target="_blank" rel="noopener noreferrer" class="track-card track-green">
+          <div class="track-hover-bg" style="background-image: url('/imagenes/hackatob/track01.webp');"></div>
+          <div class="track-hover-overlay"></div>
+          <div class="track-card-image">
+            <img src="/imagenes/hackatob/spark-green.png" alt="Spark GreenTrack" class="track-spark-img">
+          </div>
+          <div class="track-card-content">
+            <span class="track-tag">GT · GreenTrack</span>
+            <h3 class="track-name">GreenTrack</h3>
+            <h4 class="track-punchline">Innovación para un futuro sostenible</h4>
+            <p class="track-desc">Soluciones ambientales relacionadas con sostenibilidad, agricultura, residuos, comunidades y recursos naturales.</p>
+            <div class="track-badges">
+              <span class="track-badge">Biodiversidad</span>
+              <span class="track-badge">Agua</span>
+              <span class="track-badge">Energía</span>
+              <span class="track-badge">Residuos</span>
+              <span class="track-badge">Economía circular</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Track 2: FinTrack -->
+        <a href="https://es.weforum.org/stories/2025/12/asi-es-la-nueva-frontera-de-la-inclusion-financiera-impulsada-por-la-ia/" target="_blank" rel="noopener noreferrer" class="track-card track-orange">
+          <div class="track-hover-bg" style="background-image: url('/imagenes/hackatob/track02.webp');"></div>
+          <div class="track-hover-overlay"></div>
+          <div class="track-card-image">
+            <img src="/imagenes/hackatob/spark-fin.png" alt="Spark FinTrack" class="track-spark-img">
+          </div>
+          <div class="track-card-content">
+            <span class="track-tag">FT · FinTrack</span>
+            <h3 class="track-name">FinTrack</h3>
+            <h4 class="track-punchline">Soluciones para una economía más accesible</h4>
+            <p class="track-desc">Soluciones financieras, fintech, transparencia, educación e inclusión económica.</p>
+            <div class="track-badges">
+              <span class="track-badge">Inclusión</span>
+              <span class="track-badge">Pagos</span>
+              <span class="track-badge">Pymes</span>
+              <span class="track-badge">Educación financiera</span>
+              <span class="track-badge">Ciberseguridad</span>
+            </div>
+          </div>
+        </a>
+
+        <!-- Track 3: The Next Big Thing -->
+        <a href="https://fi.co/insight/the-solocorn-phenomenon-is-happening-now" target="_blank" rel="noopener noreferrer" class="track-card track-purple">
+          <div class="track-hover-bg" style="background-image: url('/imagenes/hackatob/track03.webp');"></div>
+          <div class="track-hover-overlay"></div>
+          <div class="track-card-image">
+            <img src="/imagenes/hackatob/estrella.png" alt="Spark The Next Big Thing" class="track-spark-img">
+          </div>
+          <div class="track-card-content">
+            <span class="track-tag">TNBT · The Next Big Thing</span>
+            <h3 class="track-name">The Next Big Thing</h3>
+            <h4 class="track-punchline">Construye lo que todavía no existe</h4>
+            <p class="track-desc">Soluciones abiertas con alto potencial de impacto, crecimiento o disrupción.</p>
+            <div class="track-badges">
+              <span class="track-badge">IA</span>
+              <span class="track-badge">Automatización</span>
+              <span class="track-badge">Blockchain</span>
+              <span class="track-badge">Nuevos modelos</span>
+              <span class="track-badge">Alto crecimiento</span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── SEDES ───── -->
+  <section id="sedes" class="hackatob-sedes-section">
+    <div class="sedes-container">
+      <div class="sedes-header">
+        <span class="sedes-eyebrow">DÓNDE OCURRE</span>
+        <h2 class="sedes-title">EmprendeLab.</h2>
+      </div>
+      <div class="sedes-grid single-sede">
+        <div class="sede-card">
+          <div class="sede-img-wrapper">
+            <img src="/imagenes/hackatob/emprende.webp" alt="EmprendeLab" class="sede-img">
+          </div>
+          <div class="sede-body">
+            <h3 class="sede-name">EmprendeLab</h3>
+            <p class="sede-role-tag">Sede Oficial · TEC Cartago</p>
+            <div class="sede-badges">
+              <span class="sede-badge">Día 1</span>
+              <span class="sede-badge">Día 2</span>
+              <span class="sede-badge">Día 3</span>
+              <span class="sede-badge">Día 4</span>
+            </div>
+            <a href="https://www.google.com/maps/place/TEC+Emprende+Lab/" target="_blank" rel="noopener noreferrer" class="sede-maps-btn">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2a8 8 0 0 0-8 8c0 5.25 8 12 8 12s8-6.75 8-12a8 8 0 0 0-8-8z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+              <span>Cómo llegar</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── AGENDA PREVIEW ───── -->
+  <section id="agenda-preview" class="hackatob-schedule-preview-section">
+    <div class="hackatob-section-header">
+      <h2 class="hackatob-section-title">Programa &amp; <span class="text-cyan">Agenda</span></h2>
+      <p class="hackatob-section-subtitle">Descubre el cronograma completo día por día, workshops, mentorías y entregables.</p>
+    </div>
+    <div class="agenda-preview-card">
+      <div class="agenda-preview-glow"></div>
+      <div class="agenda-preview-days-grid">
+        <div class="agenda-mini-day">
+          <span class="mini-day-pill">Día 1</span>
+          <h4>Día 1: PreHackaToB</h4>
+          <p>Ideación, retos y formación de equipos en EmprendeLab.</p>
+        </div>
+        <div class="agenda-mini-day">
+          <span class="mini-day-pill">Día 2</span>
+          <h4>Día 2: Dev Day I</h4>
+          <p>Desarrollo técnico, arquitectura y mentorías especializadas.</p>
+        </div>
+        <div class="agenda-mini-day">
+          <span class="mini-day-pill">Día 3</span>
+          <h4>Día 3: Dev Day II</h4>
+          <p>Prototipado final, validación y entrega digital 23:59.</p>
+        </div>
+        <div class="agenda-mini-day highlight-gold">
+          <span class="mini-day-pill gold-pill">Día 4</span>
+          <h4>Día 4: Demo Day</h4>
+          <p>Pitches ante jurado, evaluación en vivo y premiación.</p>
+        </div>
+      </div>
+      <div class="agenda-preview-cta">
+        <a href="/programa" class="btn btn-gold-agenda">
+          <span>Ver Programa del Evento</span>
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── SPONSORS / PARTNERS ───── -->
+  <section id="sponsors" class="sponsors-section hackatob-sponsors-section">
+    <h3 class="main-sponsors-title">Partners HackaToB</h3>
+    <div class="hackatob-platform-badge-container">
+      <span class="platform-label">Plataforma del hackathon:</span>
+      <a href="https://techrebel.io/" target="_blank" rel="noopener noreferrer" class="techrebel-badge-btn">
+        <span>TechRebel</span>
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/>
+          <line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>
+    </div>
+    <div class="sponsors-marquee-wrapper">
+      <div class="sponsors-marquee marquee-left">
+        <div class="sponsors-track">
+          <a href="#" class="partner-logo-link" aria-label="Partner 1">
+            <img src="/imagenes/hackatob/partner01.webp" alt="Partner 01" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 2">
+            <img src="/imagenes/hackatob/partner02.webp" alt="Partner 02" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 3">
+            <img src="/imagenes/hackatob/partner03.webp" alt="Partner 03" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 4">
+            <img src="/imagenes/hackatob/partner04.webp" alt="Partner 04" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 6">
+            <img src="/imagenes/hackatob/partner06.webp" alt="Partner 06" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <!-- Duplicado loop -->
+          <a href="#" class="partner-logo-link" aria-label="Partner 1">
+            <img src="/imagenes/hackatob/partner01.webp" alt="Partner 01" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 2">
+            <img src="/imagenes/hackatob/partner02.webp" alt="Partner 02" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 3">
+            <img src="/imagenes/hackatob/partner03.webp" alt="Partner 03" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 4">
+            <img src="/imagenes/hackatob/partner04.webp" alt="Partner 04" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+          <a href="#" class="partner-logo-link" aria-label="Partner 6">
+            <img src="/imagenes/hackatob/partner06.webp" alt="Partner 06" class="sponsor-logo" loading="lazy" width="220" height="100" onerror="this.style.display='none'">
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="main-sponsors-section">
+      <h3 class="main-sponsors-title">Sponsors</h3>
+      <p class="main-sponsors-text">Impulsando la innovación, el desarrollo de talento y la disrupción tecnológica en el HackaToB 2026.</p>
+      <div class="main-sponsors-showcase">
+        <div class="main-sponsor-item">
+          <div class="main-sponsor-card">
+            <div class="main-sponsor-glow"></div>
+            <img src="/imagenes/hackatob/sponsors/sponsor01.webp" alt="Sponsor HackaToB 01" class="main-sponsor-img" loading="lazy" width="600" height="300" onerror="this.style.display='none'">
+          </div>
+          <div class="main-sponsor-socials">
+            <a href="https://www.instagram.com/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram Sponsor 1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://www.linkedin.com/" target="_blank" rel="noopener" class="sponsor-social-btn linkedin" aria-label="LinkedIn Sponsor 1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+        <div class="main-sponsor-item">
+          <div class="main-sponsor-card">
+            <div class="main-sponsor-glow"></div>
+            <img src="/imagenes/hackatob/sponsors/sponsor02.webp" alt="Sponsor HackaToB 02" class="main-sponsor-img" loading="lazy" width="600" height="300" onerror="this.style.display='none'">
+          </div>
+          <div class="main-sponsor-socials">
+            <a href="https://www.instagram.com/rainforestadventurescr/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram Rainforest Adventures">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───── FAQ ───── -->
+  <section id="faq" class="hackatob-section hackatob-faq-section" aria-label="Preguntas Frecuentes">
+    <div class="hackatob-section-header">
+      <h2 class="hackatob-section-title">Preguntas <span class="text-cyan">Frecuentes</span></h2>
+      <p class="hackatob-section-subtitle">Todo lo que necesitas saber antes de despegar en el HackaToB 2026.</p>
+    </div>
+    <div class="faq-deck-wrapper" id="faqDeckWrapper" tabindex="0" role="region" aria-label="Tarjetas de preguntas frecuentes">
+      <div class="faq-stack-container" id="faqStackContainer">
+        <article class="faq-stack-card" data-index="0" role="group" aria-label="Pregunta 1 de 6">
+          <div class="faq-card-glow"></div>
+          <div class="faq-card-topbar"><span class="faq-card-badge"><span class="faq-badge-pulse"></span> PARTICIPACIÓN</span></div>
+          <div class="faq-card-body">
+            <h3 class="faq-card-question">¿Quién puede participar?</h3>
+            <p class="faq-card-answer">Estudiantes de todas las carreras, universidades y colegios/escuelas. No necesitas un proyecto terminado ni ser de una carrera tecnológica.</p>
+          </div>
+          <div class="faq-card-bottom"><span class="faq-drag-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>Arrastra para descartar</span></div>
+        </article>
+        <article class="faq-stack-card" data-index="1" role="group" aria-label="Pregunta 2 de 6">
+          <div class="faq-card-glow"></div>
+          <div class="faq-card-topbar"><span class="faq-card-badge"><span class="faq-badge-pulse"></span> EQUIPOS</span></div>
+          <div class="faq-card-body">
+            <h3 class="faq-card-question">¿Necesito equipo?</h3>
+            <p class="faq-card-answer">No. Puedes postularte individualmente; habrá integración de equipos en el PreHackaToB. Máximo 4 personas por equipo.</p>
+          </div>
+          <div class="faq-card-bottom"><span class="faq-drag-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>Arrastra para descartar</span></div>
+        </article>
+        <article class="faq-stack-card" data-index="2" role="group" aria-label="Pregunta 3 de 6">
+          <div class="faq-card-glow"></div>
+          <div class="faq-card-topbar"><span class="faq-card-badge"><span class="faq-badge-pulse"></span> PERFIL</span></div>
+          <div class="faq-card-body">
+            <h3 class="faq-card-question">¿Necesito saber programar?</h3>
+            <p class="faq-card-answer">No. Se valoran equipos interdisciplinarios: tecnología, UX/UI, producto, negocio e impacto.</p>
+          </div>
+          <div class="faq-card-bottom"><span class="faq-drag-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>Arrastra para descartar</span></div>
+        </article>
+        <article class="faq-stack-card" data-index="3" role="group" aria-label="Pregunta 4 de 6">
+          <div class="faq-card-glow"></div>
+          <div class="faq-card-topbar"><span class="faq-card-badge"><span class="faq-badge-pulse"></span> PREHACKATOB</span></div>
+          <div class="faq-card-body">
+            <h3 class="faq-card-question">¿Qué es el PreHackaToB?</h3>
+            <p class="faq-card-answer">Es el Día 1 (lunes 17) en EmprendeLab: retos, equipos, ideación y workshops para llegar listos a los Dev Days.</p>
+          </div>
+          <div class="faq-card-bottom"><span class="faq-drag-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>Arrastra para descartar</span></div>
+        </article>
+        <article class="faq-stack-card" data-index="4" role="group" aria-label="Pregunta 5 de 6">
+          <div class="faq-card-glow"></div>
+          <div class="faq-card-topbar"><span class="faq-card-badge"><span class="faq-badge-pulse"></span> HORARIOS &amp; SEDES</span></div>
+          <div class="faq-card-body">
+            <h3 class="faq-card-question">¿Dónde y a qué horas?</h3>
+            <p class="faq-card-answer">Lun 17 · 9:00 a.m.–7:45 p.m. EmprendeLab · Mar–Mié 10:00 a.m.–2:00 p.m. EmprendeLab · Jue 20 Demo Day 8:00 a.m.–3:00 p.m. Auditorio CIC. Entrega digital miércoles 23:59.</p>
+          </div>
+          <div class="faq-card-bottom"><span class="faq-drag-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>Arrastra para descartar</span></div>
+        </article>
+        <article class="faq-stack-card" data-index="5" role="group" aria-label="Pregunta 6 de 6">
+          <div class="faq-card-glow"></div>
+          <div class="faq-card-topbar"><span class="faq-card-badge"><span class="faq-badge-pulse"></span> PREMIOS</span></div>
+          <div class="faq-card-body">
+            <h3 class="faq-card-question">¿Cuáles son los premios?</h3>
+            <p class="faq-card-answer">🥇 2 entradas dobles a Rainforest Adventures · 🥈 Premio Plata · 🥉 Premio Bronce. Top 3: trofeos + exposición en la página oficial. Todos: certificado digital de participación.</p>
+          </div>
+          <div class="faq-card-bottom"><span class="faq-drag-badge"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9l6 6-6 6"/><path d="M4 4v7a4 4 0 0 0 4 4h11"/></svg>Arrastra para descartar</span></div>
+        </article>
+      </div>
+      <div class="faq-deck-controls">
+        <button class="faq-ctrl-btn" id="faqPrevBtn" aria-label="Pregunta anterior">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <div class="faq-dots-wrapper" id="faqDotsWrapper" role="tablist" aria-label="Selector de tarjeta de pregunta"></div>
+        <button class="faq-ctrl-btn" id="faqNextBtn" aria-label="Siguiente pregunta">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Star Trail Canvas -->
+  <canvas id="globalStarCanvas" class="global-star-canvas" aria-hidden="true"></canvas>
+
+</Layout>
+
+<script>
+  // ─── Phrase Rotator ───
+  const phrases = [
+    'Convierte ideas en soluciones',
+    'Innova. Conecta. Transforma.',
+    'Construye el futuro.',
+    'Hack. Build. Launch.',
+    '4 días de aprendizaje',
+    'Instituto Tecnológico de Costa Rica'
+  ];
+  let pIdx = 0;
+  const phraseEl = document.getElementById('hackRotatorPhrase');
+  if (phraseEl) {
+    function showPhrase(idx: number) {
+      if (!phraseEl) return;
+      phraseEl.textContent = phrases[idx % phrases.length];
+      phraseEl.classList.remove('leaving');
+      void phraseEl.offsetWidth;
+      phraseEl.classList.add('entering');
+    }
+
+    function nextPhrase() {
+      if (!phraseEl) return;
+      phraseEl.classList.remove('entering');
+      phraseEl.classList.add('leaving');
+      setTimeout(() => {
+        pIdx = (pIdx + 1) % phrases.length;
+        showPhrase(pIdx);
+      }, 400);
+    }
+
+    showPhrase(0);
+    setInterval(nextPhrase, 3000);
+  }
+
+  // ─── Counter Animation ───
+  function animateCounters() {
+    document.querySelectorAll('.metric-number').forEach(el => {
+      const target = parseInt(el.dataset.target || '0', 10);
+      const prefix = el.dataset.prefix || '';
+      let current = 0;
+      const step = Math.ceil(target / 40);
+      const timer = setInterval(() => {
+        current = Math.min(current + step, target);
+        el.textContent = prefix + current;
+        if (current >= target) clearInterval(timer);
+      }, 40);
+    });
+  }
+  const metricsSection = document.querySelector('.hackatob-metrics-section');
+  if (metricsSection) {
+    const obs = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) { animateCounters(); obs.disconnect(); }
+    }, { threshold: 0.3 });
+    obs.observe(metricsSection);
+  }
+
+  // ─── Prize Card Flip ───
+  document.querySelectorAll('.prize-card-container').forEach(container => {
+    container.addEventListener('click', () => {
+      container.querySelector('.prize-card-inner')?.classList.toggle('flipped');
+    });
+  });
+
+  // ─── FAQ Stack ───
+  const cards = Array.from(document.querySelectorAll('.faq-stack-card'));
+  const dotsWrapper = document.getElementById('faqDotsWrapper');
+  const prevBtn = document.getElementById('faqPrevBtn');
+  const nextBtn = document.getElementById('faqNextBtn');
+  let currentFaq = 0;
+
+  function buildDots() {
+    if (!dotsWrapper) return;
+    dotsWrapper.innerHTML = '';
+    cards.forEach((_, i) => {
+      const dot = document.createElement('button');
+      dot.className = 'faq-dot' + (i === currentFaq ? ' active' : '');
+      dot.setAttribute('aria-label', `Pregunta ${i + 1}`);
+      dot.addEventListener('click', () => goToFaq(i));
+      dotsWrapper.appendChild(dot);
+    });
+  }
+
+  function goToFaq(idx: number) {
+    currentFaq = (idx + cards.length) % cards.length;
+    cards.forEach((card, i) => {
+      card.classList.remove('faq-active', 'faq-prev', 'faq-next');
+      const diff = i - currentFaq;
+      if (diff === 0) card.classList.add('faq-active');
+      else if (diff > 0 && diff <= 2) card.classList.add('faq-next');
+      else card.classList.add('faq-prev');
+      (card as HTMLElement).style.zIndex = String(cards.length - Math.abs(diff));
+    });
+    buildDots();
+  }
+
+  if (cards.length > 0) {
+    buildDots();
+    goToFaq(0);
+    prevBtn?.addEventListener('click', () => goToFaq(currentFaq - 1));
+    nextBtn?.addEventListener('click', () => goToFaq(currentFaq + 1));
+  }
+
+  // ─── Mobile Menu Toggle ───
+  const menuToggle = document.getElementById('hackMenuToggle');
+  const mobileNav = document.getElementById('hackMobileNav');
+  menuToggle?.addEventListener('click', () => {
+    mobileNav?.classList.toggle('open');
+  });
+
+  document.querySelectorAll('.hack-mobile-link').forEach(link => {
+    link.addEventListener('click', () => mobileNav?.classList.remove('open'));
+  });
+
+  // ─── Lang Selector ───
+  const langToggle = document.getElementById('hackLangToggle');
+  langToggle?.addEventListener('click', () => {
+    const texts = langToggle.querySelectorAll('.hack-lang-text');
+    texts.forEach(t => t.classList.toggle('active'));
+  });
+
+  // ─── Scroll Top ───
+  const scrollBtn = document.getElementById('scrollTopBtn');
+  if (scrollBtn) scrollBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+</script>
+
+<style>
+  /* ───── HACKATOB NAVBAR ───── */
+  .hack-navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 94%;
+    max-width: 1260px;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    z-index: 1000;
+    transition: all 0.3s ease;
+  }
+
+  .hack-navbar-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .hack-back-btn {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 18px rgba(30, 136, 229, 0.45);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .hack-back-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(30, 136, 229, 0.65);
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+  }
+
+  .hack-navbar-center {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    height: 48px;
+    background: rgba(10, 15, 29, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 50px;
+    padding: 0 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    box-shadow: inset 0 -1px 2px rgba(255, 255, 255, 0.05), 0 8px 32px rgba(0, 0, 0, 0.35);
+  }
+
+  .hack-nav-link {
+    text-decoration: none;
+    color: #a0aab8;
+    font-size: 0.92rem;
+    font-weight: 500;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .hack-nav-link:hover {
+    color: #ffffff;
+  }
+
+  .hack-nav-link-gold {
+    color: #FFD700 !important;
+    background: rgba(255, 215, 0, 0.12);
+    border: 1px solid rgba(255, 215, 0, 0.5) !important;
+    padding: 5px 16px !important;
+    border-radius: 20px;
+    font-weight: 700 !important;
+    font-size: 0.92rem;
+    white-space: nowrap;
+    box-shadow: 0 0 14px rgba(255, 215, 0, 0.3);
+    animation: goldGlowPulse 2.6s ease-in-out infinite;
+  }
+
+  .hack-nav-link-gold:hover {
+    background: rgba(255, 215, 0, 0.28);
+    border-color: #FFE600 !important;
+    color: #ffffff !important;
+    box-shadow: 0 0 22px rgba(255, 215, 0, 0.6);
+  }
+
+  @keyframes goldGlowPulse {
+    0%, 100% {
+      box-shadow: 0 0 12px rgba(255, 215, 0, 0.25);
+      border-color: rgba(255, 215, 0, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 22px rgba(255, 215, 0, 0.6), 0 0 30px rgba(255, 170, 0, 0.25);
+      border-color: #FFD700;
+    }
+  }
+
+  .hack-navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .hack-lang-selector {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    padding: 2px;
+    width: 66px;
+    height: 32px;
+    cursor: pointer;
+    justify-content: space-between;
+  }
+
+  .hack-lang-text {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #a0aab8;
+    z-index: 2;
+    width: 50%;
+    text-align: center;
+    user-select: none;
+    transition: color 0.3s;
+    line-height: 28px;
+  }
+
+  .hack-lang-text.active {
+    color: #0a0f1d;
+    background: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  }
+
+  .hack-participate-btn {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 8px 24px;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    white-space: nowrap;
+    box-shadow: 0 4px 18px rgba(30, 136, 229, 0.45);
+    transition: all 0.3s ease;
+  }
+
+  .hack-participate-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(30, 136, 229, 0.65);
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+  }
+
+  .hack-menu-toggle {
+    display: none;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+
+  .hack-hamburger {
+    display: block;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    position: relative;
+    transition: all 0.3s ease;
+  }
+
+  .hack-hamburger::before,
+  .hack-hamburger::after {
+    content: '';
+    position: absolute;
+    width: 24px;
+    height: 2px;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+
+  .hack-hamburger::before { top: -7px; }
+  .hack-hamburger::after { top: 7px; }
+
+  /* Mobile Drawer */
+  .hack-mobile-nav {
+    display: none;
+    position: fixed;
+    top: 85px;
+    left: 4%;
+    width: 92%;
+    background: rgba(10, 15, 29, 0.96);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 24px;
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    z-index: 999;
+    flex-direction: column;
+    gap: 16px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  }
+
+  .hack-mobile-nav.open {
+    display: flex;
+  }
+
+  .hack-mobile-link {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1.05rem;
+    font-weight: 600;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  @media (max-width: 1024px) {
+    .hack-navbar-center { display: none; }
+    .hack-menu-toggle { display: block; }
+  }
+
+  /* ─── Hero ─── */
+  .hackathon-hero {
+    min-height: 92vh;
+    display: flex;
+    align-items: center;
+    padding: 130px 6% 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hackathon-hero-container {
+    max-width: 1260px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3rem;
+    align-items: center;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 3.5px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.5);
+    margin-bottom: 0.8rem;
+  }
+  .hackatob-hero-title {
+    font-size: clamp(4.5rem, 8.5vw, 7.8rem);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -2px;
+    text-transform: none;
+    margin-bottom: 1.5rem;
+  }
+  .htitle-white {
+    color: #ffffff;
+    text-shadow: 0 4px 30px rgba(255, 255, 255, 0.2);
+  }
+  .htitle-cyan {
+    color: #1e90ff;
+    text-shadow: 0 0 35px rgba(30, 144, 255, 0.5), 0 0 70px rgba(30, 144, 255, 0.25);
+  }
+  .hackathon-hero .hero-rotator {
+    height: 3.5rem;
+    min-height: 3.5rem;
+    position: relative;
+    margin-bottom: 2rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+  }
+  .hackathon-hero .rotator-phrase {
+    font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+    font-weight: 700;
+    line-height: 1.25;
+    color: #ffffff;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    opacity: 0;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: block;
+  }
+  .hackathon-hero .rotator-phrase.entering {
+    animation: hack-phrase-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+  .hackathon-hero .rotator-phrase.leaving {
+    animation: hack-phrase-leave 0.4s cubic-bezier(0.55, 0, 1, 0.45) forwards;
+  }
+  @keyframes hack-phrase-enter {
+    from {
+      transform: translateY(-120%);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(-50%);
+      opacity: 1;
+    }
+  }
+  @keyframes hack-phrase-leave {
+    from {
+      transform: translateY(-50%);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(30%);
+      opacity: 0;
+    }
+  }
+  .hack-hero-cta {
+    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    color: #ffffff !important;
+    text-decoration: none;
+    padding: 14px 36px;
+    border-radius: 50px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    box-shadow: 0 4px 22px rgba(30, 136, 229, 0.5);
+    display: inline-block;
+    transition: all 0.3s ease;
+  }
+  .hack-hero-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(30, 136, 229, 0.7);
+    background: linear-gradient(135deg, #2196f3, #1976d2);
+  }
+  .hackatob-mascot {
+    width: min(440px, 95%);
+    filter: drop-shadow(0 0 45px rgba(255, 215, 0, 0.3)) drop-shadow(0 0 70px rgba(33, 208, 255, 0.25));
+    animation: mascotFloat 4.5s ease-in-out infinite;
+  }
+  @keyframes mascotFloat {
+    0%, 100% { transform: translateY(0) rotate(-1.5deg); }
+    50% { transform: translateY(-18px) rotate(2deg); }
+  }
+  .hackathon-hero-content-right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* ─── Metrics ─── */
+  .hackatob-metrics-section {
+    padding: 6rem 5%;
+    position: relative;
+  }
+  .metrics-container { max-width: 1200px; margin: 0 auto; text-align: center; }
+  .metrics-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 3rem;
+    line-height: 1.2;
+  }
+  .metrics-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
+  }
+  .metric-card {
+    position: relative;
+    width: 180px;
+    min-height: 180px;
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: default;
+    border: 1px solid rgba(33,208,255,0.2);
+    background: rgba(10,20,38,0.8);
+    backdrop-filter: blur(12px);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .metric-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--card-bg);
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    transition: opacity 0.3s;
+  }
+  .metric-card:hover { transform: translateY(-6px); box-shadow: 0 20px 40px rgba(33,208,255,0.2); }
+  .metric-card:hover::before { opacity: 0.25; }
+  .metric-number {
+    font-size: 3rem;
+    font-weight: 900;
+    color: var(--color-cyan);
+    position: relative;
+    z-index: 1;
+    text-shadow: 0 0 20px rgba(33,208,255,0.5);
+  }
+  .metric-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 0 0.5rem;
+  }
+
+  /* ─── Prizes ─── */
+  .hackatob-prizes-section { padding: 6rem 5%; }
+  .prizes-container { max-width: 1100px; margin: 0 auto; }
+  .prizes-header { text-align: center; margin-bottom: 3rem; }
+  .prizes-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: var(--color-cyan);
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .prizes-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 800;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .prizes-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr 1fr;
+    gap: 1.5rem;
+    align-items: end;
+  }
+  .prize-card-container {
+    perspective: 1000px;
+    min-height: 340px;
+    cursor: pointer;
+  }
+  .prize-card-inner {
+    position: relative;
+    width: 100%;
+    height: 340px;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+    border-radius: 20px;
+  }
+  .prize-card-inner.flipped { transform: rotateY(180deg); }
+  .prize-card-front, .prize-card-back {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 20px;
+    padding: 2rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(10,20,38,0.85);
+    backdrop-filter: blur(16px);
+  }
+  .prize-card-back { transform: rotateY(180deg); justify-content: center; }
+  .prize-first .prize-card-front, .prize-first .prize-card-back {
+    border-color: rgba(255,215,0,0.4);
+    box-shadow: 0 0 30px rgba(255,215,0,0.15);
+  }
+  .prize-medal-wrapper { margin-bottom: 0.5rem; }
+  .prize-medal {
+    width: 60px; height: 60px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .medal-gold { background: linear-gradient(135deg, #ffd700, #ffa500); box-shadow: 0 0 20px rgba(255,215,0,0.4); }
+  .medal-silver { background: linear-gradient(135deg, #c0c0c0, #888); box-shadow: 0 0 20px rgba(192,192,192,0.3); }
+  .medal-bronze { background: linear-gradient(135deg, #cd7f32, #8b4513); box-shadow: 0 0 20px rgba(205,127,50,0.3); }
+  .medal-num { font-size: 1.5rem; font-weight: 900; color: #fff; }
+  .prize-rank { font-size: 0.65rem; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+  .prize-amount { font-size: 1.1rem; font-weight: 700; color: #fff; margin: 0; }
+  .prize-desc { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.5; }
+  .prize-back-title { font-size: 1rem; font-weight: 700; color: var(--color-cyan); margin: 0; }
+  .prize-back-list { text-align: left; padding-left: 1.2rem; margin: 0; }
+  .prize-back-list li { font-size: 0.82rem; color: rgba(255,255,255,0.75); margin-bottom: 0.4rem; }
+  .prize-flip-hint {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 0.75rem; color: rgba(255,255,255,0.4);
+    margin-top: auto;
+  }
+
+  /* ─── Tracks ─── */
+  .hackatob-tracks-section { padding: 6rem 5%; }
+  .tracks-container { max-width: 1200px; margin: 0 auto; }
+  .tracks-header { text-align: center; margin-bottom: 3rem; }
+  .tracks-eyebrow {
+    display: block; font-size: 0.75rem; letter-spacing: 3px; font-weight: 700;
+    color: var(--color-cyan); margin-bottom: 0.5rem;
+  }
+  .tracks-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: #fff; }
+  .tracks-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .track-card {
+    position: relative; border-radius: 20px; overflow: hidden;
+    display: flex; flex-direction: column;
+    min-height: 440px; text-decoration: none;
+    border: 1px solid rgba(255,255,255,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
+    background: rgba(10,20,38,0.8);
+  }
+  .track-card:hover { transform: translateY(-8px); box-shadow: 0 24px 50px rgba(0,0,0,0.5); }
+  .track-hover-bg {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0; transition: opacity 0.5s ease;
+  }
+  .track-card:hover .track-hover-bg { opacity: 0.25; }
+  .track-hover-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 30%, rgba(5,10,20,0.95));
+  }
+  .track-card-image {
+    position: relative; z-index: 1;
+    padding: 2rem 2rem 1rem;
+    display: flex; justify-content: center;
+  }
+  .track-spark-img { width: 90px; height: 90px; object-fit: contain; }
+  .track-card-content {
+    position: relative; z-index: 1;
+    padding: 0 1.5rem 2rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1;
+  }
+  .track-tag { font-size: 0.7rem; letter-spacing: 2px; font-weight: 700; color: rgba(255,255,255,0.4); text-transform: uppercase; }
+  .track-name { font-size: 1.5rem; font-weight: 800; color: #fff; margin: 0; }
+  .track-green .track-name { color: #4ade80; }
+  .track-orange .track-name { color: #fb923c; }
+  .track-purple .track-name { color: #c084fc; }
+  .track-punchline { font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.7); margin: 0; }
+  .track-desc { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.5; margin: 0; }
+  .track-badges { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 1rem; }
+  .track-badge {
+    font-size: 0.7rem; padding: 3px 10px; border-radius: 999px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ─── Sedes ─── */
+  .hackatob-sedes-section { padding: 6rem 5%; }
+  .sedes-container { max-width: 900px; margin: 0 auto; }
+  .sedes-header { text-align: center; margin-bottom: 3rem; }
+  .sedes-eyebrow { display: block; font-size: 0.75rem; letter-spacing: 3px; font-weight: 700; color: var(--color-cyan); margin-bottom: 0.5rem; }
+  .sedes-title { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; color: #fff; }
+  .sedes-grid { display: flex; justify-content: center; }
+  .sede-card {
+    background: rgba(10,20,38,0.8); border: 1px solid rgba(33,208,255,0.2);
+    border-radius: 20px; overflow: hidden; max-width: 600px; width: 100%;
+    backdrop-filter: blur(12px); transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .sede-card:hover { transform: translateY(-6px); box-shadow: 0 24px 50px rgba(33,208,255,0.15); }
+  .sede-img-wrapper { height: 280px; overflow: hidden; }
+  .sede-img { width: 100%; height: 100%; object-fit: cover; }
+  .sede-body { padding: 2rem; }
+  .sede-name { font-size: 1.8rem; font-weight: 800; color: #fff; margin-bottom: 0.25rem; }
+  .sede-role-tag { font-size: 0.85rem; color: var(--color-cyan); font-weight: 600; margin-bottom: 1rem; display: block; }
+  .sede-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .sede-badge {
+    font-size: 0.75rem; padding: 4px 12px; border-radius: 999px;
+    background: rgba(33,208,255,0.1); border: 1px solid rgba(33,208,255,0.3);
+    color: var(--color-cyan);
+  }
+  .sede-maps-btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 10px 20px; border-radius: 50px;
+    background: rgba(33,208,255,0.1); border: 1px solid rgba(33,208,255,0.3);
+    color: var(--color-cyan); text-decoration: none; font-size: 0.9rem; font-weight: 600;
+    transition: all 0.3s;
+  }
+  .sede-maps-btn:hover { background: rgba(33,208,255,0.2); }
+
+  /* ─── Agenda Preview ─── */
+  .hackatob-schedule-preview-section { padding: 6rem 5%; }
+  .hackatob-section-header { text-align: center; margin-bottom: 3rem; }
+  .hackatob-section-title { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; color: #fff; margin-bottom: 0.5rem; }
+  .hackatob-section-subtitle { color: rgba(255,255,255,0.6); font-size: 1rem; max-width: 600px; margin: 0 auto; }
+  .agenda-preview-card {
+    max-width: 1000px; margin: 0 auto;
+    background: rgba(10,20,38,0.8); border: 1px solid rgba(33,208,255,0.2);
+    border-radius: 24px; padding: 3rem; position: relative; overflow: hidden;
+    backdrop-filter: blur(16px);
+  }
+  .agenda-preview-glow {
+    position: absolute; top: -60px; right: -60px;
+    width: 300px; height: 300px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(33,208,255,0.12), transparent 70%);
+    pointer-events: none;
+  }
+  .agenda-preview-days-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; margin-bottom: 2rem;
+  }
+  .agenda-mini-day {
+    padding: 1.5rem; border-radius: 16px;
+    background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.3s;
+  }
+  .agenda-mini-day:hover { background: rgba(33,208,255,0.06); }
+  .agenda-mini-day.highlight-gold { border-color: rgba(255,215,0,0.3); background: rgba(255,215,0,0.05); }
+  .mini-day-pill {
+    display: inline-block; font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;
+    padding: 3px 10px; border-radius: 999px;
+    background: rgba(33,208,255,0.15); border: 1px solid rgba(33,208,255,0.3);
+    color: var(--color-cyan); margin-bottom: 0.75rem;
+  }
+  .gold-pill { background: rgba(255,215,0,0.15) !important; border-color: rgba(255,215,0,0.4) !important; color: #ffd700 !important; }
+  .agenda-mini-day h4 { font-size: 0.95rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+  .agenda-mini-day p { font-size: 0.82rem; color: rgba(255,255,255,0.55); line-height: 1.5; margin: 0; }
+  .agenda-preview-cta { text-align: center; }
+  .btn-gold-agenda {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 32px; border-radius: 50px;
+    background: linear-gradient(135deg, #ffd700, #ffa500);
+    color: #000; font-weight: 700; font-size: 0.95rem; text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s; box-shadow: 0 0 20px rgba(255,215,0,0.3);
+  }
+  .btn-gold-agenda:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(255,215,0,0.5); }
+
+  /* ─── Sponsors / Partners ─── */
+  .hackatob-sponsors-section { padding: 6rem 5%; }
+  .hackatob-platform-badge-container {
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    margin: 1.5rem 0 2rem; flex-wrap: wrap;
+  }
+  .platform-label { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+  .techrebel-badge-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 8px 20px; border-radius: 50px; font-size: 0.9rem; font-weight: 700;
+    background: rgba(33,208,255,0.12); border: 1px solid rgba(33,208,255,0.35);
+    color: var(--color-cyan); text-decoration: none; transition: all 0.3s;
+  }
+  .techrebel-badge-btn:hover { background: rgba(33,208,255,0.22); }
+
+  /* ─── FAQ ─── */
+  .hackatob-faq-section { padding: 6rem 5%; }
+  .faq-deck-wrapper {
+    max-width: 680px; margin: 0 auto;
+    position: relative; outline: none;
+  }
+  .faq-stack-container { position: relative; height: 340px; margin-bottom: 2.5rem; }
+  .faq-stack-card {
+    position: absolute; inset: 0; border-radius: 20px;
+    background: rgba(10,20,38,0.85); border: 1px solid rgba(33,208,255,0.2);
+    backdrop-filter: blur(16px); padding: 2rem;
+    display: flex; flex-direction: column; gap: 1rem;
+    transition: transform 0.5s cubic-bezier(0.4,0,0.2,1), opacity 0.5s, z-index 0s;
+    opacity: 0; transform: translateY(20px) scale(0.95);
+  }
+  .faq-stack-card.faq-active { opacity: 1; transform: translateY(0) scale(1); }
+  .faq-stack-card.faq-next:nth-of-type(n+2) {
+    opacity: 0.5; transform: translateY(10px) scale(0.97);
+  }
+  .faq-stack-card.faq-prev { opacity: 0; transform: translateY(-30px) scale(0.9); }
+  .faq-card-glow {
+    position: absolute; inset: 0; border-radius: 20px;
+    background: radial-gradient(circle at top left, rgba(33,208,255,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .faq-card-topbar { display: flex; align-items: center; }
+  .faq-card-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-size: 0.7rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--color-cyan); padding: 4px 12px; border-radius: 999px;
+    background: rgba(33,208,255,0.1); border: 1px solid rgba(33,208,255,0.25);
+  }
+  .faq-badge-pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--color-cyan); display: inline-block;
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .faq-card-body { flex: 1; }
+  .faq-card-question { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 0.75rem; }
+  .faq-card-answer { font-size: 0.95rem; color: rgba(255,255,255,0.7); line-height: 1.65; }
+  .faq-card-bottom { margin-top: auto; }
+  .faq-drag-badge { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+  .faq-deck-controls { display: flex; align-items: center; justify-content: center; gap: 1.5rem; }
+  .faq-ctrl-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.12);
+    color: rgba(255,255,255,0.7); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.3s;
+  }
+  .faq-ctrl-btn:hover { background: rgba(33,208,255,0.12); border-color: rgba(33,208,255,0.4); color: var(--color-cyan); }
+  .faq-dots-wrapper { display: flex; gap: 8px; }
+  .faq-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.2); border: none; cursor: pointer;
+    transition: all 0.3s; padding: 0;
+  }
+  .faq-dot.active { background: var(--color-cyan); width: 24px; border-radius: 4px; }
+
+  /* ─── Responsive ─── */
+  @media (max-width: 900px) {
+    .hackathon-hero-container { grid-template-columns: 1fr; text-align: center; }
+    .hackathon-hero-content-right { display: none; }
+    .prizes-grid { grid-template-columns: 1fr; gap: 1rem; }
+    .prize-card-container { min-height: 280px; }
+    .prize-card-inner { height: 280px; }
+    .tracks-grid { grid-template-columns: 1fr; }
+    .agenda-preview-days-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 580px) {
+    .hackathon-hero { padding: 100px 5% 60px; }
+    .agenda-preview-days-grid { grid-template-columns: 1fr; }
+    .agenda-preview-card { padding: 1.5rem; }
+  }
+</style>

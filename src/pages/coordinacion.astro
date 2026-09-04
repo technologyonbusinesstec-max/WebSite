@@ -1,0 +1,486 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+  <!-- Video de fondo -->
+  <video class="bg-video" autoplay loop muted playsinline preload="none" aria-hidden="true">
+    <source src="/imagenes/coordinadores/FondoCoordiandores.mp4" type="video/mp4" />
+  </video>
+  <div class="bg-overlay" aria-hidden="true"></div>
+
+  <!-- Sección principal -->
+  <section id="coordinadores" class="coord-section">
+
+    <header class="coord-header">
+      <span class="coord-label">Organización</span>
+      <h1 class="coord-title">Coordinadores del evento</h1>
+      <p class="coord-desc">Conoce a las personas que están detrás del ToB 2026 y hacen posible este gran evento.</p>
+    </header>
+
+    <!-- Grid: 6 coordinadores (todos iguales) -->
+    <div class="coord-grid" id="coordinadoresGrid">
+
+      <button class="coord-card coord-featured"
+        data-nombre="Abril Masis"
+        data-puesto="Coordinación General"
+        data-foto="/imagenes/coordinadores/coodinador01.webp"
+        data-linkedin="https://www.linkedin.com/in/abril-amanda-mas%C3%ADs-rodr%C3%ADguez-7bb67b2b9/"
+        data-frase="&ldquo;El ToB es el espacio donde la tecnología y los negocios se encuentran para crear el futuro juntos.&rdquo;">
+        <div class="coord-avatar-wrap">
+          <img src="/imagenes/coordinadores/coodinador01.webp" alt="Abril Masis" class="coord-avatar" width="240" height="240" loading="eager" decoding="async" />
+        </div>
+        <h3 class="coord-name">Abril Masis</h3>
+        <p class="coord-role">Coordinación General</p>
+      </button>
+
+      <button class="coord-card"
+        data-nombre="Andrey Figueroa"
+        data-puesto="Coordinador de Finanzas &amp; Dev"
+        data-foto="/imagenes/coordinadores/coodinador02.webp"
+        data-linkedin="https://www.linkedin.com/in/andrey-figueroa-calder%C3%B3n/"
+        data-frase="&ldquo;Ir al ToB es invertir en tu crecimiento profesional; cada charla es una conexión que cambia tu perspectiva.&rdquo;">
+        <div class="coord-avatar-wrap">
+          <img src="/imagenes/coordinadores/coodinador02.webp" alt="Andrey Figueroa" class="coord-avatar" width="240" height="240" loading="lazy" decoding="async" />
+        </div>
+        <h3 class="coord-name">Andrey Figueroa</h3>
+        <p class="coord-role">Coordinador de Finanzas &amp; Dev</p>
+      </button>
+
+      <button class="coord-card"
+        data-nombre="Sara Diaz"
+        data-puesto="Coordinadora de Mercadeo"
+        data-foto="/imagenes/coordinadores/coodinador03.webp"
+        data-linkedin="https://www.linkedin.com/in/sara-d%C3%ADaz-benavides-4a4120362/"
+        data-frase="&ldquo;El ToB te conecta con personas que piensan diferente y eso es exactamente lo que necesitas para crecer.&rdquo;">
+        <div class="coord-avatar-wrap">
+          <img src="/imagenes/coordinadores/coodinador03.webp" alt="Sara Diaz" class="coord-avatar" width="240" height="240" loading="lazy" decoding="async" />
+        </div>
+        <h3 class="coord-name">Sara Diaz</h3>
+        <p class="coord-role">Coordinadora de Mercadeo</p>
+      </button>
+
+      <button class="coord-card"
+        data-nombre="Dennis Rojas"
+        data-puesto="Coordinador del HackaTob &amp; Dev"
+        data-foto="/imagenes/coordinadores/coodinador04.webp"
+        data-linkedin="https://www.linkedin.com/in/dennis-o-rojas-quesada-749056358/"
+        data-frase="&ldquo;En el ToB no solo aprendes, construyes; construyes ideas, equipos y el profesional que quieres ser.&rdquo;">
+        <div class="coord-avatar-wrap">
+          <img src="/imagenes/coordinadores/coodinador04.webp" alt="Dennis Rojas" class="coord-avatar" width="240" height="240" loading="lazy" decoding="async" />
+        </div>
+        <h3 class="coord-name">Dennis Rojas</h3>
+        <p class="coord-role">Coordinador del HackaTob &amp; Dev</p>
+      </button>
+
+      <button class="coord-card"
+        data-nombre="Paz Bloise"
+        data-puesto="Coordinadora de Alianzas"
+        data-foto="/imagenes/coordinadores/coodinador05.webp"
+        data-linkedin="https://www.linkedin.com/in/pazbloise/"
+        data-frase="&ldquo;El ToB es una oportunidad única de networking real: sales con contactos que duran toda la carrera.&rdquo;">
+        <div class="coord-avatar-wrap">
+          <img src="/imagenes/coordinadores/coodinador05.webp" alt="Paz Bloise" class="coord-avatar" width="240" height="240" loading="lazy" decoding="async" />
+        </div>
+        <h3 class="coord-name">Paz Bloise</h3>
+        <p class="coord-role">Coordinadora de Alianzas</p>
+      </button>
+
+      <button class="coord-card"
+        data-nombre="Anthony Ureña"
+        data-puesto="Asistente Transversal"
+        data-foto="/imagenes/coordinadores/coodinador06.webp"
+        data-linkedin="https://www.linkedin.com/in/anthonyuc/"
+        data-frase="&ldquo;Venir al ToB es darte la oportunidad de ver la industria desde adentro, antes de estar en ella.&rdquo;">
+        <div class="coord-avatar-wrap">
+          <img src="/imagenes/coordinadores/coodinador06.webp" alt="Anthony Ureña" class="coord-avatar" width="240" height="240" loading="lazy" decoding="async" />
+        </div>
+        <h3 class="coord-name">Anthony Ureña</h3>
+        <p class="coord-role">Asistente Transversal</p>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- Modal -->
+  <div class="coord-modal-overlay" id="coordModal" role="dialog" aria-modal="true" aria-labelledby="coordModalName">
+    <div class="coord-modal">
+      <button class="coord-modal-close" id="coordModalClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+
+      <div class="coord-modal-photo-wrap">
+        <img src="" alt="" class="coord-modal-photo" id="coordModalImg" width="160" height="160" />
+      </div>
+
+      <h3 class="coord-modal-name" id="coordModalName"></h3>
+      <p class="coord-modal-role" id="coordModalRole"></p>
+
+      <blockquote class="coord-modal-frase" id="coordModalFrase"></blockquote>
+
+      <a href="#" class="coord-modal-linkedin" id="coordModalLinkedin" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+        Ver en LinkedIn
+      </a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* ── Fondo ── */
+  .bg-video {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -2;
+    will-change: transform;
+    transform: translateZ(0);
+  }
+
+  .bg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.48);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: -1;
+  }
+
+  /* ── Sección ── */
+  .coord-section {
+    min-height: 100vh;
+    padding: 150px 20px 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  /* ── Header ── */
+  .coord-header {
+    text-align: center;
+    max-width: 680px;
+    margin: 0 auto 72px;
+  }
+
+  .coord-label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-cyan, #00d4ff);
+    margin-bottom: 14px;
+  }
+
+  .coord-title {
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 16px;
+    line-height: 1.15;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.5);
+  }
+
+  .coord-desc {
+    font-size: 1.08rem;
+    color: rgba(255,255,255,0.8);
+    line-height: 1.65;
+    margin: 0;
+  }
+
+  /* ── Grid ── */
+  .coord-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 240px);
+    gap: 52px 40px;
+    justify-content: center;
+    justify-items: center;
+    width: 100%;
+    max-width: 1000px;
+  }
+
+  /* Primera tarjeta centrada sola */
+  .coord-featured {
+    grid-column: 1 / -1;
+  }
+
+  /* ── Tarjeta (button reset) ── */
+  .coord-card {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: inherit;
+    font-family: inherit;
+  }
+
+  .coord-card:focus-visible .coord-avatar-wrap {
+    outline: 3px solid var(--color-cyan, #00d4ff);
+    outline-offset: 4px;
+  }
+
+  /* ── Avatar — TODOS IGUAL ── */
+  .coord-avatar-wrap {
+    width: 220px;
+    height: 220px;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.9);
+    overflow: hidden;
+    margin-bottom: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    will-change: transform;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .coord-card:hover .coord-avatar-wrap {
+    transform: scale(1.07);
+    box-shadow: 0 18px 44px rgba(0,212,255,0.3);
+  }
+
+  .coord-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .coord-name {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 5px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.5);
+  }
+
+  .coord-role {
+    font-size: 0.97rem;
+    color: rgba(255,255,255,0.78);
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  /* ── Modal overlay ── */
+  .coord-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 3000;
+    opacity: 0;
+    visibility: hidden;
+    will-change: opacity;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    padding: 20px;
+  }
+
+  .coord-modal-overlay.visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* ── Modal card ── */
+  .coord-modal {
+    background: linear-gradient(145deg, #13172280, #0d101800);
+    background-color: #131722;
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 22px;
+    padding: 48px 36px 40px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    will-change: transform;
+    transform: scale(0.86) translateY(16px);
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 28px 70px rgba(0,0,0,0.7), 0 0 0 1px rgba(255,255,255,0.06);
+  }
+
+  .coord-modal-overlay.visible .coord-modal {
+    transform: scale(1) translateY(0);
+  }
+
+  /* Botón cerrar */
+  .coord-modal-close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: rgba(255,255,255,0.08);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.2s;
+    padding: 0;
+  }
+
+  .coord-modal-close svg { width: 18px; height: 18px; }
+  .coord-modal-close:hover { background: rgba(255,255,255,0.18); }
+
+  /* Foto del modal */
+  .coord-modal-photo-wrap {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 4px solid rgba(255,255,255,0.85);
+    overflow: hidden;
+    margin: 0 auto 20px;
+    box-shadow: 0 8px 28px rgba(0,0,0,0.45), 0 0 0 6px rgba(0,212,255,0.12);
+  }
+
+  .coord-modal-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    display: block;
+  }
+
+  .coord-modal-name {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff;
+    margin: 0 0 6px;
+  }
+
+  .coord-modal-role {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.6);
+    margin: 0 0 22px;
+    font-weight: 500;
+    letter-spacing: 0.03em;
+  }
+
+  /* Frase */
+  .coord-modal-frase {
+    font-size: 0.97rem;
+    color: rgba(255,255,255,0.82);
+    font-style: italic;
+    line-height: 1.65;
+    margin: 0 0 28px;
+    padding: 14px 18px;
+    background: rgba(0,212,255,0.07);
+    border-left: 3px solid var(--color-cyan, #00d4ff);
+    border-radius: 0 8px 8px 0;
+    text-align: left;
+  }
+
+  /* Botón LinkedIn */
+  .coord-modal-linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: #0a66c2;
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 12px 26px;
+    border-radius: 50px;
+    text-decoration: none;
+    will-change: transform;
+    transition: background 0.25s, transform 0.25s, box-shadow 0.25s;
+    box-shadow: 0 4px 18px rgba(10,102,194,0.35);
+  }
+
+  .coord-modal-linkedin svg {
+    width: 20px;
+    height: 20px;
+    fill: #fff;
+    flex-shrink: 0;
+  }
+
+  .coord-modal-linkedin:hover {
+    background: #0854a0;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(10,102,194,0.45);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 820px) {
+    .coord-grid {
+      grid-template-columns: repeat(2, 220px);
+    }
+    .coord-featured { grid-column: 1 / -1; }
+  }
+
+  @media (max-width: 520px) {
+    .coord-section { padding-top: 120px; }
+    .coord-grid {
+      grid-template-columns: 1fr;
+      gap: 38px;
+    }
+    .coord-avatar-wrap {
+      width: min(220px, 62vw);
+      height: min(220px, 62vw);
+    }
+    .coord-modal { padding: 40px 20px 32px; }
+    .coord-modal-frase { font-size: 0.9rem; }
+  }
+</style>
+
+<script>
+  const modal        = document.getElementById("coordModal")!;
+  const modalClose   = document.getElementById("coordModalClose")!;
+  const modalImg     = document.getElementById("coordModalImg") as HTMLImageElement;
+  const modalName    = document.getElementById("coordModalName")!;
+  const modalRole    = document.getElementById("coordModalRole")!;
+  const modalFrase   = document.getElementById("coordModalFrase")!;
+  const modalLinkedin = document.getElementById("coordModalLinkedin") as HTMLAnchorElement;
+
+  function openModal(card: HTMLElement) {
+    const { nombre, puesto, foto, linkedin, frase } = card.dataset;
+    if (!nombre) return;
+
+    modalImg.src        = foto  ?? "";
+    modalImg.alt        = nombre;
+    modalName.textContent = nombre;
+    modalRole.textContent = puesto ?? "";
+    modalFrase.innerHTML  = frase  ?? "";
+
+    if (linkedin) {
+      modalLinkedin.href = linkedin;
+      modalLinkedin.style.display = "inline-flex";
+    } else {
+      modalLinkedin.style.display = "none";
+    }
+
+    modal.classList.add("visible");
+    document.body.style.overflow = "hidden";
+    modalClose.focus();
+  }
+
+  function closeModal() {
+    modal.classList.remove("visible");
+    document.body.style.overflow = "";
+  }
+
+  document.getElementById("coordinadoresGrid")
+    ?.addEventListener("click", (e) => {
+      const card = (e.target as Element).closest<HTMLElement>(".coord-card");
+      if (card) openModal(card);
+    });
+
+  modalClose.addEventListener("click", closeModal);
+  modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape") closeModal(); });
+</script>

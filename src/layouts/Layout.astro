@@ -1,0 +1,43 @@
+---
+import { Navbar } from '../components/Navbar.tsx';
+import Footer from '../components/Footer.astro';
+import '../styles/global.css';
+
+interface Props {
+  hideNavbar?: boolean;
+  hideFooter?: boolean;
+  title?: string;
+  description?: string;
+}
+
+const {
+  hideNavbar = false,
+  hideFooter = false,
+  title = 'ToB – Technology On Business',
+  description = 'El congreso de tecnología y negocios más grande de Costa Rica.'
+} = Astro.props;
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/webp" href="/imagenes/Miniatura/Miniatura.webp" />
+  <meta name="generator" content={Astro.generator} />
+  <meta name="description" content={description} />
+  <title>{title}</title>
+</head>
+<body>
+  {!hideNavbar && <Navbar client:load />}
+  <slot />
+  {!hideFooter && <Footer />}
+</body>
+</html>
+
+<style>
+  html, body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+  }
+</style>

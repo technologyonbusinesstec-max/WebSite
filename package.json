@@ -1,7 +1,25 @@
 {
-  "name": "tob-website",
-  "version": "1.0.0",
+  "name": "astro-site",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
-    "build": "npm i terser && node build.js"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@astrojs/react": "^6.0.5",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.5",
+    "astro": "^7.2.10",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "allowScripts": {
+    "esbuild": true
   }
 }

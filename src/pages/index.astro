@@ -1,0 +1,354 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Hero } from '../components/Hero.tsx';
+---
+
+<Layout>
+  <!-- ── LOADER ─────────────────────────────────────────────────── -->
+  <div id="loader-wrapper" class="loader-wrapper">
+    <img src="/imagenes/IsotipoColor.webp" alt="Cargando ToB..." class="loader-logo" width="120" height="120" />
+  </div>
+
+  <!-- ── HERO (React) ───────────────────────────────────────────── -->
+  <Hero lang="ES" client:load />
+
+  <!-- ── DIVIDER MARQUEE ───────────────────────────────────────── -->
+  <div class="divider-marquee">
+    <div class="marquee-stripe marquee-1">
+      <div class="marquee-track track-left">
+        <span class="marquee-text">15 ANIVERSARIO <span class="text-cyan">&#10038;</span> CUANDO ESCAMPE 2026 <span class="text-cyan">&#10038;</span> MASTER THE CHAOS <span class="text-cyan">&#10038;</span> TECHNOLOGY ON BUSINESS <span class="text-cyan">&#10038;</span> ATI <span class="text-cyan">&#10038;</span> DISRUPCION <span class="text-cyan">&#10038;</span> NETWORKING <span class="text-cyan">&#10038;</span> </span>
+        <span class="marquee-text">15 ANIVERSARIO <span class="text-cyan">&#10038;</span> CUANDO ESCAMPE 2026 <span class="text-cyan">&#10038;</span> MASTER THE CHAOS <span class="text-cyan">&#10038;</span> TECHNOLOGY ON BUSINESS <span class="text-cyan">&#10038;</span> ATI <span class="text-cyan">&#10038;</span> DISRUPCION <span class="text-cyan">&#10038;</span> NETWORKING <span class="text-cyan">&#10038;</span> </span>
+        <span class="marquee-text">15 ANIVERSARIO <span class="text-cyan">&#10038;</span> CUANDO ESCAMPE 2026 <span class="text-cyan">&#10038;</span> MASTER THE CHAOS <span class="text-cyan">&#10038;</span> TECHNOLOGY ON BUSINESS <span class="text-cyan">&#10038;</span> ATI <span class="text-cyan">&#10038;</span> DISRUPCION <span class="text-cyan">&#10038;</span> NETWORKING <span class="text-cyan">&#10038;</span> </span>
+      </div>
+    </div>
+    <div class="marquee-stripe marquee-2">
+      <div class="marquee-track track-right">
+        <span class="marquee-text">15 ANIVERSARIO <span class="text-cyan">&#10038;</span> CUANDO ESCAMPE 2026 <span class="text-cyan">&#10038;</span> MASTER THE CHAOS <span class="text-cyan">&#10038;</span> TECHNOLOGY ON BUSINESS <span class="text-cyan">&#10038;</span> ATI <span class="text-cyan">&#10038;</span> DISRUPCION <span class="text-cyan">&#10038;</span> NETWORKING <span class="text-cyan">&#10038;</span> </span>
+        <span class="marquee-text">15 ANIVERSARIO <span class="text-cyan">&#10038;</span> CUANDO ESCAMPE 2026 <span class="text-cyan">&#10038;</span> MASTER THE CHAOS <span class="text-cyan">&#10038;</span> TECHNOLOGY ON BUSINESS <span class="text-cyan">&#10038;</span> ATI <span class="text-cyan">&#10038;</span> DISRUPCION <span class="text-cyan">&#10038;</span> NETWORKING <span class="text-cyan">&#10038;</span> </span>
+        <span class="marquee-text">15 ANIVERSARIO <span class="text-cyan">&#10038;</span> CUANDO ESCAMPE 2026 <span class="text-cyan">&#10038;</span> MASTER THE CHAOS <span class="text-cyan">&#10038;</span> TECHNOLOGY ON BUSINESS <span class="text-cyan">&#10038;</span> ATI <span class="text-cyan">&#10038;</span> DISRUPCION <span class="text-cyan">&#10038;</span> NETWORKING <span class="text-cyan">&#10038;</span> </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── ABOUT ──────────────────────────────────────────────────── -->
+  <section id="about" class="about-section">
+    <div class="about-container">
+      <div class="about-top">
+        <div class="about-info">
+          <h2 class="about-title">Technology on Business</h2>
+          <div class="about-description">
+            <p>Technology on Business es un congreso donde estudiantes, profesionales y empresas se reúnen para descubrir las tecnologías, ideas y tendencias que están transformando el futuro.</p>
+            <p>Con la temática "Master the Chaos", la edición 2026 invita a desarrollar las habilidades necesarias para liderar el cambio, innovar y convertir los desafíos en oportunidades.</p>
+          </div>
+        </div>
+        <div class="about-grid">
+          <div class="glass-card">
+            <div class="stat-header"><span class="stat-number" data-target="15" data-suffix="">0</span><span class="stat-label">años</span></div>
+            <p class="glass-card-desc">impulsando la innovación y el talento tecnológico</p>
+          </div>
+          <div class="glass-card">
+            <div class="stat-header"><span class="stat-number" data-target="500" data-suffix="+">0</span><span class="stat-label">asistentes</span></div>
+            <p class="glass-card-desc">esperados para la edición 2026</p>
+          </div>
+          <div class="glass-card">
+            <div class="stat-header"><span class="stat-number" data-target="2" data-suffix="">0</span><span class="stat-label">días</span></div>
+            <p class="glass-card-desc">de conferencias, networking y experiencias</p>
+          </div>
+          <div class="glass-card">
+            <div class="stat-header"><span class="stat-number" data-target="55" data-suffix="">0</span><span class="stat-label">años TEC</span></div>
+            <p class="glass-card-desc">celebrando la innovación y la excelencia académica</p>
+          </div>
+        </div>
+      </div>
+      <div class="about-bottom-card glass-card">
+        <div class="bottom-card-content">
+          <h3 class="bottom-card-title">Donde las ideas se convierten en oportunidades.</h3>
+          <p class="bottom-card-desc">Dos días para aprender, conectar con líderes de la industria y formar parte de una comunidad que impulsa la innovación y el crecimiento profesional.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── QUIENES ASISTEN ────────────────────────────────────────── -->
+  <section id="quienes-asisten" class="wa-section">
+    <div class="wa-header"><h2 class="wa-title">¿Quiénes asisten?</h2></div>
+    <div class="wa-grid">
+      <article class="wa-card" style="--wa-bg: url('/imagenes/WA/estudiantes.webp')">
+        <div class="wa-card-inner"><span class="wa-card-num">01</span><h3 class="wa-card-title">Estudiantes Universitarios</h3><p class="wa-card-desc">Personas que buscan fortalecer sus conocimientos, descubrir nuevas tecnologías y conectar con profesionales de la industria.</p></div>
+      </article>
+      <article class="wa-card" style="--wa-bg: url('/imagenes/WA/profesionales.webp')">
+        <div class="wa-card-inner"><span class="wa-card-num">02</span><h3 class="wa-card-title">Profesionales de TI</h3><p class="wa-card-desc">Especialistas en desarrollo de software, infraestructura, datos, inteligencia artificial, ciberseguridad y transformación digital.</p></div>
+      </article>
+      <article class="wa-card" style="--wa-bg: url('/imagenes/WA/emprendedores.webp')">
+        <div class="wa-card-inner"><span class="wa-card-num">03</span><h3 class="wa-card-title">Emprendedores e Innovadores</h3><p class="wa-card-desc">Fundadores de startups, emprendedores tecnológicos y personas interesadas en convertir ideas en proyectos con impacto.</p></div>
+      </article>
+      <article class="wa-card" style="--wa-bg: url('/imagenes/WA/empresas.webp')">
+        <div class="wa-card-inner"><span class="wa-card-num">04</span><h3 class="wa-card-title">Empresas y Patrocinadores</h3><p class="wa-card-desc">Organizaciones que buscan acercarse al talento universitario, fortalecer su marca y generar oportunidades de colaboración.</p></div>
+      </article>
+      <article class="wa-card" style="--wa-bg: url('/imagenes/WA/docentes.webp')">
+        <div class="wa-card-inner"><span class="wa-card-num">05</span><h3 class="wa-card-title">Docentes e Investigadores</h3><p class="wa-card-desc">Académicos y expertos que impulsan la innovación mediante investigación, transferencia de conocimiento y nuevas metodologías.</p></div>
+      </article>
+      <article class="wa-card" style="--wa-bg: url('/imagenes/WA/entusiastas.webp')">
+        <div class="wa-card-inner"><span class="wa-card-num">06</span><h3 class="wa-card-title">Entusiastas de la Tecnología</h3><p class="wa-card-desc">Cualquier persona apasionada por la tecnología, la innovación y los negocios que quiera aprender de expertos y ampliar su red.</p></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- ── SPONSORS ───────────────────────────────────────────────── -->
+  <section id="sponsors" class="sponsors-section">
+    <h3 class="sponsors-title">Nuestros Partners</h3>
+    <p class="sponsors-text">Organizaciones que creen en el talento costarricense y se suman para hacer del ToB 2026 una experiencia inolvidable.</p>
+    <div class="sponsors-marquee-wrapper">
+      <div class="sponsors-marquee marquee-left">
+        <div class="sponsors-track">
+          <a href="https://us.pg.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador01.webp" alt="P&amp;G" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.ibm.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador02.webp" alt="IBM" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.wwt.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador03.webp" alt="WWT" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.tec.ac.cr/administracion-tecnologia-informacion" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador04.webp" alt="ATI TEC" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://avify.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador05.webp" alt="Avify" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://aseteccr.com/" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador06.webp" alt="Kyndryl" class="sponsor-logo" loading="lazy"></a>
+          <!-- duplicado para loop -->
+          <a href="https://us.pg.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador01.webp" alt="P&amp;G" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.ibm.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador02.webp" alt="IBM" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.wwt.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador03.webp" alt="WWT" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.tec.ac.cr/administracion-tecnologia-informacion" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador04.webp" alt="ATI TEC" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://avify.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador05.webp" alt="Avify" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://aseteccr.com/" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador06.webp" alt="Kyndryl" class="sponsor-logo" loading="lazy"></a>
+        </div>
+      </div>
+      <div class="sponsors-marquee marquee-right">
+        <div class="sponsors-track">
+          <a href="https://www.equifax.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador08.webp" alt="Equifax" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://sefisa.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador10.webp" alt="Sefisa" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.incae.edu" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador11.svg" alt="INCAE" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.moodys.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador12.webp" alt="Moodys" class="sponsor-logo" loading="lazy"></a>
+          <!-- duplicado -->
+          <a href="https://www.equifax.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador08.webp" alt="Equifax" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://sefisa.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador10.webp" alt="Sefisa" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.incae.edu" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador11.svg" alt="INCAE" class="sponsor-logo" loading="lazy"></a>
+          <a href="https://www.moodys.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador12.webp" alt="Moodys" class="sponsor-logo" loading="lazy"></a>
+        </div>
+      </div>
+    </div>
+    <!-- Sponsors Principales -->
+    <div class="main-sponsors-section">
+      <h3 class="main-sponsors-title">Nuestros Sponsors</h3>
+      <p class="main-sponsors-text">Gracias a nuestros sponsors por creer en el poder de la tecnología y la innovación.</p>
+      <div class="main-sponsors-showcase">
+        <div class="main-sponsor-item">
+          <div class="main-sponsor-card">
+            <div class="main-sponsor-glow"></div>
+            <img src="/imagenes/patrocinadores/sponsors/imagen01.webp" alt="P&amp;G" class="main-sponsor-img" loading="lazy">
+          </div>
+          <div class="main-sponsor-socials">
+            <a href="https://www.instagram.com/pgcareerscr/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram P&amp;G">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/procter-and-gamble/" target="_blank" rel="noopener" class="sponsor-social-btn linkedin" aria-label="LinkedIn P&amp;G">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+        <div class="main-sponsor-item">
+          <div class="main-sponsor-card">
+            <div class="main-sponsor-glow"></div>
+            <img src="/imagenes/patrocinadores/sponsors/imagen02.webp" alt="WWT" class="main-sponsor-img" loading="lazy">
+          </div>
+          <div class="main-sponsor-socials">
+            <a href="https://www.instagram.com/wwt_inc/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram WWT">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://www.linkedin.com/company/world-wide-technology/" target="_blank" rel="noopener" class="sponsor-social-btn linkedin" aria-label="LinkedIn WWT">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
+        </div>
+        <div class="main-sponsor-item">
+          <div class="main-sponsor-card">
+            <div class="main-sponsor-glow"></div>
+            <img src="/imagenes/patrocinadores/sponsors/imagen03.webp" alt="Rainforest Adventures" class="main-sponsor-img" loading="lazy">
+          </div>
+          <div class="main-sponsor-socials">
+            <a href="https://www.instagram.com/rainforestadventurescr/" target="_blank" rel="noopener" class="sponsor-social-btn instagram" aria-label="Instagram Rainforest">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+            </a>
+            <a href="https://rainforestadventure.com/" target="_blank" rel="noopener" class="sponsor-social-btn website" aria-label="Web Rainforest">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── POR QUE ASISTIR ────────────────────────────────────────── -->
+  <section id="why-attend" class="why-attend-section">
+    <h2 class="why-attend-title">¿Por qué asistir?</h2>
+    <div class="why-attend-container">
+      <div class="why-attend-visual">
+        <div class="why-slider-track">
+          <img src="/imagenes/WhyAttend/imageWhyAttend01.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend02.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend03.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend04.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend05.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend06.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend07.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <!-- duplicado loop -->
+          <img src="/imagenes/WhyAttend/imageWhyAttend01.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend02.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend03.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend04.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend05.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend06.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+          <img src="/imagenes/WhyAttend/imageWhyAttend07.webp" alt="ToB 2026" class="why-slide-img" loading="lazy">
+        </div>
+      </div>
+      <div class="why-attend-content">
+        <div class="terminal-window" id="terminalWindow">
+          <div class="terminal-header">
+            <div class="terminal-buttons">
+              <span class="term-btn close" id="termCloseBtn"></span>
+              <span class="term-btn minimize" id="termMinBtn"></span>
+              <span class="term-btn maximize" id="termMaxBtn"></span>
+            </div>
+            <div class="terminal-title">guest@tob2026: ~</div>
+          </div>
+          <div class="terminal-body">
+            <div class="terminal-command">
+              <span class="prompt-user">guest@tob2026</span><span class="prompt-char">:$</span>
+              <span class="command-text">cat why_attend.txt</span>
+            </div>
+            <p class="terminal-text" id="typewriterText"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="why-attend-actions">
+      <a href="https://luma.com/technologyonbusiness" target="_blank" class="btn-paper-plane" id="btnPaperPlane">
+        <span class="btn-text">Asistir</span>
+        <span class="btn-fill"></span>
+        <svg class="plane-icon" id="planeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="22" y1="2" x2="11" y2="13"></line>
+          <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ── PRESENTADORES ──────────────────────────────────────────── -->
+  <section id="presentadores" class="presenters-section">
+    <h2 class="presenters-title">Voces que guían el caos</h2>
+    <div class="carousel-container presenters-carousel-container">
+      <div class="carousel-track" id="presenters-track"></div>
+      <div class="carousel-nav-pill">
+        <button id="carousel-prev" class="carousel-arrow" aria-label="Anterior">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div id="carousel-dots" class="carousel-dots"></div>
+        <button id="carousel-next" class="carousel-arrow" aria-label="Siguiente">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── GALERIA ────────────────────────────────────────────────── -->
+  <section id="galeria" class="gallery-section">
+    <div class="mosaic-grid">
+      <img src="/imagenes/galeria-tob/foto-01.webp" alt="ToB Edición Anterior" class="mosaic-item foto-1" loading="lazy">
+      <img src="/imagenes/galeria-tob/foto-02.webp" alt="ToB Edición Anterior" class="mosaic-item foto-2" loading="lazy">
+      <img src="/imagenes/galeria-tob/foto-03.webp" alt="ToB Edición Anterior" class="mosaic-item foto-3" loading="lazy">
+      <img src="/imagenes/galeria-tob/foto-04.webp" alt="ToB Edición Anterior" class="mosaic-item foto-4" loading="lazy">
+      <img src="/imagenes/galeria-tob/foto-05.webp" alt="ToB Edición Anterior" class="mosaic-item foto-5" loading="lazy">
+      <img src="/imagenes/galeria-tob/foto-06.webp" alt="ToB Edición Anterior" class="mosaic-item foto-6" loading="lazy">
+    </div>
+    <div style="text-align:center;margin-top:40px;margin-bottom:40px;">
+      <a href="/galeria" class="btn btn-primary btn-large">Ver Galería</a>
+    </div>
+  </section>
+
+  <!-- ── SPEAKERS ───────────────────────────────────────────────── -->
+  <section id="speakers" class="speakers-section">
+    <div class="speakers-header">
+      <span class="speakers-label">Expositores</span>
+      <h2 class="speakers-title">Las grandes ideas comienzan con una conversación.</h2>
+      <p class="speakers-description">En el ToB tendrás la oportunidad de escuchar a expertos de la industria, descubrir tecnologías emergentes y conectar con personas que comparten tu pasión por la innovación, los negocios y el futuro digital.</p>
+    </div>
+    <div class="speakers-grid" id="speakersGrid"></div>
+    <div class="speakers-actions">
+      <a href="/speakers" class="btn btn-primary btn-large">Ver más expositores</a>
+    </div>
+  </section>
+
+  <!-- ── UBICACION ──────────────────────────────────────────────── -->
+  <section id="ubicacion" class="location-wrapper">
+    <div class="location-sticky">
+      <img src="/imagenes/Ubicacion/tierra_nobg.webp" alt="Tierra" class="location-layer layer-earth" id="layerEarth" loading="lazy">
+      <div class="location-layer layer-content" id="layerContent">
+        <div class="location-info-container">
+          <div class="location-text">
+            <span class="location-label">Punto de Encuentro</span>
+            <h2 class="location-title">Centro de las Artes, TEC</h2>
+            <p class="location-address">V34Q+X9W, Centro de las Artes, Tecnológico de Costa Rica,<br>Provincia de Cartago, Cartago</p>
+            <div class="location-schedule">
+              <div class="schedule-item">
+                <div class="schedule-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div><span class="schedule-label">Apertura de puertas</span><span class="schedule-value">9:00 am</span></div>
+              </div>
+              <div class="schedule-item">
+                <div class="schedule-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                </div>
+                <div><span class="schedule-label">Inicio de evento</span><span class="schedule-value">9:15</span></div>
+              </div>
+            </div>
+            <a href="https://maps.google.com/?q=V34Q+X9W,+Centro+de+las+Artes,+TEC,+Cartago" target="_blank" class="location-link">
+              <span>Ver ubicación en Google Maps</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+          </div>
+          <div class="location-map">
+            <iframe width="100%" height="100%" frameborder="0" style="border:0;filter:invert(90%) hue-rotate(180deg);" src="https://www.google.com/maps?q=Centro+de+las+Artes,+TEC,+Cartago&amp;hl=es&amp;z=16&amp;output=embed" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ── MODALES ────────────────────────────────────────────────── -->
+  <div class="sys-modal-overlay" id="sysErrorModal">
+    <div class="sys-modal">
+      <div class="sys-modal-icon">⚠️</div>
+      <div class="sys-modal-content"><p>Error al cerrar: El ToB 2026 es inevitable.</p></div>
+      <button class="sys-modal-btn" id="sysErrorCloseBtn">Aceptar</button>
+    </div>
+  </div>
+
+  <div class="ati-modal-overlay" id="atiModal" role="dialog" aria-modal="true" aria-labelledby="atiModalTitle">
+    <div class="ati-modal">
+      <button class="ati-modal-close" id="atiModalClose" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="ati-modal-header">
+        <h2 class="ati-modal-title" id="atiModalTitle">Área de <span class="text-cyan">Tecnología de Información</span></h2>
+        <p class="ati-modal-acronym">ATI</p>
+      </div>
+      <div class="ati-modal-body">
+        <p class="ati-modal-lead" style="margin-bottom:1.2rem;font-size:1.15rem;color:#fff;">Toda empresa quiere innovar con tecnología. Pocas saben cómo hacerlo bien.</p>
+        <p style="margin-bottom:1.2rem;color:rgba(255,255,255,0.8);line-height:1.6;">Ahí es donde entra el Administrador de Tecnología de Información: el profesional que habla el idioma del negocio y el idioma de TI, y logra que ambos se entiendan.</p>
+        <a href="https://www.tec.ac.cr/licenciatura-administracion-tecnologias-informacion" target="_blank" rel="noopener" class="ati-modal-cta">
+          <span>Conocer más</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts del proyecto original (servidos desde /public) -->
+  <script src="/lang.js" defer></script>
+  <script src="/script.js" defer></script>
+</Layout>
