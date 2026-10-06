@@ -1,0 +1,66 @@
+---
+// src/components/hackatob/BigBangBackground.astro
+// Fondo interactivo permanente del HackaToB: Big Bang → galaxia → Tierra (Costa Rica).
+// El avance lo controla el scroll de toda la página (0 → 1) mediante una línea de
+// tiempo de anime.js; three.js dibuja las partículas. Diseñado para 7 etapas
+// (ver las secciones .hk-stage en src/pages/hackatob.astro).
+---
+
+<div class="hk-bg" aria-hidden="true">
+  <div class="hk-warm" id="hk-warm"></div>
+  <div class="hk-cool" id="hk-cool"></div>
+  <canvas id="hk-gl"></canvas>
+  <div class="hk-core" id="hk-core"><i></i></div>
+  <img class="hk-earth" id="hk-earth" src="/imagenes/hackatob/tierra.webp" alt="" decoding="async" />
+  <!-- UBICACIÓN: editar el texto aquí -->
+  <div class="hk-pin" id="hk-pin">
+    <span class="hk-ring"></span><span class="hk-dot"></span>
+    <div class="hk-label"><b>HackaToB 2026</b>Centro de las Artes, TEC<br />Cartago, Costa Rica</div>
+  </div>
+  <div class="hk-flash" id="hk-flash"></div>
+  <div class="hk-vignette"></div>
+</div>
+
+<style is:global>
+  :root { --hk-ax: 66%; --hk-ay: 55%; } /* punto de pantalla donde queda Costa Rica al final */
+
+  /* ---------- Fondo: una sola capa fija ---------- */
+  .hk-bg { position: fixed; inset: 0; z-index: 0; overflow: hidden; background: #03030a; pointer-events: none; }
+  .hk-bg > * { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hk-warm { background: radial-gradient(circle at 50% 50%, rgba(255,140,60,.55), rgba(255,60,90,.18) 35%, transparent 65%); opacity: 0; }
+  .hk-cool { background:
+      radial-gradient(ellipse 60% 50% at 40% 45%, rgba(40,90,255,.38), transparent 70%),
+      radial-gradient(ellipse 50% 45% at 68% 60%, rgba(40,190,220,.2), transparent 70%),
+      radial-gradient(ellipse 45% 40% at 60% 30%, rgba(150,70,255,.22), transparent 70%); opacity: 0; }
+  .hk-core { display: grid; place-items: center; }
+  .hk-core i { width: 220px; height: 220px; border-radius: 50%;
+    background: radial-gradient(circle, #fff 0 3%, rgba(255,220,170,.55) 8%, rgba(255,150,80,.18) 28%, transparent 60%);
+    animation: hk-latido 2.4s ease-in-out infinite; }
+  @keyframes hk-latido { 50% { transform: scale(1.25); opacity: .75; } }
+  .hk-flash { background: radial-gradient(circle at 50% 50%, #fff, rgba(255,230,190,.9) 40%, rgba(255,180,120,.6)); opacity: 0; }
+  .hk-vignette { background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.65)); }
+
+  /* ---------- Etapa 7: Tierra + ubicación ---------- */
+  .hk-bg .hk-earth { inset: auto; left: var(--hk-ax); top: var(--hk-ay); width: 62vmin; height: auto; opacity: 0;
+    transform-origin: 79.9% 69.5%; will-change: transform;
+    filter: drop-shadow(0 0 3vmin rgba(90,160,255,.55)); }
+  .hk-bg .hk-pin { inset: auto; left: var(--hk-ax); top: var(--hk-ay); width: 0; height: 0; opacity: 0; }
+  .hk-pin .hk-dot { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%;
+    background: #ff5a3c; border: 2px solid #fff; box-shadow: 0 0 12px #ff5a3c; }
+  .hk-pin .hk-ring { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%;
+    border: 2px solid #ff8a6c; animation: hk-onda 1.8s ease-out infinite; }
+  @keyframes hk-onda { to { transform: scale(5); opacity: 0; } }
+  .hk-pin .hk-label { position: absolute; left: 22px; top: -30px; width: max-content; max-width: 260px; padding: 10px 14px; border-radius: 10px;
+    background: rgba(5,5,16,.8); border: 1px solid rgba(255,138,108,.6); font-size: 13px; line-height: 1.5; color: #c9c8de; }
+  .hk-pin .hk-label b { display: block; color: #fff; font-size: 16px; }
+
+  @media (max-width: 700px) {
+    :root { --hk-ax: 50%; --hk-ay: 64%; }
+    .hk-pin .hk-label { left: -110px; top: 22px; max-width: 220px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hk-core i, .hk-pin .hk-ring { animation: none; } }
+</style>
+
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<script is:inline src="/scripts/hackatob-bigbang.js"></script>
