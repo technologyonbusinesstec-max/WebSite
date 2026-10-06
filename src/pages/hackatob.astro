@@ -2,10 +2,12 @@
 // src/pages/hackatob.astro
 import Layout from '../layouts/Layout.astro';
 import BigBangBackground from '../components/hackatob/BigBangBackground.astro';
+import HackaNavbar from '../components/hackatob/HackaNavbar.astro';
 ---
 
 <Layout title="HackaToB 2026 – Technology on Business" description="El Hackathon oficial del congreso Technology on Business." hideNavbar={true} hideFooter={true}>
   <BigBangBackground />
+  <HackaNavbar />
 
   <!-- Cada .hk-stage es una etapa del fondo (el scroll de la página la recorre). Aquí va el contenido real. -->
   <main class="hackatob">
