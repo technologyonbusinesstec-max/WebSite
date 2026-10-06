@@ -1,14 +1,54 @@
 ---
 // src/pages/hackatob.astro
 import Layout from '../layouts/Layout.astro';
+import BigBangBackground from '../components/hackatob/BigBangBackground.astro';
 ---
 
 <Layout title="HackaToB 2026 – Technology on Business" description="El Hackathon oficial del congreso Technology on Business." hideNavbar={true} hideFooter={true}>
-  <main class="hackatob"></main>
+  <BigBangBackground />
+
+  <!-- Cada .hk-stage es una etapa del fondo (el scroll de la página la recorre). Aquí va el contenido real. -->
+  <main class="hackatob">
+    <!-- ETAPA 1 · Singularidad: punto de luz que late -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 2 · Explosión: destello y partículas disparadas -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 3 · Plasma caliente: caos en tonos blancos y naranjas -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 4 · Enfriamiento: las partículas frenan, tonos fríos -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 5 · Primeras estrellas: el cielo se llena de estrellas -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 6 · Galaxia: espiral que gira lento + acercamiento a un brazo -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 7 · Tierra: acercamiento a Costa Rica y pin del HackaToB -->
+    <section class="hk-stage"></section>
+  </main>
 </Layout>
+
+<style is:global>
+  body:has(.hackatob) {
+    background: #03030a;
+    color: #ecebf7;
+  }
+</style>
 
 <style>
   .hackatob {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hk-stage {
     min-height: 100vh;
+    padding: 80px 16px;
+    display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 700px) {
+    .hk-stage:last-of-type {
+      align-items: flex-start;
+    }
   }
 </style>
