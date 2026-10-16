@@ -1,0 +1,101 @@
+---
+// src/components/hackatob/HackaPlanet.astro
+// Planeta de un día del programa (decorativo). Lo usan el frame "Programa" y la página del programa.
+// - Día presencial: planeta sólido. Día remoto: planeta translúcido con borde punteado.
+// - Cada luna en órbita es un sprint de ese día.
+import type { Day } from './programa';
+
+interface Props {
+  day: Day;
+  /** Diámetro base en px (se multiplica por la escala propia del día) */
+  size?: number;
+}
+
+const { day, size = 76 } = Astro.props;
+const moons = day.sprints?.length ?? 0;
+const d = Math.round(size * day.planet.scale);
+---
+
+<span
+  class:list={['hk-planet', { 'is-remote': day.mode === 'Remoto' }]}
+  style={`--light: ${day.planet.light}; --dark: ${day.planet.dark}; --d: ${d}px`}
+  aria-hidden="true"
+>
+  <span class="hk-planet-body"></span>
+  {day.planet.ring && <span class="hk-planet-ring"></span>}
+  {Array.from({ length: moons }, (_, i) => (
+    <span class="hk-planet-orbit" style={`--turn: ${i / moons}`}><i></i></span>
+  ))}
+</span>
+
+<style>
+  .hk-planet {
+    position: relative;
+    display: block;
+    flex: none;
+    width: var(--d);
+    height: var(--d);
+    transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1);
+  }
+
+  .hk-planet-body {
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 32% 28%, var(--light), var(--dark) 72%);
+    box-shadow:
+      inset calc(var(--d) * -0.16) calc(var(--d) * -0.16) calc(var(--d) * 0.3) rgba(0, 0, 0, 0.6),
+      0 0 calc(var(--d) * 0.4) color-mix(in srgb, var(--dark) 55%, transparent);
+    transition: box-shadow 0.35s ease;
+  }
+
+  /* remoto: se ve "a distancia", translúcido y con el contorno punteado */
+  .hk-planet.is-remote .hk-planet-body {
+    background: radial-gradient(circle at 32% 28%, color-mix(in srgb, var(--light) 42%, transparent), color-mix(in srgb, var(--dark) 12%, transparent) 72%);
+    border: 1.5px dashed color-mix(in srgb, var(--light) 80%, transparent);
+    box-shadow: 0 0 calc(var(--d) * 0.35) color-mix(in srgb, var(--dark) 40%, transparent);
+  }
+
+  .hk-planet-ring {
+    position: absolute;
+    left: -38%;
+    right: -38%;
+    top: 34%;
+    bottom: 34%;
+    border-radius: 50%;
+    border: 2px solid color-mix(in srgb, var(--light) 60%, transparent);
+    transform: rotate(-16deg);
+  }
+
+  /* órbita de una luna (= un sprint) */
+  .hk-planet-orbit {
+    position: absolute;
+    inset: -24%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.09);
+    animation: hkPlanetOrbit 11s linear calc(var(--turn) * -11s) infinite;
+  }
+
+  .hk-planet-orbit i {
+    position: absolute;
+    left: 50%;
+    top: -4px;
+    width: 8px;
+    height: 8px;
+    margin-left: -4px;
+    border-radius: 50%;
+    background: #dbe4f5;
+    box-shadow: 0 0 8px rgba(159, 180, 214, 0.9);
+  }
+
+  @keyframes hkPlanetOrbit {
+    to { transform: rotate(360deg); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-planet-orbit {
+      animation: none;
+      transform: rotate(calc(var(--turn) * 360deg + 40deg));
+    }
+  }
+</style>

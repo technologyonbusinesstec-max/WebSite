@@ -1,0 +1,56 @@
+---
+// src/layouts/HackaLayout.astro
+// Layout de las páginas del HackaToB: fondo oscuro, navbar, footer y traducciones ES/EN.
+// Cada página solo aporta su contenido; un fondo propio va en <Fragment slot="background">.
+import Layout from './Layout.astro';
+import HackaNavbar from '../components/hackatob/HackaNavbar.astro';
+import HackaFooter from '../components/hackatob/HackaFooter.astro';
+import HackaMusic from '../components/hackatob/HackaMusic.astro';
+import '../styles/fade-curtain.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Ruta de la página con las secciones del menú; vacía en esa misma página */
+  basePath?: string;
+  /** Destino del botón de volver */
+  backHref?: string;
+  backLabel?: string;
+  /** Pausa + desvanecido antes del footer (solo con el fondo Big Bang) */
+  earthFade?: boolean;
+}
+
+const {
+  title = 'HackaToB 2026 – Technology on Business',
+  description = 'El Hackathon oficial del congreso Technology on Business.',
+  basePath = '/hackatob',
+  backHref = '/',
+  backLabel = 'Volver al ToB',
+  earthFade = false,
+} = Astro.props;
+---
+
+<Layout title={title} description={description} hideNavbar={true} hideFooter={true}>
+  <!-- anime.js: animaciones del navbar y del fondo Big Bang -->
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+
+  <slot name="background" />
+  <HackaNavbar basePath={basePath} backHref={backHref} backLabel={backLabel} />
+
+  <slot />
+
+  <HackaFooter basePath={basePath} earthFade={earthFade} />
+
+  <!-- Botón de música: fijo abajo a la derecha; siempre empieza apagada -->
+  <HackaMusic />
+
+  <!-- Traducciones ES/EN del sitio -->
+  <script src="/lang.js" defer></script>
+</Layout>
+
+<style is:global>
+  body:has(#hkNav) {
+    background: #03030a;
+    color: #ecebf7;
+  }
+</style>

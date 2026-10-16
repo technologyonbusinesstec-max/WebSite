@@ -1,43 +1,80 @@
 ---
 // src/components/hackatob/HackaNavbar.astro
-// Barra de navegación del HackaToB: botones azules (sin cambios respecto al menú anterior),
-// logo, pastilla central de enlaces y pastilla de idioma con estilo Liquid Glass.
-// Usa anime.js (cargado desde cdnjs por BigBangBackground) para las píldoras deslizantes;
-// si no está disponible, las píldoras se posicionan sin animación.
+// Barra de navegación reutilizable con estilo Liquid Glass: botón de volver, pastilla de
+// enlaces (escritorio), logo, pastilla de idioma, botón de acción y barra inferior de tabs
+// con iconos (pantallas angostas). Todo el contenido llega por props; los valores por
+// defecto son los del HackaToB.
+// Una "lente" de vidrio se posa sobre el enlace activo y se desliza con resorte.
+// Usa anime.js (cargado desde cdnjs por BigBangBackground); si no está disponible,
+// la lente se posiciona sin animación.
 
-const links = [
-  { href: '#premios', label: 'Premios' },
-  { href: '#tracks', label: 'Tracks' },
-  { href: '#sedes', label: 'Sedes' },
-  { href: '#agenda-preview', label: 'Agenda' },
-  { href: '#mentores', label: 'Mentores' },
-  { href: '#sponsors', label: 'Sponsors' },
-  { href: '#faq', label: 'FAQ' },
-];
+import { hackatobLinks, withBase, type NavLink } from './navLinks';
+
+interface Props {
+  links?: NavLink[];
+  /** Ruta de la página que contiene las secciones (p. ej. '/hackatob'); vacía si es la página actual */
+  basePath?: string;
+  /** aria-label de la navegación */
+  navLabel?: string;
+  backHref?: string;
+  backLabel?: string;
+  logoSrc?: string;
+  logoAlt?: string;
+  /** aria-label del logo, que lleva al inicio de la página */
+  logoLinkLabel?: string;
+  ctaHref?: string;
+  ctaLabel?: string;
+  /** Clave de traducción del botón de acción */
+  ctaI18n?: string;
+}
+
+const {
+  links = hackatobLinks,
+  basePath = '',
+  navLabel = 'Secciones del HackaToB',
+  backHref = '/',
+  backLabel = 'Volver al ToB',
+  logoSrc = '/imagenes/hackatob/hackatob-logo.svg',
+  logoAlt = 'HackaToB',
+  logoLinkLabel = 'Ir al inicio',
+  ctaHref = 'https://techrebel.io/',
+  ctaLabel = 'Participar',
+  ctaI18n = 'hack_nav_participar',
+} = Astro.props;
+
+// Enlaces a una sección (#ancla): su id. Enlaces a otra página: 'page:<ruta>', que no coincide con ninguna sección.
+const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `page:${href}`);
 ---
+
+<!-- Filtro "gota": funde la lente con la píldora donde se tocan -->
+<svg class="hk-goo-defs" width="0" height="0" aria-hidden="true" focusable="false">
+  <filter id="hk-goo" x="-20%" y="-20%" width="140%" height="140%" color-interpolation-filters="sRGB">
+    <feGaussianBlur in="SourceGraphic" stdDeviation="7"></feGaussianBlur>
+    <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -8"></feColorMatrix>
+  </filter>
+</svg>
 
 <header class="hk-nav" id="hkNav">
   <div class="hk-nav-left">
-    <a href="/" class="hack-back-btn" aria-label="Volver al ToB">
-      <span class="hk-nav-back-full">&larr; Volver al ToB</span>
-      <span class="hk-nav-back-short" aria-hidden="true">&larr; ToB</span>
-      <span class="hk-nav-back-icon" aria-hidden="true">&larr;</span>
+    <a href={backHref} class="hack-back-btn" aria-label={backLabel}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M19 12H5M11 6l-6 6 6 6" />
+      </svg>
     </a>
-    <!-- RUTA DEL LOGO: cambiar el src si se reemplaza el archivo del logo del HackaToB -->
-    <img
-        class="hk-nav-logo"
-        id="hkNavLogo"
-        src="/imagenes/hackatob/hackatob-logo.svg"
-        alt="HackaToB"
-        height="32"
-      decoding="async"
-    />
+    <!-- El archivo del logo se cambia con la prop logoSrc -->
+    <a href="#" class="hk-nav-logo-link" id="hkNavLogoLink" aria-label={logoLinkLabel}>
+      <img class="hk-nav-logo" id="hkNavLogo" src={logoSrc} alt={logoAlt} height="60" decoding="async" />
+    </a>
   </div>
 
-  <nav class="hk-nav-pill" id="hkNavPill" aria-label="Secciones del HackaToB">
-    <span class="hk-nav-glider" id="hkNavGlider" aria-hidden="true"></span>
+  <nav class="hk-bar hk-nav-pill" id="hkNavPill" aria-label={navLabel}>
+    <span class="hk-bar-glass" aria-hidden="true"></span>
+    <span class="hk-bar-goo" aria-hidden="true">
+      <span class="hk-bar-goo-in"><i class="hk-bar-goo-body"></i><i class="hk-bar-goo-blob"></i></span>
+    </span>
+    <span class="hk-lens" aria-hidden="true"></span>
     {links.map((l) => (
-      <a href={l.href} class="hk-nav-link" data-section={l.href.slice(1)}>{l.label}</a>
+      <a href={withBase(l.href, basePath)} class:list={['hk-nav-link', { 'is-featured': l.featured }]} data-section={sectionOf(l.href)} data-i18n={l.i18n}>{l.label}</a>
     ))}
   </nav>
 
@@ -47,115 +84,144 @@ const links = [
       <span class="hk-nav-lang-text active">ES</span>
       <span class="hk-nav-lang-text">EN</span>
     </button>
-    <a href="https://techrebel.io/" target="_blank" rel="noopener noreferrer" class="hack-participate-btn">Participar</a>
-    <button
-      type="button"
-      class="hk-nav-menu-btn"
-      id="hkMenuToggle"
-      aria-label="Menú"
-      aria-expanded="false"
-      aria-controls="hkNavPanel"
-    >
-      <span class="hk-nav-burger"></span>
-    </button>
+    <a href={ctaHref} target="_blank" rel="noopener noreferrer" class="hack-participate-btn" data-i18n={ctaI18n}>{ctaLabel}</a>
   </div>
 </header>
 
-<!-- Panel de enlaces para pantallas angostas -->
-<nav class="hk-nav-panel" id="hkNavPanel" aria-label="Secciones del HackaToB">
+<!-- Barra inferior de tabs para pantallas angostas -->
+<nav class="hk-bar hk-tabbar" id="hkTabbar" data-lens="circle" aria-label={navLabel}>
+  <span class="hk-bar-glass" aria-hidden="true"></span>
+  <span class="hk-bar-goo" aria-hidden="true">
+    <span class="hk-bar-goo-in"><i class="hk-bar-goo-body"></i><i class="hk-bar-goo-blob"></i></span>
+  </span>
+  <span class="hk-lens" aria-hidden="true"></span>
   {links.map((l) => (
-    <a href={l.href} class="hk-nav-panel-link" data-section={l.href.slice(1)}>{l.label}</a>
+    <a href={withBase(l.href, basePath)} class:list={['hk-tab', { 'is-featured': l.featured }]} data-section={sectionOf(l.href)}>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <Fragment set:html={l.icon} />
+      </svg>
+      <span class="hk-tab-label" data-i18n={l.i18n}>{l.label}</span>
+    </a>
   ))}
 </nav>
 
 <script>
-  type Anime = (params: Record<string, unknown>) => unknown;
-  const anime = (window as unknown as { anime?: Anime & { remove: (t: unknown) => void } }).anime;
+  type AnimeParams = Record<string, unknown>;
+  type Anime = ((params: AnimeParams) => unknown) & { remove: (t: unknown) => void };
+  const anime = (window as unknown as { anime?: Anime }).anime;
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
 
-  const nav = document.getElementById('hkNav')!;
   const pill = document.getElementById('hkNavPill')!;
-  const glider = document.getElementById('hkNavGlider')!;
   const pillLinks = Array.from(pill.querySelectorAll<HTMLAnchorElement>('.hk-nav-link'));
-  const panel = document.getElementById('hkNavPanel')!;
-  const panelLinks = Array.from(panel.querySelectorAll<HTMLAnchorElement>('.hk-nav-panel-link'));
-  const menuBtn = document.getElementById('hkMenuToggle')!;
+  const tabbar = document.getElementById('hkTabbar')!;
+  const tabLinks = Array.from(tabbar.querySelectorAll<HTMLAnchorElement>('.hk-tab'));
   const logo = document.getElementById('hkNavLogo') as HTMLImageElement;
 
   // ─── Logo: placeholder punteado si el archivo no existe ───
   const markMissing = () => logo.classList.add('is-missing');
   logo.addEventListener('error', markMissing);
 
-  // ─── Animación genérica (anime.js o salto instantáneo) ───
-  function setStyles(el: HTMLElement, props: Record<string, number>) {
-    for (const [k, v] of Object.entries(props)) {
-      el.style.setProperty(k, k === 'opacity' ? String(v) : `${v}px`);
-    }
-  }
-  function animate(el: HTMLElement, props: Record<string, number>, duration: number) {
-    if (anime) anime.remove(el);
-    if (!anime || reduce.matches || duration === 0) return setStyles(el, props);
-    anime({ targets: el, ...props, duration, easing: 'easeOutExpo' });
-  }
+  // ─── Lente de vidrio: se desliza con resorte animando solo transform y opacity ───
+  function createLens(bar: HTMLElement) {
+    const lens = bar.querySelector<HTMLElement>('.hk-lens')!;
+    const blob = bar.querySelector<HTMLElement>('.hk-bar-goo-blob')!;
+    const circle = bar.dataset.lens === 'circle';
+    const st = { cx: 0, w: 0, stretch: 0 }; // centro, ancho visual y estiramiento (0–1)
+    let width = 0; // ancho real (CSS) de la lente
+    let k = 0; // intensidad del estiramiento según la distancia
+    let shown = false;
+    let current: HTMLElement | null = null;
+    let fadeTimer = 0;
 
-  // ─── Píldora de vidrio deslizante en la pastilla central ───
-  const GROW = 0.06; // crece ~6 % por lado para acompañar el zoom del enlace
-  function moveGlider(link: HTMLAnchorElement) {
-    const w = link.offsetWidth, h = link.offsetHeight;
-    const box = {
-      left: link.offsetLeft - w * GROW,
-      top: link.offsetTop - h * GROW,
-      width: w * (1 + GROW * 2),
-      height: h * (1 + GROW * 2),
+    const render = () => {
+      const sx = (st.w / width) * (1 + k * st.stretch);
+      const sy = 1 - k * 0.35 * st.stretch;
+      lens.style.transform = blob.style.transform =
+        `translate3d(${st.cx - width / 2}px, 0, 0) scale(${sx}, ${sy})`;
     };
-    if (!glider.dataset.visible) {
-      // primera aparición: se ubica en el enlace y aparece ahí
-      animate(glider, box, 0);
-      glider.dataset.visible = '1';
-      animate(glider, { opacity: 1 }, 420);
-      return;
+    const setShown = (on: boolean) => {
+      shown = on;
+      lens.style.opacity = blob.style.opacity = on ? '1' : '0';
+    };
+    const measure = (item: HTMLElement) => {
+      const over = parseFloat(getComputedStyle(bar).getPropertyValue('--hk-over')) || 0;
+      return {
+        cx: item.offsetLeft + item.offsetWidth / 2,
+        w: circle ? bar.offsetHeight + over * 2 : item.offsetWidth + 4,
+      };
+    };
+
+    function moveTo(item: HTMLElement | null, instant = false) {
+      current = item;
+      clearTimeout(fadeTimer);
+      anime?.remove(st);
+      if (!item || bar.offsetWidth === 0) return setShown(false);
+
+      const to = measure(item);
+      const setWidth = () => {
+        width = to.w;
+        lens.style.width = blob.style.width = `${width}px`;
+      };
+      const jump = () => {
+        setWidth();
+        Object.assign(st, { cx: to.cx, w: to.w, stretch: 0 });
+        render();
+        setShown(true);
+      };
+
+      if (!shown || instant || !anime) return jump();
+      if (reduce.matches) {
+        // movimiento reducido: solo un fade
+        setShown(false);
+        fadeTimer = window.setTimeout(jump, 160);
+        return;
+      }
+
+      k = Math.min(0.24, 0.08 + Math.abs(to.cx - st.cx) / 900);
+      setWidth(); // el ancho cambia de golpe y scaleX lo compensa (st.w sigue en el valor anterior)
+      render();
+      anime({ targets: st, cx: to.cx, w: to.w, easing: 'spring(1, 180, 16, 0)', update: render });
+      anime({
+        targets: st,
+        stretch: [
+          { value: 1, duration: 150, easing: 'easeOutQuad' },
+          { value: 0, duration: 320, easing: 'easeOutBack' },
+        ],
+        update: render,
+      });
     }
-    animate(glider, { ...box, opacity: 1 }, 420);
-  }
-  function hideGlider() {
-    glider.dataset.visible = '';
-    animate(glider, { opacity: 0 }, 420);
-  }
-  const keyboardFocusInPill = () => pill.querySelector(':focus-visible') !== null;
 
-  pillLinks.forEach((link) => {
-    link.addEventListener('mouseenter', () => {
-      if (finePointer.matches) moveGlider(link);
-    });
-    link.addEventListener('focus', () => {
-      if (link.matches(':focus-visible')) moveGlider(link);
-    });
-  });
-  pill.addEventListener('mouseleave', () => {
-    if (!keyboardFocusInPill()) hideGlider();
-  });
-  pill.addEventListener('focusout', (e) => {
-    if (!pill.contains(e.relatedTarget as Node) && !pill.matches(':hover')) hideGlider();
-  });
+    return { moveTo, refresh: () => moveTo(current, true) };
+  }
 
-  // ─── Enlace activo según la sección visible ───
+  const pillLens = createLens(pill);
+  const tabLens = createLens(tabbar);
+
+  // ─── Enlace activo: según la sección visible o el último enlace pulsado ───
+  const allLinks = [...pillLinks, ...tabLinks];
   const sections = pillLinks
     .map((l) => document.getElementById(l.dataset.section!))
     .filter((s): s is HTMLElement => s !== null);
+  const findLink = (list: HTMLAnchorElement[], id: string) => list.find((l) => l.dataset.section === id) ?? null;
   let activeId = '';
+  let previewing = false; // la lente de escritorio sigue al cursor o al foco de teclado
+
   function setActive(id: string) {
     if (id === activeId) return;
     activeId = id;
-    for (const l of [...pillLinks, ...panelLinks]) {
+    for (const l of allLinks) {
       const on = l.dataset.section === id;
       l.classList.toggle('is-active', on);
       if (on) l.setAttribute('aria-current', 'true');
       else l.removeAttribute('aria-current');
     }
+    if (!previewing) pillLens.moveTo(findLink(pillLinks, id));
+    tabLens.moveTo(findLink(tabLinks, id));
   }
   function updateActive() {
+    if (!sections.length) return;
     const line = innerHeight * 0.4;
     let current = '';
     for (const s of sections) {
@@ -164,70 +230,119 @@ const links = [
     }
     setActive(current);
   }
+  allLinks.forEach((l) => l.addEventListener('click', () => setActive(l.dataset.section!)));
 
-  // ─── Scroll: compactar + sección activa ───
+  // Si esta página es el destino de un enlace del menú (p. ej. /hackatob/tracks), ese enlace queda activo
+  const here = `page:${location.pathname.replace(/\/$/, '')}`;
+  if (allLinks.some((l) => l.dataset.section === here)) setActive(here);
+
+  // ─── Logo: vuelve al inicio de la página (hero) ───
+  document.getElementById('hkNavLogoLink')!.addEventListener('click', (e) => {
+    e.preventDefault();
+    scrollTo({ top: 0, behavior: reduce.matches ? 'auto' : 'smooth' });
+    history.replaceState(null, '', location.pathname + location.search);
+    setActive('');
+  });
+
+  // ─── Escritorio: la lente acompaña al cursor y al foco, y vuelve al enlace activo ───
+  function preview(link: HTMLAnchorElement) {
+    previewing = true;
+    pillLens.moveTo(link);
+  }
+  function endPreview() {
+    previewing = false;
+    pillLens.moveTo(findLink(pillLinks, activeId));
+  }
+  pillLinks.forEach((link) => {
+    link.addEventListener('mouseenter', () => {
+      if (finePointer.matches) preview(link);
+    });
+    link.addEventListener('focus', () => {
+      if (link.matches(':focus-visible')) preview(link);
+    });
+  });
+  pill.addEventListener('mouseleave', () => {
+    if (pill.querySelector(':focus-visible') === null) endPreview();
+  });
+  pill.addEventListener('focusout', (e) => {
+    if (!pill.contains(e.relatedTarget as Node) && !pill.matches(':hover')) endPreview();
+  });
+
+  // ─── Scroll y cambios de tamaño ───
   let ticking = false;
   function onScroll() {
     if (ticking) return;
     ticking = true;
     requestAnimationFrame(() => {
       ticking = false;
-      nav.classList.toggle('is-compact', scrollY > 40);
       updateActive();
     });
   }
+  function refreshLenses() {
+    pillLens.refresh();
+    tabLens.refresh();
+  }
   addEventListener('scroll', onScroll, { passive: true });
-  addEventListener('resize', onScroll);
+  addEventListener('resize', () => {
+    refreshLenses();
+    onScroll();
+  });
+  document.fonts?.ready.then(refreshLenses);
   onScroll();
 
-  // ─── Menú en pantallas angostas ───
-  function setPanel(open: boolean) {
-    panel.classList.toggle('open', open);
-    menuBtn.setAttribute('aria-expanded', String(open));
-  }
-  menuBtn.addEventListener('click', () => setPanel(!panel.classList.contains('open')));
-  panelLinks.forEach((l) => l.addEventListener('click', () => setPanel(false)));
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && panel.classList.contains('open')) {
-      setPanel(false);
-      menuBtn.focus();
-    }
-  });
-  document.addEventListener('click', (e) => {
-    const t = e.target as Node;
-    if (panel.classList.contains('open') && !panel.contains(t) && !menuBtn.contains(t)) setPanel(false);
-  });
-
-  // ─── Idioma (misma lógica que el menú anterior: alterna el idioma marcado) ───
+  // ─── Idioma: usa el cambio de idioma del sitio (setLanguage de public/lang.js) ───
   const langToggle = document.getElementById('hkLangToggle')!;
   const langGlider = document.getElementById('hkLangGlider')!;
   const langTexts = Array.from(langToggle.querySelectorAll<HTMLElement>('.hk-nav-lang-text'));
   function placeLangGlider(duration: number) {
     const active = langTexts.find((t) => t.classList.contains('active')) ?? langTexts[0];
-    animate(langGlider, { left: active.offsetLeft, width: active.offsetWidth }, duration);
+    const props = { left: active.offsetLeft, width: active.offsetWidth };
+    if (anime) anime.remove(langGlider);
+    if (!anime || reduce.matches || duration === 0) {
+      langGlider.style.left = `${props.left}px`;
+      langGlider.style.width = `${props.width}px`;
+      return;
+    }
+    anime({ targets: langGlider, ...props, duration, easing: 'easeOutExpo' });
+  }
+  function showLang(lang: string, duration: number) {
+    langTexts.forEach((t, i) => t.classList.toggle('active', (i === 1) === (lang === 'en')));
+    placeLangGlider(duration);
   }
   langToggle.addEventListener('click', () => {
-    langTexts.forEach((t) => t.classList.toggle('active'));
-    placeLangGlider(420);
+    const next = langTexts[1].classList.contains('active') ? 'es' : 'en';
+    const setLanguage = (window as unknown as { setLanguage?: (lang: string) => void }).setLanguage;
+    if (setLanguage) setLanguage(next);
+    else showLang(next, 420); // sin lang.js solo cambia la marca
+  });
+  addEventListener('languageChanged', (e) => {
+    showLang((e as CustomEvent<{ lang: string }>).detail.lang, 420);
+    refreshLenses(); // las etiquetas traducidas cambian de ancho
   });
   placeLangGlider(0);
 </script>
 
 <style>
-  /* ───── Barra: fija, sin fondo propio ───── */
+  .hk-goo-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+  }
+
+  /* ───── Barra superior: fija, sin fondo propio ───── */
   .hk-nav {
     position: fixed;
     top: 20px;
     left: 50%;
     transform: translateX(-50%);
-    width: 94%;
-    max-width: 1260px;
+    width: calc(100% - 48px);
     height: 60px;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
     align-items: center;
     gap: 16px;
-    padding: 0 10px;
+    padding: 0;
     z-index: 1000;
     pointer-events: none;
   }
@@ -248,34 +363,38 @@ const links = [
 
   /* ───── Botones azules: idénticos al menú anterior ───── */
   .hack-back-btn {
-    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    background: linear-gradient(135deg, #2347c5, #132a8c);
     color: #ffffff !important;
     text-decoration: none;
-    padding: 8px 22px;
-    border-radius: 50px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    flex: none;
+    border-radius: 50%;
     font-size: 0.95rem;
     font-weight: 700;
     white-space: nowrap;
-    box-shadow: 0 4px 18px rgba(30, 136, 229, 0.45);
+    box-shadow: 0 4px 18px rgba(26, 55, 166, 0.5);
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 6px;
   }
 
   .hack-back-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(30, 136, 229, 0.65);
-    background: linear-gradient(135deg, #2196f3, #1976d2);
+    box-shadow: 0 6px 24px rgba(35, 71, 197, 0.65);
+    background: linear-gradient(135deg, #2d55dc, #1a37a6);
   }
 
-  .hk-nav-back-short,
-  .hk-nav-back-icon {
-    display: none;
+  .hack-back-btn svg {
+    width: 20px;
+    height: 20px;
   }
 
   .hack-participate-btn {
-    background: linear-gradient(135deg, #1e88e5, #1565c0);
+    background: linear-gradient(135deg, #2347c5, #132a8c);
     color: #ffffff !important;
     text-decoration: none;
     padding: 8px 24px;
@@ -283,20 +402,31 @@ const links = [
     font-size: 0.95rem;
     font-weight: 700;
     white-space: nowrap;
-    box-shadow: 0 4px 18px rgba(30, 136, 229, 0.45);
+    box-shadow: 0 4px 18px rgba(26, 55, 166, 0.5);
     transition: all 0.3s ease;
   }
 
   .hack-participate-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(30, 136, 229, 0.65);
-    background: linear-gradient(135deg, #2196f3, #1976d2);
+    box-shadow: 0 6px 24px rgba(35, 71, 197, 0.65);
+    background: linear-gradient(135deg, #2d55dc, #1a37a6);
   }
 
   /* ───── Logo ───── */
+  .hk-nav-logo-link {
+    display: block;
+    flex: none;
+    border-radius: 12px;
+  }
+
+  .hk-nav-logo-link:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.85);
+    outline-offset: 2px;
+  }
+
   .hk-nav-logo {
     display: block;
-    height: 32px;
+    height: 60px;
     width: auto;
     filter: drop-shadow(0 1px 6px rgba(0, 0, 0, 0.45));
   }
@@ -311,99 +441,143 @@ const links = [
     color: #f2f1fb;
   }
 
-  /* ───── Liquid Glass (base común) ───── */
-  .hk-nav-pill,
-  .hk-nav-lang,
-  .hk-nav-menu-btn,
-  .hk-nav-panel {
-    background: rgba(255, 255, 255, 0.07);
-    -webkit-backdrop-filter: blur(16px) saturate(1.6) brightness(0.7);
-    backdrop-filter: blur(16px) saturate(1.6) brightness(0.7);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 8px 30px rgba(0, 0, 0, 0.25);
+  /* ───── Liquid Glass: píldora oscura sin borde (base de la pastilla y de la barra de tabs) ─────
+     Capas hermanas, de atrás hacia adelante: vidrio (desenfoque), gota (tinte oscuro con la
+     silueta fundida de píldora + lente), lente (refracción y borde especular) y enlaces.
+     La lente no puede ser hija de una capa con backdrop-filter o dejaría de ver la página. */
+  .hk-bar {
+    --hk-over: 4px; /* cuánto sobresale la lente por arriba y por abajo */
+    border-radius: 9999px;
+  }
+
+  .hk-bar-glass {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    pointer-events: none;
+  }
+
+  /* El margen negativo da espacio al filtro para la lente que sobresale */
+  .hk-bar-goo {
+    position: absolute;
+    inset: -28px;
+    opacity: 0.75;
+    filter: url(#hk-goo) drop-shadow(0 8px 24px rgba(0, 0, 0, 0.33));
+    pointer-events: none;
+  }
+
+  .hk-bar-goo-in {
+    position: absolute;
+    inset: 28px;
+  }
+
+  .hk-bar-goo-body {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    background: #0a0a0a;
+  }
+
+  .hk-bar-goo-blob,
+  .hk-lens {
+    position: absolute;
+    left: 0;
+    top: calc(var(--hk-over) * -1);
+    bottom: calc(var(--hk-over) * -1);
+    width: 0;
+    border-radius: 9999px;
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+    transition: opacity 0.3s ease;
+  }
+
+  .hk-bar-goo-blob {
+    background: #0a0a0a;
+  }
+
+  .hk-lens {
+    background: radial-gradient(120% 90% at 50% 0%, rgba(255, 255, 255, 0.17), rgba(255, 255, 255, 0.03) 55%, rgba(255, 255, 255, 0.08));
+    -webkit-backdrop-filter: blur(8px) brightness(1.3) saturate(180%);
+    backdrop-filter: blur(8px) brightness(1.3) saturate(180%);
+  }
+
+  /* Borde especular (único borde del componente): blanco tenue en los extremos, casi transparente al centro */
+  .hk-lens::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    padding: 1px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from 0deg,
+      rgba(255, 255, 255, 0.1) 0deg,
+      rgba(255, 255, 255, 0.5) 90deg,
+      rgba(255, 255, 255, 0.06) 180deg,
+      rgba(255, 255, 255, 0.5) 270deg,
+      rgba(255, 255, 255, 0.1) 360deg
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask-composite: exclude;
   }
 
   @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
-    .hk-nav-pill,
-    .hk-nav-lang,
-    .hk-nav-menu-btn,
-    .hk-nav-panel {
-      background: rgba(10, 12, 28, 0.82);
-    }
+    .hk-bar-goo { opacity: 0.96; }
+    .hk-nav-lang { background: rgba(10, 10, 10, 0.96); }
   }
 
-  /* ───── Pastilla central ───── */
+  /* ───── Pastilla central (escritorio) ───── */
   .hk-nav-pill {
     position: relative;
     display: flex;
     align-items: center;
     gap: 2px;
-    padding: 6px;
-    border-radius: 999px;
-    transition: padding 0.3s ease;
+    padding: 5px;
   }
 
-  .hk-nav.is-compact .hk-nav-pill {
-    padding: 3px;
-  }
-
-  .hk-nav-glider {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0;
-    height: 0;
-    opacity: 0;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.16);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35), 0 4px 14px rgba(0, 0, 0, 0.18);
-    pointer-events: none;
-  }
-
-  .hk-nav-link,
-  .hk-nav-panel-link {
+  .hk-nav-link {
     position: relative;
-    color: #f2f1fb;
+    z-index: 3;
+    padding: 9px 14px;
+    color: #ffffff;
     font-size: 14px;
     font-weight: 500;
     line-height: 1.2;
     text-decoration: none;
     white-space: nowrap;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 0, 0, 0.35);
-    border: 1px solid transparent;
-    border-radius: 999px;
+    border-radius: 9999px;
+    opacity: 0.6;
+    transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4), opacity 0.3s ease, filter 0.3s ease;
   }
 
-  .hk-nav-link {
-    padding: 8px 12px;
-    transition:
-      transform 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.4),
-      filter 0.3s ease,
-      opacity 0.3s ease,
-      padding 0.3s ease;
+  .hk-nav-link.is-active,
+  .hk-nav-link:focus-visible {
+    opacity: 1;
+    transform: scale(1.1);
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.55);
   }
 
   .hk-nav-link:focus-visible {
-    outline: none;
+    outline: 2px solid rgba(255, 255, 255, 0.85);
+    outline-offset: -3px;
   }
 
-  /* Enlace activo: amarillo del menú anterior dentro de una píldora de vidrio */
-  .hk-nav-link.is-active,
-  .hk-nav-panel-link.is-active {
-    color: #ffd700;
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 215, 0, 0.55);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 0 14px rgba(255, 215, 0, 0.18);
-  }
-
-  /* Efecto foco (cursor) */
   @media (hover: hover) and (pointer: fine) {
+    .hk-nav-link:hover {
+      opacity: 1;
+      transform: scale(1.1);
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.55);
+    }
+    /* Efecto foco (cursor): lo que no se señala queda desenfocado */
     .hk-nav-pill:has(.hk-nav-link:hover) .hk-nav-link:not(:hover) {
       filter: blur(2.5px);
       opacity: 0.5;
-    }
-    .hk-nav-link:hover {
-      transform: scale(1.12);
+      transform: none;
+      text-shadow: none;
     }
   }
 
@@ -411,9 +585,25 @@ const links = [
   .hk-nav-pill:has(.hk-nav-link:focus-visible) .hk-nav-link:not(:focus-visible) {
     filter: blur(2.5px);
     opacity: 0.5;
+    transform: none;
+    text-shadow: none;
   }
-  .hk-nav-link:focus-visible {
-    transform: scale(1.12);
+
+  /* Enlace destacado: amarillo */
+  .hk-nav-link.is-featured {
+    color: #ffd43b;
+    opacity: 1;
+  }
+
+  .hk-nav-link.is-featured.is-active,
+  .hk-nav-link.is-featured:focus-visible {
+    text-shadow: 0 0 12px rgba(255, 212, 59, 0.6);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .hk-nav-link.is-featured:hover {
+      text-shadow: 0 0 12px rgba(255, 212, 59, 0.6);
+    }
   }
 
   /* ───── Pastilla de idioma ───── */
@@ -423,14 +613,18 @@ const links = [
     align-items: center;
     padding: 3px;
     height: 36px;
-    border-radius: 999px;
+    border: 0;
+    border-radius: 9999px;
+    background: rgba(10, 10, 10, 0.75);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
     cursor: pointer;
     font: inherit;
   }
 
-  .hk-nav-lang:focus-visible,
-  .hk-nav-menu-btn:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.7);
+  .hk-nav-lang:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.85);
     outline-offset: 3px;
   }
 
@@ -440,21 +634,19 @@ const links = [
     bottom: 3px;
     left: 3px;
     width: 34px;
-    border-radius: 999px;
+    border-radius: 9999px;
     background: rgba(255, 255, 255, 0.16);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45), 0 2px 8px rgba(0, 0, 0, 0.2);
   }
 
   .hk-nav-lang-text {
     position: relative;
     width: 34px;
     text-align: center;
-    color: #f2f1fb;
+    color: #ffffff;
     font-size: 14px;
     font-weight: 500;
-    line-height: 28px;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6), 0 0 12px rgba(0, 0, 0, 0.35);
-    opacity: 0.7;
+    line-height: 30px;
+    opacity: 0.6;
     user-select: none;
     transition: opacity 0.3s ease;
   }
@@ -463,77 +655,83 @@ const links = [
     opacity: 1;
   }
 
-  /* ───── Botón de menú y panel (pantallas angostas) ───── */
-  .hk-nav-menu-btn {
-    display: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    cursor: pointer;
-    place-items: center;
-    padding: 0;
-  }
-
-  .hk-nav-burger,
-  .hk-nav-burger::before,
-  .hk-nav-burger::after {
-    display: block;
-    width: 18px;
-    height: 2px;
-    border-radius: 2px;
-    background: #f2f1fb;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-  }
-
-  .hk-nav-burger {
-    position: relative;
-  }
-
-  .hk-nav-burger::before,
-  .hk-nav-burger::after {
-    content: '';
-    position: absolute;
-    left: 0;
-  }
-
-  .hk-nav-burger::before { top: -6px; }
-  .hk-nav-burger::after { top: 6px; }
-
-  .hk-nav-menu-btn[aria-expanded='true'] .hk-nav-burger { background: transparent; }
-  .hk-nav-menu-btn[aria-expanded='true'] .hk-nav-burger::before { transform: translateY(6px) rotate(45deg); }
-  .hk-nav-menu-btn[aria-expanded='true'] .hk-nav-burger::after { transform: translateY(-6px) rotate(-45deg); }
-
-  .hk-nav-panel {
-    display: none;
+  /* ───── Barra inferior de tabs (pantallas angostas) ───── */
+  .hk-tabbar {
+    --hk-over: 6px;
     position: fixed;
-    top: 90px;
-    left: 3%;
-    right: 3%;
-    z-index: 999;
-    flex-direction: column;
-    gap: 4px;
-    padding: 12px;
-    border-radius: 24px;
+    left: 12px;
+    right: 12px;
+    bottom: calc(22px + env(safe-area-inset-bottom, 0px));
+    z-index: 1000;
+    display: none;
+    height: 52px;
+    max-width: 400px;
+    margin-inline: auto;
+    padding: 0 6px;
   }
 
-  .hk-nav-panel.open {
-    display: flex;
+  .hk-tab {
+    position: relative;
+    z-index: 3;
+    flex: 1 1 0;
+    min-width: 44px;
+    height: 100%;
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    text-decoration: none;
+    border-radius: 9999px;
+    -webkit-tap-highlight-color: transparent;
   }
 
-  .hk-nav-panel-link {
-    padding: 12px 16px;
-    font-size: 16px;
+  .hk-tab svg {
+    width: 22px;
+    height: 22px;
+    opacity: 0.4;
+    transition: transform 0.35s cubic-bezier(0.3, 1.4, 0.5, 1), opacity 0.25s ease;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    .hk-nav-panel-link:hover {
-      background: rgba(255, 255, 255, 0.1);
-    }
+  .hk-tab-label {
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, 5px);
+    transition: transform 0.3s ease, opacity 0.25s ease;
+    pointer-events: none;
   }
 
-  .hk-nav-panel-link:focus-visible {
-    outline: 2px solid rgba(255, 255, 255, 0.7);
-    outline-offset: -2px;
+  .hk-tab.is-active svg {
+    opacity: 1;
+    transform: translateY(-7px) scale(1.15);
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.6));
+  }
+
+  .hk-tab.is-featured {
+    color: #ffd43b;
+  }
+
+  .hk-tab.is-featured svg {
+    opacity: 0.9;
+  }
+
+  .hk-tab.is-featured.is-active svg {
+    opacity: 1;
+    filter: drop-shadow(0 0 6px rgba(255, 212, 59, 0.65));
+  }
+
+  .hk-tab.is-active .hk-tab-label {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+
+  .hk-tab:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.85);
+    outline-offset: -3px;
   }
 
   /* ───── Responsive ───── */
@@ -542,9 +740,7 @@ const links = [
     .hk-nav { width: calc(100% - 24px); gap: 10px; padding: 0; }
     .hk-nav-left,
     .hk-nav-right { gap: 10px; }
-    .hk-nav-back-full { display: none; }
-    .hk-nav-back-short { display: inline; }
-    .hk-nav-link { padding: 8px 9px; }
+    .hk-nav-link { padding: 9px 10px; }
   }
 
   @media (max-width: 899.98px) {
@@ -553,16 +749,15 @@ const links = [
       gap: 8px;
     }
     .hk-nav-pill { display: none; }
-    .hk-nav-menu-btn { display: grid; }
+    .hk-tabbar { display: flex; }
+    .hk-nav-logo { height: 48px; }
     .hk-nav-left,
     .hk-nav-right { gap: 8px; }
   }
 
   @media (max-width: 480px) {
     .hk-nav { width: calc(100% - 24px); padding: 0; top: 14px; }
-    .hk-nav-back-short { display: none; }
-    .hk-nav-back-icon { display: inline; }
-    .hk-nav-panel { top: 82px; }
+    .hk-nav-logo { height: 40px; }
   }
 
   @media (max-width: 400px) {
@@ -573,23 +768,20 @@ const links = [
     .hk-nav-lang-glider { width: 30px; }
   }
 
-  @media (min-width: 900px) {
-    .hk-nav-panel { display: none !important; }
-  }
-
-  /* ───── Movimiento reducido: cambios instantáneos ───── */
+  /* ───── Movimiento reducido: sin resorte ni desplazamientos, solo fades ───── */
   @media (prefers-reduced-motion: reduce) {
-    .hk-nav-pill,
     .hk-nav-link,
-    .hk-nav-lang-text,
-    .hk-nav-burger,
-    .hk-nav-burger::before,
-    .hk-nav-burger::after {
-      transition: none !important;
+    .hk-tab svg,
+    .hk-tab-label {
+      transition: opacity 0.2s ease !important;
     }
+    .hk-nav-link.is-active,
     .hk-nav-link:hover,
     .hk-nav-link:focus-visible {
       transform: none !important;
+    }
+    .hk-tab-label {
+      transform: translate(-50%, 0);
     }
   }
 </style>

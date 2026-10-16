@@ -1,0 +1,194 @@
+---
+// src/components/hackatob/HackaMusic.astro
+// Botón de música del HackaToB: fijo abajo a la derecha. La música SIEMPRE empieza apagada
+// (no se recuerda el estado entre páginas ni visitas); la persona la enciende y apaga con el botón.
+// El archivo de audio no se descarga hasta el primer clic.
+// PENDIENTE: falta la canción. Guardarla en public/audio/ con el nombre de `src` (o cambiar `src`).
+
+interface Props {
+  /** Ruta del audio dentro de public/ */
+  src?: string;
+  /** Volumen de 0 a 1 */
+  volume?: number;
+}
+
+const { src = '/audio/hackatob.mp3', volume = 0.5 } = Astro.props;
+---
+
+<button
+  type="button"
+  class="hk-music"
+  id="hkMusic"
+  aria-pressed="false"
+  aria-label="Encender la música"
+  title="Encender la música"
+  data-src={src}
+  data-volume={volume}
+>
+  <!-- apagada: altavoz tachado -->
+  <svg class="hk-music-off" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="M4 9.500v5h3.500L12 18.500v-13L7.500 9.500z" />
+    <path d="M16 9.500l5 5M21 9.500l-5 5" />
+  </svg>
+  <!-- encendida: barras que se mueven -->
+  <span class="hk-music-on" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</button>
+
+<script>
+  const btn = document.getElementById('hkMusic') as HTMLButtonElement | null;
+  if (btn) {
+    let audio: HTMLAudioElement | null = null;
+
+    const setState = (playing: boolean) => {
+      const label = playing ? 'Apagar la música' : 'Encender la música';
+      btn.classList.toggle('is-playing', playing);
+      btn.classList.remove('is-loading');
+      btn.setAttribute('aria-pressed', String(playing));
+      btn.setAttribute('aria-label', label);
+      btn.title = label;
+    };
+
+    // si el audio no existe o no se puede reproducir, el botón lo indica en vez de fallar en silencio
+    const setUnavailable = () => {
+      setState(false);
+      btn.classList.add('is-unavailable');
+      btn.setAttribute('aria-label', 'Música disponible próximamente');
+      btn.title = 'Música disponible próximamente';
+    };
+
+    btn.addEventListener('click', async () => {
+      if (!audio) {
+        audio = new Audio(btn.dataset.src);
+        audio.loop = true;
+        audio.volume = Number(btn.dataset.volume) || 0.5;
+        audio.addEventListener('pause', () => setState(false));
+        // 'playing' y no 'play': solo cuenta como encendida cuando el sonido realmente arranca
+        audio.addEventListener('playing', () => setState(true));
+        audio.addEventListener('error', () => {
+          audio = null; // se reintenta desde cero en el siguiente clic (p. ej. cuando ya exista el archivo)
+          setUnavailable();
+        });
+      }
+      if (!audio.paused) {
+        audio.pause();
+        return;
+      }
+      try {
+        // mientras el audio carga, el botón late; pasa a "encendida" cuando el sonido arranca
+        btn.classList.remove('is-unavailable');
+        setState(false);
+        btn.classList.add('is-loading');
+        await audio.play();
+      } catch {
+        audio = null;
+        setUnavailable();
+      }
+    });
+  }
+</script>
+
+<style>
+  .hk-music {
+    position: fixed;
+    right: clamp(16px, 2.4vw, 34px);
+    bottom: 30px;
+    z-index: 900; /* sobre el contenido; el navbar (1000) queda encima */
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(14, 17, 24, 0.82);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    color: #e6e9f4;
+    cursor: pointer;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .hk-music:hover {
+    transform: translateY(-2px);
+    border-color: rgba(111, 168, 232, 0.8);
+  }
+
+  .hk-music:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+  }
+
+  /* encendida: toma el azul del HackaToB */
+  .hk-music.is-playing {
+    background: linear-gradient(135deg, #1b6fc2, #0a4f8c);
+    border-color: rgba(159, 196, 242, 0.7);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45), 0 0 22px rgba(27, 111, 194, 0.65);
+    color: #ffffff;
+  }
+
+  .hk-music.is-loading {
+    animation: hkMusicLoading 0.9s ease-in-out infinite;
+  }
+
+  @keyframes hkMusicLoading {
+    50% { opacity: 0.45; }
+  }
+
+  .hk-music.is-unavailable {
+    opacity: 0.6;
+  }
+
+  .hk-music-on {
+    display: none;
+    align-items: flex-end;
+    gap: 3px;
+    height: 18px;
+  }
+
+  .hk-music-on i {
+    width: 3px;
+    height: 100%;
+    border-radius: 2px;
+    background: currentColor;
+    transform-origin: bottom;
+    animation: hkMusicBar 0.9s ease-in-out infinite;
+  }
+
+  .hk-music-on i:nth-child(2) { animation-delay: -0.5s; }
+  .hk-music-on i:nth-child(3) { animation-delay: -0.2s; }
+  .hk-music-on i:nth-child(4) { animation-delay: -0.7s; }
+
+  @keyframes hkMusicBar {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+  }
+
+  .hk-music.is-playing .hk-music-off {
+    display: none;
+  }
+
+  .hk-music.is-playing .hk-music-on {
+    display: flex;
+  }
+
+  /* en móvil y tableta el navbar tiene una barra de pestañas abajo: el botón sube para no taparla */
+  @media (max-width: 899.98px) {
+    .hk-music {
+      bottom: 104px;
+      width: 46px;
+      height: 46px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-music-on i {
+      animation: none;
+      transform: scaleY(0.7);
+    }
+
+    .hk-music-on i:nth-child(odd) {
+      transform: scaleY(0.4);
+    }
+  }
+</style>

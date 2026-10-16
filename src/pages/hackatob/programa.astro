@@ -1,0 +1,572 @@
+---
+// src/pages/hackatob/programa.astro
+// Página del programa completo: a ella llevan los planetas del frame "Programa" de /hackatob.
+// Arriba, un índice horizontal de planetas (uno por día); debajo, solo el programa del día elegido.
+// El índice son pestañas accesibles (teclado: flechas, Inicio, Fin) y el día queda en la URL (#mar).
+// Sin JavaScript los cinco días se muestran uno debajo de otro y el índice salta a cada uno.
+// Los cuatro sprints van numerados 01–04; las reuniones, en una franja destacada por día;
+// actividades y resultados, en desplegables (<details>).
+// El contenido se edita en src/components/hackatob/programa.ts. PENDIENTE: traducción al inglés.
+import HackaLayout from '../../layouts/HackaLayout.astro';
+import HackaPlanet from '../../components/hackatob/HackaPlanet.astro';
+import { days } from '../../components/hackatob/programa';
+---
+
+<HackaLayout
+  title="Programa – HackaToB 2026"
+  description="Programa del HackaToB 2026: del lunes 2 al viernes 6 de noviembre."
+  basePath="/hackatob"
+  backHref="/hackatob"
+  backLabel="Volver al HackaToB"
+>
+  <main class="hk-pp" id="hkProgramaPage">
+    <header class="hk-pp-head">
+      <h1 class="hk-pp-title" data-i18n="hack_pg_title">Una semana para aprender, construir y presentar.</h1>
+      <p class="hk-pp-dates" data-i18n="hack_pg_dates">Del lunes 2 al viernes 6 de noviembre de 2026.</p>
+      <p class="hk-pp-tz" data-i18n="hack_pg_tz">Todos los horarios corresponden a America/Costa_Rica, UTC−6.</p>
+    </header>
+
+    <!-- ÍNDICE: un planeta por día -->
+    <nav class="hk-pp-index" aria-label="Días del programa">
+      <span class="hk-pp-index-line" aria-hidden="true"></span>
+      {days.map((d) => (
+        <a class="hk-pp-tab" href={`#${d.key}`} id={`tab-${d.key}`} data-day={d.key}>
+          <span class="hk-pp-tab-short" data-i18n={`hack_pg_${d.key}_short`}>{d.short}</span>
+          <span class="hk-pp-tab-planet"><HackaPlanet day={d} size={58} /></span>
+          <span class="hk-pp-tab-name">{d.name}</span>
+        </a>
+      ))}
+    </nav>
+
+    <div class="hk-pp-days">
+      {days.map((d) => (
+        <section class="hk-pp-day" id={d.key} data-day={d.key}>
+          <p class="hk-pp-kicker">{d.short}</p>
+          <h2 class="hk-pp-name">{d.name}</h2>
+
+          <!-- Fecha, modalidad, sede y horario: misma jerarquía -->
+          <dl class="hk-pp-meta">
+            <div><dt>Fecha</dt><dd>{d.date}</dd></div>
+            <div><dt>Modalidad</dt><dd>{d.mode}</dd></div>
+            {d.venue && <div><dt>Sede</dt><dd>{d.venue}</dd></div>}
+            {d.hours && <div><dt>Horario</dt><dd>{d.hours}</dd></div>}
+          </dl>
+
+          <p class="hk-pp-text">{d.text}</p>
+          {d.extra && <p class="hk-pp-text">{d.extra}</p>}
+
+          {d.activities && (
+            <details class="hk-pp-more">
+              <summary>Actividades del día</summary>
+              <ul>
+                {d.activities.map((a) => <li>{a}</li>)}
+              </ul>
+            </details>
+          )}
+
+          {d.sprints && (
+            <div class:list={['hk-pp-sprints', { 'is-pair': d.sprints.length > 1 }]}>
+              {d.sprints.map((s) => (
+                <article class="hk-pp-sprint">
+                  <p class="hk-pp-sprint-num">Sprint {s.num}</p>
+                  <h3 class="hk-pp-sprint-title">{s.title}</h3>
+                  <p class="hk-pp-sprint-text">{s.text}</p>
+                  <details class="hk-pp-more">
+                    <summary>Resultado</summary>
+                    <p>{s.result}</p>
+                  </details>
+                  {s.note && <p class="hk-pp-sprint-note">{s.note}</p>}
+                </article>
+              ))}
+            </div>
+          )}
+
+          {d.meeting && (
+            <p class="hk-pp-meeting">
+              <strong>{d.meeting.time}</strong>
+              <span>{d.meeting.label}</span>
+            </p>
+          )}
+
+          {d.tobParallel && <p class="hk-pp-parallel">Las conferencias ToB ocurren en paralelo al desarrollo.</p>}
+        </section>
+      ))}
+    </div>
+  </main>
+</HackaLayout>
+
+<script>
+  // Convierte el índice en pestañas: solo se ve el día elegido. El día sale del #ancla de la URL
+  // (así llegan los planetas de /hackatob) o, si no hay, es el lunes.
+  const page = document.getElementById('hkProgramaPage');
+  if (page) {
+    const tabs = [...page.querySelectorAll<HTMLAnchorElement>('.hk-pp-tab')];
+    const panels = [...page.querySelectorAll<HTMLElement>('.hk-pp-day')];
+    const keys = tabs.map((t) => t.dataset.day!);
+
+    page.classList.add('is-tabs');
+    page.querySelector('.hk-pp-index')!.setAttribute('role', 'tablist');
+    tabs.forEach((t) => {
+      t.setAttribute('role', 'tab');
+      t.setAttribute('aria-controls', t.dataset.day!);
+    });
+    panels.forEach((p) => {
+      p.setAttribute('role', 'tabpanel');
+      p.setAttribute('aria-labelledby', `tab-${p.dataset.day}`);
+      p.tabIndex = 0;
+    });
+
+    const select = (key: string, { focus = false, updateUrl = true } = {}) => {
+      if (!keys.includes(key)) key = keys[0];
+      tabs.forEach((t) => {
+        const on = t.dataset.day === key;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+        if (on && focus) t.focus();
+      });
+      panels.forEach((p) => (p.hidden = p.dataset.day !== key));
+      // replaceState: cambia el #ancla sin que el navegador salte hasta la sección
+      if (updateUrl) history.replaceState(null, '', `#${key}`);
+    };
+
+    tabs.forEach((t, i) => {
+      t.addEventListener('click', (e) => {
+        e.preventDefault();
+        select(t.dataset.day!);
+      });
+      t.addEventListener('keydown', (e) => {
+        const to = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: keys.length - 1 }[e.key];
+        if (to === undefined) return;
+        e.preventDefault();
+        select(keys[(to + keys.length) % keys.length], { focus: true });
+      });
+    });
+
+    addEventListener('hashchange', () => select(location.hash.slice(1), { updateUrl: false }));
+    select(location.hash.slice(1), { updateUrl: false });
+    // al llegar con #ancla el navegador baja hasta la sección: volver arriba, donde está el índice
+    // (el salto del navegador puede ocurrir después de este script: se repite al terminar de cargar)
+    if (location.hash) {
+      const toTop = () => scrollTo({ top: 0, behavior: 'instant' });
+      toTop();
+      requestAnimationFrame(toTop);
+      addEventListener('load', () => requestAnimationFrame(toTop), { once: true });
+    }
+  }
+</script>
+
+<style>
+  .hk-pp {
+    /* Azul oscuro del logo del HackaToB */
+    --hk-blue: #0a4f8c;
+    --hk-blue-text: #1b6fc2;
+
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 150px 1.5rem 120px; /* deja libre el navbar fijo */
+  }
+
+  .hk-pp-head {
+    text-align: center;
+  }
+
+  .hk-pp-title {
+    margin: 0 auto;
+    max-width: 20ch;
+    font-size: clamp(2rem, 4.4vw, 3rem);
+    font-weight: 900;
+    line-height: 1.12;
+    color: #ffffff;
+    text-wrap: balance;
+  }
+
+  .hk-pp-dates {
+    margin: 1.2rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .hk-pp-tz {
+    margin: 0.5rem 0 0;
+    font-size: 0.88rem;
+    color: rgba(226, 229, 238, 0.6);
+  }
+
+  /* ───── Índice de planetas ───── */
+  .hk-pp-index {
+    --hk-pp-short: 28px; /* alto de la etiqueta del día */
+    --hk-pp-zone: 112px; /* alto de la franja de planetas: la línea pasa por su centro */
+
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin-top: 3.6rem;
+  }
+
+  .hk-pp-index-line {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: calc(var(--hk-pp-short) + var(--hk-pp-zone) / 2);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(143, 160, 190, 0.5) 12%, rgba(143, 160, 190, 0.5) 88%, transparent);
+  }
+
+  .hk-pp-tab {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 18px;
+    border-radius: 16px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    transition: opacity 0.35s ease;
+  }
+
+  .hk-pp-tab-short {
+    height: var(--hk-pp-short);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #9fb4d6;
+  }
+
+  .hk-pp-tab-planet {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: var(--hk-pp-zone);
+  }
+
+  .hk-pp-tab-name {
+    padding: 0 6px;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #ffffff;
+  }
+
+  /* marca del día elegido, bajo el nombre */
+  .hk-pp-tab::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 34px;
+    height: 3px;
+    margin-left: -17px;
+    border-radius: 3px;
+    background: #6fa8e8;
+    box-shadow: 0 0 10px rgba(27, 111, 194, 0.9);
+    opacity: 0;
+    transform: scaleX(0.3);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .hk-pp-tab:hover :global(.hk-planet),
+  .hk-pp-tab:focus-visible :global(.hk-planet) {
+    transform: scale(1.12);
+  }
+
+  .hk-pp-tab:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 4px;
+  }
+
+  /* con pestañas activas: los días no elegidos se atenúan y el elegido crece */
+  .hk-pp.is-tabs .hk-pp-tab[aria-selected='false'] {
+    opacity: 0.5;
+  }
+
+  .hk-pp.is-tabs .hk-pp-tab[aria-selected='false']:hover,
+  .hk-pp.is-tabs .hk-pp-tab[aria-selected='false']:focus-visible {
+    opacity: 0.9;
+  }
+
+  .hk-pp-tab[aria-selected='true'] :global(.hk-planet) {
+    transform: scale(1.2);
+  }
+
+  .hk-pp-tab[aria-selected='true']::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+
+  /* ───── Día ───── */
+  .hk-pp-days {
+    margin-top: 4rem;
+  }
+
+  .hk-pp-day {
+    max-width: 780px;
+    margin: 0 auto;
+    scroll-margin-top: 120px;
+  }
+
+  /* sin JavaScript los cinco días van seguidos: se separan entre sí */
+  .hk-pp-day + .hk-pp-day {
+    margin-top: 6rem;
+  }
+
+  .hk-pp.is-tabs .hk-pp-day + .hk-pp-day {
+    margin-top: 0;
+  }
+
+  .hk-pp-day[hidden] {
+    display: none;
+  }
+
+  .hk-pp.is-tabs .hk-pp-day {
+    animation: hkPpIn 0.5s ease both;
+  }
+
+  @keyframes hkPpIn {
+    from { opacity: 0; transform: translateY(14px); }
+  }
+
+  .hk-pp-day:focus-visible {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 16px;
+    border-radius: 8px;
+  }
+
+  .hk-pp-kicker {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #9fb4d6;
+  }
+
+  .hk-pp-name {
+    margin: 0.5rem 0 0;
+    font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+    font-weight: 800;
+    line-height: 1.15;
+    color: #ffffff;
+  }
+
+  .hk-pp-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px 48px;
+    margin: 2rem 0 0;
+    padding: 1.5rem 0;
+    border-block: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hk-pp-meta dt {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(226, 229, 238, 0.55);
+  }
+
+  .hk-pp-meta dd {
+    margin: 6px 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .hk-pp-text {
+    margin: 2rem 0 0;
+    max-width: 60ch;
+    font-size: 1.08rem;
+    line-height: 1.65;
+    color: rgba(226, 229, 238, 0.88);
+  }
+
+  .hk-pp-text + .hk-pp-text {
+    margin-top: 0.6rem;
+  }
+
+  /* ───── Desplegables ───── */
+  .hk-pp-more {
+    margin-top: 1.6rem;
+  }
+
+  .hk-pp-more summary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 2px;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #9cc4f2;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .hk-pp-more summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .hk-pp-more summary::before {
+    content: '+';
+    display: grid;
+    place-items: center;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid currentColor;
+    font-size: 1rem;
+    line-height: 1;
+  }
+
+  .hk-pp-more[open] summary::before {
+    content: '–';
+  }
+
+  .hk-pp-more summary:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  .hk-pp-more ul,
+  .hk-pp-more p {
+    margin: 0.9rem 0 0;
+    font-size: 1rem;
+    line-height: 1.7;
+    color: rgba(226, 229, 238, 0.88);
+  }
+
+  .hk-pp-more ul {
+    padding-left: 1.3rem;
+  }
+
+  .hk-pp-more li + li {
+    margin-top: 0.35rem;
+  }
+
+  /* ───── Sprints ───── */
+  .hk-pp-sprints {
+    display: grid;
+    gap: 24px;
+    margin-top: 2.6rem;
+  }
+
+  /* los dos sprints del martes: dos columnas en escritorio */
+  .hk-pp-sprints.is-pair {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hk-pp-sprint {
+    padding: 2rem 2rem 1.8rem;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 3px solid var(--hk-blue-text);
+    background: rgba(24, 27, 34, 0.9);
+  }
+
+  .hk-pp-sprint-num {
+    margin: 0;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6fa8e8;
+  }
+
+  .hk-pp-sprint-title {
+    margin: 0.6rem 0 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .hk-pp-sprint-text {
+    margin: 0.9rem 0 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(226, 229, 238, 0.88);
+  }
+
+  .hk-pp-sprint .hk-pp-more {
+    margin-top: 1.3rem;
+  }
+
+  .hk-pp-sprint-note {
+    margin: 1.3rem 0 0;
+    padding-top: 1.1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.9rem;
+    color: rgba(226, 229, 238, 0.65);
+  }
+
+  /* ───── Reunión del día: franja destacada ───── */
+  .hk-pp-meeting {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    margin: 2rem 0 0;
+    padding: 18px 22px;
+    border-radius: 14px;
+    border: 1px solid rgba(27, 111, 194, 0.55);
+    background: linear-gradient(90deg, rgba(10, 79, 140, 0.4), rgba(10, 79, 140, 0.12));
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #ffffff;
+  }
+
+  .hk-pp-meeting strong {
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .hk-pp-parallel {
+    margin: 1.4rem 0 0;
+    font-size: 0.9rem;
+    color: rgba(226, 229, 238, 0.6);
+  }
+
+  /* ───── Móvil: índice compacto (sin nombres) y sprints uno debajo del otro ───── */
+  @media (max-width: 720px) {
+    .hk-pp-index {
+      --hk-pp-zone: 64px;
+      margin-top: 2.6rem;
+    }
+
+    /* los planetas se achican para que quepan los cinco en una fila, sin carrusel */
+    .hk-pp-tab-planet :global(.hk-planet) {
+      scale: 0.62;
+    }
+
+    .hk-pp-tab-short {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+    }
+
+    .hk-pp-tab-name {
+      display: none; /* el nombre del día elegido ya se lee en el título de abajo */
+    }
+
+    .hk-pp-days {
+      margin-top: 2.8rem;
+    }
+
+    .hk-pp-sprints.is-pair {
+      grid-template-columns: 1fr;
+    }
+
+    .hk-pp-sprint {
+      padding: 1.6rem 1.4rem 1.5rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-pp.is-tabs .hk-pp-day {
+      animation: none;
+    }
+  }
+</style>

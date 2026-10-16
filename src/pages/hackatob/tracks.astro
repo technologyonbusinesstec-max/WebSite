@@ -1,0 +1,350 @@
+---
+// src/pages/hackatob/tracks.astro
+// Página de tracks: a ella llevan los botones "Ver track" de /hackatob.
+// Diseño: una línea vertical al centro que se va trazando con el scroll, con una estrella en la punta.
+// La estrella arranca arriba, junto a la definición de los tracks, y al bajar toma el color de cada
+// track (verde, azul, rojo, blanco). Solo se ve el texto del tramo donde está la estrella: aparece
+// cuando llega y se desvanece cuando sigue. Los tracks van alternados a cada lado (en móvil, a la derecha).
+// PENDIENTE: por cada track falta el detalle (reto, temas, tipo de solución esperada, acompañamiento
+// confirmado, evaluación aprobada y CTA). Por ahora solo muestra el nombre y la descripción.
+import HackaLayout from '../../layouts/HackaLayout.astro';
+import { tracks } from '../../components/hackatob/tracks';
+
+// Estrellas lejanas: siempre las mismas (semilla fija). x / y en % del recorrido
+let seed = 11;
+const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(1), y: +(rand() * 100).toFixed(1), i }));
+---
+
+<HackaLayout
+  title="Tracks – HackaToB 2026"
+  description="Los cuatro tracks del HackaToB 2026."
+  basePath="/hackatob"
+  backHref="/hackatob"
+  backLabel="Volver al HackaToB"
+>
+  <main class="hk-tl-page">
+    <div class="hk-tl" id="hkTimeline">
+      <div class="hk-tl-dust" aria-hidden="true">
+        {dust.map((d) => <i style={`left: ${d.x}%; top: ${d.y}%; --i: ${d.i}`}></i>)}
+      </div>
+
+      <!-- Línea: el tramo trazado llega hasta la estrella, que baja con el scroll -->
+      <div class="hk-tl-line" aria-hidden="true">
+        <span class="hk-tl-drawn"></span>
+        <span class="hk-tl-star"><i></i></span>
+      </div>
+
+      <!-- DEFINICIÓN de los tracks: la estrella arranca aquí -->
+      <header class="hk-tl-row hk-tl-row--left hk-tl-head">
+        <div class="hk-tl-block">
+          <h1 class="hk-tl-title" data-i18n="hack_tp_title">Tracks</h1>
+          <p class="hk-tl-lead" data-i18n="hack_tr_title">Elegí tu reto.</p>
+          <p class="hk-tl-text" data-i18n="hack_tp_def">Un track es el área del reto que tu equipo elige resolver durante el HackaToB. Hay cuatro, y cada equipo participa en uno.</p>
+        </div>
+      </header>
+
+      {tracks.map((t, i) => (
+        <section class:list={['hk-tl-row', i % 2 === 0 ? 'hk-tl-row--right' : 'hk-tl-row--left']} id={t.key} style={`--accent: ${t.accent}`}>
+          <span class="hk-tl-tick" aria-hidden="true"></span>
+          <div class="hk-tl-block">
+            <svg class="hk-tl-icon" viewBox="0 0 24 24" width="34" height="34" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={t.icon} />
+            <h2 class="hk-tl-name" data-i18n={`hack_tr_${t.key}_name`}>{t.name}</h2>
+            <p class="hk-tl-area" data-i18n={`hack_tr_${t.key}_area`}>{t.area}</p>
+            <p class="hk-tl-text" data-i18n={`hack_tr_${t.key}_text`}>{t.text}</p>
+            <p class="hk-tl-soon" data-i18n="hack_tp_soon">Muy pronto publicaremos aquí el detalle de este track.</p>
+          </div>
+        </section>
+      ))}
+    </div>
+
+    <!-- Remate al final de la línea -->
+    <svg class="hk-tl-end" viewBox="0 0 28 26" width="28" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+      <path d="M4 3a10 10 0 0 0 20 0M14 13v10" />
+    </svg>
+  </main>
+</HackaLayout>
+
+<script>
+  // La estrella baja por la línea según el scroll: arranca arriba (definición) y termina al final.
+  // El tramo donde está la estrella es el único con el texto visible, y le da su color a la estrella.
+  // Sin JavaScript la línea queda trazada completa y todos los textos visibles.
+  const tl = document.getElementById('hkTimeline');
+  if (tl) {
+    const rows = [...tl.querySelectorAll<HTMLElement>('.hk-tl-row')];
+    const START_COLOR = '#9fb4d6'; // color de la estrella en la definición, antes del primer track
+    tl.classList.add('is-armed');
+    let queued = false;
+
+    // scroll con el que la estrella llega al final de la línea (queda al 60 % del alto de la pantalla)
+    const scrollEnd = () => Math.max(1, tl.offsetTop + tl.offsetHeight - innerHeight * 0.6);
+
+    const update = () => {
+      queued = false;
+      const p = Math.min(1, Math.max(0, scrollY / scrollEnd()));
+      const starY = Math.min(tl.offsetHeight - 1, p * tl.offsetHeight);
+      const active = rows.find((row) => starY < row.offsetTop + row.offsetHeight) ?? rows[rows.length - 1];
+      tl.style.setProperty('--p', p.toFixed(4));
+      tl.style.setProperty('--star', active.style.getPropertyValue('--accent') || START_COLOR);
+      rows.forEach((row) => row.classList.toggle('is-on', row === active));
+    };
+    const request = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    };
+
+    // Al llegar por #ancla ("Ver track"), se va al punto del scroll donde la estrella está en ese track
+    const goToHash = () => {
+      const row = rows.find((r) => r.id && `#${r.id}` === location.hash);
+      if (!row) return;
+      const center = row.offsetTop + row.offsetHeight / 2;
+      scrollTo({ top: (center / tl.offsetHeight) * scrollEnd(), behavior: 'instant' });
+      update();
+    };
+
+    addEventListener('scroll', request, { passive: true });
+    addEventListener('resize', request);
+    addEventListener('hashchange', goToHash);
+    addEventListener('load', goToHash);
+    update();
+    goToHash();
+  }
+</script>
+
+<style>
+  .hk-tl-page {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 auto;
+    padding: 150px 1.5rem 110px; /* deja libre el navbar fijo */
+  }
+
+  .hk-tl {
+    --p: 1; /* avance de la línea (0–1); lo actualiza el script */
+    --star: #f1f4fa; /* color de la estrella: el del tramo donde está; lo actualiza el script */
+    --hk-tl-gap: 44px; /* separación entre la línea y el texto */
+    position: relative;
+  }
+
+  /* ───── Línea y estrella ───── */
+  .hk-tl-line {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 0;
+  }
+
+  .hk-tl-line::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: -0.5px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.07);
+  }
+
+  .hk-tl-drawn {
+    position: absolute;
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: calc(var(--p) * 100%);
+    background: linear-gradient(to bottom, rgba(201, 212, 234, 0.1), var(--star));
+    opacity: 0.75;
+  }
+
+  .hk-tl-star {
+    position: absolute;
+    left: -15px;
+    top: calc(var(--p) * 100% - 15px);
+    width: 30px;
+    height: 30px;
+    filter: drop-shadow(0 0 6px var(--star)) drop-shadow(0 0 18px var(--star));
+    transition: filter 0.7s ease;
+  }
+
+  .hk-tl-star i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    /* centro blanco y puntas del color del tramo */
+    background-color: var(--star);
+    background-image: radial-gradient(circle, #ffffff 0 16%, transparent 46%);
+    transition: background-color 0.7s ease;
+    clip-path: polygon(50% 0, 59% 41%, 100% 50%, 59% 59%, 50% 100%, 41% 59%, 0 50%, 41% 41%);
+    animation: hkTlStar 3s ease-in-out infinite;
+  }
+
+  @keyframes hkTlStar {
+    50% { transform: scale(0.78) rotate(14deg); opacity: 0.8; }
+  }
+
+  /* estrellas lejanas */
+  .hk-tl-dust i {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    border-radius: 50%;
+    background: #8fa0be;
+    opacity: 0.55;
+    animation: hkTlDust 5s ease-in-out calc(var(--i) * -0.9s) infinite;
+  }
+
+  @keyframes hkTlDust {
+    50% { opacity: 0.12; }
+  }
+
+  /* ───── Filas: un bloque a cada lado de la línea ───── */
+  .hk-tl-row {
+    position: relative;
+    display: flex;
+    align-items: center;
+    min-height: clamp(250px, 42vh, 400px);
+    scroll-margin-top: 28vh; /* al llegar por #ancla, el track queda a media pantalla */
+    transition: opacity 0.6s ease;
+  }
+
+  .hk-tl-row--left {
+    justify-content: flex-start;
+    padding-right: calc(50% + var(--hk-tl-gap));
+  }
+
+  .hk-tl-row--right {
+    padding-left: calc(50% + var(--hk-tl-gap));
+  }
+
+  .hk-tl-head {
+    align-items: flex-start;
+    min-height: clamp(280px, 40vh, 380px);
+  }
+
+  /* marca del track sobre la línea */
+  .hk-tl-tick {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 9px;
+    height: 9px;
+    margin: -4.5px 0 0 -4.5px;
+    border-radius: 50%;
+    background: #03030a;
+    border: 1.5px solid var(--accent);
+    transition: box-shadow 0.5s ease, background 0.5s ease;
+  }
+
+  .hk-tl-row.is-on .hk-tl-tick,
+  .hk-tl-row:target .hk-tl-tick {
+    background: var(--accent);
+    box-shadow: 0 0 12px var(--accent);
+  }
+
+  /* el texto solo se ve mientras la estrella está en su tramo: aparece al llegar y se desvanece
+     al seguir (solo si el script está activo) */
+  .hk-tl-block {
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .hk-tl.is-armed .hk-tl-row:not(.is-on) .hk-tl-block {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  /* ───── Texto ───── */
+  .hk-tl-block {
+    max-width: 34ch;
+  }
+
+  .hk-tl-title {
+    margin: 0;
+    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: #ffffff;
+  }
+
+  .hk-tl-lead {
+    margin: 0.6rem 0 0;
+    font-size: 1.1rem;
+    color: rgba(226, 229, 238, 0.75);
+  }
+
+  .hk-tl-icon {
+    display: block;
+    color: var(--accent);
+  }
+
+  .hk-tl-name {
+    margin: 0.9rem 0 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .hk-tl-area {
+    margin: 0.3rem 0 0;
+    font-size: 0.76rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hk-tl-text {
+    margin: 0.8rem 0 0;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgba(226, 229, 238, 0.82);
+  }
+
+  .hk-tl-soon {
+    margin: 0.9rem 0 0;
+    font-size: 0.86rem;
+    color: rgba(226, 229, 238, 0.5);
+  }
+
+  .hk-tl-end {
+    display: block;
+    margin: 26px auto 0;
+    color: rgba(201, 212, 234, 0.3);
+  }
+
+  /* ───── Móvil: la línea pasa a la izquierda y todos los tracks quedan a su derecha ───── */
+  @media (max-width: 720px) {
+    .hk-tl {
+      --hk-tl-gap: 30px;
+    }
+
+    .hk-tl-line,
+    .hk-tl-tick {
+      left: 12px;
+    }
+
+    .hk-tl-row--left,
+    .hk-tl-row--right {
+      padding-left: calc(12px + var(--hk-tl-gap));
+      padding-right: 0;
+    }
+
+    .hk-tl-row {
+      min-height: 0;
+      padding-block: 2.2rem;
+    }
+
+    .hk-tl-end {
+      margin-left: -2px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-tl-star i,
+    .hk-tl-dust i {
+      animation: none;
+    }
+  }
+</style>

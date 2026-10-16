@@ -1,0 +1,295 @@
+---
+// src/components/hackatob/HackaTracks.astro
+// Frame "Cuatro tracks" (id: tracks): cuatro tarjetas equivalentes en cuadrícula 2 x 2 (una columna
+// en móvil). Del núcleo de energía del centro salen cuatro ramificaciones, una hacia cada tarjeta.
+// "Ver track" lleva siempre a la página de tracks (TRACKS_PAGE), al apartado de ese track.
+// Los tracks se editan en ./tracks.ts; los textos en inglés van en public/lang.js.
+import { tracks, TRACKS_PAGE } from './tracks';
+
+// Núcleo de energía: lienzo fijo de 220 x 220 centrado en el cruce de la cuadrícula.
+// Cada rama sale del centro y termina en la esquina interior de su tarjeta.
+const C = 110;
+const END = 42; // debe cubrir medio hueco de la cuadrícula (--hk-tr-gap / 2) y entrar un poco en la tarjeta
+const branches = [
+  { sx: -1, sy: -1 }, // arriba-izquierda
+  { sx: 1, sy: -1 }, // arriba-derecha
+  { sx: -1, sy: 1 }, // abajo-izquierda
+  { sx: 1, sy: 1 }, // abajo-derecha
+].map(({ sx, sy }) => `M${C} ${C} Q${C + sx * 6} ${C + sy * 30} ${C + sx * END} ${C + sy * END}`);
+---
+
+<div class="hk-tr" id="hkTracks">
+  <h2 class="hk-tr-title" data-i18n="hack_tr_title">Elegí tu reto.</h2>
+
+  <div class="hk-tr-grid">
+    {tracks.map((t, i) => (
+      <article class="hk-tr-card" style={`--accent: ${t.accent}; --i: ${i}`}>
+        <svg class="hk-tr-icon" viewBox="0 0 24 24" width="46" height="46" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={t.icon} />
+        <h3 class="hk-tr-name" data-i18n={`hack_tr_${t.key}_name`}>{t.name}</h3>
+        <p class="hk-tr-area" data-i18n={`hack_tr_${t.key}_area`}>{t.area}</p>
+        <p class="hk-tr-text" data-i18n={`hack_tr_${t.key}_text`}>{t.text}</p>
+        <a class="hk-tr-btn" href={`${TRACKS_PAGE}#${t.key}`} aria-label={`Ver track: ${t.name}`} data-i18n="hack_tr_btn">Ver track</a>
+      </article>
+    ))}
+
+    <!-- Núcleo de energía y sus cuatro ramas (decorativo; en móvil se oculta) -->
+    <svg class="hk-tr-core" viewBox="0 0 220 220" width="220" height="220" aria-hidden="true">
+      {branches.map((d, i) => (
+        <g style={`--accent: ${tracks[i].accent}; --i: ${i}`}>
+          <path class="hk-tr-branch" d={d} pathLength="1" />
+          <path class="hk-tr-pulse" d={d} pathLength="1" />
+        </g>
+      ))}
+      <circle class="hk-tr-halo" cx={C} cy={C} r="13" />
+      <circle class="hk-tr-node" cx={C} cy={C} r="4" />
+    </svg>
+  </div>
+</div>
+
+<script>
+  // Aparición la primera vez que el frame entra en pantalla. Sin JavaScript o con
+  // "reducir movimiento" no se arma nada: todo el contenido queda visible desde el inicio.
+  const tr = document.getElementById('hkTracks');
+  if (tr && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    tr.classList.add('is-waiting');
+    const seen = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        tr.classList.remove('is-waiting');
+        seen.disconnect();
+      },
+      { threshold: 0.2 },
+    );
+    seen.observe(tr);
+  }
+</script>
+
+<style>
+  .hk-tr {
+    --hk-tr-gap: 72px; /* hueco de la cuadrícula: ahí vive el núcleo de energía */
+
+    width: 100%;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .hk-tr-title {
+    margin: 0 0 2.6rem;
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    text-align: center;
+    color: #ffffff;
+  }
+
+  .hk-tr-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr; /* las cuatro tarjetas miden lo mismo: el cruce queda en el centro exacto */
+    gap: var(--hk-tr-gap);
+  }
+
+  /* ───── Tarjeta ───── */
+  .hk-tr-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.4rem 2.4rem 2.2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(24, 27, 34, 0.9);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35);
+    transition: opacity 0.7s ease calc(0.55s + var(--i) * 0.12s), transform 0.7s ease calc(0.55s + var(--i) * 0.12s);
+  }
+
+  /* La rama "enciende" el borde de la tarjeta en la esquina por donde llega */
+  .hk-tr-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(circle at var(--corner), var(--accent), transparent 46%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box exclude, linear-gradient(#fff 0 0);
+    pointer-events: none;
+    transition: opacity 0.9s ease calc(1.1s + var(--i) * 0.12s);
+  }
+
+  .hk-tr-card:nth-child(1) { --corner: 100% 100%; }
+  .hk-tr-card:nth-child(2) { --corner: 0 100%; }
+  .hk-tr-card:nth-child(3) { --corner: 100% 0; }
+  .hk-tr-card:nth-child(4) { --corner: 0 0; }
+
+  .hk-tr-icon {
+    color: var(--accent);
+  }
+
+  .hk-tr-name {
+    margin: 1.1rem 0 0;
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #ffffff;
+  }
+
+  .hk-tr-area {
+    margin: 0.35rem 0 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hk-tr-text {
+    margin: 0.9rem 0 2rem;
+    font-size: 1.02rem;
+    line-height: 1.55;
+    color: rgba(226, 229, 238, 0.82);
+  }
+
+  /* Botón al pie de la tarjeta: pastilla blanca a todo el ancho */
+  .hk-tr-btn {
+    margin-top: auto;
+    align-self: stretch;
+    padding: 14px 20px;
+    border-radius: 999px;
+    background: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #0b0d14;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .hk-tr-btn:hover {
+    background: #dbe6f7;
+    transform: translateY(-2px);
+  }
+
+  .hk-tr-btn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+  }
+
+  /* ───── Núcleo de energía ───── */
+  .hk-tr-core {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .hk-tr-branch {
+    fill: none;
+    stroke: var(--accent);
+    stroke-width: 1.2;
+    stroke-linecap: round;
+    opacity: 0.6;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.7s ease-out calc(0.2s + var(--i) * 0.1s);
+  }
+
+  /* un destello corto recorre cada rama del centro a la tarjeta */
+  .hk-tr-pulse {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-dasharray: 0.22 1.78;
+    stroke-dashoffset: 0.22;
+    filter: drop-shadow(0 0 4px var(--accent));
+    animation: hkTrPulse 4.8s linear calc(2.2s + var(--i) * 1.2s) infinite;
+  }
+
+  @keyframes hkTrPulse {
+    0% { stroke-dashoffset: 0.22; }
+    22%, 100% { stroke-dashoffset: -1; }
+  }
+
+  .hk-tr-node {
+    fill: #ffffff;
+    filter: drop-shadow(0 0 6px rgba(27, 111, 194, 1));
+  }
+
+  .hk-tr-halo {
+    fill: rgba(27, 111, 194, 0.3);
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: hkTrHalo 3.2s ease-in-out infinite;
+  }
+
+  @keyframes hkTrHalo {
+    50% { transform: scale(1.55); opacity: 0.35; }
+  }
+
+  .hk-tr-node,
+  .hk-tr-halo {
+    transition: opacity 0.5s ease;
+  }
+
+  /* Antes de entrar en pantalla (solo si el script armó la animación) */
+  .hk-tr.is-waiting .hk-tr-card {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  .hk-tr.is-waiting .hk-tr-card::before,
+  .hk-tr.is-waiting .hk-tr-node,
+  .hk-tr.is-waiting .hk-tr-halo {
+    opacity: 0;
+  }
+
+  .hk-tr.is-waiting .hk-tr-branch {
+    stroke-dashoffset: 1;
+  }
+
+  .hk-tr.is-waiting .hk-tr-pulse {
+    visibility: hidden;
+  }
+
+  /* ───── Móvil: una columna, sin núcleo ───── */
+  @media (max-width: 760px) {
+    .hk-tr-grid {
+      grid-template-columns: 1fr;
+      grid-auto-rows: auto;
+      gap: 18px;
+    }
+
+    .hk-tr-core {
+      display: none;
+    }
+
+    .hk-tr-card {
+      padding: 1.8rem 1.6rem 1.6rem;
+    }
+
+    /* sin ramas: el acento queda como un toque en la esquina superior izquierda */
+    .hk-tr-card:nth-child(n) {
+      --corner: 0 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-tr-halo {
+      animation: none;
+    }
+
+    .hk-tr-pulse {
+      display: none;
+    }
+  }
+</style>

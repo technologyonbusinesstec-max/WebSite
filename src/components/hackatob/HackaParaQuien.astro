@@ -1,0 +1,390 @@
+---
+// src/components/hackatob/HackaParaQuien.astro
+// Frame "¿Para quién es?" (id: participantes): texto a la izquierda y, a la derecha, las disciplinas
+// como una constelación animada: las estrellas se encienden, las líneas se trazan de una a otra y
+// después un destello recorre la figura. Todo es CSS; el script solo avisa cuándo entra en pantalla.
+// Las etiquetas son informativas: no son filtros ni requisitos, por eso no son botones ni enlaces.
+// Los textos en inglés van en public/lang.js con las mismas claves.
+
+// Lienzo de la constelación (mismas proporciones que .hk-pq-sky: 5 / 4)
+const W = 500;
+const H = 400;
+
+// DISCIPLINAS: editar aquí. x / y = posición de la estrella (en %); side = lado donde va el nombre
+const disciplines = [
+  { key: 'tec', label: 'Tecnología', x: 20, y: 20, side: 'top' },
+  { key: 'dis', label: 'Diseño', x: 68, y: 10, side: 'right' },
+  { key: 'neg', label: 'Negocio', x: 84, y: 46, side: 'bottom' },
+  { key: 'com', label: 'Comunicación', x: 62, y: 84, side: 'bottom' },
+  { key: 'inv', label: 'Investigación', x: 16, y: 72, side: 'bottom' },
+  { key: 'otr', label: 'Otras disciplinas', x: 46, y: 48, side: 'bottom' },
+];
+
+// LÍNEAS: pares de índices de la lista anterior, en el orden en que se trazan
+const links = [
+  [0, 1], [1, 2], [2, 3], [3, 4], [4, 0], // contorno
+  [5, 0], [5, 2], [5, 3], // la estrella central une el resto
+];
+
+// Cada línea se detiene un poco antes de la estrella, como en una carta celeste
+const GAP = 15;
+const segments = links.map(([a, b]) => {
+  const [x1, y1] = [(disciplines[a].x * W) / 100, (disciplines[a].y * H) / 100];
+  const [x2, y2] = [(disciplines[b].x * W) / 100, (disciplines[b].y * H) / 100];
+  const len = Math.hypot(x2 - x1, y2 - y1);
+  const [ux, uy] = [(x2 - x1) / len, (y2 - y1) / len];
+  return { x1: x1 + ux * GAP, y1: y1 + uy * GAP, x2: x2 - ux * GAP, y2: y2 - uy * GAP };
+});
+
+// Estrellas lejanas de fondo: siempre las mismas (semilla fija), para que el dibujo no cambie al recargar
+let seed = 7;
+const rand = () => ((seed = (seed * 16807) % 2147483647) - 1) / 2147483646;
+const dust = Array.from({ length: 30 }, (_, i) => ({
+  x: Math.round(rand() * W),
+  y: Math.round(rand() * H),
+  r: +(0.5 + rand() * 0.9).toFixed(2),
+  i,
+}));
+---
+
+<div class="hk-pq" id="hkParaQuien">
+  <div class="hk-pq-copy">
+    <h2 class="hk-pq-title" data-i18n="hack_pq_title">Tu carrera <em>también</em> tiene algo que aportar.</h2>
+    <p class="hk-pq-lead" data-i18n="hack_pq_lead">Abierto a estudiantes de todas las universidades y carreras.</p>
+    <p class="hk-pq-text" data-i18n="hack_pq_text">
+      Podés aportar desde tecnología, diseño, negocio, comunicación, investigación y otras disciplinas.
+    </p>
+
+    <!-- Aviso destacado para principiantes -->
+    <p class="hk-pq-notice">
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3.5l2.2 5.6 5.8.4-4.5 3.8 1.5 5.7-5-3.2-5 3.2 1.5-5.7L4 9.5l5.8-.4z" />
+      </svg>
+      <span data-i18n="hack_pq_notice">No necesitás saber programar ni tener experiencia previa en hackathons.</span>
+    </p>
+  </div>
+
+  <div class="hk-pq-sky">
+    <!-- Dibujo de la constelación (decorativo; en móvil se oculta y las etiquetas pasan a ajuste de línea) -->
+    <svg class="hk-pq-chart" viewBox={`0 0 ${W} ${H}`} aria-hidden="true">
+      <g class="hk-pq-dust">
+        {dust.map((d) => <circle cx={d.x} cy={d.y} r={d.r} style={`--i: ${d.i}`} />)}
+      </g>
+      <g class="hk-pq-lines">
+        {segments.map((s, i) => <line x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} pathLength="1" style={`--i: ${i}`} />)}
+      </g>
+      <!-- Destello que viaja por cada línea, una tras otra -->
+      <g class="hk-pq-pulses">
+        {segments.map((s, i) => <line x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} pathLength="1" style={`--i: ${i}`} />)}
+      </g>
+    </svg>
+
+    <ul class="hk-pq-tags" aria-label="Disciplinas">
+      {disciplines.map((d, i) => (
+        <li class={`hk-pq-tag hk-pq-tag--${d.side}`} style={`--x: ${d.x}%; --y: ${d.y}%; --i: ${i}`}>
+          <span class="hk-pq-star" aria-hidden="true"><i></i></span>
+          <span class="hk-pq-name" data-i18n={`hack_pq_d_${d.key}`}>{d.label}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Aparición la primera vez que el frame entra en pantalla. Sin JavaScript o con
+  // "reducir movimiento" no se arma nada: todo el contenido queda visible desde el inicio.
+  const pq = document.getElementById('hkParaQuien');
+  if (pq && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    pq.classList.add('is-waiting');
+    const seen = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        pq.classList.remove('is-waiting');
+        seen.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+    seen.observe(pq);
+  }
+</script>
+
+<style>
+  .hk-pq {
+    /* Azul oscuro del logo del HackaToB, igual que en "¿Qué es?" */
+    --hk-blue: #0a4f8c;
+    --hk-blue-text: #1b6fc2;
+    --hk-pq-bg: #03030a; /* el sólido de la cortina: los nombres tapan con él las líneas */
+
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: clamp(3rem, 9vh, 6rem) 1.5rem;
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 3.5rem;
+    align-items: center;
+  }
+
+  /* ───── Texto ───── */
+  .hk-pq-title {
+    margin: 0;
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: #ffffff;
+    text-wrap: balance;
+  }
+
+  /* el <em> llega también desde public/lang.js al cambiar de idioma */
+  .hk-pq-title :global(em) {
+    font-style: normal;
+    color: var(--hk-blue-text);
+  }
+
+  .hk-pq-lead {
+    margin: 1.4rem 0 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .hk-pq-text {
+    margin: 0.7rem 0 0;
+    max-width: 52ch;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(242, 241, 251, 0.88);
+  }
+
+  .hk-pq-notice {
+    margin: 1.8rem 0 0;
+    max-width: 52ch;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 14px;
+    border: 1px solid rgba(27, 111, 194, 0.55);
+    border-left: 4px solid var(--hk-blue-text);
+    background: linear-gradient(90deg, rgba(10, 79, 140, 0.32), rgba(10, 79, 140, 0.08));
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.45;
+    color: #ffffff;
+  }
+
+  .hk-pq-notice svg {
+    flex: none;
+    color: #9fb4d6;
+  }
+
+  /* ───── Constelación de disciplinas ───── */
+  .hk-pq-sky {
+    position: relative;
+    width: 100%;
+    max-width: 540px;
+    aspect-ratio: 5 / 4;
+    justify-self: center;
+    /* toda la figura flota muy despacio */
+    animation: hkPqFloat 11s ease-in-out infinite alternate;
+  }
+
+  @keyframes hkPqFloat {
+    from { transform: translateY(-7px) rotate(-0.6deg); }
+    to { transform: translateY(7px) rotate(0.6deg); }
+  }
+
+  .hk-pq-chart {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  /* estrellas lejanas */
+  .hk-pq-dust circle {
+    fill: #8fa0be;
+    opacity: 0.5;
+    animation: hkPqDust 5s ease-in-out calc(var(--i) * -0.83s) infinite;
+  }
+
+  @keyframes hkPqDust {
+    50% { opacity: 0.12; }
+  }
+
+  .hk-pq-dust {
+    transition: opacity 1.2s ease;
+  }
+
+  /* líneas: se trazan de estrella a estrella, en orden */
+  .hk-pq-lines line {
+    stroke: rgba(143, 160, 190, 0.5);
+    stroke-width: 1;
+    stroke-linecap: round;
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+    transition: stroke-dashoffset 0.75s ease-in-out calc(0.5s + var(--i) * 0.22s);
+  }
+
+  /* destello: un tramo corto y brillante que recorre la línea, una detrás de otra */
+  .hk-pq-pulses line {
+    stroke: #9cc4f2;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-dasharray: 0.16 1.84;
+    stroke-dashoffset: 0.16;
+    filter: drop-shadow(0 0 4px rgba(27, 111, 194, 0.95));
+    animation: hkPqPulse 6.4s linear calc(3s + var(--i) * 0.8s) infinite;
+  }
+
+  @keyframes hkPqPulse {
+    0% { stroke-dashoffset: 0.16; }
+    18%, 100% { stroke-dashoffset: -1; }
+  }
+
+  .hk-pq-tags {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Cada disciplina: un punto sin tamaño sobre la estrella; el nombre cuelga a un lado */
+  .hk-pq-tag {
+    position: absolute;
+    left: var(--x);
+    top: var(--y);
+    width: 0;
+    height: 0;
+    cursor: default; /* informativa: no es un botón */
+  }
+
+  /* La estrella: destello de cuatro puntas con halo */
+  .hk-pq-star {
+    position: absolute;
+    left: -11px;
+    top: -11px;
+    width: 22px;
+    height: 22px;
+    filter: drop-shadow(0 0 5px rgba(27, 111, 194, 1)) drop-shadow(0 0 12px rgba(27, 111, 194, 0.7));
+    transition: opacity 0.5s ease calc(var(--i) * 0.14s), transform 0.5s cubic-bezier(0.3, 1.6, 0.5, 1) calc(var(--i) * 0.14s);
+  }
+
+  .hk-pq-star i {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, #ffffff 0 22%, #c9dcf7 55%, #7fa9e0 100%);
+    clip-path: polygon(50% 0, 58% 42%, 100% 50%, 58% 58%, 50% 100%, 42% 58%, 0 50%, 42% 42%);
+    animation: hkPqTwinkle 3.4s ease-in-out calc(var(--i) * -0.9s) infinite;
+  }
+
+  @keyframes hkPqTwinkle {
+    50% { opacity: 0.55; transform: scale(0.72) rotate(18deg); }
+  }
+
+  .hk-pq-name {
+    position: absolute;
+    padding: 2px 8px;
+    border-radius: 6px;
+    background: var(--hk-pq-bg);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    color: #e6e9f4;
+    transition: opacity 0.6s ease calc(0.25s + var(--i) * 0.14s);
+  }
+
+  .hk-pq-tag--top .hk-pq-name { left: 0; bottom: 16px; transform: translateX(-50%); }
+  .hk-pq-tag--bottom .hk-pq-name { left: 0; top: 16px; transform: translateX(-50%); }
+  .hk-pq-tag--right .hk-pq-name { left: 16px; top: 0; transform: translateY(-50%); }
+  .hk-pq-tag--left .hk-pq-name { right: 16px; top: 0; transform: translateY(-50%); }
+
+  /* Antes de entrar en pantalla (solo si el script armó la animación) */
+  .hk-pq.is-waiting .hk-pq-star {
+    opacity: 0;
+    transform: scale(0);
+  }
+
+  .hk-pq.is-waiting .hk-pq-name,
+  .hk-pq.is-waiting .hk-pq-dust {
+    opacity: 0;
+  }
+
+  .hk-pq.is-waiting .hk-pq-lines line {
+    stroke-dashoffset: 1;
+  }
+
+  .hk-pq.is-waiting .hk-pq-pulses {
+    visibility: hidden;
+  }
+
+  /* ───── Móvil: etiquetas con ajuste de línea, sin dibujo ni carrusel ───── */
+  @media (max-width: 960px) {
+    .hk-pq {
+      grid-template-columns: 1fr;
+      gap: 2.2rem;
+    }
+
+    .hk-pq-sky {
+      max-width: none;
+      aspect-ratio: auto;
+      animation: none;
+    }
+
+    .hk-pq-chart {
+      display: none;
+    }
+
+    .hk-pq-tags {
+      position: static;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hk-pq-tag {
+      position: static;
+      width: auto;
+      height: auto;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px 8px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(143, 160, 190, 0.3);
+      background: #0a0d18;
+    }
+
+    .hk-pq-star {
+      position: static;
+      flex: none;
+      width: 16px;
+      height: 16px;
+    }
+
+    .hk-pq-tag .hk-pq-name {
+      position: static;
+      transform: none;
+      padding: 0;
+      background: none;
+      white-space: normal;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-pq-sky,
+    .hk-pq-dust circle,
+    .hk-pq-star i {
+      animation: none;
+    }
+
+    .hk-pq-pulses {
+      display: none;
+    }
+  }
+</style>

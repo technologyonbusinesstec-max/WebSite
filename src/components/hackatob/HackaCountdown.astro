@@ -1,0 +1,178 @@
+---
+// src/components/hackatob/HackaCountdown.astro
+// Cuenta regresiva estilo control de misión hacia el inicio del HackaToB.
+// Queda fija al pie de la pantalla: con el scroll en 0 marca el tiempo real y,
+// cuanto más se baja, más rápido corre, hasta llegar a cero al final de las etapas
+// (la Tierra). Al volver arriba regresa al tiempo real.
+---
+
+<!-- FECHAS: inicio y cierre del evento, en hora de Costa Rica (UTC-6) -->
+<div
+  class="hk-count"
+  id="hkCount"
+  role="timer"
+  data-start="2026-11-02T09:30:00-06:00"
+  data-end="2026-11-07T00:00:00-06:00"
+>
+  <p class="hk-count-label" data-i18n="hack_count_label">Despegue &middot; 2 nov, 9:30 a. m.</p>
+  <p class="hk-count-clock">
+    <span class="hk-count-t">T&minus;</span>
+    <b data-u="d">00</b><i>d</i>
+    <b data-u="h">00</b><i>h</i>
+    <b data-u="m">00</b><i>m</i>
+    <b data-u="s">00</b><i>s</i>
+  </p>
+  <p class="hk-count-live" data-i18n="hack_count_live">Despegue confirmado &middot; HackaToB en curso</p>
+</div>
+
+<script>
+  const root = document.getElementById('hkCount');
+
+  if (root) {
+    const start = Date.parse(root.dataset.start!);
+    const end = Date.parse(root.dataset.end!);
+    const cells = Object.fromEntries(
+      [...root.querySelectorAll<HTMLElement>('[data-u]')].map((el) => [el.dataset.u!, el]),
+    );
+    const noMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const pad = (n: number) => String(n).padStart(2, '0');
+
+    // Avance del scroll (0 → 1) sobre las etapas, igual que en hackatob-bigbang.js
+    const stages = document.querySelector<HTMLElement>('.hackatob');
+    let target = 0; // fracción del tiempo restante que el scroll "adelanta"
+    let warp = 0; // la misma fracción, suavizada
+    const readScroll = () => {
+      const max = (stages ? stages.offsetTop + stages.offsetHeight : document.documentElement.scrollHeight) - innerHeight;
+      const p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+      target = noMotion ? 0 : p * p; // cuadrática: cada tramo de scroll acelera más que el anterior
+      // debajo de las etapas sube el footer: el contador se retira
+      root.classList.toggle('is-away', max > 0 && scrollY > max + 40);
+    };
+    addEventListener('scroll', readScroll, { passive: true });
+    addEventListener('resize', readScroll);
+    readScroll();
+
+    let shown = '';
+    const tick = () => {
+      const now = Date.now();
+      if (now >= end) {
+        root.hidden = true;
+        return;
+      }
+      if (now >= start) {
+        root.classList.add('is-live');
+        return;
+      }
+
+      warp += (target - warp) * 0.12;
+      if (Math.abs(target - warp) < 0.0005) warp = target;
+
+      const left = Math.max(0, Math.floor(((start - now) * (1 - warp)) / 1000));
+      const text = `${Math.floor(left / 86400)}|${Math.floor(left / 3600) % 24}|${Math.floor(left / 60) % 60}|${left % 60}`;
+      if (text !== shown) {
+        shown = text;
+        const [d, h, m, s] = text.split('|').map(Number);
+        cells.d.textContent = pad(d);
+        cells.h.textContent = pad(h);
+        cells.m.textContent = pad(m);
+        cells.s.textContent = pad(s);
+      }
+      root.classList.toggle('is-liftoff', left === 0);
+      root.classList.toggle('is-warping', warp !== target);
+      requestAnimationFrame(tick);
+    };
+    tick();
+  }
+</script>
+
+<style>
+  .hk-count {
+    position: fixed;
+    left: calc(clamp(16px, 6vw, 96px) + 2px); /* el texto queda alineado con el título del hero */
+    bottom: 30px;
+    z-index: 2;
+    /* placa oscura: el contenido de las etapas pasa por debajo al hacer scroll */
+    padding: 10px 14px;
+    border-radius: 12px;
+    background: rgba(3, 3, 10, 0.55);
+    backdrop-filter: blur(8px);
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .hk-count.is-away {
+    opacity: 0;
+  }
+
+  .hk-count p {
+    margin: 0;
+  }
+
+  .hk-count-label,
+  .hk-count-live {
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #9d9cb8;
+  }
+
+  .hk-count-clock {
+    display: flex;
+    align-items: baseline;
+    margin-top: 6px;
+    font-family: ui-monospace, 'SF Mono', 'Cascadia Mono', Consolas, monospace;
+    font-variant-numeric: tabular-nums;
+    color: #fff;
+    transition: text-shadow 0.3s ease, color 0.3s ease;
+  }
+
+  .hk-count-t {
+    margin-right: 10px;
+    font-size: 18px;
+    color: #ff9a1f;
+  }
+
+  .hk-count-clock b {
+    font-size: clamp(24px, 3vw, 34px);
+    font-weight: 600;
+  }
+
+  .hk-count-clock i {
+    margin: 0 12px 0 3px;
+    font-size: 12px;
+    font-style: normal;
+    text-transform: uppercase;
+    color: #9d9cb8;
+  }
+
+  /* Mientras el scroll acelera el reloj, los números se encienden */
+  .hk-count.is-warping .hk-count-clock {
+    text-shadow: 0 0 18px rgba(255, 154, 31, 0.7);
+  }
+
+  .hk-count.is-liftoff .hk-count-clock {
+    color: #ffd23f;
+    text-shadow: 0 0 22px rgba(255, 90, 31, 0.9);
+  }
+
+  /* Evento en curso: el reloj cede el lugar al aviso */
+  .hk-count-live,
+  .hk-count.is-live .hk-count-label,
+  .hk-count.is-live .hk-count-clock {
+    display: none;
+  }
+
+  .hk-count.is-live .hk-count-live {
+    display: block;
+    font-size: 13px;
+    color: #ffd23f;
+  }
+
+  @media (max-width: 899.98px) {
+    /* por encima de la barra inferior de tabs */
+    .hk-count {
+      left: 10px;
+      bottom: calc(82px + env(safe-area-inset-bottom, 0px));
+    }
+  }
+</style>

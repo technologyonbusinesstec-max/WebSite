@@ -1,39 +1,64 @@
----
+﻿---
 // src/pages/hackatob.astro
-import Layout from '../layouts/Layout.astro';
+import HackaLayout from '../layouts/HackaLayout.astro';
 import BigBangBackground from '../components/hackatob/BigBangBackground.astro';
-import HackaNavbar from '../components/hackatob/HackaNavbar.astro';
+import HackaCountdown from '../components/hackatob/HackaCountdown.astro';
+import HackaQueEs from '../components/hackatob/HackaQueEs.astro';
+import HackaParaQuien from '../components/hackatob/HackaParaQuien.astro';
+import HackaRedes from '../components/hackatob/HackaRedes.astro';
+import HackaTracks from '../components/hackatob/HackaTracks.astro';
+import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
 ---
 
-<Layout title="HackaToB 2026 – Technology on Business" description="El Hackathon oficial del congreso Technology on Business." hideNavbar={true} hideFooter={true}>
-  <BigBangBackground />
-  <HackaNavbar />
+<!-- basePath vacío: las secciones del menú están en esta página. earthFade: el footer sube después de la Tierra. -->
+<HackaLayout basePath="" earthFade>
+  <BigBangBackground slot="background" />
 
   <!-- Cada .hk-stage es una etapa del fondo (el scroll de la página la recorre). Aquí va el contenido real. -->
   <main class="hackatob">
-    <!-- ETAPA 1 · Singularidad: punto de luz que late -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 2 · Explosión: destello y partículas disparadas -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 3 · Plasma caliente: caos en tonos blancos y naranjas -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 4 · Enfriamiento: las partículas frenan, tonos fríos -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 5 · Primeras estrellas: el cielo se llena de estrellas -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 6 · Galaxia: espiral que gira lento + acercamiento a un brazo -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 7 · Tierra: acercamiento a Costa Rica y pin del HackaToB -->
-    <section class="hk-stage"></section>
-  </main>
-</Layout>
+    <!-- ETAPA 1 – Singularidad: punto de luz que late -->
+    <section class="hk-stage hk-stage-hero">
+      <!-- Columna izquierda: el punto de luz late en el centro de la pantalla y debe quedar libre -->
+      <div class="hk-hero">
+        <h1 class="hk-hero-title">HackaToB</h1>
+        <p class="hk-hero-date" data-i18n="hack_hero_date">Noviembre 2 &ndash; 6, 2026</p>
+        <p class="hk-hero-org">Technology on Business</p>
+      </div>
+    </section>
 
-<style is:global>
-  body:has(.hackatob) {
-    background: #03030a;
-    color: #ecebf7;
-  }
-</style>
+    <!-- ETAPA 2 – Explosión: Qué es HackaToB -->
+    <section class="hk-stage hk-stage-que-es" id="que-es">
+      <HackaQueEs />
+    </section>
+
+    <!-- ETAPA 3 – Plasma caliente: aquí el fondo se cierra con una cortina (difuminado → sólido → difuminado),
+         igual que la del footer, y vuelve a abrirse al Big Bang. Dentro va el frame "¿Para quién es?". -->
+    <section class="hk-stage hk-stage-frame" id="participantes">
+      <div class="hk-frame fade-curtain fade-curtain--bottom">
+        <HackaParaQuien />
+      </div>
+      <!-- Redes del ToB: la cinta va montada sobre el difuminado de salida, donde reaparece el Big Bang -->
+      <div class="hk-frame-redes">
+        <HackaRedes />
+      </div>
+    </section>
+    <!-- ETAPA 4 – Enfriamiento: los cuatro tracks -->
+    <section class="hk-stage hk-stage-tracks" id="tracks">
+      <HackaTracks />
+    </section>
+    <!-- ETAPA 5 – Primeras estrellas: el programa de la semana -->
+    <section class="hk-stage hk-stage-programa" id="programa">
+      <HackaPrograma />
+    </section>
+    <!-- ETAPA 6 – Galaxia: espiral que gira lento + acercamiento a un brazo -->
+    <section class="hk-stage"></section>
+    <!-- ETAPA 7 – Tierra: acercamiento a Costa Rica y pin del HackaToB -->
+    <section class="hk-stage"></section>
+
+    <!-- Cuenta regresiva fija: el scroll la acelera hasta el despegue en la Tierra -->
+    <HackaCountdown />
+  </main>
+</HackaLayout>
 
 <style>
   .hackatob {
@@ -48,9 +73,98 @@ import HackaNavbar from '../components/hackatob/HackaNavbar.astro';
     align-items: center;
   }
 
+  .hk-stage-que-es {
+    padding: 100px 24px;
+    justify-content: center;
+  }
+
+  /* etapas con un frame centrado */
+  .hk-stage-tracks,
+  .hk-stage-programa {
+    padding: 100px 24px;
+    justify-content: center;
+  }
+
+  /* ---------- Etapa 3: frame de fondo sólido entre dos cortinas (src/styles/fade-curtain.css) ---------- */
+  .hk-stage-frame {
+    --hk-frame-fade: min(560px, 75vh); /* largo de cada difuminado de la cortina */
+    display: flow-root; /* contiene los márgenes de .hk-frame dentro de la etapa */
+    padding: 0;
+  }
+
+  /* sube hasta meterse en el difuminado de salida de .hk-frame (que ocupa su margen inferior) */
+  .hk-frame-redes {
+    position: relative;
+    z-index: 2; /* por encima de la cortina */
+    margin-top: calc(var(--hk-frame-fade) * -0.66);
+    padding-bottom: calc(var(--hk-frame-fade) * 0.12);
+  }
+
+  .hk-frame {
+    /* cortina más larga y más desenfocada que la del footer (320px / 12px) */
+    --fc-size: var(--hk-frame-fade);
+    --fc-blur: 24px;
+    /* los dos difuminados caben en el margen: no tapan el contenido de las etapas vecinas */
+    margin-block: var(--fc-size);
+    min-height: 70vh;
+    display: flex;
+    align-items: center;
+  }
+
+  /* ---------- Etapa 1: título ---------- */
+  .hk-stage-hero {
+    --hk-hero-gap: clamp(16px, 6vw, 96px); /* separación con los bordes laterales */
+    /* ancho de cada columna: media pantalla menos el radio del punto de luz (~140px al latir) */
+    --hk-hero-col: calc(50vw - 150px - var(--hk-hero-gap) - 16px);
+  }
+
+  .hk-hero {
+    width: var(--hk-hero-col);
+    margin-left: var(--hk-hero-gap);
+    container-type: inline-size;
+  }
+
+  .hk-hero-title {
+    margin: 0;
+    font-size: min(18cqi, 128px); /* ocupa el ancho de la columna sin desbordarla */
+    font-weight: 800;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    color: #fff;
+    text-shadow: 0 0 40px rgba(255, 170, 100, 0.35);
+  }
+
+  .hk-hero-date,
+  .hk-hero-org {
+    margin: 0;
+    font-size: clamp(12px, 4.2cqi, 16px);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .hk-hero-date {
+    margin-top: 18px;
+    color: #ecebf7;
+  }
+
+  .hk-hero-org {
+    margin-top: 6px;
+    color: #9d9cb8;
+  }
+
   @media (max-width: 700px) {
-    .hk-stage:last-of-type {
+    .hk-stage:last-of-type,
+    .hk-stage-hero {
       align-items: flex-start;
+    }
+
+    /* Sin columna libre a la izquierda: el título sube por encima del punto de luz */
+    .hk-stage-hero {
+      --hk-hero-gap: 8px;
+    }
+
+    .hk-hero {
+      width: calc(100% - 16px);
     }
   }
 </style>

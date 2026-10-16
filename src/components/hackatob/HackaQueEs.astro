@@ -1,0 +1,544 @@
+﻿---
+// src/components/hackatob/HackaQueEs.astro
+// Sección "¿Qué es HackaToB?": Tarjetas a la izquierda y Apollo Lunar Module 3D Interactivo a la derecha
+---
+
+<div class="hk-que-es" id="queEsSection">
+  <div class="hk-que-es-grid">
+    <!-- Columna Izquierda: Editorial y Tarjetas Conectadas -->
+    <div class="hk-content-col">
+      <div class="hk-header-block">
+        <h2 class="hk-title">
+          Cinco días para pasar de una idea a <span class="hk-title-accent">una solución</span>
+        </h2>
+      </div>
+
+      <div class="hk-cards-stack">
+        <!-- Card 1 -->
+        <article class="hk-card" data-card="0">
+          <div class="hk-card-body">
+            <p>Un hackathon reúne equipos para resolver un problema, construir una solución y presentarla en un tiempo definido.</p>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="hk-card" data-card="1">
+          <div class="hk-card-body">
+            <p>En HackaToB definís un reto, desarrollás un prototipo, lo probás y lo presentás ante un jurado, con formación y acompañamiento durante el proceso.</p>
+          </div>
+        </article>
+
+        <!-- Card 3: Highlight Recorrido -->
+        <article class="hk-card card-featured" data-card="2">
+          <div class="hk-card-body">
+            <div class="hk-rec-header">
+              <span class="hk-rec-badge">RECORRIDO</span>
+              <div class="hk-rec-flow">
+                <span class="hk-step">Idea</span>
+                <span class="hk-sep">/</span>
+                <span class="hk-step">Prototipo</span>
+                <span class="hk-sep">/</span>
+                <span class="hk-step hk-step-accent">Demostración</span>
+              </div>
+            </div>
+            <p class="hk-rec-desc">Tres fases conectadas para transformar visión en código ejecutable y defender tu proyecto con impacto real en el Demo Day.</p>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="hk-card" data-card="3">
+          <div class="hk-card-body">
+            <p>Abierto a estudiantes de todas las universidades y carreras. No requerís un proyecto previo ni ser experto en programación: los equipos multidisciplinarios marcan la diferencia.</p>
+          </div>
+        </article>
+      </div>
+
+      <p class="hk-footer-note">
+        HackaToB es el hackathon oficial del congreso Technology on Business (ToB 2026), impulsado por la Asociación de Tecnología e Informática (ATI) del TEC.
+      </p>
+    </div>
+
+    <!-- Columna Derecha: Módulo Lunar Apollo 3D Realista -->
+    <div class="hk-visual-col">
+      <div class="hk-apollo-wrapper" id="hkApolloWrapper">
+        <canvas class="hk-apollo-canvas" id="hkApolloCanvas"></canvas>
+
+        <div class="hk-apollo-loader" id="hkApolloLoader">
+          <span class="hk-apollo-spinner"></span>
+          <span>Cargando módulo lunar...</span>
+        </div>
+
+        <div class="hk-apollo-controls-hint">
+          <span class="hk-apollo-badge-tag">APOLLO LUNAR MODULE</span>
+          <span class="hk-apollo-hint-sep">&bull;</span>
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+          </svg>
+          <span>Arrastra para girarlo</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script is:inline src="/scripts/GLTFLoader.js"></script>
+<!-- El .glb viene comprimido con Draco: GLTFLoader necesita este decodificador -->
+<script is:inline src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/DRACOLoader.js"></script>
+
+<script>
+  function initApollo3D() {
+    const canvas = document.getElementById('hkApolloCanvas') as HTMLCanvasElement | null;
+    const wrapper = document.getElementById('hkApolloWrapper');
+    const loaderEl = document.getElementById('hkApolloLoader');
+    if (!canvas || !wrapper || typeof (window as any).THREE === 'undefined' || typeof (window as any).THREE.GLTFLoader === 'undefined') return;
+
+    const THREE = (window as any).THREE;
+    const width = wrapper.clientWidth || 460;
+    const height = wrapper.clientHeight || 460;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+    camera.position.set(0, 0, 6.2);
+
+    const renderer = new THREE.WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'high-performance'
+    });
+    renderer.setSize(width, height);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1.45;
+
+    // ── Luces Cinematográficas Espaciales ──
+    // Sol principal de alto contraste
+    const sunLight = new THREE.DirectionalLight(0xfffaec, 3.2);
+    sunLight.position.set(5.5, 5, 4.5);
+    scene.add(sunLight);
+
+    // Luz de contra en el azul del logo
+    const rimLight = new THREE.DirectionalLight(0x1b6fc2, 1.8);
+    rimLight.position.set(-5, -2, -3);
+    scene.add(rimLight);
+
+    // Luz de rebote gris neutro
+    const moonGlowLight = new THREE.DirectionalLight(0x8a94b0, 1.2);
+    moonGlowLight.position.set(2, -4, 2);
+    scene.add(moonGlowLight);
+
+    const ambientLight = new THREE.AmbientLight(0x182035, 1.3);
+    scene.add(ambientLight);
+
+    // ── Grupo del Módulo Apollo ──
+    const apolloGroup = new THREE.Group();
+    scene.add(apolloGroup);
+
+    // Baliza de emisión de datos anclada en el módulo
+    const beaconLight = new THREE.PointLight(0x1b6fc2, 2, 4);
+    beaconLight.position.set(0, 1.2, 0.5);
+    apolloGroup.add(beaconLight);
+
+    // ── Carga del Modelo Apollo Lunar Module.glb ──
+    const gltfLoader = new THREE.GLTFLoader();
+    if (THREE.DRACOLoader) {
+      const dracoLoader = new THREE.DRACOLoader();
+      dracoLoader.setDecoderPath('https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/draco/');
+      gltfLoader.setDRACOLoader(dracoLoader);
+    }
+    gltfLoader.load(
+      '/models/apollo-lunar-module.glb',
+      (gltf: any) => {
+        if (loaderEl) loaderEl.style.display = 'none';
+
+        const model = gltf.scene;
+
+        // Centrar pivote del modelo 3D
+        const box = new THREE.Box3().setFromObject(model);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        // Escalar por la esfera envolvente (holgada: el módulo no llena sus esquinas)
+        // para que quepa completo en cualquier ángulo de giro
+        const scale = 2.5 / (size.length() / 2);
+        model.scale.setScalar(scale);
+        model.position.copy(center).multiplyScalar(-scale);
+
+        // Realzar propiedades de materiales PBR (láminas doradas, metales, etc.)
+        model.traverse((child: any) => {
+          if (child.isMesh && child.material) {
+            child.castShadow = true;
+            child.receiveShadow = true;
+            if (child.material.metalness !== undefined) {
+              child.material.metalness = Math.max(child.material.metalness, 0.4);
+            }
+            if (child.material.roughness !== undefined) {
+              child.material.roughness = Math.min(child.material.roughness, 0.45);
+            }
+          }
+        });
+
+        apolloGroup.add(model);
+
+        // Orientación inicial heroica
+        apolloGroup.rotation.x = targetRotX;
+        apolloGroup.rotation.y = targetRotY;
+      },
+      undefined,
+      (err: any) => {
+        console.error('Error cargando Apollo Lunar Module:', err);
+        if (loaderEl) loaderEl.innerText = 'Error al cargar modelo 3D';
+      }
+    );
+
+    // ── Interacción con el Mouse: giro limitado a 180° (90° a cada lado del frente) ──
+    const MAX_ROT_Y = Math.PI / 2;
+    const MAX_ROT_X = 0.35;
+    const clamp = (v: number, max: number) => Math.max(-max, Math.min(max, v));
+    let isDragging = false;
+    let prevMouseX = 0;
+    let prevMouseY = 0;
+    let targetRotX = 0.2;
+    let targetRotY = 0;
+    let swingPhase = 0; // fase del vaivén automático
+
+    canvas.addEventListener('pointerdown', (e) => {
+      isDragging = true;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+      canvas.setPointerCapture(e.pointerId);
+      wrapper.classList.add('is-dragging');
+    });
+
+    window.addEventListener('pointermove', (e) => {
+      if (!isDragging) return;
+      const dx = e.clientX - prevMouseX;
+      const dy = e.clientY - prevMouseY;
+      prevMouseX = e.clientX;
+      prevMouseY = e.clientY;
+
+      targetRotY = clamp(targetRotY + dx * 0.009, MAX_ROT_Y);
+      targetRotX = clamp(targetRotX + dy * 0.009, MAX_ROT_X);
+    });
+
+    const stopDrag = (e: PointerEvent) => {
+      if (isDragging) {
+        isDragging = false;
+        // El vaivén automático retoma desde donde se soltó
+        swingPhase = Math.asin(targetRotY / MAX_ROT_Y);
+        try { canvas.releasePointerCapture(e.pointerId); } catch {}
+        wrapper.classList.remove('is-dragging');
+      }
+    };
+    window.addEventListener('pointerup', stopDrag);
+    window.addEventListener('pointercancel', stopDrag);
+
+    // ── Loop de Render ──
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      // Vaivén lento de lado a lado cuando no se está arrastrando
+      if (!isDragging) {
+        swingPhase += 0.004;
+        targetRotY = Math.sin(swingPhase) * MAX_ROT_Y;
+      }
+
+      apolloGroup.rotation.y += (targetRotY - apolloGroup.rotation.y) * 0.09;
+      apolloGroup.rotation.x += (targetRotX - apolloGroup.rotation.x) * 0.09;
+
+      // Micro-levitación gravitacional
+      apolloGroup.position.y = Math.sin(Date.now() * 0.0016) * 0.06;
+
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      const newW = wrapper.clientWidth || 460;
+      const newH = wrapper.clientHeight || 460;
+      camera.aspect = newW / newH;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newW, newH);
+    });
+  }
+
+  let apolloStarted = false;
+
+  function checkAndInitApollo() {
+    if (apolloStarted) return;
+    if (typeof (window as any).THREE !== 'undefined' && typeof (window as any).THREE.GLTFLoader !== 'undefined') {
+      apolloStarted = true;
+      initApollo3D();
+    } else {
+      setTimeout(checkAndInitApollo, 80);
+    }
+  }
+
+  window.addEventListener('load', checkAndInitApollo);
+  checkAndInitApollo();
+</script>
+
+<style>
+  .hk-que-es {
+    /* Azul oscuro del logo del HackaToB (#0A4F8C) */
+    --hk-blue: #0a4f8c;
+    --hk-blue-text: #1b6fc2; /* el mismo azul un punto más claro: el del logo no se lee sobre el fondo negro */
+    position: relative;
+    width: 100%;
+    max-width: 1260px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    z-index: 2;
+  }
+
+  .hk-que-es-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 3.5rem;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ───── Columna Izquierda: Contenido ───── */
+  .hk-content-col {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hk-header-block {
+    margin-bottom: 1.8rem;
+  }
+
+  .hk-title {
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: #ffffff;
+    letter-spacing: -1px;
+    margin: 0;
+  }
+
+  .hk-title-accent {
+    color: var(--hk-blue-text);
+    text-shadow: 0 0 28px rgba(27, 111, 194, 0.65);
+  }
+
+  .hk-cards-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.05rem;
+  }
+
+  .hk-card {
+    position: relative;
+    background: rgba(12, 17, 34, 0.76);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 14px;
+    padding: 1.15rem 1.6rem;
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12), 0 8px 30px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                border-color 0.3s ease,
+                background 0.3s ease,
+                box-shadow 0.3s ease;
+  }
+
+  .hk-card:hover {
+    transform: translateX(-8px);
+    background: rgba(18, 28, 54, 0.9);
+    border-color: rgba(27, 111, 194, 0.6);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 12px 36px rgba(0, 0, 0, 0.45), 0 0 26px rgba(27, 111, 194, 0.25);
+  }
+
+  .hk-card.card-featured {
+    border: 1.5px solid rgba(27, 111, 194, 0.65);
+    background: rgba(20, 28, 48, 0.85);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 0 35px rgba(27, 111, 194, 0.2);
+  }
+
+  .hk-card.card-featured:hover {
+    border-color: var(--hk-blue);
+    box-shadow: 0 14px 40px rgba(0, 0, 0, 0.5), 0 0 38px rgba(27, 111, 194, 0.4);
+  }
+
+  .hk-card-body p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: rgba(242, 241, 251, 0.88);
+    margin: 0;
+  }
+
+  /* Recorrido Card */
+  .hk-rec-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 0.45rem;
+    flex-wrap: wrap;
+  }
+
+  .hk-rec-badge {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--hk-blue-text);
+    background: rgba(27, 111, 194, 0.15);
+    border: 1px solid rgba(27, 111, 194, 0.35);
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .hk-rec-flow {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hk-step {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: #ffffff;
+  }
+
+  .hk-step-accent {
+    color: var(--hk-blue-text);
+    text-shadow: 0 0 14px rgba(27, 111, 194, 0.6);
+  }
+
+  .hk-sep {
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 400;
+  }
+
+  .hk-rec-desc {
+    font-size: 0.92rem !important;
+    color: rgba(242, 241, 251, 0.8) !important;
+  }
+
+  .hk-footer-note {
+    font-size: 0.84rem;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.6;
+    margin-top: 1.5rem;
+  }
+
+  /* ───── Columna Derecha: Apollo Lunar Module 3D ───── */
+  .hk-visual-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 460px;
+  }
+
+  .hk-apollo-wrapper {
+    position: relative;
+    width: 460px;
+    height: 460px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .hk-apollo-wrapper.is-dragging {
+    cursor: grabbing;
+  }
+
+  .hk-apollo-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    filter: drop-shadow(0 0 35px rgba(27, 111, 194, 0.22));
+  }
+
+  .hk-apollo-loader {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    color: rgba(255, 255, 255, 0.65);
+    font-size: 0.82rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .hk-apollo-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid rgba(27, 111, 194, 0.2);
+    border-top-color: var(--hk-blue);
+    border-radius: 50%;
+    animation: apolloSpin 1s linear infinite;
+  }
+
+  @keyframes apolloSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  .hk-apollo-controls-hint {
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.72rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(10, 16, 32, 0.88);
+    border: 1px solid rgba(27, 111, 194, 0.35);
+    padding: 6px 16px;
+    border-radius: 999px;
+    backdrop-filter: blur(14px);
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.4), 0 0 15px rgba(27, 111, 194, 0.15);
+  }
+
+  .hk-apollo-badge-tag {
+    color: var(--hk-blue-text);
+    font-weight: 800;
+  }
+
+  .hk-apollo-hint-sep {
+    color: rgba(255, 255, 255, 0.3);
+  }
+
+  .hk-apollo-controls-hint svg {
+    color: var(--hk-blue-text);
+    animation: apolloHintRot 5s linear infinite;
+  }
+
+  @keyframes apolloHintRot {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+
+  /* Responsive */
+  @media (max-width: 960px) {
+    .hk-que-es-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .hk-visual-col {
+      min-height: 340px;
+    }
+    .hk-apollo-wrapper {
+      width: 320px;
+      height: 320px;
+    }
+    .hk-card:hover {
+      transform: none;
+    }
+  }
+</style>

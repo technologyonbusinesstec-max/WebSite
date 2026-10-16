@@ -1,0 +1,297 @@
+---
+// src/components/hackatob/HackaPrograma.astro
+// Frame "Programa" (id: programa): una línea horizontal con cinco planetas, uno por día de la semana.
+// Los planetas son solo informativos (no son enlaces); el botón del pie lleva al programa completo (PROGRAMA_PAGE).
+// En móvil la línea pasa a vertical. Los días se editan en ./programa.ts; el inglés, en public/lang.js.
+import HackaPlanet from './HackaPlanet.astro';
+import { days, PROGRAMA_PAGE } from './programa';
+---
+
+<div class="hk-pg" id="hkPrograma">
+  <header class="hk-pg-head">
+    <h2 class="hk-pg-title" data-i18n="hack_pg_title">Una semana para aprender, construir y presentar.</h2>
+    <p class="hk-pg-dates" data-i18n="hack_pg_dates">Del lunes 2 al viernes 6 de noviembre de 2026.</p>
+  </header>
+
+  <ol class="hk-pg-week">
+    <!-- línea de la órbita: une los cinco planetas, con un destello que la recorre -->
+    <li class="hk-pg-line" aria-hidden="true"></li>
+
+    {days.map((d, i) => (
+      <li class="hk-pg-day" style={`--i: ${i}`}>
+        <div class="hk-pg-item">
+          <span class="hk-pg-short" data-i18n={`hack_pg_${d.key}_short`}>{d.short}</span>
+          <span class="hk-pg-planet"><HackaPlanet day={d} /></span>
+          <span class="hk-pg-info">
+            <span class="hk-pg-name">{d.name}</span>
+            <span class="hk-pg-mode" data-i18n={d.mode === 'Remoto' ? 'hack_pg_remoto' : 'hack_pg_presencial'}>{d.mode}</span>
+          </span>
+        </div>
+      </li>
+    ))}
+  </ol>
+
+  <div class="hk-pg-foot">
+    <a class="hk-pg-btn" href={PROGRAMA_PAGE} data-i18n="hack_pg_btn">Ver programa completo</a>
+    <p class="hk-pg-tz" data-i18n="hack_pg_tz">Todos los horarios corresponden a America/Costa_Rica, UTC−6.</p>
+  </div>
+</div>
+
+<script>
+  // Aparición la primera vez que el frame entra en pantalla. Sin JavaScript o con
+  // "reducir movimiento" no se arma nada: todo el contenido queda visible desde el inicio.
+  const pg = document.getElementById('hkPrograma');
+  if (pg && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    pg.classList.add('is-waiting');
+    const seen = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        pg.classList.remove('is-waiting');
+        seen.disconnect();
+      },
+      { threshold: 0.3 },
+    );
+    seen.observe(pg);
+  }
+</script>
+
+<style>
+  .hk-pg {
+    --hk-pg-short: 30px; /* alto de la etiqueta del día */
+    --hk-pg-zone: 150px; /* alto de la franja de planetas: la línea pasa por su centro */
+
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+  }
+
+  .hk-pg-head {
+    text-align: center;
+  }
+
+  .hk-pg-title {
+    margin: 0 auto;
+    max-width: 20ch;
+    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: #ffffff;
+    text-wrap: balance;
+  }
+
+  .hk-pg-dates {
+    margin: 1rem 0 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: rgba(242, 241, 251, 0.9);
+  }
+
+  /* ───── La semana: cinco planetas sobre una línea ───── */
+  .hk-pg-week {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: 2.8rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-pg-line {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: calc(var(--hk-pg-short) + var(--hk-pg-zone) / 2);
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(143, 160, 190, 0.5) 12%, rgba(143, 160, 190, 0.5) 88%, transparent);
+    transform-origin: left center;
+    transition: transform 1.3s ease-out 0.2s;
+    overflow: hidden;
+  }
+
+  /* destello que recorre la línea de lunes a viernes */
+  .hk-pg-line::after {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 0;
+    width: 110px;
+    height: 3px;
+    background: linear-gradient(to right, transparent, #cfe0f7, transparent);
+    animation: hkPgRun 7s linear 2s infinite;
+    transform: translateX(-120px);
+  }
+
+  @keyframes hkPgRun {
+    to { transform: translateX(1300px); }
+  }
+
+  .hk-pg-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+    transition: opacity 0.6s ease calc(0.35s + var(--i) * 0.16s), transform 0.6s ease calc(0.35s + var(--i) * 0.16s);
+  }
+
+  .hk-pg-short {
+    height: var(--hk-pg-short);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    color: #9fb4d6;
+  }
+
+  .hk-pg-planet {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: var(--hk-pg-zone);
+  }
+
+  .hk-pg-info {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 0 6px;
+  }
+
+  .hk-pg-name {
+    font-size: 1.08rem;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #ffffff;
+  }
+
+  .hk-pg-mode {
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(226, 229, 238, 0.6);
+  }
+
+  /* ───── Pie: botón al programa completo y zona horaria ───── */
+  .hk-pg-foot {
+    margin-top: 2.6rem;
+    text-align: center;
+  }
+
+  .hk-pg-btn {
+    display: inline-block;
+    padding: 14px 30px;
+    border-radius: 999px;
+    background: #ffffff;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #0b0d14;
+    transition: background 0.25s ease, transform 0.25s ease;
+  }
+
+  .hk-pg-btn:hover {
+    background: #dbe6f7;
+    transform: translateY(-2px);
+  }
+
+  .hk-pg-btn:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 3px;
+  }
+
+  .hk-pg-tz {
+    margin: 1.1rem 0 0;
+    font-size: 0.84rem;
+    color: rgba(226, 229, 238, 0.55);
+  }
+
+  /* Antes de entrar en pantalla (solo si el script armó la animación) */
+  .hk-pg.is-waiting .hk-pg-line {
+    transform: scaleX(0);
+  }
+
+  .hk-pg.is-waiting .hk-pg-item {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  /* ───── Móvil: la línea pasa a vertical y cada día es una fila ───── */
+  @media (max-width: 760px) {
+    .hk-pg {
+      --hk-pg-zone: 104px;
+    }
+
+    .hk-pg-head {
+      text-align: left;
+    }
+
+    .hk-pg-title {
+      margin: 0;
+    }
+
+    .hk-pg-week {
+      grid-template-columns: 1fr;
+      margin-top: 2rem;
+    }
+
+    .hk-pg-line {
+      left: calc(var(--hk-pg-zone) / 2);
+      right: auto;
+      top: 20px;
+      bottom: 20px;
+      width: 1px;
+      height: auto;
+      background: rgba(143, 160, 190, 0.45);
+      transform-origin: center top;
+    }
+
+    .hk-pg-line::after {
+      display: none;
+    }
+
+    .hk-pg.is-waiting .hk-pg-line {
+      transform: scaleY(0);
+    }
+
+    .hk-pg-item {
+      display: grid;
+      grid-template-columns: var(--hk-pg-zone) 1fr;
+      grid-template-areas: 'planet short' 'planet info';
+      align-content: center;
+      column-gap: 14px;
+      min-height: var(--hk-pg-zone);
+      text-align: left;
+    }
+
+    .hk-pg-planet {
+      grid-area: planet;
+      height: var(--hk-pg-zone);
+    }
+
+    .hk-pg-short {
+      grid-area: short;
+      height: auto;
+      align-self: end;
+      margin-bottom: 4px;
+    }
+
+    .hk-pg-info {
+      grid-area: info;
+      align-self: start;
+      padding: 0;
+    }
+
+    .hk-pg-foot {
+      text-align: left;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-pg-line::after {
+      display: none;
+    }
+  }
+</style>

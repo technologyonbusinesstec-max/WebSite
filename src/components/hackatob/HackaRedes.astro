@@ -1,0 +1,211 @@
+---
+// src/components/hackatob/HackaRedes.astro
+// Carrusel de las redes sociales del ToB: una cinta de tarjetas que se desliza sola, sin fin.
+// Se detiene al pasar el cursor o al enfocar una tarjeta con el teclado; con "reducir movimiento"
+// no se desliza y las cuatro tarjetas quedan fijas, centradas.
+
+// REDES: editar aquí. Sin href, la tarjeta se muestra pero no es un enlace.
+// PENDIENTE: falta la dirección del canal de YouTube del ToB.
+const networks = [
+  {
+    key: 'youtube',
+    label: 'YouTube',
+    href: '',
+    icon: '<path fill-rule="evenodd" d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.500 0-9.400.5A3 3 0 0 0 .5 6.200C0 8.100 0 12 0 12s0 3.900.5 5.800a3 3 0 0 0 2.100 2.100c1.900.5 9.400.5 9.400.5s7.500 0 9.400-.5a3 3 0 0 0 2.100-2.100C24 15.900 24 12 24 12s0-3.900-.5-5.800zM9.600 15.600V8.400l6.200 3.600z"/>',
+  },
+  {
+    key: 'linkedin',
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/company/technology-on-business/home/',
+    icon: '<path fill-rule="evenodd" d="M2 0h20a2 2 0 0 1 2 2v20a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2zm1.600 9v11.400h3.500V9zm1.750-5.700a2.050 2.050 0 1 0 0 4.100 2.050 2.050 0 0 0 0-4.100zM9.400 9v11.400h3.500v-5.700c0-1.500.3-2.900 2.100-2.900s1.900 1.700 1.900 3v5.600h3.500v-6.300c0-3.100-.7-5.400-4.300-5.400-1.700 0-2.900.9-3.400 1.800h0V9z"/>',
+  },
+  {
+    key: 'instagram',
+    label: 'Instagram',
+    href: 'https://www.instagram.com/tob.tec/',
+    icon: '<rect x="1.600" y="1.600" width="20.800" height="20.800" rx="6" fill="none" stroke="currentColor" stroke-width="2.400"/><circle cx="12" cy="12" r="4.700" fill="none" stroke="currentColor" stroke-width="2.400"/><circle cx="18" cy="6" r="1.500"/>',
+  },
+  {
+    key: 'facebook',
+    label: 'Facebook',
+    href: 'https://www.facebook.com/CongresoTOB',
+    icon: '<path d="M24 12.070C24 5.440 18.630.070 12 .070S0 5.440 0 12.070c0 5.990 4.390 10.950 10.130 11.850v-8.380H7.080v-3.470h3.050V9.430c0-3.010 1.790-4.670 4.530-4.670 1.310 0 2.690.24 2.690.24v2.950h-1.520c-1.490 0-1.950.93-1.950 1.870v2.250h3.330l-.53 3.470h-2.800v8.380C19.610 23.020 24 18.060 24 12.070z"/>',
+  },
+];
+
+// La cinta repite las cuatro redes varias veces; las copias son decorativas (ocultas a lectores de pantalla)
+// Par: la animación avanza media cinta y vuelve a empezar sin salto. Media cinta debe ser más ancha
+// que la pantalla (8 juegos → 16 tarjetas por mitad, suficiente hasta monitores de ~3000 px).
+const COPIES = 8;
+const strip = Array.from({ length: COPIES }, (_, copy) => networks.map((n, i) => ({ ...n, copy, i }))).flat();
+---
+
+<section class="hk-rd" aria-label="Redes sociales del ToB">
+  <ul class="hk-rd-strip">
+    {strip.map((n) => {
+      const Tag = n.href ? 'a' : 'div';
+      const extra = n.copy > 0 ? { 'aria-hidden': 'true', tabindex: n.href ? -1 : undefined } : {};
+      return (
+        <li class:list={['hk-rd-item', { 'is-copy': n.copy > 0 }]}>
+          <Tag
+            class:list={['hk-rd-card', n.i % 2 === 0 ? 'is-blue' : 'is-dark']}
+            {...(n.href ? { href: n.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+            {...extra}
+          >
+            <svg class="hk-rd-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={n.icon} />
+            <span class="hk-rd-hatch" aria-hidden="true"></span>
+            <span class="hk-rd-label">{n.label}</span>
+          </Tag>
+        </li>
+      );
+    })}
+  </ul>
+</section>
+
+<style>
+  .hk-rd {
+    --hk-rd-size: clamp(130px, 12vw, 176px); /* lado de cada tarjeta */
+    --hk-rd-gap: clamp(14px, 1.6vw, 24px);
+    --hk-rd-cut: calc(var(--hk-rd-size) * 0.2); /* esquina superior derecha recortada */
+
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    padding-block: 14px; /* aire para que la tarjeta suba al pasar el cursor */
+    /* la cinta aparece y se pierde en los bordes de la pantalla */
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 9%, #000 91%, transparent);
+  }
+
+  .hk-rd-strip {
+    display: flex;
+    gap: var(--hk-rd-gap);
+    width: max-content;
+    margin: 0;
+    padding: 0 calc(var(--hk-rd-gap) / 2);
+    list-style: none;
+    animation: hkRdSlide 54s linear infinite;
+  }
+
+  /* media cinta = la mitad de los juegos de tarjetas: al llegar ahí se ve igual que al inicio */
+  @keyframes hkRdSlide {
+    to { transform: translateX(-50%); }
+  }
+
+  .hk-rd:hover .hk-rd-strip,
+  .hk-rd:focus-within .hk-rd-strip {
+    animation-play-state: paused;
+  }
+
+  .hk-rd-item {
+    flex: none;
+    /* el hueco va como margen para que media cinta mida exactamente la mitad */
+    margin-inline: 0;
+  }
+
+  /* ───── Tarjeta ───── */
+  .hk-rd-card {
+    position: relative;
+    display: block;
+    width: var(--hk-rd-size);
+    height: var(--hk-rd-size);
+    clip-path: polygon(0 0, calc(100% - var(--hk-rd-cut)) 0, 100% var(--hk-rd-cut), 100% 100%, 0 100%);
+    text-decoration: none;
+    color: #eef2fa;
+    transition: transform 0.35s ease, filter 0.35s ease;
+  }
+
+  /* azul del logo del HackaToB */
+  .hk-rd-card.is-blue {
+    background: linear-gradient(150deg, #1f78cf 0%, #0a4f8c 48%, #062f57 100%);
+  }
+
+  .hk-rd-card.is-dark {
+    background: linear-gradient(150deg, #20242d 0%, #14171e 55%, #0c0e13 100%);
+  }
+
+  /* filo claro en el borde superior e izquierdo */
+  .hk-rd-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(150deg, rgba(255, 255, 255, 0.16), transparent 38%);
+    pointer-events: none;
+  }
+
+  a.hk-rd-card:hover,
+  a.hk-rd-card:focus-visible {
+    transform: translateY(-8px);
+    filter: brightness(1.18);
+  }
+
+  a.hk-rd-card:focus-visible {
+    outline: none;
+  }
+
+  a.hk-rd-card:focus-visible .hk-rd-label {
+    text-decoration: underline;
+    text-underline-offset: 5px;
+  }
+
+  .hk-rd-icon {
+    position: absolute;
+    left: 50%;
+    top: 44%;
+    width: 36%;
+    height: 36%;
+    transform: translate(-50%, -50%);
+    filter: drop-shadow(0 6px 14px rgba(0, 0, 0, 0.45));
+  }
+
+  /* detalle de rayas, abajo a la derecha */
+  .hk-rd-hatch {
+    position: absolute;
+    right: 11%;
+    bottom: 27%;
+    width: 11%;
+    height: 17%;
+    background: repeating-linear-gradient(115deg, rgba(255, 255, 255, 0.34) 0 1.5px, transparent 1.5px 6px);
+  }
+
+  .hk-rd-label {
+    position: absolute;
+    left: 11%;
+    bottom: 10%;
+    font-size: clamp(0.66rem, 0.8vw, 0.78rem);
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+  }
+
+  /* ───── Móvil ───── */
+  @media (max-width: 720px) {
+    .hk-rd {
+      --hk-rd-size: 118px;
+      --hk-rd-gap: 12px;
+    }
+
+    .hk-rd-strip {
+      animation-duration: 40s;
+    }
+  }
+
+  /* Sin movimiento: solo las cuatro tarjetas reales, centradas y con ajuste de línea */
+  @media (prefers-reduced-motion: reduce) {
+    .hk-rd {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+
+    .hk-rd-strip {
+      width: auto;
+      flex-wrap: wrap;
+      justify-content: center;
+      animation: none;
+    }
+
+    .hk-rd-item.is-copy {
+      display: none;
+    }
+  }
+</style>

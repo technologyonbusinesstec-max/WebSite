@@ -1,0 +1,55 @@
+/* Cortina difuminada: transición entre el fondo animado (capa fija) y una sección de fondo sólido.
+   Uso: <section class="fade-curtain"> … </section>, como hermana de <main class="hackatob">
+   (dentro de main alargaría el recorrido del Big Bang). Sin JavaScript: sale del scroll natural.
+   Variantes: .fade-curtain--bottom reabre hacia el fondo al terminar la sección;
+              .fade-curtain--no-blur deja solo el degradado de color. */
+
+.fade-curtain {
+  --fc-color: #03030a; /* el negro azulado del fondo del HackaToB */
+  --fc-size: min(320px, 45vh);
+  --fc-blur: 12px;
+
+  position: relative;
+  z-index: 1; /* sobre el fondo fijo (0); el navbar (1000) queda encima */
+  background-color: var(--fc-color);
+}
+
+/* La cortina se asoma por encima del borde superior, sobre lo que haya antes */
+.fade-curtain::before,
+.fade-curtain--bottom::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: var(--fc-size);
+  pointer-events: none;
+}
+
+.fade-curtain::before {
+  bottom: calc(100% - 1px); /* 1px de solape: sin línea entre la cortina y la sección */
+  background: linear-gradient(to bottom, transparent, var(--fc-color));
+}
+
+.fade-curtain--bottom::after {
+  top: calc(100% - 1px);
+  background: linear-gradient(to top, transparent, var(--fc-color));
+}
+
+/* Desenfoque progresivo: la máscara lo hace aparecer de a poco en vez de en un corte */
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .fade-curtain:not(.fade-curtain--no-blur)::before,
+  .fade-curtain--bottom:not(.fade-curtain--no-blur)::after {
+    -webkit-backdrop-filter: blur(var(--fc-blur));
+    backdrop-filter: blur(var(--fc-blur));
+  }
+
+  .fade-curtain:not(.fade-curtain--no-blur)::before {
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000);
+    mask-image: linear-gradient(to bottom, transparent, #000);
+  }
+
+  .fade-curtain--bottom:not(.fade-curtain--no-blur)::after {
+    -webkit-mask-image: linear-gradient(to top, transparent, #000);
+    mask-image: linear-gradient(to top, transparent, #000);
+  }
+}

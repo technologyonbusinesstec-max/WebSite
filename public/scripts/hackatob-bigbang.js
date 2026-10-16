@@ -89,9 +89,9 @@
         vec4 mv = modelViewMatrix * vec4(p, 1.);
         gl_Position = projectionMatrix * mv;
         gl_PointSize = mv.z > -.4 ? 0. : min((4. + aRnd.y * 14.) * uScale / -mv.z, 60. * uScale);
-        vec3 hot  = mix(vec3(1., .5, .18), vec3(1., .95, .85), aRnd.w);
-        vec3 cool = mix(vec3(.3, .45, 1.), vec3(.85, .35, 1.), aRnd.w);
-        if (aRnd.y > .93) cool = vec3(1., .85, .55);
+        // paleta sobria: azul oscuro y gris (más clara en caliente, más apagada al enfriarse)
+        vec3 hot  = mix(vec3(.10, .20, .62), vec3(.62, .66, .74), aRnd.w);
+        vec3 cool = mix(vec3(.07, .14, .48), vec3(.42, .45, .52), aRnd.w);
         vCol = mix(cool, hot, uHeat);
         vA = .55;
       }`,
@@ -138,8 +138,12 @@
      3. Scroll → cabezal de la línea de tiempo (suavizado)
      ===================================================== */
   let target = 0, cur = 0;
+  let stages = null; // se busca al leer el scroll: este script corre antes de que exista <main>
   const readScroll = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
+    stages = stages || document.querySelector('.hackatob');
+    // el recorrido termina al final de las etapas: lo que haya debajo (footer) no avanza la línea de tiempo
+    const end = stages ? stages.offsetTop + stages.offsetHeight : document.documentElement.scrollHeight;
+    const max = end - innerHeight;
     target = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
   };
   addEventListener('scroll', readScroll, { passive: true }); readScroll();
