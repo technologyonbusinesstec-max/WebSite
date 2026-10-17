@@ -1,4 +1,4 @@
-﻿// src/components/Hero.tsx
+// src/components/Hero.tsx
 import React, { useEffect, useRef, useState } from "react";
 
 const PHRASES: Record<"ES" | "EN", Array<{ text?: string; html?: string }>> = {
@@ -8,9 +8,9 @@ const PHRASES: Record<"ES" | "EN", Array<{ text?: string; html?: string }>> = {
     { text: "2 días" },
     { text: "6 bloques" },
     { text: "18 conferencias" },
-    { html: 'Estudiantes de <span class="text-cyan" style="text-decoration:underline">ATI</span>' },
+    { html: 'Estudiantes de <button type="button" class="ati-modal-trigger">ATI</button>' },
     { text: "Congreso de tecnología" },
-    { text: "Cuando escampe, 2026" },
+    { text: "4 y 5 de noviembre de 2026" },
     { text: "HackaTob: Nueva fecha por confirmar" },
   ],
   EN: [
@@ -19,9 +19,9 @@ const PHRASES: Record<"ES" | "EN", Array<{ text?: string; html?: string }>> = {
     { text: "2 days" },
     { text: "6 blocks" },
     { text: "18 conferences" },
-    { html: 'Students from <span class="text-cyan" style="text-decoration:underline">ATI</span>' },
+    { html: 'Students from <button type="button" class="ati-modal-trigger">ATI</button>' },
     { text: "Technology congress" },
-    { text: "When the rain clears, 2026" },
+    { html: "November 4<sup>th</sup> and 5<sup>th</sup>, 2026" },
     { text: "HackaTob: New date to be confirmed" },
   ],
 };
@@ -40,15 +40,36 @@ const MOON_POSITIONS = [
   { top: "85.35%", left: "14.64%" },
 ];
 
-const EVENT_DATE = new Date("August 18, 2026 09:15:00").getTime();
+const EVENT_DATE = new Date("November 4, 2026 09:15:00").getTime();
 function pad(n: number) { return n < 10 ? "0" + n : String(n); }
 
-interface HeroProps { lang: "ES" | "EN"; }
+interface HeroProps { lang?: "ES" | "EN"; }
 
-export const Hero: React.FC<HeroProps> = ({ lang }) => {
+export const Hero: React.FC<HeroProps> = ({ lang: initialLang = "ES" }) => {
+  const [currentLang, setCurrentLang] = useState<"ES" | "EN">(initialLang);
+
+  useEffect(() => {
+    const saved = localStorage.getItem("tob_lang");
+    if (saved === "en" || saved === "EN") {
+      setCurrentLang("EN");
+    }
+
+    const handleLangChanged = (e: any) => {
+      const l = e.detail?.lang;
+      if (l) {
+        setCurrentLang(l.toUpperCase() === "EN" ? "EN" : "ES");
+      }
+    };
+
+    window.addEventListener("languageChanged", handleLangChanged);
+    return () => window.removeEventListener("languageChanged", handleLangChanged);
+  }, []);
+
   const phraseRef = useRef<HTMLSpanElement>(null);
   const phraseIndexRef = useRef(0);
+  const rotatorPausedRef = useRef(false);
   const DISPLAY_TIME = 2000;
+  const ATI_DISPLAY_TIME = 4500;
   const TRANSITION_TIME = 400;
 
   const solarRef = useRef<HTMLDivElement>(null);
@@ -80,28 +101,73 @@ export const Hero: React.FC<HeroProps> = ({ lang }) => {
   useEffect(() => {
     const el = phraseRef.current;
     if (!el) return;
-    const phrases = PHRASES[lang];
+    const phrases = PHRASES[currentLang];
+    let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    let leavingId: ReturnType<typeof setTimeout> | undefined;
+
     const showPhrase = (index: number) => {
       const phrase = phrases[index];
       if (!phrase) return;
-      if (phrase.html) { el.innerHTML = phrase.html; } else { el.textContent = phrase.text ?? ""; }
+      if (phrase.html) {
+        el.innerHTML = phrase.html;
+      } else {
+        el.textContent = phrase.text ?? "";
+      }
       el.classList.remove("leaving");
       void el.offsetWidth;
       el.classList.add("entering");
+
+      const trigger = el.querySelector(".ati-modal-trigger");
+      if (trigger) {
+        const pause = () => { rotatorPausedRef.current = true; };
+        const resume = () => {
+          if (!document.getElementById("atiModal")?.classList.contains("active")) {
+            rotatorPausedRef.current = false;
+          }
+        };
+        trigger.addEventListener("mouseenter", pause);
+        trigger.addEventListener("focus", pause);
+        trigger.addEventListener("mouseleave", resume);
+        trigger.addEventListener("blur", resume);
+      }
     };
-    const nextPhrase = () => {
-      el.classList.remove("entering");
-      el.classList.add("leaving");
-      setTimeout(() => {
-        phraseIndexRef.current = (phraseIndexRef.current + 1) % phrases.length;
-        showPhrase(phraseIndexRef.current);
-      }, TRANSITION_TIME);
+
+    const scheduleNext = (delay: number) => {
+      timeoutId = setTimeout(() => {
+        if (rotatorPausedRef.current) {
+          scheduleNext(400);
+          return;
+        }
+        el.classList.remove("entering");
+        el.classList.add("leaving");
+        leavingId = setTimeout(() => {
+          phraseIndexRef.current = (phraseIndexRef.current + 1) % phrases.length;
+          showPhrase(phraseIndexRef.current);
+          const current = phrases[phraseIndexRef.current];
+          const hold = current?.html?.includes("ati-modal-trigger") ? ATI_DISPLAY_TIME : DISPLAY_TIME;
+          scheduleNext(hold + TRANSITION_TIME);
+        }, TRANSITION_TIME);
+      }, delay);
     };
+
+    const onModalToggle = (e: Event) => {
+      const open = Boolean((e as CustomEvent).detail?.open);
+      rotatorPausedRef.current = open;
+    };
+
     phraseIndexRef.current = 0;
     showPhrase(0);
-    const id = setInterval(nextPhrase, DISPLAY_TIME + TRANSITION_TIME);
-    return () => clearInterval(id);
-  }, [lang]);
+    const first = phrases[0];
+    const firstHold = first?.html?.includes("ati-modal-trigger") ? ATI_DISPLAY_TIME : DISPLAY_TIME;
+    scheduleNext(firstHold + TRANSITION_TIME);
+    window.addEventListener("atiModalToggle", onModalToggle);
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+      if (leavingId) clearTimeout(leavingId);
+      window.removeEventListener("atiModalToggle", onModalToggle);
+    };
+  }, [currentLang]);
 
   // Parallax
   useEffect(() => {
@@ -193,7 +259,7 @@ export const Hero: React.FC<HeroProps> = ({ lang }) => {
     else { setHighlighted(idx); setLogoDimmed(true); }
   };
 
-  const planets = PLANETS[lang];
+  const planets = PLANETS[currentLang];
 
   return (
     <header className="hero" id="hero" ref={heroRef} onClick={() => { setHighlighted(null); setLogoDimmed(false); }}>
@@ -204,32 +270,42 @@ export const Hero: React.FC<HeroProps> = ({ lang }) => {
         <p className="hero-eyebrow">Technology on Business</p>
         <h1 className="hero-title">Master <br /><span className="text-cyan">The </span>Chaos</h1>
 
-        <div className="hero-rotator" aria-live="polite">
+        <div className="hero-rotator" aria-live="polite" data-hero-react="true">
           <span className="rotator-phrase" id="rotatorPhrase" ref={phraseRef} />
         </div>
 
         <div className="hero-status-container" id="heroStatusContainer">
-          <div className="hero-status-boxes">
-            {["ERR", "404", "RE", "SYNC"].map((code) => (
-              <div className="status-box" key={code}>
-                <span className="status-value glitch-text" data-text={code}>{code}</span>
+          <div className="hero-status-boxes" aria-label={currentLang === "ES" ? "Tiempo restante para ToB" : "Time remaining until ToB"}>
+            {([
+              { value: countdown.d, label: currentLang === "ES" ? "DÍAS" : "DAYS" },
+              { value: countdown.h, label: currentLang === "ES" ? "HRS" : "HRS" },
+              { value: countdown.m, label: currentLang === "ES" ? "MIN" : "MIN" },
+              { value: countdown.s, label: currentLang === "ES" ? "SEG" : "SEC" },
+            ]).map((unit) => (
+              <div className="status-box" key={unit.label}>
+                <span className="status-value glitch-text" data-text={unit.value}>{unit.value}</span>
+                <span className="status-label">{unit.label}</span>
               </div>
             ))}
           </div>
           <p className="hero-status-msg">
-            {lang === "ES" ? "System.Weather.Exception: lluvia detectada" : "System.Weather.Exception: rain detected"}
+            {currentLang === "ES" ? "Para el inicio de ToB" : "Until ToB begins"}
           </p>
           <div className="hero-new-date">
             <span className="new-date-dot" />
             <span className="new-date-text">
-              {lang === "ES" ? "Nueva fecha por confirmar" : "New date to be confirmed"}
+              {currentLang === "ES" ? (
+                "4 y 5 de noviembre de 2026"
+              ) : (
+                <>November 4<sup>th</sup> and 5<sup>th</sup>, 2026</>
+              )}
             </span>
           </div>
         </div>
 
         <div className="hero-actions">
           <a href="https://luma.com/technologyonbusiness" target="_blank" className="btn btn-primary btn-large">
-            {lang === "ES" ? "Asistir" : "Attend"}
+            {currentLang === "ES" ? "Asistir" : "Attend"}
           </a>
         </div>
       </div>

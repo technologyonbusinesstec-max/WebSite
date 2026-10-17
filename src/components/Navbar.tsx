@@ -6,6 +6,24 @@ export const Navbar: React.FC = () => {
   const [lang, setLang] = useState<"ES" | "EN">("ES");
   const [mobileOpen, setMobileOpen] = useState(false);
 
+  // Sync initial language from localStorage and listen to global language changes
+  useEffect(() => {
+    const saved = localStorage.getItem("tob_lang");
+    if (saved === "en" || saved === "EN") {
+      setLang("EN");
+    }
+
+    const handleLangChanged = (e: any) => {
+      const l = e.detail?.lang;
+      if (l) {
+        setLang(l.toUpperCase() === "EN" ? "EN" : "ES");
+      }
+    };
+
+    window.addEventListener("languageChanged", handleLangChanged);
+    return () => window.removeEventListener("languageChanged", handleLangChanged);
+  }, []);
+
   // Add scroll listener to toggle .scrolled class
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 80);
@@ -13,7 +31,22 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  const toggleLang = () => setLang((prev) => (prev === "ES" ? "EN" : "ES"));
+  const changeLanguage = (next: "ES" | "EN") => {
+    setLang(next);
+    const langKey = next.toLowerCase();
+    localStorage.setItem("tob_lang", langKey);
+
+    if (typeof (window as any).applyTranslations === "function") {
+      (window as any).applyTranslations(langKey);
+    }
+    window.dispatchEvent(new CustomEvent("languageChanged", { detail: { lang: langKey } }));
+  };
+
+  const toggleLang = () => {
+    const next = lang === "ES" ? "EN" : "ES";
+    changeLanguage(next);
+  };
+
   const toggleMobile = () => setMobileOpen((prev) => !prev);
 
   const t = (es: string, en: string) => (lang === "ES" ? es : en);
@@ -80,10 +113,10 @@ export const Navbar: React.FC = () => {
 
         {/* Right – language selector, coordinators button, attending button, hamburger */}
         <div className="navbar-right">
-          <div className="lang-selector" id="langToggle" data-lang={lang} onClick={toggleLang}>
-            <span className="lang-text active">ES</span>
-            <span className="lang-text">EN</span>
-            <div className="lang-slider" />
+          <div className="lang-selector" id="langToggle" data-lang={lang} onClick={toggleLang} role="button" aria-label="Cambiar idioma">
+            <span className={"lang-text " + (lang === "ES" ? "active" : "")}>ES</span>
+            <span className={"lang-text " + (lang === "EN" ? "active" : "")}>EN</span>
+            <div className="lang-slider" style={{ transform: lang === "EN" ? "translateX(100%)" : "translateX(0)" }} />
           </div>
           <a href="/coordinacion" className="coordinators-btn" aria-label={t("Coordinadores", "Coordinators")}> 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -114,10 +147,10 @@ export const Navbar: React.FC = () => {
         <a href="/galeria" className="mobile-link">{t("Galería ToB", "ToB Gallery")}</a>
         <a href="/hackatob" className="mobile-link highlight-link">{t("HackaToB", "HackaToB")}</a>
         <div className="mobile-actions">
-          <div className="lang-selector" id="langToggleMobile" data-lang={lang} onClick={toggleLang}>
-            <span className="lang-text active">ES</span>
-            <span className="lang-text">EN</span>
-            <div className="lang-slider" />
+          <div className="lang-selector" id="langToggleMobile" data-lang={lang} onClick={toggleLang} role="button" aria-label="Cambiar idioma">
+            <span className={"lang-text " + (lang === "ES" ? "active" : "")}>ES</span>
+            <span className={"lang-text " + (lang === "EN" ? "active" : "")}>EN</span>
+            <div className="lang-slider" style={{ transform: lang === "EN" ? "translateX(100%)" : "translateX(0)" }} />
           </div>
           <a href="/coordinacion" className="coordinators-btn" aria-label={t("Coordinadores", "Coordinators")}> 
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

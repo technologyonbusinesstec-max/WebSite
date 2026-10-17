@@ -1,5 +1,5 @@
 // programa/storytelling.js
-// Scrollytelling visual â€” EvoluciÃ³n tecnolÃ³gica detrÃ¡s del programa
+// Scrollytelling visual — Evolución tecnológica detrás del programa
 
 (function () {
     'use strict';
@@ -11,17 +11,17 @@
     const ctx = canvas.getContext('2d');
     let width, height;
 
-    // Detectar si es mÃ³vil
+    // Detectar si es móvil
     const isMobile = window.innerWidth <= 768;
     const NUM_PARTICLES = isMobile ? 60 : 120;
 
-    // PartÃ­culas
+    // Partículas
     let particles = [];
 
     // Estado global del scroll (0 a 1)
     let globalProgress = 0;
 
-    // DefiniciÃ³n de eras
+    // Definición de eras
     const eras = [
         { id: 'year-1940', start: 0.00, end: 0.18 },
         { id: 'year-1980', start: 0.18, end: 0.35 },
@@ -31,7 +31,7 @@
         { id: 'year-next', start: 0.88, end: 0.97 }
     ];
 
-    // â”€â”€ Canvas setup â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Canvas setup ──────────────────────────────────────
 
     function resizeCanvas() {
         width = window.innerWidth;
@@ -60,7 +60,7 @@
         requestAnimationFrame(renderLoop);
     }
 
-    // â”€â”€ Particle target positions per stage â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Particle target positions per stage ───────────────
 
     function computeTargets(progress) {
         const cx = width * 0.12;   // Zona izquierda segura
@@ -80,7 +80,7 @@
                 p.targetY = cy - 50 + row * 8;
                 p.alpha = 0.25;
             }
-            // STAGE 2: PC (forma mÃ¡s compacta a la derecha)
+            // STAGE 2: PC (forma más compacta a la derecha)
             else if (progress < 0.35) {
                 const cols = 8;
                 const row = Math.floor(i / cols);
@@ -104,7 +104,7 @@
                 p.targetY = height * 0.12 + Math.sin(angle) * 40 + t * 30;
                 p.alpha = 0.35;
             }
-            // STAGE 5: AI â€” red neuronal (3 columnas)
+            // STAGE 5: AI — red neuronal (3 columnas)
             else if (progress < 0.88) {
                 const layer = i % 4;
                 const nodeIndex = Math.floor(i / 4);
@@ -113,7 +113,7 @@
                 p.targetY = (height / nodesPerLayer) * nodeIndex;
                 p.alpha = 0.5;
             }
-            // STAGE 6: Quantum (anillos concÃ©ntricos)
+            // STAGE 6: Quantum (anillos concéntricos)
             else if (progress < 0.97) {
                 const ring = i % 3;
                 const radius = 60 + ring * 40;
@@ -130,18 +130,18 @@
         });
     }
 
-    // â”€â”€ Render loop â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Render loop ───────────────────────────────────────
 
     function renderLoop() {
         ctx.clearRect(0, 0, width, height);
         computeTargets(globalProgress);
 
-        // Mover partÃ­culas con lerp
+        // Mover partículas con lerp
         particles.forEach(p => {
             p.phase += 0.01;
             p.x += (p.targetX - p.x) * p.speed * 3;
             p.y += (p.targetY - p.y) * p.speed * 3;
-            // Micro-ondulaciÃ³n orgÃ¡nica
+            // Micro-ondulación orgánica
             p.x += Math.sin(p.phase) * 0.3;
             p.y += Math.cos(p.phase * 0.7) * 0.3;
         });
@@ -167,7 +167,7 @@
             }
         }
 
-        // Dibujar partÃ­culas
+        // Dibujar partículas
         particles.forEach(p => {
             ctx.fillStyle = `rgba(33, 208, 255, ${p.alpha})`;
             ctx.beginPath();
@@ -178,7 +178,7 @@
         requestAnimationFrame(renderLoop);
     }
 
-    // â”€â”€ Year labels â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Year labels ───────────────────────────────────────
 
     function updateYears(progress) {
         eras.forEach(era => {
@@ -223,7 +223,7 @@
         });
     }
 
-    // â”€â”€ IntersectionObserver para tarjetas activas â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── IntersectionObserver para tarjetas activas ────────
 
     function initCardObserver() {
         const items = document.querySelectorAll('.timeline-item:not(.block-header)');
@@ -242,7 +242,7 @@
         items.forEach(function (item) { observer.observe(item); });
     }
 
-    // â”€â”€ Sobrecargar switchDay para refrescar ScrollTrigger â”€
+    // ── Sobrecargar switchDay para refrescar ScrollTrigger ─
 
     (function hookSwitchDay() {
         var orig = window.switchDay;
@@ -254,7 +254,7 @@
         }
     })();
 
-    // â”€â”€ Inicializar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── Inicializar ───────────────────────────────────────
 
     if (document.readyState === 'loading') {
         document.addEventListener('DOMContentLoaded', boot);

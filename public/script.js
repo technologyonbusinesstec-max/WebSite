@@ -1,29 +1,10 @@
-console.log("%cÂ¡Alto ahÃ­!", "color: red; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 0 #000;");
-console.log("%cEsta es una funciÃ³n del navegador pensada para desarrolladores. Si alguien te indicÃ³ que copiaras y pegaras algo aquÃ­, se trata de un ataque (Self-XSS) que le darÃ¡ acceso a tu sesiÃ³n o datos.", "font-size: 16px;");
+console.log("%c¡Alto ahí!", "color: red; font-size: 50px; font-weight: bold; text-shadow: 2px 2px 0 #000;");
+console.log("%cEsta es una función del navegador pensada para desarrolladores. Si alguien te indicó que copiaras y pegaras algo aquí, se trata de un ataque (Self-XSS) que le dará acceso a tu sesión o datos.", "font-size: 16px;");
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Switch de idioma (ES/EN)
-    const langToggle = document.getElementById('langToggle');
-    if (langToggle) {
-        langToggle.addEventListener('click', () => {
-            const texts = langToggle.querySelectorAll('.lang-text');
-            const isES = texts[0].classList.contains('active');
 
-            if (isES) {
-                // Cambiar a EN
-                texts[0].classList.remove('active');
-                texts[1].classList.add('active');
-                langToggle.setAttribute('data-lang', 'EN');
-            } else {
-                // Cambiar a ES
-                texts[1].classList.remove('active');
-                texts[0].classList.add('active');
-                langToggle.setAttribute('data-lang', 'ES');
-            }
-        });
-    }
 
-    // Efecto transparente en hero, fondo sÃ³lido al bajar
+    // Efecto transparente en hero, fondo sólido al bajar
     const navbar = document.getElementById('navbar');
     const heroSection = document.getElementById('hero');
 
@@ -42,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // LÃ³gica del menÃº hamburguesa
+    // Lógica del menú hamburguesa
     const menuToggle = document.getElementById('menuToggle');
     const mobileNav = document.getElementById('mobileNav');
 
@@ -53,39 +34,14 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Switch de idioma para mÃ³vil
-    const langToggleMobile = document.getElementById('langToggleMobile');
-    if (langToggleMobile) {
-        langToggleMobile.addEventListener('click', () => {
-            const texts = langToggleMobile.querySelectorAll('.lang-text');
-            const isES = texts[0].classList.contains('active');
 
-            if (isES) {
-                texts[0].classList.remove('active');
-                texts[1].classList.add('active');
-                langToggleMobile.setAttribute('data-lang', 'EN');
-                // Sincronizar con el principal
-                if (langToggle && langToggle.getAttribute('data-lang') === 'ES') {
-                    langToggle.click();
-                }
-            } else {
-                texts[1].classList.remove('active');
-                texts[0].classList.add('active');
-                langToggleMobile.setAttribute('data-lang', 'ES');
-                // Sincronizar con el principal
-                if (langToggle && langToggle.getAttribute('data-lang') === 'EN') {
-                    langToggle.click();
-                }
-            }
-        });
-    }
 
-    // LÃNEA ROTATIVA DEL HERO
-    const DISPLAY_TIME = 2000; // ms que se muestra cada frase (ajustar aquÃ­)
-    const TRANSITION_TIME = 400; // ms de la animaciÃ³n de salida (debe coincidir con phrase-leave en CSS)
+    // LÍNEA ROTATIVA DEL HERO
+    const DISPLAY_TIME = 2000; // ms que se muestra cada frase (ajustar aquí)
+    const TRANSITION_TIME = 400; // ms de la animación de salida (debe coincidir con phrase-leave en CSS)
 
     const phraseEl = document.getElementById('rotatorPhrase');
-    if (phraseEl) {
+    if (phraseEl && !phraseEl.closest('[data-hero-react]')) {
         let PHRASES = [];
         let currentIndex = 0;
 
@@ -102,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 { text: t.phrase_5 },
                 { html: t.phrase_6 },
                 { text: t.phrase_7 },
-                { text: t.phrase_8 },
+                { html: t.phrase_8 },
                 { text: t.phrase_9 },
             ];
         };
@@ -122,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 phraseEl.textContent = phrase.text;
             }
             phraseEl.classList.remove('leaving');
-            void phraseEl.offsetWidth; // Forzar reflow para reiniciar la animaciÃ³n
+            void phraseEl.offsetWidth; // Forzar reflow para reiniciar la animación
             phraseEl.classList.add('entering');
         }
 
@@ -140,21 +96,20 @@ document.addEventListener('DOMContentLoaded', () => {
         setInterval(nextPhrase, DISPLAY_TIME + TRANSITION_TIME);
     }
 
-    // LÃ“GICA DEL HERO Y SISTEMA SOLAR
-    // Contador de tiempo (hasta 18 agosto 2026 09:15:00)
-    const countdownDate = new Date("August 18, 2026 09:15:00").getTime();
+    // LÓGICA DEL HERO Y SISTEMA SOLAR
+    const countdownDate = new Date("November 4, 2026 09:15:00").getTime();
     const daysEl = document.getElementById("days");
     const hoursEl = document.getElementById("hours");
     const minutesEl = document.getElementById("minutes");
     const secondsEl = document.getElementById("seconds");
 
-    if (daysEl && hoursEl && minutesEl && secondsEl) {
+    if (daysEl && hoursEl && minutesEl && secondsEl && countdownDate) {
         const updateCountdown = () => {
             const now = new Date().getTime();
             const distance = countdownDate - now;
 
             if (distance < 0) {
-                // Evento ya empezÃ³
+                // Evento ya empezó
                 daysEl.innerText = "00";
                 hoursEl.innerText = "00";
                 minutesEl.innerText = "00";
@@ -187,15 +142,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
 
-            // Calcular el centro de la secciÃ³n hero
+            // Calcular el centro de la sección hero
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
-            // Calcular la rotaciÃ³n en base a la distancia del centro (mÃ¡ximo 15 grados)
+            // Calcular la rotación en base a la distancia del centro (máximo 15 grados)
             const rotateX = ((y - centerY) / centerY) * -15;
             const rotateY = ((x - centerX) / centerX) * 15;
 
-            // Aplicar transformaciÃ³n
+            // Aplicar transformación
             solarSystem.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
         });
 
@@ -204,21 +159,21 @@ document.addEventListener('DOMContentLoaded', () => {
             solarSystem.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg)`;
             solarSystem.style.transition = `transform 0.5s ease-out`;
 
-            // Quitar transiciÃ³n despuÃ©s para que el movimiento del mouse sea responsivo de nuevo
+            // Quitar transición después para que el movimiento del mouse sea responsivo de nuevo
             setTimeout(() => {
                 solarSystem.style.transition = `transform 0.1s ease-out`;
             }, 500);
         });
     }
 
-    // AnimaciÃ³n de giro 3D / moneda al hacer clic o tocar el logo (isotipo)
+    // Animación de giro 3D / moneda al hacer clic o tocar el logo (isotipo)
     const heroLogo = document.getElementById('heroLogo');
     if (heroLogo) {
         const triggerSpin = () => {
             if (!heroLogo.classList.contains('coin-spin')) {
                 heroLogo.classList.add('coin-spin');
 
-                // Quitar clase despuÃ©s de la animaciÃ³n para poder repetirlo
+                // Quitar clase después de la animación para poder repetirlo
                 setTimeout(() => {
                     heroLogo.classList.remove('coin-spin');
                 }, 1000);
@@ -229,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
         heroLogo.addEventListener('touchstart', triggerSpin, { passive: true });
     }
 
-    // Interactividad de planetas (atenuar los demÃ¡s al hacer clic)
+    // Interactividad de planetas (atenuar los demás al hacer clic)
     const planets = document.querySelectorAll('.planet');
     const orbits = document.querySelectorAll('.orbit');
 
@@ -250,15 +205,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Aplicar estado seleccionado a este planeta
                 planet.classList.add('highlighted');
 
-                // Atenuar a los demÃ¡s
+                // Atenuar a los demás
                 orbits.forEach(orbit => {
-                    // Si el planeta clickeado no estÃ¡ dentro de esta Ã³rbita, atenuar la Ã³rbita completa
+                    // Si el planeta clickeado no está dentro de esta órbita, atenuar la órbita completa
                     if (!orbit.contains(planet)) {
                         orbit.classList.add('dimmed');
                     }
                 });
 
-                // Atenuar tambiÃ©n el sol (opcional, para resaltar mÃ¡s la palabra)
+                // Atenuar también el sol (opcional, para resaltar más la palabra)
                 if (heroLogo) heroLogo.classList.add('dimmed');
             });
         });
@@ -297,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
 
-    // ANIMACIÃ“N SCROLL REVEAL Y CONTADORES (ABOUT)
+    // ANIMACIÓN SCROLL REVEAL Y CONTADORES (ABOUT)
     function animateCounters() {
         const statNumbers = document.querySelectorAll('.stat-number');
         statNumbers.forEach(numEl => {
@@ -306,14 +261,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const target = parseInt(numEl.getAttribute('data-target'), 10);
             const suffix = numEl.getAttribute('data-suffix') || '';
-            const duration = 2400; // 4s para que se aprecie cada nÃºmero
+            const duration = 2400; // 4s para que se aprecie cada número
             const startTime = performance.now();
 
             function updateCount(currentTime) {
                 const elapsedTime = currentTime - startTime;
                 const progress = Math.min(elapsedTime / duration, 1);
 
-                // Curva de progreso suave para apreciar la subida de nÃºmeros
+                // Curva de progreso suave para apreciar la subida de números
                 const easeOut = 1 - Math.pow(1 - progress, 3);
                 const currentVal = Math.floor(easeOut * target);
 
@@ -347,7 +302,7 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(aboutContainer);
     }
 
-    // â˜… STAR TRAIL CURSOR GLOBAL
+    // ★ STAR TRAIL CURSOR GLOBAL
     if (window.matchMedia('(pointer: fine)').matches) {
 
         const starCanvas = document.getElementById('globalStarCanvas');
@@ -449,13 +404,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const terminalWindow = document.getElementById('terminalWindow');
 
     if (typewriterText && terminalWindow) {
-        // FunciÃ³n para obtener el texto actual segÃºn el idioma
+        // Función para obtener el texto actual según el idioma
         const getTerminalText = () => {
             const currentLang = localStorage.getItem('tob_lang') || 'es';
             if (currentLang === 'en') {
                 return "Technology on Business (ToB) is a unique opportunity in Costa Rica for students, professionals, entrepreneurs, and tech enthusiasts who want to boost their personal and professional growth. Over two days, you will learn from industry experts, discover the trends transforming the world, strengthen your skills, and connect with people who share your interests.\n\nFurthermore, ToB 2026 is a completely free event open to the public, providing access to top-tier conferences, experiences, and networking.\n\nIf you are looking to learn, get inspired, and build connections that will drive your future, this is the place to do it.";
             } else {
-                return "Technology on Business (ToB) es una oportunidad Ãºnica en Costa Rica para estudiantes, profesionales, emprendedores y apasionados por la tecnologÃ­a que desean impulsar su crecimiento personal y profesional. Durante dos dÃ­as podrÃ¡s aprender de expertos de la industria, descubrir las tendencias que transforman el mundo, fortalecer tus habilidades y conectar con personas que comparten tus intereses.\n\nAdemÃ¡s, ToB 2026 es un evento completamente gratuito y abierto al pÃºblico, brindando acceso a conferencias, experiencias y networking de alto nivel.\n\nSi buscas aprender, inspirarte y construir conexiones que impulsen tu futuro, este es el lugar para hacerlo.";
+                return "Technology on Business (ToB) es una oportunidad única en Costa Rica para estudiantes, profesionales, emprendedores y apasionados por la tecnología que desean impulsar su crecimiento personal y profesional. Durante dos días podrás aprender de expertos de la industria, descubrir las tendencias que transforman el mundo, fortalecer tus habilidades y conectar con personas que comparten tus intereses.\n\nAdemás, ToB 2026 es un evento completamente gratuito y abierto al público, brindando acceso a conferencias, experiencias y networking de alto nivel.\n\nSi buscas aprender, inspirarte y construir conexiones que impulsen tu futuro, este es el lugar para hacerlo.";
             }
         };
 
@@ -490,7 +445,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (typingTimeout) clearTimeout(typingTimeout);
             typewriterText.textContent = '';
             index = 0;
-            setTimeout(typeWriter, 400); // PequeÃ±a pausa antes de reiniciar
+            setTimeout(typeWriter, 400); // Pequeña pausa antes de reiniciar
         }
 
         // IntersectionObserver para activar el efecto solo cuando la terminal es visible
@@ -507,28 +462,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         observer.observe(terminalWindow);
 
-        // --- LÃ“GICA DE BOTONES DEL TERMINAL ---
+        // --- LÓGICA DE BOTONES DEL TERMINAL ---
         const termCloseBtn = document.getElementById('termCloseBtn');
         const termMinBtn = document.getElementById('termMinBtn');
         const termMaxBtn = document.getElementById('termMaxBtn');
         const sysErrorModal = document.getElementById('sysErrorModal');
         const sysErrorCloseBtn = document.getElementById('sysErrorCloseBtn');
 
-        // BotÃ³n Rojo (Cerrar) -> Muestra Modal de Error
+        // Botón Rojo (Cerrar) -> Muestra Modal de Error
         if (termCloseBtn && sysErrorModal) {
             termCloseBtn.addEventListener('click', () => {
                 sysErrorModal.classList.add('active');
             });
         }
 
-        // BotÃ³n del Modal para cerrar el error
+        // Botón del Modal para cerrar el error
         if (sysErrorCloseBtn && sysErrorModal) {
             sysErrorCloseBtn.addEventListener('click', () => {
                 sysErrorModal.classList.remove('active');
             });
         }
 
-        // BotÃ³n Amarillo (Minimizar) -> Quita maximizado si lo tiene y reinicia el texto
+        // Botón Amarillo (Minimizar) -> Quita maximizado si lo tiene y reinicia el texto
         if (termMinBtn) {
             termMinBtn.addEventListener('click', () => {
                 terminalWindow.classList.remove('maximized');
@@ -536,7 +491,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // BotÃ³n Verde (Maximizar) -> Alterna maximizado y reinicia el texto
+        // Botón Verde (Maximizar) -> Alterna maximizado y reinicia el texto
         if (termMaxBtn) {
             termMaxBtn.addEventListener('click', () => {
                 terminalWindow.classList.toggle('maximized');
@@ -545,7 +500,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // BotÃ³n de registro con animaciÃ³n de aviÃ³n de papel
+    // Botón de registro con animación de avión de papel
     const btnPaperPlane = document.getElementById('btnPaperPlane');
     const planeIcon = document.getElementById('planeIcon');
     let isRegistering = false;
@@ -557,15 +512,15 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isRegistering) return; // Debounce
             isRegistering = true;
 
-            // Animar el aviÃ³n
+            // Animar el avión
             planeIcon.classList.add('flying');
 
-            // Redirigir tras finalizar la animaciÃ³n (~800ms)
+            // Redirigir tras finalizar la animación (~800ms)
             setTimeout(() => {
                 // Cambiar por la URL final si es necesario (ej: Lu.ma)
                 window.open('https://luma.com/technologyonbusiness', '_blank');
 
-                // Resetear estado despuÃ©s de redirigir
+                // Resetear estado después de redirigir
                 setTimeout(() => {
                     planeIcon.classList.remove('flying');
                     isRegistering = false;
@@ -620,20 +575,20 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (speakersGrid) {
-        // Generar HTML, mostrando 6 tarjetas en la pÃ¡gina principal
+        // Generar HTML, mostrando 6 tarjetas en la página principal
         const showAll = speakersGrid.hasAttribute('data-show-all');
         const cardsHTML = speakersData.map((sp, i) => renderSpeakerCard(sp, i, showAll ? false : i >= 6)).join('');
         speakersGrid.innerHTML = cardsHTML;
     }
 
     if (speakersGrid) {
-        // Generar HTML, ocultando las tarjetas mÃ¡s allÃ¡ del Ã­ndice 5 si no tiene el atributo data-show-all
+        // Generar HTML, ocultando las tarjetas más allá del índice 5 si no tiene el atributo data-show-all
         const showAll = speakersGrid.hasAttribute('data-show-all');
         const cardsHTML = speakersData.map((sp, i) => renderSpeakerCard(sp, i, showAll ? false : i >= 6)).join('');
         speakersGrid.innerHTML = cardsHTML;
     }
 
-    // MAPBOX E INTERACCIÃ“N DE UBICACIÃ“N (SCROLL ZOOM)
+    // MAPBOX E INTERACCIÓN DE UBICACIÓN (SCROLL ZOOM)
     const locationWrapper = document.getElementById('ubicacion');
     const layerEarth = document.getElementById('layerEarth');
     const layerContent = document.getElementById('layerContent');
@@ -645,7 +600,7 @@ document.addEventListener('DOMContentLoaded', () => {
             let rect = locationWrapper.getBoundingClientRect();
             let scrollDistance = rect.height - window.innerHeight;
 
-            // ProtecciÃ³n contra cachÃ© de CSS o fallos de cÃ¡lculo (scrollDistance = 0 causa NaN)
+            // Protección contra caché de CSS o fallos de cálculo (scrollDistance = 0 causa NaN)
             if (scrollDistance <= 0) {
                 locationWrapper.style.height = '250vh';
                 rect = locationWrapper.getBoundingClientRect();
@@ -847,7 +802,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     document.addEventListener('click', e => {
-        const trigger = e.target.closest('.ati-modal-trigger');
+        const target = e.target instanceof Element ? e.target : e.target.parentElement;
+        const trigger = target?.closest('.ati-modal-trigger');
         if (trigger) {
             e.preventDefault();
             openAtiModal(e);
@@ -861,11 +817,12 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function openAtiModal(e) {
-    e.preventDefault();
+    if (e && typeof e.preventDefault === 'function') e.preventDefault();
     const modal = document.getElementById('atiModal');
     if (!modal) return;
     modal.classList.add('active');
     document.body.style.overflow = 'hidden';
+    window.dispatchEvent(new CustomEvent('atiModalToggle', { detail: { open: true } }));
 }
 
 function closeAtiModal() {
@@ -873,5 +830,6 @@ function closeAtiModal() {
     if (!modal) return;
     modal.classList.remove('active');
     document.body.style.overflow = '';
+    window.dispatchEvent(new CustomEvent('atiModalToggle', { detail: { open: false } }));
 }
 

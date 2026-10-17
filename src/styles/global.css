@@ -816,6 +816,26 @@ body {
     transform: translateY(-110%);
 }
 
+.rotator-phrase .ati-modal-trigger {
+    display: inline;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: none;
+    font: inherit;
+    font-weight: 800;
+    color: var(--color-cyan);
+    text-decoration: underline;
+    text-underline-offset: 6px;
+    cursor: pointer;
+    letter-spacing: inherit;
+}
+
+.rotator-phrase .ati-modal-trigger:hover,
+.rotator-phrase .ati-modal-trigger:focus-visible {
+    color: #7ae4ff;
+}
+
 .rotator-phrase.entering {
     animation: phrase-enter 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
@@ -917,12 +937,14 @@ body {
 .status-box {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     background: rgba(8, 14, 26, 0.75);
     border: 1px solid rgba(33, 208, 255, 0.28);
     border-radius: 12px;
-    padding: 18px 10px;
+    padding: 16px 10px 14px;
     min-height: 80px;
     min-width: 75px;
     backdrop-filter: blur(14px);
@@ -939,6 +961,15 @@ body {
     border-color: rgba(33, 208, 255, 0.7);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45), inset 0 0 20px rgba(33, 208, 255, 0.15), 0 0 20px rgba(33, 208, 255, 0.3);
     transform: translateY(-2px);
+}
+
+.status-label {
+    font-family: var(--font-tech);
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.6px;
+    color: rgba(33, 208, 255, 0.85);
+    text-transform: uppercase;
 }
 
 /* === EFECTO GLITCH SLICE / ABERRACIÓN CROMÁTICA EN LAS LETRAS === */
@@ -3827,10 +3858,10 @@ body {
 .ati-modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(5, 8, 18, 0.75);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    z-index: 10100;
+    background: rgba(5, 8, 18, 0.88);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 20000;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -3847,7 +3878,7 @@ body {
 
 .ati-modal {
     position: relative;
-    background: linear-gradient(160deg, #0d1526 0%, #0a1020 100%);
+    background: #0a1020;
     border: 1px solid rgba(33, 208, 255, 0.15);
     border-radius: 28px;
     max-width: 680px;
@@ -3942,10 +3973,57 @@ body {
 }
 
 .ati-modal-lead {
-    font-size: 1.05rem;
-    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffffff;
     line-height: 1.7;
-    margin-bottom: 36px;
+    margin-bottom: 1.1rem;
+}
+
+.ati-modal-copy {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.78);
+    line-height: 1.65;
+    margin-bottom: 1.1rem;
+}
+
+.ati-modal-heading {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--color-cyan);
+    letter-spacing: 0.4px;
+    margin: 1.6rem 0 0.7rem;
+}
+
+.ati-can-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 2rem;
+    display: grid;
+    gap: 10px;
+}
+
+.ati-can-list li {
+    position: relative;
+    padding: 12px 16px 12px 42px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 14px;
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.ati-can-list li::before {
+    content: "";
+    position: absolute;
+    left: 16px;
+    top: 18px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-cyan);
+    box-shadow: 0 0 10px rgba(33, 208, 255, 0.8);
 }
 
 .ati-features {

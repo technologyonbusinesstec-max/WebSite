@@ -8,24 +8,43 @@ interface Props {
   hideFooter?: boolean;
   title?: string;
   description?: string;
+  favicon?: string;
 }
 
 const {
   hideNavbar = false,
   hideFooter = false,
   title = 'ToB – Technology On Business',
-  description = 'El congreso de tecnología y negocios más grande de Costa Rica.'
+  description = 'El congreso de tecnología y negocios más grande de Costa Rica.',
+  favicon = '/imagenes/Miniatura/Miniatura.webp'
 } = Astro.props;
+
+const faviconType = favicon.endsWith('.svg')
+  ? 'image/svg+xml'
+  : favicon.endsWith('.png')
+    ? 'image/png'
+    : favicon.endsWith('.ico')
+      ? 'image/x-icon'
+      : 'image/webp';
 ---
 <!doctype html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/webp" href="/imagenes/Miniatura/Miniatura.webp" />
+  <link rel="icon" type={faviconType} href={favicon} />
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
   <title>{title}</title>
+  <!-- i18n: load synchronously so translations are available at DOMContentLoaded -->
+  <script is:inline>
+    (function(){
+      var s = document.createElement('script');
+      s.src = '/lang.js';
+      s.async = false;
+      document.head.appendChild(s);
+    })();
+  </script>
 </head>
 <body>
   {!hideNavbar && <Navbar client:load />}
