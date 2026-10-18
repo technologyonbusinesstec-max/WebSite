@@ -1,0 +1,121 @@
+.earth-globe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.earth-globe-stage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform-origin: center center;
+  will-change: transform, opacity;
+}
+
+.earth-globe-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.earth-locate-btn {
+  pointer-events: auto;
+  position: absolute;
+  top: max(18px, calc(env(safe-area-inset-top) + 96px));
+  right: max(16px, 4vw);
+  z-index: 5;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: linear-gradient(135deg, #0474c4, #5379ae);
+  color: #fff;
+  font: 700 0.86rem/1 var(--font-main, inherit);
+  letter-spacing: 0.02em;
+  padding: 11px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(4, 116, 196, 0.28);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.earth-locate-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(4, 116, 196, 0.42);
+}
+
+.earth-locate-btn:disabled {
+  cursor: default;
+}
+
+.earth-locate-btn:focus-visible {
+  outline: 2px solid rgba(168, 196, 236, 0.9);
+  outline-offset: 3px;
+}
+
+.earth-globe.is-located .earth-locate-btn {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.earth-pin {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 4;
+  width: 16px;
+  height: 16px;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s ease, visibility 0.28s ease;
+}
+
+.earth-pin.is-visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.earth-pin.is-behind {
+  opacity: 0;
+}
+
+.earth-pin-dot {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #21d0ff;
+  box-shadow: 0 0 0 6px rgba(33, 208, 255, 0.18), 0 0 18px rgba(33, 208, 255, 0.7);
+}
+
+.earth-pin-label {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 8px);
+  transform: translateX(-50%);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(10, 15, 25, 0.82);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f7f8f8;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .earth-locate-btn {
+    top: max(14px, calc(env(safe-area-inset-top) + 64px));
+    right: 12px;
+    left: 12px;
+    width: calc(100% - 24px);
+  }
+
+  .earth-pin-label {
+    white-space: normal;
+  }
+}

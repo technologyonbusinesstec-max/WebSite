@@ -588,67 +588,6 @@ document.addEventListener('DOMContentLoaded', () => {
         speakersGrid.innerHTML = cardsHTML;
     }
 
-    // MAPBOX E INTERACCIÓN DE UBICACIÓN (SCROLL ZOOM)
-    const locationWrapper = document.getElementById('ubicacion');
-    const layerEarth = document.getElementById('layerEarth');
-    const layerContent = document.getElementById('layerContent');
-
-    if (locationWrapper) {
-        let isTicking = false;
-
-        function updateLocationAnimation() {
-            let rect = locationWrapper.getBoundingClientRect();
-            let scrollDistance = rect.height - window.innerHeight;
-
-            // Protección contra caché de CSS o fallos de cálculo (scrollDistance = 0 causa NaN)
-            if (scrollDistance <= 0) {
-                locationWrapper.style.height = '250vh';
-                rect = locationWrapper.getBoundingClientRect();
-                scrollDistance = rect.height - window.innerHeight;
-            }
-
-            // Progreso del 0 al 1
-            let progress = -rect.top / scrollDistance;
-            progress = Math.max(0, Math.min(1, progress));
-
-            // --- TIERRA ---
-            let earthScale = 1 + (progress * 4);
-            let earthOpacity = 1;
-            if (progress > 0.6) earthOpacity = 1 - ((progress - 0.6) / 0.4);
-
-            // --- CONTENIDO FINAL ---
-            let contentOpacity = 0;
-            if (progress > 0.6) {
-                contentOpacity = (progress - 0.6) / 0.4;
-            }
-
-            // Aplicar estilos defensivamente
-            if (layerEarth) {
-                layerEarth.style.transform = `scale(${earthScale})`;
-                layerEarth.style.opacity = Math.max(0, Math.min(1, earthOpacity));
-            }
-
-            if (layerContent) {
-                layerContent.style.opacity = Math.max(0, Math.min(1, contentOpacity));
-                layerContent.style.pointerEvents = progress > 0.9 ? 'auto' : 'none';
-            }
-
-            isTicking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            const rect = locationWrapper.getBoundingClientRect();
-            if (rect.top <= window.innerHeight && rect.bottom >= 0) {
-                if (!isTicking) {
-                    requestAnimationFrame(updateLocationAnimation);
-                    isTicking = true;
-                }
-            }
-        });
-
-        updateLocationAnimation();
-    }
-
     if (typeof applyTranslations === 'function') {
         applyTranslations(localStorage.getItem('tob_lang') || 'es');
     }

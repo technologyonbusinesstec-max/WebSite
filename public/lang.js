@@ -120,6 +120,10 @@ const translations = {
         "loc_start": "Inicio de evento",
         "loc_tbd2": "9:15 am",
         "loc_maps": "Ver ubicación en Google Maps",
+        "loc_view_tec": "Ubicación",
+        "loc_back": "Volver",
+        "loc_pin": "Centro de las Artes, TEC",
+        "loc_globe_alt": "Tierra vista desde el espacio",
 
         // Footer
         "footer_desc": "El congreso de tecnología y negocios organizado por estudiantes más grande de Costa Rica.",
@@ -1040,6 +1044,10 @@ const translations = {
         "loc_start": "Event starts",
         "loc_tbd2": "9:15 am",
         "loc_maps": "View location on Google Maps",
+        "loc_view_tec": "Location",
+        "loc_back": "Back",
+        "loc_pin": "Arts Center, TEC",
+        "loc_globe_alt": "Earth seen from space",
 
         // Footer
         "footer_desc": "The largest student-organized technology and business conference in Costa Rica.",
