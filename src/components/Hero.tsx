@@ -11,7 +11,7 @@ const PHRASES: Record<"ES" | "EN", Array<{ text?: string; html?: string }>> = {
     { html: 'Estudiantes de <button type="button" class="ati-modal-trigger">ATI</button>' },
     { text: "Congreso de tecnología" },
     { text: "4 y 5 de noviembre de 2026" },
-    { text: "HackaTob: Nueva fecha por confirmar" },
+    { text: "HackaToB: 2–6 nov 2026" },
   ],
   EN: [
     { text: "15th Anniversary of TOB" },
@@ -21,8 +21,8 @@ const PHRASES: Record<"ES" | "EN", Array<{ text?: string; html?: string }>> = {
     { text: "18 conferences" },
     { html: 'Students from <button type="button" class="ati-modal-trigger">ATI</button>' },
     { text: "Technology congress" },
-    { html: "November 4<sup>th</sup> and 5<sup>th</sup>, 2026" },
-    { text: "HackaTob: New date to be confirmed" },
+    { html: '4<span class="date-ord">th</span> and 5<span class="date-ord">th</span> November 2026' },
+    { html: 'HackaToB: 2<span class="date-ord">nd</span>–6<span class="date-ord">th</span> November 2026' },
   ],
 };
 
@@ -297,7 +297,7 @@ export const Hero: React.FC<HeroProps> = ({ lang: initialLang = "ES" }) => {
               {currentLang === "ES" ? (
                 "4 y 5 de noviembre de 2026"
               ) : (
-                <>November 4<sup>th</sup> and 5<sup>th</sup>, 2026</>
+                <>4<span className="date-ord">th</span> and 5<span className="date-ord">th</span> November 2026</>
               )}
             </span>
           </div>

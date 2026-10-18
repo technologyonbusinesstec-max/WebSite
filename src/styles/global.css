@@ -803,7 +803,7 @@ body {
 
 .rotator-phrase {
     display: block;
-    font-size: 2.20rem;
+    font-size: clamp(1.35rem, 2.1vw, 2.05rem);
     font-weight: 700;
     line-height: 1.3;
     color: #ffffff;
@@ -811,6 +811,7 @@ body {
     left: 0;
     width: 100%;
     padding: 10px 0;
+    white-space: nowrap;
     /* Espaciado extra arriba y abajo */
     opacity: 0;
     transform: translateY(-110%);
@@ -1228,6 +1229,14 @@ body {
     font-weight: 700;
     color: #ffffff;
     letter-spacing: 0.5px;
+}
+
+.date-ord {
+    font-size: 0.68em;
+    line-height: 0;
+    position: relative;
+    top: -0.12em;
+    font-weight: 700;
 }
 
 .btn-large {

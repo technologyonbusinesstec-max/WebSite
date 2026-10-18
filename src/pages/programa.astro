@@ -622,6 +622,11 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+  /* El planeta vive en el fondo fijo del body. En esta página se apaga. */
+  :global(body) {
+    background: #0d0406;
+  }
+
   /* ── Fondo único de la página Programa ── */
   .programa-page-bg {
     position: fixed;
@@ -629,11 +634,12 @@ import Layout from '../layouts/Layout.astro';
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: 
-      linear-gradient(rgba(10, 15, 25, 0.72), rgba(10, 15, 25, 0.88)),
+    background-color: #0d0406;
+    background-image:
+      linear-gradient(rgba(10, 15, 25, 0.62), rgba(10, 15, 25, 0.86)),
       url('/imagenes/programa/FondoPrograma.webp');
-    background-size: 80% auto;
-    background-position: center 15%;
+    background-size: cover, 80% auto;
+    background-position: center, center 8%;
     background-repeat: no-repeat;
     z-index: 0;
     pointer-events: none;

@@ -23,7 +23,7 @@ const translations = {
         "hero_eyebrow": "Technology on Business",
         "hero_title": "Master <br><span class=\"text-cyan\">The </span>Chaos",
         "hero_status_msg": "System.Weather.Exception: lluvia detectada",
-        "hero_new_date": "Nueva fecha por confirmar",
+        "hero_new_date": "HackaToB: 2–6 nov 2026",
         "hero_time_days": "DÍAS",
         "hero_time_hrs": "HRS",
         "hero_time_min": "MIN",
@@ -38,7 +38,7 @@ const translations = {
         "planet_6": "Integración",
 
         // Marquee
-        "marquee_text": "15 ANIVERSARIO <span class=\"text-cyan\">✦</span> CUANDO ESCAMPE 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPCIÓN <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
+        "marquee_text": "15 ANIVERSARIO <span class=\"text-cyan\">✦</span> 4 Y 5 DE NOVIEMBRE 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPCIÓN <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
 
         // About
         "about_title": "Technology on Business",
@@ -78,8 +78,8 @@ const translations = {
         "phrase_5": "18 conferencias",
         "phrase_6": 'Estudiantes de <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Congreso de tecnología",
-        "phrase_8": "Cuando escampe, 2026",
-        "phrase_9": "HackaTob: Nueva fecha por confirmar",
+        "phrase_8": "4 y 5 de noviembre de 2026",
+        "phrase_9": "HackaToB: 2–6 nov 2026",
 
         // Sponsors
         "sponsors_title": "Nuestros Partners",
@@ -445,10 +445,10 @@ const translations = {
         "prog_hero_eyebrow": "Technology on Business 2026",
         "prog_hero_title": "Programa del <span class=\"text-cyan\">Evento</span>",
         "prog_hero_slogan": "Dos días de conferencias, talleres y networking con los líderes de la industria tecnológica.",
-        "prog_date1": "Cuando escampe, 2026",
-        "prog_date2": "Cuando escampe, 2026",
+        "prog_date1": "Miércoles 4 de noviembre, 2026",
+        "prog_date2": "Jueves 5 de noviembre, 2026",
         "prog_tab1_day": "Día 1",
-        "prog_tab1_date": "Por confirmar",
+        "prog_tab1_date": "Miércoles 4 de noviembre",
         "prog_tab2_day": "Día 2",
 
         // HackaToB Navbar & General
@@ -612,7 +612,7 @@ const translations = {
 
         // HackaToB Agenda Preview & Dedicated
         "hack_agenda_preview_title": "Programa & <span class=\"text-cyan\">Agenda</span>",
-        "hack_agenda_preview_subtitle": "Descubre el cronograma completo día por día, workshops, mentorías y entregables cuando escampe, 2026.",
+        "hack_agenda_preview_subtitle": "Descubre el cronograma completo día por día, workshops, mentorías y entregables del 2 al 6 de noviembre de 2026.",
         "hack_agenda_d1_title": "Día 1: PreHackaToB",
         "hack_agenda_d1_desc": "Ideación, retos y formación de equipos en EmprendeLab.",
         "hack_agenda_d2_title": "Día 2: Dev Day I",
@@ -790,7 +790,7 @@ const translations = {
         "hack_footer_legal": "&copy; 2026 HackaToB. Organizado por estudiantes de ATI del Tecnológico de Costa Rica (TEC).",
         "hack_footer_lang_btn": "English",
         "hack_footer_copy": "&copy; 2026 HackaToB - Technology on Business. Todos los derechos reservados.",
-        "prog_tab2_date": "Por confirmar",
+        "prog_tab2_date": "Jueves 5 de noviembre",
         "prog_footer_address": "Área de Tecnología de Información · <strong>ATI TEC</strong><br>Tecnológico de Costa Rica",
         "prog_footer_copy": "© 2026 Technology on Business · ToB. Todos los derechos reservados.",
         "prog_soon": "Pronto...",
@@ -824,7 +824,7 @@ const translations = {
         "hero_eyebrow": "Technology on Business",
         "hero_title": "Master <br><span class=\"text-cyan\">The </span>Chaos",
         "hero_status_msg": "System.Weather.Exception: rain detected",
-        "hero_new_date": "New date to be confirmed",
+        "hero_new_date": "HackaToB: 2<span class=\"date-ord\">nd</span>–6<span class=\"date-ord\">th</span> November 2026",
         "hero_time_days": "DAYS",
         "hero_time_hrs": "HRS",
         "hero_time_min": "MIN",
@@ -839,7 +839,7 @@ const translations = {
         "planet_6": "Integration",
 
         // Marquee
-        "marquee_text": "15TH ANNIVERSARY <span class=\"text-cyan\">✦</span> WHEN THE RAIN CLEARS 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPTION <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
+        "marquee_text": "15TH ANNIVERSARY <span class=\"text-cyan\">✦</span> 4TH & 5TH NOVEMBER 2026 <span class=\"text-cyan\">✦</span> MASTER THE CHAOS <span class=\"text-cyan\">✦</span> TECHNOLOGY ON BUSINESS <span class=\"text-cyan\">✦</span> ATI <span class=\"text-cyan\">✦</span> DISRUPTION <span class=\"text-cyan\">✦</span> NETWORKING <span class=\"text-cyan\">✦</span> ",
 
         // About
         "about_title": "Technology on Business",
@@ -879,8 +879,8 @@ const translations = {
         "phrase_5": "18 conferences",
         "phrase_6": 'Students of <a href="#" class="text-cyan ati-modal-trigger" style="text-decoration:underline;text-underline-offset:4px">ATI</a>',
         "phrase_7": "Technology Congress",
-        "phrase_8": "When the rain clears, 2026",
-        "phrase_9": "HackaTob: New date to be confirmed",
+        "phrase_8": "4<span class=\"date-ord\">th</span> and 5<span class=\"date-ord\">th</span> November 2026",
+        "phrase_9": "HackaToB: 2<span class=\"date-ord\">nd</span>–6<span class=\"date-ord\">th</span> November 2026",
 
         // Sponsors
         "sponsors_title": "Our Partners",
@@ -1246,12 +1246,12 @@ const translations = {
         "prog_hero_eyebrow": "Technology on Business 2026",
         "prog_hero_title": "Event <span class=\"text-cyan\">Program</span>",
         "prog_hero_slogan": "Two days of conferences, workshops, and networking with technology industry leaders.",
-        "prog_date1": "When the rain clears, 2026",
-        "prog_date2": "When the rain clears, 2026",
+        "prog_date1": "Wednesday 4<span class=\"date-ord\">th</span> November 2026",
+        "prog_date2": "Thursday 5<span class=\"date-ord\">th</span> November 2026",
         "prog_tab1_day": "Day 1",
-        "prog_tab1_date": "To be confirmed",
+        "prog_tab1_date": "Wednesday 4<span class=\"date-ord\">th</span> November 2026",
         "prog_tab2_day": "Day 2",
-        "prog_tab2_date": "To be confirmed",
+        "prog_tab2_date": "Thursday 5<span class=\"date-ord\">th</span> November 2026",
         "prog_footer_address": "Information Technology Area · <strong>ATI TEC</strong><br>Costa Rica Institute of Technology",
         "prog_footer_copy": "© 2026 Technology on Business · ToB. All rights reserved.",
 
@@ -1261,7 +1261,7 @@ const translations = {
         "hack_nav_premios": "Prizes",
         "hack_nav_que_es": "About",
         "hack_pg_title": "One week to learn, build and present.",
-        "hack_pg_dates": "Monday, November 2 to Friday, November 6, 2026.",
+        "hack_pg_dates": "Monday 2<span class=\"date-ord\">nd</span> November to Friday 6<span class=\"date-ord\">th</span> November 2026.",
         "hack_pg_tz": "All times are in America/Costa_Rica, UTC−6.",
         "hack_pg_btn": "View full program",
         "hack_pg_presencial": "In person",
@@ -1306,8 +1306,8 @@ const translations = {
         "hack_nav_faq": "FAQ",
         "hack_nav_participar": "Participate",
         "hack_hero_cta": "Join Hackathon",
-        "hack_hero_date": "November 2 &ndash; 6, 2026",
-        "hack_count_label": "Liftoff &middot; Nov 2, 9:30 AM (GMT-6)",
+        "hack_hero_date": "2<span class=\"date-ord\">nd</span>–6<span class=\"date-ord\">th</span> November 2026",
+        "hack_count_label": "Liftoff &middot; 2<span class=\"date-ord\">nd</span> November 2026, 9:30 AM (GMT-6)",
         "hack_count_live": "Liftoff confirmed &middot; HackaToB in progress",
         "hack_why_eyebrow": "Why join",
         "hack_why_title": "Four reasons to lift off with us",
@@ -1416,7 +1416,7 @@ const translations = {
 
         // HackaToB Agenda Preview & Dedicated
         "hack_agenda_preview_title": "Program & <span class=\"text-cyan\">Schedule</span>",
-        "hack_agenda_preview_subtitle": "Explore the full day-by-day schedule, workshops, mentorship sessions, and deliverables when the rain clears, 2026.",
+        "hack_agenda_preview_subtitle": "Explore the full day-by-day schedule, workshops, mentorship sessions, and deliverables, 2<span class=\"date-ord\">nd</span>–6<span class=\"date-ord\">th</span> November 2026.",
         "hack_agenda_d1_title": "Day 1: PreHackaToB",
         "hack_agenda_d1_desc": "Ideation, challenges, and team formation at EmprendeLab.",
         "hack_agenda_d2_title": "Day 2: Dev Day I",
