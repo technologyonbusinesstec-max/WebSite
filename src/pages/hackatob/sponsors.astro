@@ -76,7 +76,7 @@ const slots = Array.from({ length: Math.max(SHAPES.length, photos.length) }, (_,
           <ul class="sp-grid" style={`--cols: ${t.cols}`} data-cols={t.cols}>
             {t.sponsors.map((s) => (
               <li>
-                <a class:list={['sp-cell', { 'sp-cell--big': t.cols === 1 }]} href={s.url} target="_blank" rel="noopener" aria-label={`${s.name} (se abre en otra pestaña)`}>
+                <a class:list={['sp-cell', { 'sp-cell--big': t.cols === 1 }]} href={s.url} target="_blank" rel="noopener" data-ga-event="sponsor_click" data-ga-label={s.name} aria-label={`${s.name} (se abre en otra pestaña)`}>
                   <img src={s.logo} alt={s.name} loading="lazy" decoding="async" />
                 </a>
               </li>

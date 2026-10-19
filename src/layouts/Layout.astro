@@ -19,6 +19,9 @@ const {
   favicon = '/imagenes/Miniatura/Miniatura.webp'
 } = Astro.props;
 
+// Google Analytics 4 (propiedad del ToB). Mide todas las páginas, también las de HackaToB (usan este layout).
+const GA_ID = 'G-LSJ8H5356N';
+
 const faviconType = favicon.endsWith('.svg')
   ? 'image/svg+xml'
   : favicon.endsWith('.png')
@@ -48,6 +51,34 @@ const faviconType = favicon.endsWith('.svg')
       s.src = '/lang.js';
       s.async = false;
       document.head.appendChild(s);
+    })();
+  </script>
+  <!-- Google Analytics: lo carga Partytown en un web worker, así no frena la carga ni el scroll.
+       No mide en local ni en las vistas previas de Vercel (*.vercel.app), solo en el dominio real. -->
+  <script is:inline type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+  <script is:inline type="text/partytown" define:vars={{ GA_ID }}>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    if (/^(localhost|127\.|192\.168\.|10\.)|\.vercel\.app$/.test(location.hostname)) window['ga-disable-' + GA_ID] = true;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+  <!-- Eventos propios: cualquier enlace o botón con data-ga-event="nombre" (y data-ga-label opcional)
+       manda ese evento al tocarlo; también el cambio de idioma. -->
+  <script is:inline>
+    (function () {
+      var send = function (name, params) { if (typeof window.gtag === 'function') window.gtag('event', name, params || {}); };
+      document.addEventListener('click', function (e) {
+        var el = e.target.closest && e.target.closest('[data-ga-event]');
+        if (el) send(el.getAttribute('data-ga-event'), { label: el.getAttribute('data-ga-label') || undefined, link_url: el.href || undefined });
+      }, true);
+      // lang.js también avisa al cargar la página: solo cuenta cuando el idioma de verdad cambia
+      var lang = null;
+      window.addEventListener('languageChanged', function (e) {
+        var next = e.detail && e.detail.lang;
+        if (lang && next && next !== lang) send('cambio_idioma', { idioma: next });
+        lang = next || lang;
+      });
     })();
   </script>
 </head>
