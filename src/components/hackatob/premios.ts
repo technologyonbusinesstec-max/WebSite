@@ -21,7 +21,7 @@ export interface Prize {
 }
 
 const skyline = { es: 'Skyline · Grupo Oroz', key: 'hack_pz_t_dest_skyline' };
-const doubleTickets = { es: 'Entradas dobles', key: 'hack_pz_t_type_double' };
+const tickets = { es: 'Entradas', key: 'hack_pz_t_type_single' };
 
 export const prizes: Prize[] = [
   {
@@ -29,7 +29,7 @@ export const prizes: Prize[] = [
     rank: '1.er lugar',
     text: '4 entradas al tour 5 en 1 de Rainforest Adventures, con teleférico y canopy.',
     qty: '4',
-    type: { es: 'Entradas', key: 'hack_pz_t_type_single' },
+    type: tickets,
     destination: { es: 'Tour 5 en 1 · Rainforest Adventures', key: 'hack_pz_t_dest_1' },
     includes: { es: 'Teleférico · Canopy', key: 'hack_pz_t_incl_1' },
     issuer: 'Rainforest Adventures',
@@ -38,9 +38,9 @@ export const prizes: Prize[] = [
   {
     place: 2,
     rank: '2.º lugar',
-    text: '4 entradas dobles a Skyline, Grupo Oroz.',
+    text: '4 entradas a Skyline, Grupo Oroz.',
     qty: '4',
-    type: doubleTickets,
+    type: tickets,
     destination: skyline,
     issuer: 'Grupo Oroz',
     metal: 'silver',
@@ -48,9 +48,9 @@ export const prizes: Prize[] = [
   {
     place: 3,
     rank: '3.er lugar',
-    text: '4 entradas dobles a Skyline, Grupo Oroz.',
+    text: '4 entradas a Skyline, Grupo Oroz.',
     qty: '4',
-    type: doubleTickets,
+    type: tickets,
     destination: skyline,
     issuer: 'Grupo Oroz',
     metal: 'bronze',
