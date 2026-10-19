@@ -35,6 +35,8 @@ for (let y = 0; y < 100; ) {
   barcode.push({ y, h });
   y += h + 0.9 + Math.floor(rand() * 2) * 0.9;
 }
+// todas las barras en un solo trazo (menos elementos en la página que un <rect> por barra)
+const barcodePath = barcode.map((b) => `M0 ${b.y.toFixed(1)}h10v${b.h.toFixed(1)}h-10z`).join('');
 
 const STEPS = 6; // pasos 0–5 (uno por sentinela)
 const STRIP_LEDS = 8; // LEDs de la franja superior: se encienden de a 2 por paso
@@ -92,7 +94,7 @@ const gaugeTicks = Array.from({ length: 9 }, (_, i) => {
 
                       <div class="hk-pz-stub" aria-hidden="true">
                         <svg class="hk-pz-barcode" viewBox="0 0 10 100" preserveAspectRatio="none" focusable="false">
-                          {barcode.map((b) => <rect x="0" y={b.y.toFixed(1)} width="10" height={b.h.toFixed(1)} />)}
+                          <path d={barcodePath} />
                         </svg>
                         <span class="hk-pz-stub-num">{num}</span>
                         <span class="hk-pz-stub-label" data-i18n="hack_pz_label">Puesto</span>

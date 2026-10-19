@@ -32,7 +32,8 @@ const {
 
 <Layout title={title} description={description} hideNavbar={true} hideFooter={true} favicon="/hackatob-log0.svg">
   <!-- anime.js: animaciones del navbar y del fondo Big Bang -->
-  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <!-- defer: no bloquea el renderizado; los scripts con defer corren en orden (anime → three → fondo) -->
+  <script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
 
   <slot name="background" />
   <HackaNavbar basePath={basePath} backHref={backHref} backLabel={backLabel} />
