@@ -41,14 +41,27 @@ const {
 
   <HackaFooter basePath={basePath} earthFade={earthFade} />
 
-  <!-- Botón de música: fijo abajo a la derecha; siempre empieza apagada -->
+  <!-- Botón de música: fijo abajo a la derecha; arranca sola salvo que la persona la haya silenciado -->
   <HackaMusic />
 
-  <!-- Traducciones ES/EN del sitio -->
-  <script src="/lang.js" defer></script>
+  <!-- Las traducciones ES/EN (public/lang.js) ya las carga Layout.astro: no se vuelven a cargar aquí -->
 </Layout>
 
 <style is:global>
+  /* Escala de escritorio: las páginas del HackaToB se ven como el navegador al 80 %.
+     Las medidas de pantalla (vh, vw, vmin) se escriben como calc(Nvh / var(--hk-z, 1)) para que lo que
+     llena la pantalla la siga llenando. Los scripts miden con getBoundingClientRect, no con offsetTop. */
+  html:has(#hkNav) {
+    --hk-z: 1;
+  }
+
+  @media (min-width: 1024px) {
+    html:has(#hkNav) {
+      --hk-z: 0.8;
+      zoom: var(--hk-z);
+    }
+  }
+
   body:has(#hkNav) {
     background: #03030a;
     color: #ecebf7;

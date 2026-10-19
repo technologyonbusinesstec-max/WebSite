@@ -1,0 +1,82 @@
+---
+// src/components/hackatob/HackaMentores.astro
+// Frame "Mentores y jurados" (id: mentores) de /hackatob: igual que la sección de expositores del inicio del ToB
+// (mismas clases de src/styles/global.css: fotos circulares que flotan, nombre y puesto).
+// Muestra 3 mentores y 3 jurados, cada grupo con su separador, y un botón a la página con todos.
+// Las personas se editan en ./mentores.ts; el inglés, en public/lang.js.
+import { mentorCards, juradoCards, MENTORES_PAGE, SHOWN_IN_HOME } from './mentores';
+
+const groups = [
+  { key: 'mentores', label: 'Mentores', i18n: 'hack_mt_group', cards: mentorCards.slice(0, SHOWN_IN_HOME) },
+  { key: 'jurados', label: 'Jurados', i18n: 'hack_jd_group', cards: juradoCards.slice(0, SHOWN_IN_HOME) },
+];
+---
+
+<div class="speakers-section hk-mentores">
+  <div class="speakers-header">
+    <span class="speakers-label" data-i18n="hack_mt_label">Mentores y jurados</span>
+    <h2 class="speakers-title" data-i18n="hack_mt_title">Personas de la industria a tu lado.</h2>
+    <p class="speakers-description" data-i18n="hack_mt_desc">
+      Durante el HackaToB, mentores de la industria acompañan a los equipos para destrabar su proyecto, y un jurado evalúa los proyectos en el Demo Day.
+    </p>
+  </div>
+
+  {groups.map((g) => (
+    <div class="hk-mt-group">
+      <div class="hk-mt-group-head">
+        <h3 class="hk-mt-group-title" data-i18n={g.i18n}>{g.label}</h3>
+        <span class="hk-mt-divider" aria-hidden="true"></span>
+      </div>
+      <div class="speakers-grid">
+        {g.cards.map((p) => (
+          <div class="speaker-simple-card">
+            <div class="speaker-avatar-wrap">
+              <img src={p.foto} alt={p.name} class="speaker-avatar" loading="lazy" decoding="async" />
+            </div>
+            <h4 class="speaker-simple-name" data-i18n={p.nameKey}>{p.name}</h4>
+            <p class="speaker-simple-role" data-i18n={p.roleKey}>{p.role}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  ))}
+
+  <div class="speakers-actions">
+    <a href={MENTORES_PAGE} class="btn btn-primary btn-large" data-i18n="hack_mt_btn">Ver todos</a>
+  </div>
+</div>
+
+<style>
+  .hk-mt-group {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 1200px;
+  }
+
+  /* separador de cada grupo: mismo estilo que las categorías de /speakers del ToB */
+  .hk-mt-group-head {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 0 20px 40px;
+  }
+
+  .hk-mt-group + .hk-mt-group .hk-mt-group-head {
+    margin-top: 10px;
+  }
+
+  .hk-mt-group-title {
+    margin: 0;
+    font-size: clamp(1.3rem, 3vw, 1.8rem);
+    font-weight: 700;
+    white-space: nowrap;
+    color: #fff;
+  }
+
+  .hk-mt-divider {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.18), transparent);
+  }
+</style>

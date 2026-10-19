@@ -1,0 +1,1041 @@
+---
+// src/components/hackatob/HackaPremios.astro
+// Frame "Premios" (FRAME 09, id: premios): scrollytelling con la sección FIJADA sobre el fondo Big Bang del sitio.
+// Mientras se hace scroll dentro de .hk-pz-track la pantalla no se mueve: cada tramo avanza un paso
+// de un tablero de nave de vidrio (ranuras con boletos, LEDs, interruptores y medidor):
+//   paso 0 – intro: título + el tablero sube a su lugar, con las 3 pantallas apagadas
+//   paso 1 – 3.er lugar: su boleto sale de la ranura (talón bronce)
+//   paso 2 – 2.º lugar (plata); el 3.º baja a 70 %
+//   paso 3 – 1.er lugar (acento); 2.º y 3.º a 70 %
+//   paso 4 – el tablero se retira y las partículas del fondo (la galaxia) convergen en espiral en el logo del ToB
+//   paso 5 – se reacomodan en el logo de HackaToB y, desde abajo, sube la sección de Mentores (HackaMentores)
+// Los logos los dibuja el fondo Big Bang (public/scripts/hackatob-bigbang.js): aquí solo se le avisa con "hk:logo".
+// En cada paso también se encienden LEDs, se activa un interruptor y avanza la aguja.
+// Los interruptores también responden al clic (decorativos, solo puntero): invierten y hacen parpadear su ranura.
+// Seis sentinelas invisibles (uno por paso) + un IntersectionObserver ponen data-step en .hk-pz.
+// Sin JavaScript o con "reducir movimiento": versión estática completa (3 pantallas encendidas).
+// En escritorio el tablero muestra 2.º – 1.º – 3.º; en móvil es una sola pantalla que cambia de contenido.
+// Los premios se editan en ./premios.ts; el inglés, en public/lang.js.
+import { prizes } from './premios';
+
+// Color de cada puesto (talón del boleto, LED y borde de la ranura): claro y plano.
+// El 1.º usa el amarillo de acento de la marca (el del navbar).
+const METALS = {
+  accent: ['#ffe58a', '#ffd43b'],
+  silver: ['#f6f8fc', '#c6cfdb'],
+  bronze: ['#f6cba4', '#d38d55'],
+} as const;
+
+// Código de barras DECORATIVO del talón: barras de grosor irregular, sin números ni datos
+let seed = 5;
+const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+const barcode: { y: number; h: number }[] = [];
+for (let y = 0; y < 100; ) {
+  const h = 0.8 + Math.floor(rand() * 3) * 0.9;
+  barcode.push({ y, h });
+  y += h + 0.9 + Math.floor(rand() * 2) * 0.9;
+}
+
+const STEPS = 6; // pasos 0–5 (uno por sentinela)
+const STRIP_LEDS = 8; // LEDs de la franja superior: se encienden de a 2 por paso
+
+// Marcas del medidor: arco de -120° a 120°
+const gaugeTicks = Array.from({ length: 9 }, (_, i) => {
+  const a = ((-120 + i * 30 - 90) * Math.PI) / 180;
+  return { x1: 50 + Math.cos(a) * 34, y1: 50 + Math.sin(a) * 34, x2: 50 + Math.cos(a) * (i % 2 ? 30 : 27), y2: 50 + Math.sin(a) * (i % 2 ? 30 : 27) };
+});
+---
+
+<!-- .hk-pz-track da el largo del recorrido; .hk-pz-sticky queda fija en pantalla mientras se recorre -->
+<!-- data-hk-at="840": al empezar Premios, el fondo está en la galaxia ya formada (en cualquier pantalla) -->
+<div class="hk-pz-track" id="hkPremiosTrack" data-hk-at="840">
+  <!-- Sentinelas: uno por paso. El IntersectionObserver mira cuál cruza la mitad de la pantalla. -->
+  {Array.from({ length: STEPS }, (_, k) => <div class="hk-pz-sentinel" style={`--k: ${k}`} data-step={k} aria-hidden="true"></div>)}
+
+  <div class="hk-pz-sticky">
+    <div class="hk-pz" id="hkPremios" data-step="4">
+      <header class="hk-pz-head">
+        <h2 class="hk-pz-title" data-i18n="hack_pz_title">Tu equipo puede llegar al Top 3.</h2>
+      </header>
+
+      <div class="hk-pz-stage">
+        <div class="hk-pz-console">
+          <!-- remaches del bisel -->
+          <span class="hk-pz-rivet hk-pz-rivet--tl" aria-hidden="true"></span>
+          <span class="hk-pz-rivet hk-pz-rivet--tr" aria-hidden="true"></span>
+          <span class="hk-pz-rivet hk-pz-rivet--bl" aria-hidden="true"></span>
+          <span class="hk-pz-rivet hk-pz-rivet--br" aria-hidden="true"></span>
+
+          <!-- Franja superior: LEDs de estado + barra de progreso en 3 segmentos (bronce, plata, oro) -->
+          <div class="hk-pz-strip" aria-hidden="true">
+            <span class="hk-pz-leds">
+              {Array.from({ length: STRIP_LEDS }, (_, i) => <i style={`--i: ${i}`}></i>)}
+            </span>
+            <span class="hk-pz-segments">
+              <i style="--metal: #d38d55"></i><i style="--metal: #c6cfdb"></i><i style="--metal: #ffd43b"></i>
+            </span>
+            <span class="hk-pz-vent"></span>
+          </div>
+
+          <!-- Ranuras con los boletos: en el código 1.º, 2.º, 3.º (lectores de pantalla y móvil); en escritorio se ve 2.º – 1.º – 3.º -->
+          <ol class="hk-pz-bays">
+            {prizes.map((p) => {
+              const [light, mid] = METALS[p.metal];
+              const num = String(p.place).padStart(2, '0');
+              return (
+                <li class={`hk-pz-bay hk-pz-bay--${p.place}`} style={`--metal: ${mid}; --metal-light: ${light}`}>
+                  <div class="hk-pz-screen">
+                    <!-- Pase de abordar. El copy completo va para lectores de pantalla; los campos son la presentación. -->
+                    <article class="hk-pz-ticket">
+                      <h3 class="hk-pz-sr" data-i18n={`hack_pz_${p.place}_rank`}>{p.rank}</h3>
+                      <p class="hk-pz-sr" data-i18n={`hack_pz_${p.place}_text`}>{p.text}</p>
+
+                      <div class="hk-pz-stub" aria-hidden="true">
+                        <svg class="hk-pz-barcode" viewBox="0 0 10 100" preserveAspectRatio="none" focusable="false">
+                          {barcode.map((b) => <rect x="0" y={b.y.toFixed(1)} width="10" height={b.h.toFixed(1)} />)}
+                        </svg>
+                        <span class="hk-pz-stub-num">{num}</span>
+                        <span class="hk-pz-stub-label" data-i18n="hack_pz_label">Puesto</span>
+                      </div>
+
+                      <div class="hk-pz-tbody" aria-hidden="true">
+                        <p class="hk-pz-field hk-pz-field--qty">
+                          <span class="hk-pz-flabel" data-i18n="hack_pz_t_qty">Cantidad</span>
+                          <span class="hk-pz-fvalue">{p.qty}</span>
+                        </p>
+                        <p class="hk-pz-field">
+                          <span class="hk-pz-flabel" data-i18n="hack_pz_t_type">Tipo</span>
+                          <span class="hk-pz-fvalue" data-i18n={p.type.key}>{p.type.es}</span>
+                        </p>
+                        <p class="hk-pz-field hk-pz-field--wide">
+                          <span class="hk-pz-flabel" data-i18n="hack_pz_t_dest">Destino</span>
+                          <span class="hk-pz-fvalue" data-i18n={p.destination.key}>{p.destination.es}</span>
+                        </p>
+                        {p.includes && (
+                          <p class="hk-pz-field hk-pz-field--wide">
+                            <span class="hk-pz-flabel" data-i18n="hack_pz_t_incl">Incluye</span>
+                            <span class="hk-pz-fvalue" data-i18n={p.includes.key}>{p.includes.es}</span>
+                          </p>
+                        )}
+                        <p class="hk-pz-field hk-pz-field--wide">
+                          <span class="hk-pz-flabel" data-i18n="hack_pz_t_issuer">Emitido por</span>
+                          <span class="hk-pz-fvalue">{p.issuer}</span>
+                        </p>
+                      </div>
+                    </article>
+                    <!-- interferencia al reiniciar (palanca) o al mover su interruptor -->
+                    <span class="hk-pz-flash" aria-hidden="true"></span>
+                  </div>
+                </li>
+              );
+            })}
+          </ol>
+
+          <!-- Panel inferior: interruptores (uno por puesto), medidor y rejilla.
+               Los interruptores son decorativos, solo para puntero: quedan fuera del lector de pantalla y del tabulador. -->
+          <div class="hk-pz-deck" aria-hidden="true">
+            <span class="hk-pz-toggles">
+              {([[3, '#d38d55'], [2, '#c6cfdb'], [1, '#ffd43b']] as const).map(([place, c]) => (
+                <span class="hk-pz-toggle" data-place={place} style={`--metal: ${c}`}><i></i></span>
+              ))}
+            </span>
+            <svg class="hk-pz-gauge" viewBox="0 0 100 62" width="120" height="74" focusable="false">
+              <path d="M16 50 A34 34 0 1 1 84 50" fill="none" stroke="rgba(91, 132, 255, 0.3)" stroke-width="5" stroke-linecap="round" />
+              {gaugeTicks.map((t) => <line x1={t.x1.toFixed(1)} y1={t.y1.toFixed(1)} x2={t.x2.toFixed(1)} y2={t.y2.toFixed(1)} stroke="#9fb4d6" stroke-width="1.4" />)}
+              <g class="hk-pz-needle">
+                <line x1="50" y1="50" x2="50" y2="22" stroke="#ffd43b" stroke-width="2.4" stroke-linecap="round" />
+              </g>
+              <circle cx="50" cy="50" r="4.5" fill="#cfd6e4" />
+            </svg>
+            <span class="hk-pz-vent hk-pz-vent--deck"></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  // Pasos por IntersectionObserver (sin listeners de scroll). Cada sentinela es un tramo del recorrido;
+  // el paso activo es el último sentinela cuyo borde superior ya pasó la mitad de la pantalla.
+  // La secuencia es reversible: al subir, los pasos retroceden.
+  const track = document.getElementById('hkPremiosTrack');
+  const pz = document.getElementById('hkPremios');
+  if (track && pz && 'IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const sentinels = Array.from(track.querySelectorAll<HTMLElement>('.hk-pz-sentinel'));
+
+    // estado "apagado" inicial: solo con JS
+    track.classList.add('is-pinned');
+    pz.classList.add('is-sequenced');
+    track.setAttribute('data-hk-hold', ''); // el fondo Big Bang (hackatob-bigbang.js) no avanza durante el recorrido
+    pz.dataset.step = ''; // el HTML trae "4" (versión estática); se recalcula abajo
+
+    const setStep = (step: number) => {
+      if (pz.dataset.step === String(step)) return;
+      pz.dataset.step = String(step);
+      // clases acumuladas: reached-N = el paso N ya se alcanzó (más fácil de leer en el CSS)
+      for (let k = 0; k < sentinels.length; k++) pz.classList.toggle(`reached-${k}`, step >= k);
+      pz.dispatchEvent(new CustomEvent('hkpz:step')); // los controles vuelven a mostrar el avance
+    };
+
+    const pick = () => {
+      const mid = innerHeight / 2;
+      let step = -1; // antes de la sección: ni el título se ve todavía
+      for (const s of sentinels) if (s.getBoundingClientRect().top <= mid) step = Number(s.dataset.step);
+      setStep(step);
+    };
+
+    // root: document → la línea del medio es la de esta ventana aunque la página esté dentro de un iframe
+    const options = { rootMargin: '-50% 0px -50% 0px' };
+    let io: IntersectionObserver;
+    try {
+      io = new IntersectionObserver(pick, { ...options, root: document });
+    } catch {
+      io = new IntersectionObserver(pick, options);
+    }
+    sentinels.forEach((s) => io.observe(s));
+    pick();
+  }
+
+  // ═════════ Controles del tablero con el mouse ═════════
+  // Funcionan también en la versión estática. Al cambiar de paso, los ajustes manuales se reinician.
+  const deck = pz?.querySelector<HTMLElement>('.hk-pz-deck');
+  if (pz && deck) {
+    // reinicia una animación de una sola vez: quita la clase, fuerza el recálculo y la vuelve a poner
+    const replay = (el: HTMLElement, cls: string, ms: number) => {
+      el.classList.remove(cls);
+      void el.offsetWidth;
+      el.classList.add(cls);
+      setTimeout(() => el.classList.remove(cls), ms);
+    };
+
+    // ── Interruptores: clic = invertir; su pantalla parpadea ──
+    const toggles = Array.from(deck.querySelectorAll<HTMLElement>('.hk-pz-toggle'));
+    toggles.forEach((t) => {
+      t.addEventListener('click', () => {
+        t.classList.toggle('is-flipped');
+        const bay = pz.querySelector<HTMLElement>(`.hk-pz-bay--${t.dataset.place}`);
+        if (bay) replay(bay, 'is-glitch', 520);
+      });
+    });
+
+    // al cambiar de paso, los interruptores vuelven a mostrar el avance
+    pz.addEventListener('hkpz:step', () => {
+      toggles.forEach((t) => t.classList.remove('is-flipped'));
+    });
+  }
+
+  // ═════════ Logos con las partículas del fondo (pasos 4 y 5) ═════════
+  // El fondo Big Bang escucha "hk:logo": 0 galaxia · 1 logo del ToB · 2 logo de HackaToB.
+  // Con la sección fuera de pantalla (sin llegar o ya pasada) vuelve a ser galaxia.
+  if (pz && pz.classList.contains('is-sequenced')) {
+    let inView = false;
+    let sent = -1;
+    const send = () => {
+      const step = Number(pz.dataset.step);
+      const logo = !inView ? 0 : step >= 5 ? 2 : step >= 4 ? 1 : 0;
+      if (logo === sent) return;
+      sent = logo;
+      dispatchEvent(new CustomEvent('hk:logo', { detail: logo }));
+    };
+    pz.addEventListener('hkpz:step', send);
+    const onView: IntersectionObserverCallback = ([entry]) => {
+      inView = entry.isIntersecting;
+      send();
+    };
+    // root: document → mide contra esta ventana aunque la página esté dentro de un iframe
+    let viewIo: IntersectionObserver;
+    try {
+      viewIo = new IntersectionObserver(onView, { threshold: 0.5, root: document });
+    } catch {
+      viewIo = new IntersectionObserver(onView, { threshold: 0.5 });
+    }
+    viewIo.observe(pz);
+  }
+</script>
+
+<style>
+  /* ═════════ Ajustes: alturas de tramo, duraciones y escalonado ═════════ */
+  .hk-pz-track {
+    --pz-step-h: calc(100vh / var(--hk-z, 1)); /* largo de scroll de cada paso */
+    --pz-dur: 450ms; /* transiciones generales */
+    --pz-dur-first: 600ms; /* pantalla del 1.er lugar */
+    --pz-dur-out: 650ms; /* el tablero se retira en el cierre */
+    --pz-stagger: 80ms; /* entre viñetas del 1.º y entre LEDs */
+    --pz-ease: cubic-bezier(0.22, 0.8, 0.3, 1); /* ease-out */
+    --pz-spring: cubic-bezier(0.34, 1.56, 0.64, 1); /* aguja e interruptores: rebote corto */
+    --pz-dim: 0.7; /* opacidad de las pantallas que ya pasaron */
+
+    position: relative;
+  }
+
+  /* ═════════ Contenedor fijo y escena (fondo transparente: se ve el Big Bang del sitio) ═════════ */
+  .hk-pz-sticky {
+    position: relative;
+    min-height: calc(100vh / var(--hk-z, 1));
+  }
+
+  .hk-pz {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.8rem, calc(2.4vh / var(--hk-z, 1)), 2rem);
+    min-height: inherit;
+    padding: 92px 24px 32px;
+  }
+
+  /* ── Título ── */
+  .hk-pz-head {
+    text-align: center;
+    transform-origin: 50% 0;
+    transition: opacity var(--pz-dur) var(--pz-ease), transform var(--pz-dur) var(--pz-ease);
+  }
+
+  .hk-pz-title {
+    margin: 0 auto;
+    max-width: 18ch;
+    font-size: clamp(2rem, calc(3.8vw / var(--hk-z, 1)), 3rem);
+    font-weight: 900;
+    line-height: 1.15;
+    color: #ffffff;
+    text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6);
+    text-wrap: balance;
+  }
+
+  /* ═════════ Tablero ═════════ */
+  .hk-pz-stage {
+    width: 100%;
+    max-width: 1280px;
+  }
+
+  .hk-pz-console {
+    position: relative;
+    padding: 16px 22px 18px;
+    border: 1px solid rgba(190, 210, 255, 0.28);
+    border-radius: 22px;
+    /* vidrio casi transparente: un tinte azul muy leve, reflejo diagonal arriba y poco desenfoque,
+       para que la galaxia del fondo se vea a través del módulo */
+    background:
+      linear-gradient(125deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.025) 28%, transparent 42%),
+      linear-gradient(180deg, rgba(91, 132, 255, 0.07) 0%, rgba(35, 71, 197, 0.05) 50%, rgba(3, 3, 10, 0.12) 100%);
+    -webkit-backdrop-filter: blur(6px) saturate(1.25);
+    backdrop-filter: blur(6px) saturate(1.25);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.28),
+      inset 0 -1px 0 rgba(255, 255, 255, 0.06),
+      inset 0 0 0 1px rgba(140, 170, 255, 0.06),
+      0 24px 60px rgba(0, 0, 0, 0.22),
+      0 0 50px rgba(45, 85, 220, 0.12);
+    transition: opacity var(--pz-dur-out) var(--pz-ease), transform var(--pz-dur-out) var(--pz-ease);
+  }
+
+  .hk-pz-rivet {
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #dbe6f7, #6f86c2 55%, #1a2a5e);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.8), inset 0 -1px 1px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ranura del tornillo, cada uno con su propio ángulo */
+  .hk-pz-rivet::after {
+    content: '';
+    position: absolute;
+    left: 1px;
+    right: 1px;
+    top: 50%;
+    height: 1.5px;
+    margin-top: -0.75px;
+    background: rgba(10, 12, 20, 0.85);
+    transform: rotate(var(--slot, 35deg));
+  }
+
+  .hk-pz-rivet--tr { --slot: -20deg; }
+  .hk-pz-rivet--bl { --slot: 80deg; }
+  .hk-pz-rivet--br { --slot: 10deg; }
+
+  .hk-pz-rivet--tl { top: 10px; left: 10px; }
+  .hk-pz-rivet--tr { top: 10px; right: 10px; }
+  .hk-pz-rivet--bl { bottom: 10px; left: 10px; }
+  .hk-pz-rivet--br { bottom: 10px; right: 10px; }
+
+  /* ── Franja superior ── */
+  .hk-pz-strip {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin: 0 14px 14px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    background: rgba(3, 5, 18, 0.18);
+    box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(160, 190, 255, 0.14), 0 1px 0 rgba(190, 210, 255, 0.08);
+  }
+
+  .hk-pz-leds {
+    display: flex;
+    gap: 8px;
+  }
+
+  .hk-pz-leds i {
+    position: relative;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(40, 60, 120, 0.45);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.8);
+  }
+
+  /* la luz de cada LED es una capa aparte para animar solo su opacidad */
+  .hk-pz-leds i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle at 40% 35%, #e6f0ff, #5b84ff 60%);
+    box-shadow: 0 0 8px 1px #5b84ff;
+    transition: opacity var(--pz-dur) var(--pz-ease);
+  }
+
+  .hk-pz-segments {
+    display: flex;
+    flex: 1;
+    max-width: 420px;
+    gap: 6px;
+  }
+
+  .hk-pz-segments i {
+    position: relative;
+    flex: 1;
+    height: 8px;
+    overflow: hidden;
+    border-radius: 4px;
+    background: rgba(40, 60, 120, 0.35);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.8);
+  }
+
+  .hk-pz-segments i::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, color-mix(in srgb, var(--metal) 60%, #000), var(--metal));
+    box-shadow: 0 0 10px var(--metal);
+    transform-origin: left;
+    transition: transform 600ms var(--pz-ease);
+  }
+
+  /* rejilla de ventilación */
+  .hk-pz-vent {
+    width: 90px;
+    height: 14px;
+    border-radius: 4px;
+    background: repeating-linear-gradient(90deg, rgba(2, 3, 10, 0.7) 0 3px, rgba(91, 132, 255, 0.22) 3px 6px);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.9);
+  }
+
+  /* ── Bahías de pantalla ── */
+  .hk-pz-bays {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-pz-bay {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    transition: opacity var(--pz-dur) var(--pz-ease), transform var(--pz-dur-first) var(--pz-ease);
+  }
+
+  /* pantalla hundida en el bisel */
+  .hk-pz-screen {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+    border-radius: 12px;
+    background: rgba(2, 4, 14, 0.12);
+    box-shadow:
+      inset 0 0 0 1px rgba(160, 190, 255, 0.16),
+      inset 0 8px 22px rgba(0, 0, 0, 0.18),
+      0 1px 0 rgba(255, 255, 255, 0.1),
+      0 0 0 1px color-mix(in srgb, var(--metal) 55%, #000);
+  }
+
+  /* reflejo del vidrio (siempre, encendida o apagada) */
+  .hk-pz-screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    background: linear-gradient(118deg, rgba(255, 255, 255, 0.09) 0%, rgba(255, 255, 255, 0.02) 32%, transparent 45%);
+    pointer-events: none;
+  }
+
+  /* ── Pase de abordar: técnico y plano (casi negro, líneas de 1px, mono + sans condensada, sin brillo) ── */
+  .hk-pz-screen {
+    display: flex;
+    padding: 12px;
+  }
+
+  .hk-pz-ticket {
+    --cut: 25%; /* dónde termina el talón */
+    --notch: 9px; /* radio de las muescas */
+    --t-mono: 'Space Mono', ui-monospace, Consolas, monospace;
+    --t-cond: var(--font-main, 'Inter', sans-serif);
+
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: var(--cut) 1fr;
+    width: 100%;
+    font-size: 16px; /* todo el boleto se mide en em: el 1.º es ~20 % más grande */
+    border: 1px solid rgba(220, 230, 255, 0.22);
+    border-radius: 4px;
+    /* boleto de vidrio: translúcido y desenfocado, con un brillo de canto arriba */
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.02) 45%), rgba(16, 20, 27, 0.42);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+    backdrop-filter: blur(16px) saturate(1.4);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22);
+    color: #f3f5fa;
+    /* dos muescas semicirculares sobre la línea punteada, recortadas como en un boleto real */
+    -webkit-mask:
+      radial-gradient(circle var(--notch) at var(--cut) 0, #0000 98%, #000) top / 100% 51% no-repeat,
+      radial-gradient(circle var(--notch) at var(--cut) 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
+    mask:
+      radial-gradient(circle var(--notch) at var(--cut) 0, #0000 98%, #000) top / 100% 51% no-repeat,
+      radial-gradient(circle var(--notch) at var(--cut) 100%, #0000 98%, #000) bottom / 100% 51% no-repeat;
+    transition: opacity 350ms var(--pz-ease), transform 350ms var(--pz-ease);
+  }
+
+  /* textura de papel muy sutil (ruido al ~3,5 %) */
+  .hk-pz-ticket::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    border-radius: inherit;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)'/%3E%3C/svg%3E");
+    opacity: 0.035;
+    pointer-events: none;
+  }
+
+  .hk-pz-sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  /* ── Talón ── */
+  .hk-pz-stub {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    padding: 0.9em 0.6em 0.9em 1.4em; /* a la izquierda va el código de barras */
+    border-radius: 3px 0 0 3px;
+    background: linear-gradient(160deg, rgba(255, 255, 255, 0.28), transparent 55%), color-mix(in srgb, var(--metal) 82%, transparent);
+    color: #0b0d14;
+  }
+
+  .hk-pz-barcode {
+    position: absolute;
+    left: 0.45em;
+    top: 0.8em;
+    bottom: 0.8em;
+    width: 0.55em;
+    height: auto;
+    fill: rgba(11, 13, 20, 0.78);
+  }
+
+  .hk-pz-stub-num {
+    font-family: var(--t-mono);
+    font-size: 2.3em;
+    font-weight: 700;
+    line-height: 1;
+    transition: opacity 150ms ease-out 350ms, transform 150ms ease-out 350ms; /* el "sello", al terminar de salir el boleto */
+  }
+
+  .hk-pz-stub-label {
+    font-family: var(--t-cond);
+    font-stretch: 75%;
+    font-size: 0.62em;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  /* ── Cuerpo: campos tipo boleto ── */
+  .hk-pz-tbody {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-content: start;
+    gap: 0.6em 1.1em;
+    min-width: 0;
+    padding: 0.8em 1em 0.9em 1.1em;
+    border-left: 1px dashed rgba(220, 230, 255, 0.4);
+    text-align: left;
+  }
+
+  .hk-pz-field {
+    margin: 0;
+    min-width: 0;
+  }
+
+  .hk-pz-field--wide {
+    grid-column: 1 / -1;
+  }
+
+  .hk-pz-flabel {
+    display: block;
+    font-family: var(--t-cond);
+    font-stretch: 75%;
+    font-size: 0.62em;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #a9b3c6; /* legible sobre el vidrio */
+  }
+
+  .hk-pz-fvalue {
+    display: block;
+    margin-top: 0.15em;
+    font-family: var(--t-cond);
+    font-stretch: 85%;
+    font-size: 0.95em;
+    font-weight: 700;
+    line-height: 1.25;
+    color: #f1f4fa;
+  }
+
+  .hk-pz-field--qty {
+    align-self: end;
+  }
+
+  .hk-pz-field--qty .hk-pz-fvalue {
+    font-family: var(--t-mono);
+    font-size: 2.7em; /* ~43 px */
+    line-height: 0.95;
+  }
+
+  /* 1.er lugar: ~20 % más grande y borde superior de 2 px en el acento */
+  .hk-pz-bay--1 .hk-pz-ticket {
+    font-size: 19px;
+    border-top: 2px solid var(--metal);
+  }
+
+  /* ── Panel inferior ── */
+  .hk-pz-deck {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    margin: 16px 14px 0;
+    padding: 10px 18px;
+    border-radius: 12px;
+    background: rgba(3, 5, 18, 0.18);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.22), inset 0 0 0 1px rgba(160, 190, 255, 0.14), 0 1px 0 rgba(190, 210, 255, 0.08);
+  }
+
+  .hk-pz-toggles {
+    display: flex;
+    gap: 16px;
+  }
+
+  /* interruptor: canal + palanca; la luz es una capa aparte */
+  .hk-pz-toggle {
+    position: relative;
+    width: 38px;
+    height: 20px;
+    border-radius: 10px;
+    background: rgba(2, 4, 14, 0.75);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.9), 0 1px 0 rgba(255, 255, 255, 0.08);
+  }
+
+  .hk-pz-toggle::before {
+    content: '';
+    position: absolute;
+    inset: 3px;
+    border-radius: 8px;
+    background: color-mix(in srgb, var(--metal) 45%, transparent);
+    box-shadow: 0 0 10px var(--metal);
+    transition: opacity var(--pz-dur) var(--pz-ease);
+  }
+
+  .hk-pz-toggle i {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #f1f4fa, #8a93a6 60%, #4a5264);
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.7);
+    transform: translateX(18px);
+    transition: transform 500ms var(--pz-spring);
+  }
+
+  .hk-pz-gauge {
+    flex: none;
+  }
+
+  .hk-pz-needle {
+    transform-box: view-box;
+    transform-origin: 50px 50px;
+    transform: rotate(120deg);
+    transition: transform 900ms var(--pz-spring);
+  }
+
+  .hk-pz-vent--deck {
+    width: 120px;
+    height: 22px;
+  }
+
+  /* ── Controles con el mouse ── */
+  .hk-pz-toggle {
+    cursor: pointer;
+  }
+
+  /* interruptor invertido a mano (versión estática: todos encendidos → invertido = apagado) */
+  .hk-pz-toggle.is-flipped i { transform: none; }
+  .hk-pz-toggle.is-flipped::before { opacity: 0; }
+
+  /* interferencia: negro con barrido de líneas y una franja clara */
+  .hk-pz-flash {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    background:
+      linear-gradient(180deg, transparent 47%, rgba(220, 235, 255, 0.85) 49.5% 50.5%, transparent 53%),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 3px),
+      #02030a;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* interruptor: parpadeo de su ranura */
+  .hk-pz-bay.is-glitch .hk-pz-flash {
+    animation: hkPzGlitch 500ms steps(1, end) both;
+  }
+
+  /* ═════════ Escritorio: tablero horizontal 2.º – 1.º – 3.º ═════════ */
+  @media (min-width: 768px) {
+    .hk-pz-bays {
+      display: grid;
+      grid-template-columns: 30fr 40fr 30fr;
+      align-items: end;
+      gap: 18px;
+      padding: 0 14px;
+    }
+
+    .hk-pz-bay--2 { order: 1; }
+    .hk-pz-bay--1 { order: 2; z-index: 1; }
+    .hk-pz-bay--3 { order: 3; }
+
+    .hk-pz-bay .hk-pz-screen { min-height: 250px; }
+    .hk-pz-bay--1 .hk-pz-screen { min-height: 310px; }
+
+  }
+
+  /* ═════════ Móvil ═════════ */
+  @media (max-width: 767px) {
+    .hk-pz-track {
+      --pz-step-h: calc(80svh / var(--hk-z, 1)); /* tramos más cortos */
+    }
+
+    .hk-pz {
+      padding: 80px 16px 24px;
+    }
+
+    .hk-pz-console {
+      padding: 12px 12px 14px;
+      border-radius: 18px;
+    }
+
+    .hk-pz-strip {
+      margin: 0 6px 10px;
+      gap: 10px;
+    }
+
+    .hk-pz-leds { gap: 5px; }
+    .hk-pz-leds i { width: 6px; height: 6px; }
+    .hk-pz-strip .hk-pz-vent { display: none; }
+
+    .hk-pz-deck {
+      margin: 10px 6px 0;
+      padding: 8px 10px;
+      gap: 10px;
+    }
+
+    /* en el teléfono el panel deja interruptores, palanca y botón */
+    .hk-pz-gauge, .hk-pz-vent--deck { display: none; }
+    .hk-pz-toggles { gap: 8px; }
+
+    /* versión estática: las tres apiladas 1.º, 2.º, 3.º */
+    .hk-pz-bays {
+      display: grid;
+      gap: 12px;
+    }
+  }
+
+  /* ═════════════════ SECUENCIA (solo con JS: .is-pinned / .is-sequenced) ═════════════════ */
+
+  /* Pin: 1 pantalla visible + un tramo por paso. Los sentinelas marcan los tramos. */
+  .hk-pz-track.is-pinned {
+    height: calc(100vh / var(--hk-z, 1) + var(--pz-step-h) * 6);
+  }
+
+  /* sentinela k: cruza la mitad de la pantalla cuando el recorrido llega al paso k.
+     El 0 empieza antes (al entrar la sección) para que el título aparezca mientras llega. */
+  .hk-pz-sentinel {
+    display: none;
+  }
+
+  .is-pinned > .hk-pz-sentinel {
+    display: block;
+    position: absolute;
+    left: 0;
+    width: 1px;
+    top: calc(var(--pz-step-h) * var(--k) + 50vh / var(--hk-z, 1));
+    height: var(--pz-step-h);
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .is-pinned > .hk-pz-sentinel[data-step='0'] {
+    top: 0;
+    height: calc(var(--pz-step-h) + 50vh / var(--hk-z, 1));
+  }
+
+  .is-pinned .hk-pz-sticky {
+    position: sticky;
+    top: 0;
+    height: calc(100vh / var(--hk-z, 1));
+    height: calc(100svh / var(--hk-z, 1));
+    overflow: hidden;
+  }
+
+  .is-pinned .hk-pz {
+    height: 100%;
+  }
+
+  /* ── Antes del paso 0: título y tablero esperan fuera ── */
+  .is-sequenced:not(.reached-0) .hk-pz-head {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .is-sequenced:not(.reached-0) .hk-pz-console {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+
+  /* paso 1 en adelante: el título se reduce y sube */
+  .is-sequenced.reached-1 .hk-pz-head {
+    transform: translateY(-8px) scale(0.7);
+  }
+
+  /* ── Ranuras vacías: el boleto espera dentro, un poco más abajo ── */
+  .is-sequenced .hk-pz-leds i::after,
+  .is-sequenced .hk-pz-toggle::before {
+    opacity: 0;
+  }
+
+  .is-sequenced .hk-pz-ticket {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+
+  .is-sequenced .hk-pz-stub-num {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+
+  .is-sequenced .hk-pz-segments i::after { transform: scaleX(0); }
+  .is-sequenced .hk-pz-toggle i { transform: none; }
+  .is-sequenced .hk-pz-needle { transform: rotate(-120deg); }
+
+  /* ── Paso 1 → 3.º · paso 2 → 2.º · paso 3 → 1.º: el boleto sale de la ranura (12 px + fade, 350 ms)
+        y después el talón se "sella" (scale 1.1 → 1, 150 ms) ── */
+  .is-sequenced.reached-1 .hk-pz-bay--3 .hk-pz-ticket,
+  .is-sequenced.reached-2 .hk-pz-bay--2 .hk-pz-ticket,
+  .is-sequenced.reached-3 .hk-pz-bay--1 .hk-pz-ticket,
+  .is-sequenced.reached-1 .hk-pz-bay--3 .hk-pz-stub-num,
+  .is-sequenced.reached-2 .hk-pz-bay--2 .hk-pz-stub-num,
+  .is-sequenced.reached-3 .hk-pz-bay--1 .hk-pz-stub-num {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* los boletos que ya salieron bajan a 70 % para que destaque el nuevo */
+  .is-sequenced.reached-2 .hk-pz-bay--3 .hk-pz-ticket,
+  .is-sequenced.reached-3 .hk-pz-bay--2 .hk-pz-ticket {
+    opacity: var(--pz-dim);
+  }
+
+  /* ── Franja: 2 LEDs por paso (en cadena) y un segmento de progreso por puesto ── */
+  .is-sequenced .hk-pz-leds i::after {
+    transition-delay: calc(var(--i) * var(--pz-stagger) * 0.5);
+  }
+
+  .is-sequenced.reached-1 .hk-pz-leds i:nth-child(-n + 2)::after,
+  .is-sequenced.reached-2 .hk-pz-leds i:nth-child(n + 3):nth-child(-n + 4)::after,
+  .is-sequenced.reached-3 .hk-pz-leds i:nth-child(n + 5):nth-child(-n + 6)::after,
+  .is-sequenced.reached-4 .hk-pz-leds i:nth-child(n + 7)::after {
+    opacity: 1;
+  }
+
+  .is-sequenced.reached-1 .hk-pz-segments i:nth-child(1)::after,
+  .is-sequenced.reached-2 .hk-pz-segments i:nth-child(2)::after,
+  .is-sequenced.reached-3 .hk-pz-segments i:nth-child(3)::after {
+    transform: none;
+  }
+
+  /* ── Panel inferior: interruptor por puesto y aguja avanzan por paso ── */
+  /* encendido = (paso alcanzado y sin invertir) o (paso sin alcanzar e invertido a mano) */
+  .is-sequenced.reached-1 .hk-pz-toggle:nth-child(1):not(.is-flipped) i,
+  .is-sequenced.reached-2 .hk-pz-toggle:nth-child(2):not(.is-flipped) i,
+  .is-sequenced.reached-3 .hk-pz-toggle:nth-child(3):not(.is-flipped) i,
+  .is-sequenced:not(.reached-1) .hk-pz-toggle:nth-child(1).is-flipped i,
+  .is-sequenced:not(.reached-2) .hk-pz-toggle:nth-child(2).is-flipped i,
+  .is-sequenced:not(.reached-3) .hk-pz-toggle:nth-child(3).is-flipped i {
+    transform: translateX(18px);
+  }
+
+  .is-sequenced.reached-1 .hk-pz-toggle:nth-child(1):not(.is-flipped)::before,
+  .is-sequenced.reached-2 .hk-pz-toggle:nth-child(2):not(.is-flipped)::before,
+  .is-sequenced.reached-3 .hk-pz-toggle:nth-child(3):not(.is-flipped)::before,
+  .is-sequenced:not(.reached-1) .hk-pz-toggle:nth-child(1).is-flipped::before,
+  .is-sequenced:not(.reached-2) .hk-pz-toggle:nth-child(2).is-flipped::before,
+  .is-sequenced:not(.reached-3) .hk-pz-toggle:nth-child(3).is-flipped::before {
+    opacity: 1;
+  }
+
+  .is-sequenced[data-step='0'] .hk-pz-needle { transform: rotate(-90deg); }
+  .is-sequenced[data-step='1'] .hk-pz-needle { transform: rotate(-30deg); }
+  .is-sequenced[data-step='2'] .hk-pz-needle { transform: rotate(30deg); }
+  .is-sequenced[data-step='3'] .hk-pz-needle,
+  .is-sequenced[data-step='4'] .hk-pz-needle { transform: rotate(110deg); }
+
+
+  /* ── Paso 4: cierre. El tablero se retira hacia atrás y queda la galaxia del fondo. ── */
+  .is-sequenced.reached-4 .hk-pz-head {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.68);
+    transition-duration: var(--pz-dur-out);
+  }
+
+  .is-sequenced.reached-4 .hk-pz-console {
+    opacity: 0;
+    transform: translateY(40px) scale(0.96);
+  }
+
+  /* ── Móvil: una sola pantalla que cambia de contenido (3.º → 2.º → 1.º) ── */
+  @media (max-width: 767px) {
+    .is-sequenced .hk-pz-bays {
+      grid-template-areas: 'bay';
+    }
+
+    /* las tres ocupan la misma celda: el alto lo reserva la más alta (sin saltos de diseño).
+       .hk-pz.is-sequenced: gana sobre las reglas del 70 % para que en móvil la que no toca quede oculta */
+    .hk-pz.is-sequenced .hk-pz-bay {
+      grid-area: bay;
+      opacity: 0;
+    }
+
+    .is-sequenced[data-step='0'] .hk-pz-bay--3,   /* intro: la pantalla aparece apagada */
+    .is-sequenced[data-step='1'] .hk-pz-bay--3,
+    .is-sequenced[data-step='2'] .hk-pz-bay--2,
+    .is-sequenced[data-step='3'] .hk-pz-bay--1 {
+      opacity: 1;
+    }
+
+    /* abajo quedan fijas la cuenta regresiva y la barra de pestañas: se reserva ese espacio */
+    .is-pinned .hk-pz {
+      justify-content: flex-start;
+      gap: 6px;
+      padding: 86px 16px 170px;
+    }
+
+    /* boleto vertical: talón arriba (franja con número y código de barras), cuerpo abajo,
+       muescas a los lados de la línea punteada horizontal */
+    .hk-pz-ticket {
+      --stub-h: 54px;
+      grid-template-columns: 1fr;
+      font-size: 13.5px;
+      -webkit-mask:
+        radial-gradient(circle var(--notch) at 0 var(--stub-h), #0000 98%, #000) left / 51% 100% no-repeat,
+        radial-gradient(circle var(--notch) at 100% var(--stub-h), #0000 98%, #000) right / 51% 100% no-repeat;
+      mask:
+        radial-gradient(circle var(--notch) at 0 var(--stub-h), #0000 98%, #000) left / 51% 100% no-repeat,
+        radial-gradient(circle var(--notch) at 100% var(--stub-h), #0000 98%, #000) right / 51% 100% no-repeat;
+    }
+
+    .hk-pz-bay--1 .hk-pz-ticket {
+      font-size: 14.5px;
+    }
+
+    .hk-pz-screen {
+      padding: 8px;
+    }
+
+    .hk-pz-stub {
+      flex-direction: row;
+      justify-content: flex-start;
+      gap: 0.7em;
+      height: var(--stub-h);
+      padding: 0 1em;
+      border-radius: 3px 3px 0 0;
+    }
+
+    /* el código de barras se acuesta a lo largo de la franja */
+    .hk-pz-barcode {
+      left: auto;
+      right: 3.6em;
+      top: 50%;
+      bottom: auto;
+      width: 0.6em;
+      height: 6.5em;
+      transform: translateY(-50%) rotate(90deg);
+    }
+
+    .hk-pz-tbody {
+      border-left: 0;
+      border-top: 1px dashed rgba(200, 210, 230, 0.35);
+    }
+  }
+
+  /* ── Animaciones con keyframes ── */
+
+  @keyframes hkPzGlitch {
+    0% { opacity: 0.85; }
+    20% { opacity: 0; }
+    40% { opacity: 0.6; }
+    60% { opacity: 0; }
+    80% { opacity: 0.3; }
+    100% { opacity: 0; }
+  }
+
+
+
+  /* con "reducir movimiento": los interruptores responden, pero sin parpadeo */
+  @media (prefers-reduced-motion: reduce) {
+    .hk-pz-bay.is-glitch .hk-pz-flash {
+      animation: none;
+    }
+
+    .hk-pz-toggle i,
+    .hk-pz-needle {
+      transition: none;
+    }
+  }
+</style>

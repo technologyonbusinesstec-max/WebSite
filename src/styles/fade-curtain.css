@@ -6,7 +6,7 @@
 
 .fade-curtain {
   --fc-color: #03030a; /* el negro azulado del fondo del HackaToB */
-  --fc-size: min(320px, 45vh);
+  --fc-size: min(320px, calc(45vh / var(--hk-z, 1)));
   --fc-blur: 12px;
 
   position: relative;

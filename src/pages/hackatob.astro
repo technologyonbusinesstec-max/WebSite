@@ -8,6 +8,26 @@ import HackaParaQuien from '../components/hackatob/HackaParaQuien.astro';
 import HackaRedes from '../components/hackatob/HackaRedes.astro';
 import HackaTracks from '../components/hackatob/HackaTracks.astro';
 import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
+import HackaPremios from '../components/hackatob/HackaPremios.astro';
+import HackaMentores from '../components/hackatob/HackaMentores.astro';
+import HackaSedes from '../components/hackatob/HackaSedes.astro';
+import HackaSphere from '../components/hackatob/HackaSphere.astro';
+
+// Frases que rotan bajo el título cada vez que se toca la esfera (la primera es la de inicio).
+// Se muestran en el idioma activo del sitio; "Technology on Business" es el nombre del evento y no se traduce.
+const heroPhrases = [
+  { es: 'Technology on Business', en: 'Technology on Business' },
+  { es: 'Ideas en lanzamiento', en: 'Ideas on Launch' },
+  { es: 'Código en órbita', en: 'Code on Orbit' },
+  { es: 'Equipos en misión', en: 'Teams on Mission' },
+  { es: 'Hackers a bordo', en: 'Hackers on Board' },
+  { es: 'Innovación bajo demanda', en: 'Innovation on Demand' },
+  { es: 'Datos con propósito', en: 'Data on Purpose' },
+  { es: 'Diseño encendido', en: 'Design on Fire' },
+  { es: 'Startups en despegue', en: 'Startups on Liftoff' },
+  { es: 'Talento en escena', en: 'Talent on Stage' },
+  { es: 'Sueños en marcha', en: 'Dreams on Deploy' },
+];
 ---
 
 <!-- basePath vacío: las secciones del menú están en esta página. earthFade: el footer sube después de la Tierra. -->
@@ -22,8 +42,10 @@ import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
       <div class="hk-hero">
         <h1 class="hk-hero-title">HackaToB</h1>
         <p class="hk-hero-date" data-i18n="hack_hero_date">Noviembre 2 &ndash; 6, 2026</p>
-        <p class="hk-hero-org">Technology on Business</p>
+        <p class="hk-hero-org" id="hkHeroOrg" data-phrases={JSON.stringify(heroPhrases)}>{heroPhrases[0].es}</p>
       </div>
+      <!-- Columna derecha: esfera de partículas interactiva -->
+      <HackaSphere />
     </section>
 
     <!-- ETAPA 2 – Explosión: Qué es HackaToB -->
@@ -50,15 +72,58 @@ import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
     <section class="hk-stage hk-stage-programa" id="programa">
       <HackaPrograma />
     </section>
-    <!-- ETAPA 6 – Galaxia: espiral que gira lento + acercamiento a un brazo -->
-    <section class="hk-stage"></section>
-    <!-- ETAPA 7 – Tierra: acercamiento a Costa Rica y pin del HackaToB -->
-    <section class="hk-stage"></section>
+    <!-- ETAPA 6 – Galaxia: los premios del Top 3 -->
+    <section class="hk-stage hk-stage-premios" id="premios">
+      <HackaPremios />
+    </section>
+    <!-- Mentores, todavía en la galaxia. data-hk-hold="full": mientras se recorre, el fondo no avanza
+         (así la galaxia sigue igual y las etapas que vienen no se desfasan) -->
+    <section class="hk-stage hk-stage-mentores" id="mentores" data-hk-hold="full">
+      <HackaMentores />
+    </section>
+    <!-- ETAPA 7 – Tierra: acercamiento a Costa Rica, pin y las dos sedes presenciales -->
+    <section class="hk-stage hk-stage-tierra" id="sedes">
+      <HackaSedes />
+    </section>
 
     <!-- Cuenta regresiva fija: el scroll la acelera hasta el despegue en la Tierra -->
     <HackaCountdown />
   </main>
 </HackaLayout>
+
+<script>
+  // Cada toque a la esfera del hero pasa a la siguiente frase (se desvanece, cambia y vuelve).
+  // El idioma sigue al del sitio: 'tob_lang' al cargar y el evento languageChanged de public/lang.js.
+  const org = document.getElementById('hkHeroOrg');
+  if (org) {
+    type Lang = 'es' | 'en';
+    const phrases: Record<Lang, string>[] = JSON.parse(org.dataset.phrases || '[]');
+    const toLang = (value: unknown): Lang => (String(value).toLowerCase() === 'en' ? 'en' : 'es');
+    let lang = toLang(localStorage.getItem('tob_lang'));
+    let index = 0;
+    let swapId: ReturnType<typeof setTimeout> | undefined;
+    const render = () => {
+      if (phrases[index]) org.textContent = phrases[index][lang];
+    };
+    render();
+
+    window.addEventListener('languageChanged', (e) => {
+      lang = toLang((e as CustomEvent).detail?.lang);
+      render();
+    });
+
+    window.addEventListener('hackaSphereTap', () => {
+      if (phrases.length < 2) return;
+      index = (index + 1) % phrases.length;
+      clearTimeout(swapId);
+      org.classList.add('is-leaving');
+      swapId = setTimeout(() => {
+        render();
+        org.classList.remove('is-leaving');
+      }, 180);
+    });
+  }
+</script>
 
 <style>
   .hackatob {
@@ -67,7 +132,7 @@ import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
   }
 
   .hk-stage {
-    min-height: 100vh;
+    min-height: calc(100vh / var(--hk-z, 1));
     padding: 80px 16px;
     display: flex;
     align-items: center;
@@ -85,9 +150,53 @@ import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
     justify-content: center;
   }
 
+  /* Premios maneja su propio largo y relleno: es un recorrido por scroll con el frame fijo (HackaPremios.astro) */
+  .hk-stage-premios {
+    display: block;
+    padding: 0; /* la galaxia de Premios va a lo ancho de la pantalla */
+  }
+
+  /* Mentores: la sección (estilos de expositores del ToB) trae su propio relleno.
+     Se monta sobre el final de Premios: con el logo de HackaToB formado (paso 5), sube desde abajo
+     justo donde quedaba el cierre. -0.9 pantallas = 0.2 de pantalla + 0.7 del tramo del paso 5 (100vh). */
+  .hk-stage-mentores {
+    position: relative;
+    z-index: 2;
+    display: block;
+    padding: 0;
+  }
+
+  /* solo con Premios fijado (.is-pinned lo pone su script); sin animación, cada sección va en su lugar */
+  .hk-stage-premios:has(.is-pinned) + .hk-stage-mentores {
+    margin-top: calc(-90vh / var(--hk-z, 1));
+  }
+
+  /* Etapa de la Tierra: las tarjetas de sedes (HackaSedes) ocupan todo el alto para fijarse al final */
+  .hk-stage-tierra {
+    align-items: stretch;
+    padding: 0;
+  }
+
+  /* El fondo avanza según la fracción del scroll total: lo que Mentores se monta sobre Premios
+     se le devuelve a la etapa de la Tierra, para que el largo total (y la sincronía del fondo) no cambie. */
+  .hk-stage-premios:has(.is-pinned) ~ .hk-stage-tierra {
+    min-height: calc(190vh / var(--hk-z, 1));
+  }
+
+  /* en móvil los tramos de Premios miden 80svh: 0.2 de pantalla + 0.7 × 80 */
+  @media (max-width: 767px) {
+    .hk-stage-premios:has(.is-pinned) + .hk-stage-mentores {
+      margin-top: calc(-76svh / var(--hk-z, 1));
+    }
+
+    .hk-stage-premios:has(.is-pinned) ~ .hk-stage-tierra {
+      min-height: calc(176svh / var(--hk-z, 1));
+    }
+  }
+
   /* ---------- Etapa 3: frame de fondo sólido entre dos cortinas (src/styles/fade-curtain.css) ---------- */
   .hk-stage-frame {
-    --hk-frame-fade: min(560px, 75vh); /* largo de cada difuminado de la cortina */
+    --hk-frame-fade: min(560px, calc(75vh / var(--hk-z, 1))); /* largo de cada difuminado de la cortina */
     display: flow-root; /* contiene los márgenes de .hk-frame dentro de la etapa */
     padding: 0;
   }
@@ -106,16 +215,17 @@ import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
     --fc-blur: 24px;
     /* los dos difuminados caben en el margen: no tapan el contenido de las etapas vecinas */
     margin-block: var(--fc-size);
-    min-height: 70vh;
+    min-height: calc(70vh / var(--hk-z, 1));
     display: flex;
     align-items: center;
   }
 
   /* ---------- Etapa 1: título ---------- */
   .hk-stage-hero {
-    --hk-hero-gap: clamp(16px, 6vw, 96px); /* separación con los bordes laterales */
+    position: relative; /* referencia de la esfera de la columna derecha */
+    --hk-hero-gap: clamp(16px, calc(6vw / var(--hk-z, 1)), 96px); /* separación con los bordes laterales */
     /* ancho de cada columna: media pantalla menos el radio del punto de luz (~140px al latir) */
-    --hk-hero-col: calc(50vw - 150px - var(--hk-hero-gap) - 16px);
+    --hk-hero-col: calc(calc(50vw / var(--hk-z, 1)) - 150px - var(--hk-hero-gap) - 16px);
   }
 
   .hk-hero {
@@ -147,13 +257,32 @@ import HackaPrograma from '../components/hackatob/HackaPrograma.astro';
     color: #ecebf7;
   }
 
+  /* la frase que cambia al tocar la esfera: más grande que la fecha */
   .hk-hero-org {
-    margin-top: 6px;
-    color: #9d9cb8;
+    margin-top: 10px;
+    font-size: clamp(16px, 5.2cqi, 32px); /* la frase más larga cabe en una línea */
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #7c7b94; /* gris más oscuro que la fecha; sobre el fondo negro sigue pasando AA (~5:1) */
+    transition: opacity 0.18s ease, transform 0.18s ease;
+  }
+
+  .hk-hero-org.is-leaving {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hk-hero-org,
+    .hk-hero-org.is-leaving {
+      transition: none;
+      transform: none;
+    }
   }
 
   @media (max-width: 700px) {
-    .hk-stage:last-of-type,
+    /* (la etapa de la Tierra no: sus tarjetas de sedes necesitan todo el alto) */
+    .hk-stage:last-of-type:not(.hk-stage-tierra),
     .hk-stage-hero {
       align-items: flex-start;
     }

@@ -1,9 +1,14 @@
 ---
 // src/components/hackatob/HackaMusic.astro
-// Botón de música del HackaToB: fijo abajo a la derecha. La música SIEMPRE empieza apagada
-// (no se recuerda el estado entre páginas ni visitas); la persona la enciende y apaga con el botón.
-// El archivo de audio no se descarga hasta el primer clic.
-// PENDIENTE: falta la canción. Guardarla en public/audio/ con el nombre de `src` (o cambiar `src`).
+// Botón de música del HackaToB (lo monta HackaLayout: suena en todas las páginas del HackaToB, no en el ToB).
+// Fijo abajo a la derecha. La canción va en bucle y arranca sola, salvo que la persona la haya apagado antes:
+// esa preferencia se guarda en localStorage ('hk_music' = 'off' | 'on').
+// Los navegadores no dejan sonar audio sin una interacción: si el arranque automático se bloquea, la música
+// empieza con el primer clic, toque o tecla en la página. Al pasar de una página del HackaToB a otra sigue
+// desde donde iba (el segundo se guarda en sessionStorage).
+// Volumen: con mouse, al pasar sobre el botón aparece una barra vertical (el clic apaga/enciende);
+// en pantallas táctiles, tocar el botón abre un panel con la barra y un botón para silenciar.
+// El volumen elegido se guarda en localStorage ('hk_music_vol').
 
 interface Props {
   /** Ruta del audio dentro de public/ */
@@ -12,8 +17,16 @@ interface Props {
   volume?: number;
 }
 
-const { src = '/audio/hackatob.mp3', volume = 0.5 } = Astro.props;
+// canción: "The Son of Flynn" (TRON: Legacy)
+const { src = '/audio/hackatob-musica.mp3', volume = 0.5 } = Astro.props;
 ---
+
+<div class="hk-music-wrap" id="hkMusicWrap">
+  <!-- panel de volumen: aparece al pasar el mouse (o al tocar el botón en pantallas táctiles) -->
+  <div class="hk-music-panel" id="hkMusicPanel">
+    <input class="hk-music-vol" id="hkMusicVol" type="range" min="0" max="100" step="1" value={Math.round(volume * 100)} aria-label="Volumen de la música" data-i18n-label="hack_mu_volume" />
+    <button type="button" class="hk-music-mute" id="hkMusicMute" data-i18n="hack_mu_mute">Silenciar</button>
+  </div>
 
 <button
   type="button"
@@ -33,66 +46,301 @@ const { src = '/audio/hackatob.mp3', volume = 0.5 } = Astro.props;
   <!-- encendida: barras que se mueven -->
   <span class="hk-music-on" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
 </button>
+</div>
 
 <script>
   const btn = document.getElementById('hkMusic') as HTMLButtonElement | null;
-  if (btn) {
+  const wrap = document.getElementById('hkMusicWrap');
+  const vol = document.getElementById('hkMusicVol') as HTMLInputElement | null;
+  const mute = document.getElementById('hkMusicMute') as HTMLButtonElement | null;
+  if (btn && wrap && vol) {
     let audio: HTMLAudioElement | null = null;
+    const touch = matchMedia('(hover: none)').matches; // pantalla táctil: el botón abre el panel
+
+    // textos del botón en el idioma del sitio (traducciones de public/lang.js; se actualizan al cambiar de idioma)
+    const tr = (key: string, fallback: string) => {
+      let lang = 'es';
+      try { lang = (localStorage.getItem('tob_lang') || 'es').toLowerCase(); } catch { /* sin almacenamiento */ }
+      return (window as any).translations?.[lang]?.[key] ?? fallback;
+    };
+    let playingNow = false;
+    let unavailable = false;
 
     const setState = (playing: boolean) => {
-      const label = playing ? 'Apagar la música' : 'Encender la música';
+      playingNow = playing;
+      unavailable = false;
+      const label = playing ? tr('hack_mu_off', 'Apagar la música') : tr('hack_mu_on', 'Encender la música');
       btn.classList.toggle('is-playing', playing);
       btn.classList.remove('is-loading');
       btn.setAttribute('aria-pressed', String(playing));
       btn.setAttribute('aria-label', label);
       btn.title = label;
+      if (mute) {
+        mute.dataset.i18n = playing ? 'hack_mu_mute' : 'hack_mu_unmute';
+        mute.textContent = playing ? tr('hack_mu_mute', 'Silenciar') : tr('hack_mu_unmute', 'Activar música');
+      }
+      vol.setAttribute('aria-label', tr('hack_mu_volume', 'Volumen de la música'));
     };
 
     // si el audio no existe o no se puede reproducir, el botón lo indica en vez de fallar en silencio
     const setUnavailable = () => {
       setState(false);
       btn.classList.add('is-unavailable');
-      btn.setAttribute('aria-label', 'Música disponible próximamente');
-      btn.title = 'Música disponible próximamente';
+      unavailable = true;
+      const soon = tr('hack_mu_soon', 'Música disponible próximamente');
+      btn.setAttribute('aria-label', soon);
+      btn.title = soon;
     };
 
-    btn.addEventListener('click', async () => {
-      if (!audio) {
-        audio = new Audio(btn.dataset.src);
-        audio.loop = true;
-        audio.volume = Number(btn.dataset.volume) || 0.5;
-        audio.addEventListener('pause', () => setState(false));
-        // 'playing' y no 'play': solo cuenta como encendida cuando el sonido realmente arranca
-        audio.addEventListener('playing', () => setState(true));
-        audio.addEventListener('error', () => {
-          audio = null; // se reintenta desde cero en el siguiente clic (p. ej. cuando ya exista el archivo)
-          setUnavailable();
-        });
+    // preferencia guardada (puede fallar en modo privado o con el almacenamiento bloqueado)
+    const PREF = 'hk_music';
+    const TIME = 'hk_music_time';
+    const VOL = 'hk_music_vol';
+    const read = (store: Storage, key: string) => {
+      try { return store.getItem(key); } catch { return null; }
+    };
+    const write = (store: Storage, key: string, value: string) => {
+      try { store.setItem(key, value); } catch { /* sin almacenamiento: solo dura esta página */ }
+    };
+
+    // volumen guardado (0–100)
+    const savedVol = Number(read(localStorage, VOL));
+    if (read(localStorage, VOL) !== null && savedVol >= 0 && savedVol <= 100) vol.value = String(savedVol);
+    const level = () => Number(vol.value) / 100;
+    const paintVol = () => vol.style.setProperty('--fill', `${vol.value}%`);
+    paintVol();
+
+    const getAudio = () => {
+      if (audio) return audio;
+      audio = new Audio(btn.dataset.src);
+      audio.loop = true;
+      audio.preload = 'auto';
+      audio.volume = level();
+      // sigue desde donde iba en la página anterior del HackaToB
+      const t = Number(read(sessionStorage, TIME));
+      if (t > 0) audio.currentTime = t;
+      audio.addEventListener('pause', () => setState(false));
+      // 'playing' y no 'play': solo cuenta como encendida cuando el sonido realmente arranca
+      audio.addEventListener('playing', () => setState(true));
+      audio.addEventListener('error', () => {
+        audio = null; // se reintenta desde cero en el siguiente intento
+        setUnavailable();
+      });
+      return audio;
+    };
+
+    // intenta sonar; si el navegador lo bloquea por falta de interacción, devuelve false
+    const start = async () => {
+      const a = getAudio();
+      btn.classList.remove('is-unavailable');
+      btn.classList.add('is-loading');
+      try {
+        await a.play();
+        return true;
+      } catch (err) {
+        btn.classList.remove('is-loading');
+        if ((err as DOMException)?.name !== 'NotAllowedError') setUnavailable();
+        return false;
       }
-      if (!audio.paused) {
+    };
+
+    // arranque automático bloqueado: la primera interacción con la página la enciende
+    const GESTURES = ['pointerdown', 'keydown', 'touchstart'] as const;
+    const onFirstGesture = (e: Event) => {
+      // con mouse, el botón y el panel se manejan aparte; en táctil, tocar el botón también la enciende
+      if (!touch && wrap.contains(e.target as Node)) return;
+      removeGesture();
+      if (read(localStorage, PREF) !== 'off') start();
+    };
+    const removeGesture = () => GESTURES.forEach((g) => removeEventListener(g, onFirstGesture, true));
+
+    // encender / apagar (y recordar la elección)
+    const toggle = async () => {
+      removeGesture();
+      if (audio && !audio.paused) {
         audio.pause();
+        write(localStorage, PREF, 'off');
         return;
       }
-      try {
-        // mientras el audio carga, el botón late; pasa a "encendida" cuando el sonido arranca
-        btn.classList.remove('is-unavailable');
-        setState(false);
-        btn.classList.add('is-loading');
-        await audio.play();
-      } catch {
-        audio = null;
-        setUnavailable();
-      }
+      write(localStorage, PREF, 'on');
+      if (!(await start())) setUnavailable();
+    };
+
+    // con mouse: el clic apaga/enciende · en táctil: abre o cierra el panel de volumen
+    btn.addEventListener('click', () => {
+      if (touch) wrap.classList.toggle('is-open');
+      else toggle();
     });
+    mute?.addEventListener('click', toggle);
+
+    vol.addEventListener('input', () => {
+      paintVol();
+      write(localStorage, VOL, vol.value);
+      if (audio) audio.volume = level();
+    });
+
+    addEventListener('languageChanged', () => {
+      if (unavailable) setUnavailable();
+      else setState(playingNow);
+    });
+    setState(false);
+
+    // el panel táctil se cierra al tocar fuera o con Escape
+    addEventListener('pointerdown', (e) => {
+      if (!wrap.contains(e.target as Node)) wrap.classList.remove('is-open');
+    });
+    addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') wrap.classList.remove('is-open');
+    });
+
+    // al salir de la página se guarda el segundo, para seguir en la siguiente
+    addEventListener('pagehide', () => {
+      if (audio && !audio.paused) write(sessionStorage, TIME, String(audio.currentTime));
+      else write(sessionStorage, TIME, '0');
+    });
+
+    // arranca sola salvo que la persona la haya apagado antes
+    if (read(localStorage, PREF) !== 'off') {
+      start().then((ok) => {
+        if (!ok) GESTURES.forEach((g) => addEventListener(g, onFirstGesture, { capture: true, passive: true }));
+      });
+    }
   }
 </script>
 
 <style>
-  .hk-music {
+  .hk-music-wrap {
     position: fixed;
-    right: clamp(16px, 2.4vw, 34px);
+    right: clamp(16px, calc(2.4vw / var(--hk-z, 1)), 34px);
     bottom: 30px;
     z-index: 900; /* sobre el contenido; el navbar (1000) queda encima */
+  }
+
+  /* ── Panel de volumen (encima del botón) ── */
+  .hk-music-panel {
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 46px;
+    padding: 14px 0 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    background: rgba(14, 17, 24, 0.86);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+    opacity: 0;
+    transform: translate(-50%, 8px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  /* se muestra al pasar el mouse (con un puente invisible para no perderlo al subir), con foco o abierto */
+  .hk-music-panel::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    height: 12px;
+  }
+
+  @media (hover: hover) {
+    .hk-music-wrap:hover .hk-music-panel {
+      opacity: 1;
+      transform: translate(-50%, 0);
+      pointer-events: auto;
+    }
+  }
+
+  .hk-music-wrap:focus-within .hk-music-panel,
+  .hk-music-wrap.is-open .hk-music-panel {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    pointer-events: auto;
+  }
+
+  /* barra vertical: un range girado 90° */
+  .hk-music-vol {
+    --fill: 50%;
+    width: 110px;
+    height: 22px;
+    margin: 44px 0;
+    transform: rotate(-90deg);
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .hk-music-vol::-webkit-slider-runnable-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #5b84ff var(--fill), rgba(255, 255, 255, 0.22) var(--fill));
+  }
+
+  .hk-music-vol::-moz-range-track {
+    height: 4px;
+    border-radius: 2px;
+    background: linear-gradient(90deg, #5b84ff var(--fill), rgba(255, 255, 255, 0.22) var(--fill));
+  }
+
+  .hk-music-vol::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 14px;
+    height: 14px;
+    margin-top: -5px;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(91, 132, 255, 0.35);
+  }
+
+  .hk-music-vol::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border: 0;
+    border-radius: 50%;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(91, 132, 255, 0.35);
+  }
+
+  .hk-music-vol:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+
+  /* silenciar / activar: solo en pantallas táctiles (con mouse, el botón ya lo hace) */
+  .hk-music-mute {
+    display: none;
+  }
+
+  @media (hover: none) {
+    .hk-music-panel {
+      width: auto;
+      padding: 14px 10px 12px;
+      border-radius: 16px;
+    }
+
+    .hk-music-mute {
+      display: block;
+      padding: 7px 10px;
+      border: 0;
+      border-radius: 999px;
+      background: #ffffff;
+      font-size: 0.68rem;
+      font-weight: 800;
+      white-space: nowrap;
+      color: #0b0d14;
+      cursor: pointer;
+    }
+  }
+
+  .hk-music {
+    position: relative;
     display: grid;
     place-items: center;
     width: 50px;
@@ -174,14 +422,21 @@ const { src = '/audio/hackatob.mp3', volume = 0.5 } = Astro.props;
 
   /* en móvil y tableta el navbar tiene una barra de pestañas abajo: el botón sube para no taparla */
   @media (max-width: 899.98px) {
-    .hk-music {
+    .hk-music-wrap {
       bottom: 104px;
+    }
+
+    .hk-music {
       width: 46px;
       height: 46px;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hk-music-panel {
+      transition: none;
+    }
+
     .hk-music-on i {
       animation: none;
       transform: scaleY(0.7);

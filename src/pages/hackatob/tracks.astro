@@ -5,8 +5,8 @@
 // La estrella arranca arriba, junto a la definición de los tracks, y al bajar toma el color de cada
 // track (verde, azul, rojo, blanco). Solo se ve el texto del tramo donde está la estrella: aparece
 // cuando llega y se desvanece cuando sigue. Los tracks van alternados a cada lado (en móvil, a la derecha).
-// PENDIENTE: por cada track falta el detalle (reto, temas, tipo de solución esperada, acompañamiento
-// confirmado, evaluación aprobada y CTA). Por ahora solo muestra el nombre y la descripción.
+// Cada track muestra su reto, algunas ideas y una nota "Tené en cuenta" (datos en tracks.ts).
+// PENDIENTE: acompañamiento confirmado, criterios de evaluación y llamado a la acción de cada track.
 import HackaLayout from '../../layouts/HackaLayout.astro';
 import { tracks } from '../../components/hackatob/tracks';
 
@@ -52,7 +52,18 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
             <h2 class="hk-tl-name" data-i18n={`hack_tr_${t.key}_name`}>{t.name}</h2>
             <p class="hk-tl-area" data-i18n={`hack_tr_${t.key}_area`}>{t.area}</p>
             <p class="hk-tl-text" data-i18n={`hack_tr_${t.key}_text`}>{t.text}</p>
-            <p class="hk-tl-soon" data-i18n="hack_tp_soon">Muy pronto publicaremos aquí el detalle de este track.</p>
+            <div class="hk-tl-detail">
+              <p class="hk-tl-label" data-i18n="hack_tp_challenge">El reto</p>
+              <p class="hk-tl-challenge" data-i18n={`hack_tr_${t.key}_challenge`}>{t.challenge}</p>
+              <p class="hk-tl-label" data-i18n="hack_tp_ideas">Algunas ideas</p>
+              <ul class="hk-tl-ideas">
+                {t.ideas.map((idea, n) => <li data-i18n={`hack_tr_${t.key}_idea${n + 1}`}>{idea}</li>)}
+              </ul>
+              <p class="hk-tl-note">
+                <strong data-i18n="hack_tp_note">Tené en cuenta:</strong>{' '}
+                <span data-i18n={`hack_tr_${t.key}_note`}>{t.note}</span>
+              </p>
+            </div>
           </div>
         </section>
       ))}
@@ -77,7 +88,8 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
     let queued = false;
 
     // scroll con el que la estrella llega al final de la línea (queda al 60 % del alto de la pantalla)
-    const scrollEnd = () => Math.max(1, tl.offsetTop + tl.offsetHeight - innerHeight * 0.6);
+    // (getBoundingClientRect: con el zoom de escritorio de HackaLayout queda en las mismas unidades que scrollY)
+    const scrollEnd = () => Math.max(1, tl.getBoundingClientRect().bottom + scrollY - innerHeight * 0.6);
 
     const update = () => {
       queued = false;
@@ -95,11 +107,22 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
     };
 
     // Al llegar por #ancla ("Ver track"), se va al punto del scroll donde la estrella está en ese track
+    // El track queda con su título visible debajo del navbar, siempre que la estrella siga cayendo dentro
+    // de él; si no (pasa con el primero o el último), se centra en la estrella como antes.
     const goToHash = () => {
       const row = rows.find((r) => r.id && `#${r.id}` === location.hash);
       if (!row) return;
+      const end = scrollEnd();
       const center = row.offsetTop + row.offsetHeight / 2;
-      scrollTo({ top: (center / tl.offsetHeight) * scrollEnd(), behavior: 'instant' });
+      let top = (center / tl.offsetHeight) * end;
+      const tlRect = tl.getBoundingClientRect();
+      const rowRect = row.getBoundingClientRect();
+      const rowStart = rowRect.top + scrollY - (tlRect.top + scrollY); // inicio del track dentro de la línea
+      const wanted = rowRect.top + scrollY - 110; // título debajo del navbar
+      const starAt = (y: number) => Math.min(1, Math.max(0, y / end)) * tlRect.height; // estrella dentro de la línea
+      const star = starAt(wanted);
+      if (star >= rowStart && star < rowStart + rowRect.height) top = wanted;
+      scrollTo({ top, behavior: 'instant' });
       update();
     };
 
@@ -204,8 +227,8 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
     position: relative;
     display: flex;
     align-items: center;
-    min-height: clamp(250px, 42vh, 400px);
-    scroll-margin-top: 28vh; /* al llegar por #ancla, el track queda a media pantalla */
+    min-height: clamp(250px, calc(42vh / var(--hk-z, 1)), 400px);
+    scroll-margin-top: calc(28vh / var(--hk-z, 1)); /* al llegar por #ancla, el track queda a media pantalla */
     transition: opacity 0.6s ease;
   }
 
@@ -220,7 +243,7 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
 
   .hk-tl-head {
     align-items: flex-start;
-    min-height: clamp(280px, 40vh, 380px);
+    min-height: clamp(280px, calc(40vh / var(--hk-z, 1)), 380px);
   }
 
   /* marca del track sobre la línea */
@@ -256,12 +279,12 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
 
   /* ───── Texto ───── */
   .hk-tl-block {
-    max-width: 34ch;
+    max-width: 46ch;
   }
 
   .hk-tl-title {
     margin: 0;
-    font-size: clamp(2.4rem, 5vw, 3.6rem);
+    font-size: clamp(2.4rem, calc(5vw / var(--hk-z, 1)), 3.6rem);
     font-weight: 900;
     line-height: 1.05;
     color: #ffffff;
@@ -302,10 +325,75 @@ const dust = Array.from({ length: 18 }, (_, i) => ({ x: +(rand() * 100).toFixed(
     color: rgba(226, 229, 238, 0.82);
   }
 
-  .hk-tl-soon {
-    margin: 0.9rem 0 0;
-    font-size: 0.86rem;
-    color: rgba(226, 229, 238, 0.5);
+  /* ── Detalle del track: el reto, ideas y nota ── */
+  .hk-tl-detail {
+    margin-top: 1.3rem;
+    padding-top: 1.1rem;
+    border-top: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  }
+
+  .hk-tl-label {
+    margin: 1rem 0 0;
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .hk-tl-label:first-child {
+    margin-top: 0;
+  }
+
+  .hk-tl-challenge {
+    margin: 0.4rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #ffffff;
+  }
+
+  .hk-tl-ideas {
+    display: grid;
+    gap: 0.45rem;
+    margin: 0.5rem 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hk-tl-ideas li {
+    position: relative;
+    padding-left: 1.1rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: rgba(226, 229, 238, 0.82);
+  }
+
+  /* viñeta en el color del track */
+  .hk-tl-ideas li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .hk-tl-note {
+    margin: 1.1rem 0 0;
+    padding: 0.75rem 0.9rem;
+    border-left: 2px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    background: color-mix(in srgb, var(--accent) 9%, transparent);
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: rgba(226, 229, 238, 0.88);
+  }
+
+  .hk-tl-note strong {
+    color: #ffffff;
   }
 
   .hk-tl-end {

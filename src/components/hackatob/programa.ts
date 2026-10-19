@@ -1,5 +1,6 @@
 // Programa del HackaToB (2–6 nov 2026, hora de Costa Rica, UTC−6). Lo comparten el frame "Programa"
 // de /hackatob (línea de planetas) y la página /hackatob/programa (detalle completo).
+// Los textos en inglés van en public/lang.js con las claves hack_pp_<día>_* y hack_pp_s<NN>_*.
 
 export interface Sprint {
   /** 01–04: solo hay cuatro sprints; la preparación del lunes y el Demo Day no son sprints */
@@ -129,7 +130,7 @@ export const days: Day[] = [
     date: 'Viernes 6 de noviembre',
     name: 'Demo Day',
     mode: 'Presencial',
-    venue: 'Auditorio D3',
+    venue: 'Auditorio del CIC',
     hours: '8:00 a. m.–1:00 p. m.',
     text: 'Presentación ante el jurado y premiación de los tres mejores proyectos globales.',
     planet: { light: '#f1f4fa', dark: '#6f8fc0', scale: 1.12, ring: true },
