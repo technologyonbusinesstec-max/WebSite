@@ -4,22 +4,19 @@
 // un texto grande, una franja de fotos en blanco y negro que se desliza de lado, y los sponsors por grupos
 // en una cuadrícula de celdas con líneas finas. Logos en blanco y negro que toman su color al pasar el mouse;
 // cada celda lleva a la página oficial de la empresa.
-// Sponsors en src/components/hackatob/sponsors.ts · fotos en public/imagenes/hackatob/sponsors-fotos/.
-import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
+// Sponsors en src/components/hackatob/sponsors.ts · fotos en src/assets/hackatob/sponsors-fotos/.
+import { getImage } from 'astro:assets';
 import HackaLayout from '../../layouts/HackaLayout.astro';
-import { sponsorTiers, SPONSOR_PHOTOS_DIR } from '../../components/hackatob/sponsors';
+import { sponsorTiers } from '../../components/hackatob/sponsors';
 
-// Fotos de la franja: todas las imágenes de la carpeta (para ordenarlas: 01-..., 02-...).
-let photos: string[] = [];
-try {
-  photos = readdirSync(join(process.cwd(), 'public', SPONSOR_PHOTOS_DIR))
-    .filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f))
+// Fotos de la franja: todas las imágenes de src/assets/hackatob/sponsors-fotos/ (para ordenarlas: 01-..., 02-...).
+// Astro las achica y las pasa a WebP al compilar.
+const photoFiles = import.meta.glob<{ default: ImageMetadata }>('../../assets/hackatob/sponsors-fotos/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}', { eager: true });
+const photos: string[] = await Promise.all(
+  Object.keys(photoFiles)
     .sort()
-    .map((f) => `/${SPONSOR_PHOTOS_DIR}/${encodeURIComponent(f)}`);
-} catch {
-  // la carpeta todavía no existe
-}
+    .map(async (k) => (await getImage({ src: photoFiles[k].default, width: 600, format: 'webp', quality: 72 })).src),
+);
 
 // Tamaños de la franja (alto en % y ancho en px): se alternan para el ritmo de Next.js Conf.
 // Sin fotos, se muestran lugares vacíos con los mismos tamaños.

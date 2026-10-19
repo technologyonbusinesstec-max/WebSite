@@ -1,5 +1,7 @@
 /* Fondo interactivo HackaToB: Big Bang → galaxia → Tierra. Requiere three.js r128 y anime.js 3.2.1. */
-(() => {
+// Arranca en el primer cuadro de animación: así no mide la ventana mientras la página todavía se arma
+// (reflow forzado) y no compite con el primer renderizado.
+requestAnimationFrame(() => {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const $ = id => document.getElementById('hk-' + id);
   if (!$('gl') || typeof THREE === 'undefined' || typeof anime === 'undefined') {
@@ -197,6 +199,7 @@
      3. Scroll → cabezal de la línea de tiempo (suavizado)
      ===================================================== */
   let target = 0, cur = 0;
+  let earthRequested = false;
   let stages = null; // se busca al leer el scroll: este script corre antes de que exista <main>
   const readScroll = () => {
     stages = stages || document.querySelector('.hackatob');
@@ -229,11 +232,16 @@
     const [x0, v0] = pts[i - 1], [x1, v1] = pts[i];
     target = x1 > x0 ? v0 + (v1 - v0) * ((s - x0) / (x1 - x0)) : v1;
   };
-  addEventListener('scroll', readScroll, { passive: true }); readScroll();
+  // el scroll solo marca que hay que medir; la medición se hace al principio del cuadro, antes de escribir
+  // estilos (medir justo después de escribirlos fuerza un reflow)
+  let scrollDirty = true;
+  addEventListener('scroll', () => { scrollDirty = true; }, { passive: true });
+  addEventListener('resize', () => { scrollDirty = true; });
 
   const CR = '-79.9%, -69.5%'; // Costa Rica dentro de la imagen de la Tierra
   const t0 = performance.now(), ss = (a, b, x) => { x = Math.min(1, Math.max(0, (x - a) / (b - a))); return x * x * (3 - 2 * x); };
   function frame(now) {
+    if (scrollDirty) { scrollDirty = false; readScroll(); }
     cur += (target - cur) * 0.08;
     tl.seek(cur * 1000);
     const time = reduce ? 0 : (now - t0) / 1000;
@@ -261,6 +269,14 @@
     starMat.opacity = S.stars * 0.85 * (1 - S.ezoom * .5);
 
     // etapa 7: la Tierra aparece y se acerca hasta Costa Rica
+    // la imagen de la Tierra se pide recién cuando el recorrido se acerca a esa etapa (no en la carga inicial)
+    if (!earthRequested && cur > 0.75) {
+      earthRequested = true;
+      const img = $('earth');
+      img.sizes = img.getAttribute('sizes') || '100vw';
+      img.srcset = img.dataset.srcset || '';
+      img.src = '/imagenes/hackatob/tierra-800.webp';
+    }
     $('earth').style.opacity = S.earth;
     $('earth').style.transform = `translate(${CR}) scale(${(.12 + .88 * S.earth) * (1 + S.ezoom * 1.9)})`;
     $('pin').style.opacity = S.pin;
@@ -274,4 +290,4 @@
     requestAnimationFrame(frame);
   }
   requestAnimationFrame(frame);
-})();
+});
