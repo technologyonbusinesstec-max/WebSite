@@ -57,6 +57,7 @@
   @media (prefers-reduced-motion: reduce) { .hk-core i, .hk-pin .hk-ring { animation: none; } }
 </style>
 
-<script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- defer: se descargan en paralelo sin bloquear el renderizado y corren en orden después de anime.js -->
+<script is:inline defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <!-- anime.js lo carga HackaLayout (también lo usa el navbar) -->
-<script is:inline src="/scripts/hackatob-bigbang.js"></script>
+<script is:inline defer src="/scripts/hackatob-bigbang.js"></script>

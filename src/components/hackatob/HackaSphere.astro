@@ -27,9 +27,16 @@
   const AUTO_SPIN = 0.12; // rad/s
   const MAX_RIPPLES = 4;
 
+  // three.js se carga con defer (BigBangBackground): si todavía no está, se espera a que la página
+  // termine de leerse, cuando ya corrieron todos los scripts diferidos
   const root = document.getElementById('hkSphere');
-  const THREE: ThreeNS = (window as any).THREE;
-  if (root && THREE) init(root, THREE);
+  const start = () => {
+    const THREE: ThreeNS = (window as any).THREE;
+    if (root && THREE) init(root, THREE);
+  };
+  if ((window as any).THREE) start();
+  else if (document.readyState === 'loading') addEventListener('DOMContentLoaded', start, { once: true });
+  else addEventListener('load', start, { once: true });
 
   function init(root: HTMLElement, THREE: ThreeNS) {
     const canvas = root.querySelector('canvas') as HTMLCanvasElement;
@@ -187,6 +194,7 @@
       mat.uniforms.uScale.value = renderer.getDrawingBufferSize(new THREE.Vector2()).y / (2 * Math.tan(fov / 2));
       needsFrame = true;
     };
+    // también da la primera medida, ya con el diseño calculado (medir a mano aquí forzaría un reflow)
     new ResizeObserver(resize).observe(root);
 
     // ── Puntero: hover, toque (vibración) y arrastre (rotación) ──
@@ -368,7 +376,6 @@
     canvas.addEventListener('pointermove', schedule);
     canvas.addEventListener('pointerdown', schedule);
 
-    resize();
     schedule();
   }
 </script>

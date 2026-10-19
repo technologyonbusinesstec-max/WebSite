@@ -5,7 +5,7 @@
 // con iconos (pantallas angostas). Todo el contenido llega por props; los valores por
 // defecto son los del HackaToB.
 // Una "lente" de vidrio se posa sobre el enlace activo y se desliza con resorte.
-// Usa anime.js (cargado desde cdnjs por BigBangBackground); si no está disponible,
+// Usa anime.js (cargado con defer por HackaLayout); si no está disponible,
 // la lente se posiciona sin animación.
 
 import { hackatobLinks, withBase, type NavLink } from './navLinks';
@@ -109,7 +109,9 @@ const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `
 <script>
   type AnimeParams = Record<string, unknown>;
   type Anime = ((params: AnimeParams) => unknown) & { remove: (t: unknown) => void };
-  const anime = (window as unknown as { anime?: Anime }).anime;
+  // anime.js se carga con defer (no bloquea el renderizado): puede llegar después de este script,
+  // así que se busca cada vez que hace falta
+  const getAnime = () => (window as unknown as { anime?: Anime }).anime;
 
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
@@ -155,6 +157,7 @@ const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `
     };
 
     function moveTo(item: HTMLElement | null, instant = false) {
+      const anime = getAnime();
       current = item;
       clearTimeout(fadeTimer);
       anime?.remove(st);
@@ -235,7 +238,7 @@ const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `
 
   // Si esta página es el destino de un enlace del menú (p. ej. /hackatob/tracks), ese enlace queda activo
   const here = `page:${location.pathname.replace(/\/$/, '')}`;
-  if (allLinks.some((l) => l.dataset.section === here)) setActive(here);
+  if (allLinks.some((l) => l.dataset.section === here)) requestAnimationFrame(() => setActive(here));
 
   // ─── Logo: en /hackatob vuelve al inicio (hero); en las demás páginas es un enlace normal a /hackatob ───
   document.getElementById('hkNavLogoLink')!.addEventListener('click', (e) => {
@@ -299,6 +302,7 @@ const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `
   function placeLangGlider(duration: number) {
     const active = langTexts.find((t) => t.classList.contains('active')) ?? langTexts[0];
     const props = { left: active.offsetLeft, width: active.offsetWidth };
+    const anime = getAnime();
     if (anime) anime.remove(langGlider);
     if (!anime || reduce.matches || duration === 0) {
       langGlider.style.left = `${props.left}px`;
@@ -321,7 +325,8 @@ const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `
     showLang((e as CustomEvent<{ lang: string }>).detail.lang, 420);
     refreshLenses(); // las etiquetas traducidas cambian de ancho
   });
-  placeLangGlider(0);
+  // (en el siguiente cuadro: medir aquí forzaría a calcular el diseño mientras la página todavía carga)
+  requestAnimationFrame(() => placeLangGlider(0));
 </script>
 
 <style>

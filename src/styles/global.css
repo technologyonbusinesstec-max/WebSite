@@ -1,5 +1,5 @@
 /* Importando fuentes base modernas como fallback (Inter/Outfit) y definiendo las deseadas */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+/* Las fuentes (Inter y Space Mono) se cargan en el <head> de Layout.astro, sin bloquear el renderizado. */
 
 :root {
     /* Paleta Sapphire nightfall whisper */

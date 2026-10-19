@@ -36,6 +36,11 @@ const faviconType = favicon.endsWith('.svg')
   <meta name="generator" content={Astro.generator} />
   <meta name="description" content={description} />
   <title>{title}</title>
+  <!-- Fuentes: conexión adelantada y hoja que no bloquea el renderizado (se aplica al cargar) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" /></noscript>
   <!-- i18n: load synchronously so translations are available at DOMContentLoaded -->
   <script is:inline>
     (function(){

@@ -98,11 +98,7 @@ const cards = Array.from({ length: SLOTS }, (_, i) => ({
               {c.src ? (
                 <img src={c.src} alt="" loading="lazy" decoding="async" />
               ) : (
-                <span class="hk-hx-ph" aria-hidden="true">
-                  <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z" /><circle cx="12" cy="13.2" r="3.4" />
-                  </svg>
-                </span>
+                <span class="hk-hx-ph" aria-hidden="true"></span>
               )}
             </figure>
           ))}
@@ -428,6 +424,16 @@ const cards = Array.from({ length: SLOTS }, (_, i) => ({
     height: 100%;
     background: radial-gradient(circle at 50% 38%, rgba(255, 255, 255, 0.16), transparent 60%);
     color: rgba(255, 255, 255, 0.7);
+  }
+
+  /* ícono de cámara dibujado con CSS (una máscara), sin un <svg> por tarjeta */
+  .hk-hx-ph::before {
+    content: '';
+    width: 26px;
+    height: 26px;
+    background: currentColor;
+    -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z'/%3E%3Ccircle cx='12' cy='13.2' r='3.4'/%3E%3C/svg%3E") center / contain no-repeat;
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z'/%3E%3Ccircle cx='12' cy='13.2' r='3.4'/%3E%3C/svg%3E") center / contain no-repeat;
   }
 
   /* Responsive */
