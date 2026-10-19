@@ -38,6 +38,3 @@ export const sponsorTiers: SponsorTier[] = [
     ],
   },
 ];
-
-/** Carpeta de las fotos de la franja (en public/). Se leen todas las imágenes, en orden alfabético. */
-export const SPONSOR_PHOTOS_DIR = 'imagenes/hackatob/sponsors-fotos';

@@ -3,22 +3,18 @@
 // Sección "¿Qué es HackaToB?": tarjetas a la izquierda y, a la derecha, una galería de fotos en hélice
 // (efecto "Helix" de Motion): las fotos giran alrededor de un cilindro; se puede arrastrar para girarla.
 
-import { readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { getImage } from 'astro:assets';
 
-// Fotos de la galería: todas las imágenes de public/imagenes/hackatob/galeria/, en orden alfabético
-// (para ordenarlas, nombrarlas 01-..., 02-...). Sin fotos, cada lugar muestra un color y un ícono de cámara.
-// Se repiten si hay menos fotos que lugares.
-const GALLERY_DIR = 'imagenes/hackatob/galeria';
-let photos: string[] = [];
-try {
-  photos = readdirSync(join(process.cwd(), 'public', GALLERY_DIR))
-    .filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f))
+// Fotos de la galería: todas las imágenes de src/assets/hackatob/galeria/, en orden alfabético
+// (para ordenarlas, nombrarlas 01-..., 02-...). Astro las achica y las pasa a WebP al compilar
+// (480 px de ancho: el doble de lo que se ve, para pantallas de alta densidad).
+// Sin fotos, cada lugar muestra un color y un ícono de cámara. Se repiten si hay menos fotos que lugares.
+const galleryFiles = import.meta.glob<{ default: ImageMetadata }>('../../assets/hackatob/galeria/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}', { eager: true });
+const photos: string[] = await Promise.all(
+  Object.keys(galleryFiles)
     .sort()
-    .map((f) => `/${GALLERY_DIR}/${encodeURIComponent(f)}`);
-} catch {
-  // la carpeta todavía no existe
-}
+    .map(async (k) => (await getImage({ src: galleryFiles[k].default, width: 480, format: 'webp', quality: 72 })).src),
+);
 
 // Hélice: una escalera de fotos que sube girando alrededor de un cilindro, con una foto siempre al frente.
 // Son SLOTS tarjetas que se reciclan (la que sale por arriba vuelve a entrar por abajo, ya desvanecida).

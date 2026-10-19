@@ -11,7 +11,11 @@
   <div class="hk-cool" id="hk-cool"></div>
   <canvas id="hk-gl"></canvas>
   <div class="hk-core" id="hk-core"><i></i></div>
-  <img class="hk-earth" id="hk-earth" src="/imagenes/hackatob/tierra.webp" alt="" decoding="async" />
+  <!-- La Tierra se ve recién al final: sin src al cargar; hackatob-bigbang.js la pide cuando el recorrido se
+       acerca a esa etapa, y el navegador elige el tamaño según la pantalla (800 px en celular). -->
+  <img class="hk-earth" id="hk-earth" alt="" decoding="async"
+    data-srcset="/imagenes/hackatob/tierra-800.webp 800w, /imagenes/hackatob/tierra-1400.webp 1400w, /imagenes/hackatob/tierra.webp 1638w"
+    sizes="(max-width: 700px) 120vw, 90vw" />
   <!-- Pin sobre Costa Rica. Las sedes (con sus mapas) van en tarjetas: HackaSedes.astro -->
   <div class="hk-pin" id="hk-pin">
     <span class="hk-ring"></span><span class="hk-dot"></span>
