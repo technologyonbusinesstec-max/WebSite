@@ -64,8 +64,8 @@ const strip = Array.from({ length: COPIES }, (_, copy) => networks.map((n, i) =>
 
 <style>
   .hk-rd {
-    --hk-rd-size: clamp(130px, 12vw, 176px); /* lado de cada tarjeta */
-    --hk-rd-gap: clamp(14px, 1.6vw, 24px);
+    --hk-rd-size: clamp(130px, calc(12vw / var(--hk-z, 1)), 176px); /* lado de cada tarjeta */
+    --hk-rd-gap: clamp(14px, calc(1.6vw / var(--hk-z, 1)), 24px);
     --hk-rd-cut: calc(var(--hk-rd-size) * 0.2); /* esquina superior derecha recortada */
 
     position: relative;
@@ -172,7 +172,7 @@ const strip = Array.from({ length: COPIES }, (_, copy) => networks.map((n, i) =>
     position: absolute;
     left: 11%;
     bottom: 10%;
-    font-size: clamp(0.66rem, 0.8vw, 0.78rem);
+    font-size: clamp(0.66rem, calc(0.8vw / var(--hk-z, 1)), 0.78rem);
     font-weight: 600;
     letter-spacing: 0.14em;
     text-transform: uppercase;

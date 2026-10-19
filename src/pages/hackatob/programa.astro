@@ -6,7 +6,7 @@
 // Sin JavaScript los cinco días se muestran uno debajo de otro y el índice salta a cada uno.
 // Los cuatro sprints van numerados 01–04; las reuniones, en una franja destacada por día;
 // actividades y resultados, en desplegables (<details>).
-// El contenido se edita en src/components/hackatob/programa.ts. PENDIENTE: traducción al inglés.
+// El contenido se edita en src/components/hackatob/programa.ts; el inglés, en public/lang.js (hack_pp_*).
 import HackaLayout from '../../layouts/HackaLayout.astro';
 import HackaPlanet from '../../components/hackatob/HackaPlanet.astro';
 import { days } from '../../components/hackatob/programa';
@@ -41,25 +41,25 @@ import { days } from '../../components/hackatob/programa';
     <div class="hk-pp-days">
       {days.map((d) => (
         <section class="hk-pp-day" id={d.key} data-day={d.key}>
-          <p class="hk-pp-kicker">{d.short}</p>
+          <p class="hk-pp-kicker" data-i18n={`hack_pg_${d.key}_short`}>{d.short}</p>
           <h2 class="hk-pp-name">{d.name}</h2>
 
           <!-- Fecha, modalidad, sede y horario: misma jerarquía -->
           <dl class="hk-pp-meta">
-            <div><dt>Fecha</dt><dd>{d.date}</dd></div>
-            <div><dt>Modalidad</dt><dd>{d.mode}</dd></div>
-            {d.venue && <div><dt>Sede</dt><dd>{d.venue}</dd></div>}
-            {d.hours && <div><dt>Horario</dt><dd>{d.hours}</dd></div>}
+            <div><dt data-i18n="hack_pp_lbl_date">Fecha</dt><dd data-i18n={`hack_pp_${d.key}_date`}>{d.date}</dd></div>
+            <div><dt data-i18n="hack_pp_lbl_mode">Modalidad</dt><dd data-i18n={d.mode === 'Remoto' ? 'hack_pg_remoto' : 'hack_pg_presencial'}>{d.mode}</dd></div>
+            {d.venue && <div><dt data-i18n="hack_pp_lbl_venue">Sede</dt><dd data-i18n={`hack_pp_${d.key}_venue`}>{d.venue}</dd></div>}
+            {d.hours && <div><dt data-i18n="hack_pp_lbl_hours">Horario</dt><dd data-i18n={`hack_pp_${d.key}_hours`}>{d.hours}</dd></div>}
           </dl>
 
-          <p class="hk-pp-text">{d.text}</p>
-          {d.extra && <p class="hk-pp-text">{d.extra}</p>}
+          <p class="hk-pp-text" data-i18n={`hack_pp_${d.key}_text`}>{d.text}</p>
+          {d.extra && <p class="hk-pp-text" data-i18n={`hack_pp_${d.key}_extra`}>{d.extra}</p>}
 
           {d.activities && (
             <details class="hk-pp-more">
-              <summary>Actividades del día</summary>
+              <summary data-i18n="hack_pp_activities">Actividades del día</summary>
               <ul>
-                {d.activities.map((a) => <li>{a}</li>)}
+                {d.activities.map((a, n) => <li data-i18n={`hack_pp_${d.key}_act${n + 1}`}>{a}</li>)}
               </ul>
             </details>
           )}
@@ -69,13 +69,13 @@ import { days } from '../../components/hackatob/programa';
               {d.sprints.map((s) => (
                 <article class="hk-pp-sprint">
                   <p class="hk-pp-sprint-num">Sprint {s.num}</p>
-                  <h3 class="hk-pp-sprint-title">{s.title}</h3>
-                  <p class="hk-pp-sprint-text">{s.text}</p>
+                  <h3 class="hk-pp-sprint-title" data-i18n={`hack_pp_s${s.num}_title`}>{s.title}</h3>
+                  <p class="hk-pp-sprint-text" data-i18n={`hack_pp_s${s.num}_text`}>{s.text}</p>
                   <details class="hk-pp-more">
-                    <summary>Resultado</summary>
-                    <p>{s.result}</p>
+                    <summary data-i18n="hack_pp_result">Resultado</summary>
+                    <p data-i18n={`hack_pp_s${s.num}_result`}>{s.result}</p>
                   </details>
-                  {s.note && <p class="hk-pp-sprint-note">{s.note}</p>}
+                  {s.note && <p class="hk-pp-sprint-note" data-i18n={`hack_pp_s${s.num}_note`}>{s.note}</p>}
                 </article>
               ))}
             </div>
@@ -83,12 +83,12 @@ import { days } from '../../components/hackatob/programa';
 
           {d.meeting && (
             <p class="hk-pp-meeting">
-              <strong>{d.meeting.time}</strong>
-              <span>{d.meeting.label}</span>
+              <strong data-i18n={`hack_pp_${d.key}_mtime`}>{d.meeting.time}</strong>
+              <span data-i18n={`hack_pp_${d.key}_meeting`}>{d.meeting.label}</span>
             </p>
           )}
 
-          {d.tobParallel && <p class="hk-pp-parallel">Las conferencias ToB ocurren en paralelo al desarrollo.</p>}
+          {d.tobParallel && <p class="hk-pp-parallel" data-i18n="hack_pp_parallel">Las conferencias ToB ocurren en paralelo al desarrollo.</p>}
         </section>
       ))}
     </div>
@@ -176,7 +176,7 @@ import { days } from '../../components/hackatob/programa';
   .hk-pp-title {
     margin: 0 auto;
     max-width: 20ch;
-    font-size: clamp(2rem, 4.4vw, 3rem);
+    font-size: clamp(2rem, calc(4.4vw / var(--hk-z, 1)), 3rem);
     font-weight: 900;
     line-height: 1.12;
     color: #ffffff;
@@ -346,7 +346,7 @@ import { days } from '../../components/hackatob/programa';
 
   .hk-pp-name {
     margin: 0.5rem 0 0;
-    font-size: clamp(1.9rem, 3.6vw, 2.5rem);
+    font-size: clamp(1.9rem, calc(3.6vw / var(--hk-z, 1)), 2.5rem);
     font-weight: 800;
     line-height: 1.15;
     color: #ffffff;

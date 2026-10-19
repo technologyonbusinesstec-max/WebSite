@@ -118,7 +118,7 @@ const dust = Array.from({ length: 30 }, (_, i) => ({
     width: 100%;
     max-width: 1260px;
     margin: 0 auto;
-    padding: clamp(3rem, 9vh, 6rem) 1.5rem;
+    padding: clamp(3rem, calc(9vh / var(--hk-z, 1)), 6rem) 1.5rem;
     display: grid;
     grid-template-columns: 1.05fr 0.95fr;
     gap: 3.5rem;
@@ -128,7 +128,7 @@ const dust = Array.from({ length: 30 }, (_, i) => ({
   /* ───── Texto ───── */
   .hk-pq-title {
     margin: 0;
-    font-size: clamp(2rem, 3.8vw, 3rem);
+    font-size: clamp(2rem, calc(3.8vw / var(--hk-z, 1)), 3rem);
     font-weight: 900;
     line-height: 1.15;
     color: #ffffff;

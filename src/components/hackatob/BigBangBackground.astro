@@ -12,10 +12,9 @@
   <canvas id="hk-gl"></canvas>
   <div class="hk-core" id="hk-core"><i></i></div>
   <img class="hk-earth" id="hk-earth" src="/imagenes/hackatob/tierra.webp" alt="" decoding="async" />
-  <!-- UBICACIÓN: editar el texto aquí -->
+  <!-- Pin sobre Costa Rica. Las sedes (con sus mapas) van en tarjetas: HackaSedes.astro -->
   <div class="hk-pin" id="hk-pin">
     <span class="hk-ring"></span><span class="hk-dot"></span>
-    <div class="hk-label"><b>HackaToB 2026</b>Centro de las Artes, TEC<br />Cartago, Costa Rica</div>
   </div>
   <div class="hk-flash" id="hk-flash"></div>
   <div class="hk-vignette"></div>
@@ -42,22 +41,18 @@
   .hk-vignette { background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.65)); }
 
   /* ---------- Etapa 7: Tierra + ubicación ---------- */
-  .hk-bg .hk-earth { inset: auto; left: var(--hk-ax); top: var(--hk-ay); width: 62vmin; height: auto; opacity: 0;
+  .hk-bg .hk-earth { inset: auto; left: var(--hk-ax); top: var(--hk-ay); width: calc(62vmin / var(--hk-z, 1)); height: auto; opacity: 0;
     transform-origin: 79.9% 69.5%; will-change: transform;
-    filter: drop-shadow(0 0 3vmin rgba(90,160,255,.55)); }
+    filter: drop-shadow(0 0 calc(3vmin / var(--hk-z, 1)) rgba(90,160,255,.55)); }
   .hk-bg .hk-pin { inset: auto; left: var(--hk-ax); top: var(--hk-ay); width: 0; height: 0; opacity: 0; }
   .hk-pin .hk-dot { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%;
     background: #ff5a3c; border: 2px solid #fff; box-shadow: 0 0 12px #ff5a3c; }
   .hk-pin .hk-ring { position: absolute; left: -7px; top: -7px; width: 14px; height: 14px; border-radius: 50%;
     border: 2px solid #ff8a6c; animation: hk-onda 1.8s ease-out infinite; }
   @keyframes hk-onda { to { transform: scale(5); opacity: 0; } }
-  .hk-pin .hk-label { position: absolute; left: 22px; top: -30px; width: max-content; max-width: 260px; padding: 10px 14px; border-radius: 10px;
-    background: rgba(5,5,16,.8); border: 1px solid rgba(255,138,108,.6); font-size: 13px; line-height: 1.5; color: #c9c8de; }
-  .hk-pin .hk-label b { display: block; color: #fff; font-size: 16px; }
 
   @media (max-width: 700px) {
     :root { --hk-ax: 50%; --hk-ay: 64%; }
-    .hk-pin .hk-label { left: -110px; top: 22px; max-width: 220px; }
   }
   @media (prefers-reduced-motion: reduce) { .hk-core i, .hk-pin .hk-ring { animation: none; } }
 </style>

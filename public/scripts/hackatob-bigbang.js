@@ -65,13 +65,63 @@
   geo.setAttribute('aGal', new THREE.BufferAttribute(gal, 3));
   geo.setAttribute('aRnd', new THREE.BufferAttribute(rnd, 4));
 
+  // Logos con las partículas de la galaxia (los pide Premios con el evento "hk:logo": 0 galaxia · 1 ToB · 2 HackaToB).
+  // Cada partícula guarda su lugar y su color en cada logo; se llenan cuando la imagen carga.
+  const LOGOS = ['/imagenes/IsotipoColor.webp', '/hackatob-log0.svg'];
+  const logoPos = [new Float32Array(N * 3), new Float32Array(N * 3)];
+  const logoCol = [new Float32Array(N * 3), new Float32Array(N * 3)];
+  const logoReady = [false, false];
+  ['aLogoA', 'aLogoB'].forEach((name, i) => geo.setAttribute(name, new THREE.BufferAttribute(logoPos[i], 3)));
+  ['aColA', 'aColB'].forEach((name, i) => geo.setAttribute(name, new THREE.BufferAttribute(logoCol[i], 3)));
+  const loadLogo = (slot) => {
+    const img = new Image();
+    img.onload = () => {
+      const S = 220, c = document.createElement('canvas');
+      c.width = c.height = S;
+      const g = c.getContext('2d', { willReadFrequently: true });
+      const k = Math.min(S / (img.naturalWidth || S), S / (img.naturalHeight || S));
+      const iw = (img.naturalWidth || S) * k, ih = (img.naturalHeight || S) * k;
+      g.drawImage(img, (S - iw) / 2, (S - ih) / 2, iw, ih);
+      const d = g.getImageData(0, 0, S, S).data, pts = [];
+      for (let y = 0; y < S; y += 2) for (let x = 0; x < S; x += 2) {
+        const i = (y * S + x) * 4;
+        // píxel del logo: opaco y no blanco (por si la imagen trae fondo blanco)
+        if (d[i + 3] > 120 && !(d[i] > 235 && d[i + 1] > 235 && d[i + 2] > 235)) pts.push(x, y, i);
+      }
+      if (!pts.length) return;
+      // tamaño y lugar: centrado un poco arriba (debajo va el resumen de Premios); más chico en pantallas angostas
+      const size = Math.min(halfH * 1.05, halfW * 1.5), oy = halfH * 0.12;
+      const pos = logoPos[slot], col = logoCol[slot];
+      for (let n = 0; n < N; n++) {
+        const j = Math.floor(Math.random() * (pts.length / 3)) * 3, i = pts[j + 2];
+        pos.set([((pts[j] + Math.random() * 2) / S - 0.5) * size,
+                 -((pts[j + 1] + Math.random() * 2) / S - 0.5) * size + oy,
+                 gauss() * 0.06], n * 3);
+        // color del píxel, aclarado para que brille como estrella
+        col.set([d[i], d[i + 1], d[i + 2]].map((v) => (v + (255 - v) * 0.45) / 255), n * 3);
+      }
+      geo.attributes[slot ? 'aLogoB' : 'aLogoA'].needsUpdate = true;
+      geo.attributes[slot ? 'aColB' : 'aColA'].needsUpdate = true;
+      logoReady[slot] = true;
+    };
+    img.src = LOGOS[slot];
+  };
+  let logoWanted = 0, logosRequested = false;
+  let logoLevel = 0; // cuánto está armado el logo (0–1), antes de apagarlo por el acercamiento
+  addEventListener('hk:logo', (e) => {
+    logoWanted = e.detail || 0;
+    if (logoWanted && !logosRequested) { logosRequested = true; loadLogo(0); loadLogo(1); }
+  });
+
   const U = { uExpand: { value: 0 }, uChaos: { value: 0 }, uGalaxy: { value: 0 }, uHeat: { value: 1 },
-              uAlpha: { value: 1 }, uTime: { value: 0 }, uScale: { value: 1 } };
+              uAlpha: { value: 1 }, uTime: { value: 0 }, uScale: { value: 1 },
+              uLogo: { value: 0 }, uLogoMix: { value: 0 } };
   const points = new THREE.Points(geo, new THREE.ShaderMaterial({
     uniforms: U, transparent: true, depthWrite: false, depthTest: false, blending: THREE.AdditiveBlending,
     vertexShader: `
       attribute vec3 aGal; attribute vec4 aRnd;
-      uniform float uExpand, uChaos, uGalaxy, uHeat, uTime, uScale;
+      attribute vec3 aLogoA, aLogoB, aColA, aColB;
+      uniform float uExpand, uChaos, uGalaxy, uHeat, uTime, uScale, uLogo, uLogoMix;
       varying vec3 vCol; varying float vA;
       mat2 rot(float a){ float c = cos(a), s = sin(a); return mat2(c, -s, s, c); }
       void main() {
@@ -86,14 +136,23 @@
         g.xz = rot(uTime * .05) * g.xz;
         g.yz = rot(1.0472) * g.yz;
         p = mix(p, g, k);
+        // logos (Premios): cada partícula viaja en espiral desde la galaxia a su lugar en el logo,
+        // con un desfase propio; entre un logo y otro se reacomoda con un giro corto
+        float kl = smoothstep(aRnd.x * .4, aRnd.x * .4 + .6, uLogo);
+        float kb = smoothstep(aRnd.y * .4, aRnd.y * .4 + .6, uLogoMix);
+        vec3 L = mix(aLogoA, aLogoB, kb);
+        L.xy = rot(sin(kb * 3.1416) * .8) * L.xy;
+        p = mix(p, L, kl);
+        p.xy = rot(1.6 * sin(kl * 3.1416)) * p.xy; // la espiral: gira a mitad de camino, nunca al principio ni al final
         vec4 mv = modelViewMatrix * vec4(p, 1.);
         gl_Position = projectionMatrix * mv;
-        gl_PointSize = mv.z > -.4 ? 0. : min((4. + aRnd.y * 14.) * uScale / -mv.z, 60. * uScale);
+        // en el logo las partículas quedan un poco más grandes, para que la forma se lea bien
+        gl_PointSize = mv.z > -.4 ? 0. : min((4. + aRnd.y * 14.) * uScale / -mv.z, 60. * uScale) * mix(1., 1.25, kl);
         // paleta sobria: azul oscuro y gris (más clara en caliente, más apagada al enfriarse)
         vec3 hot  = mix(vec3(.10, .20, .62), vec3(.62, .66, .74), aRnd.w);
         vec3 cool = mix(vec3(.07, .14, .48), vec3(.42, .45, .52), aRnd.w);
-        vCol = mix(cool, hot, uHeat);
-        vA = .55;
+        vCol = mix(mix(cool, hot, uHeat), mix(aColA, aColB, kb), kl);
+        vA = mix(.55, 1., kl);
       }`,
     fragmentShader: `
       uniform float uAlpha; varying vec3 vCol; varying float vA;
@@ -142,9 +201,33 @@
   const readScroll = () => {
     stages = stages || document.querySelector('.hackatob');
     // el recorrido termina al final de las etapas: lo que haya debajo (footer) no avanza la línea de tiempo
-    const end = stages ? stages.offsetTop + stages.offsetHeight : document.documentElement.scrollHeight;
-    const max = end - innerHeight;
-    target = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+    // getBoundingClientRect (no offsetTop): con el zoom de escritorio de HackaLayout queda en las mismas unidades que scrollY
+    const end = stages ? stages.getBoundingClientRect().bottom + scrollY : document.documentElement.scrollHeight;
+    // [data-hk-hold]: tramos donde la línea de tiempo no avanza. Por defecto, lo que el tramo mide de más
+    // que la pantalla (contenido fijo, p. ej. Premios); con data-hk-hold="full", todo el tramo (p. ej. Mentores).
+    const holds = [...document.querySelectorAll('[data-hk-hold]')].map((el) => {
+      const r = el.getBoundingClientRect();
+      return { top: r.top + scrollY, extra: el.dataset.hkHold === 'full' ? r.height : Math.max(0, r.height - innerHeight) };
+    });
+    const heldAt = (y) => holds.reduce((sum, h) => sum + Math.min(h.extra, Math.max(0, y - h.top)), 0);
+    const heldTotal = holds.reduce((sum, h) => sum + h.extra, 0);
+    const max = end - innerHeight - heldTotal; // recorrido que sí avanza la línea de tiempo
+    if (max <= 0) { target = 0; return; }
+    const s = Math.min(max, Math.max(0, scrollY - heldAt(scrollY)));
+    // [data-hk-at="840"]: anclas. Cuando el borde superior del elemento llega arriba de la pantalla, la línea
+    // de tiempo está en ese punto (de 0 a 1000) en cualquier pantalla; entre anclas avanza en proporción.
+    // Así Premios siempre ocurre con la galaxia formada, aunque en móvil las secciones midan distinto.
+    const pts = [[0, 0]];
+    document.querySelectorAll('[data-hk-at]').forEach((el) => {
+      const y = el.getBoundingClientRect().top + scrollY;
+      pts.push([Math.min(max, Math.max(0, y - heldAt(y))), Math.min(1, Math.max(0, Number(el.dataset.hkAt) / 1000))]);
+    });
+    pts.push([max, 1]);
+    pts.sort((a, b) => a[0] - b[0]);
+    let i = 1;
+    while (i < pts.length - 1 && s > pts[i][0]) i++;
+    const [x0, v0] = pts[i - 1], [x1, v1] = pts[i];
+    target = x1 > x0 ? v0 + (v1 - v0) * ((s - x0) / (x1 - x0)) : v1;
   };
   addEventListener('scroll', readScroll, { passive: true }); readScroll();
 
@@ -157,6 +240,17 @@
 
     U.uExpand.value = S.expand; U.uChaos.value = S.chaos; U.uGalaxy.value = S.galaxy;
     U.uHeat.value = S.heat; U.uTime.value = time;
+    // logos: se acercan suave a lo pedido (solo cuando la imagen de ese logo ya cargó).
+    // Por tiempo y no por fotograma: tarda lo mismo en un teléfono lento que en una computadora.
+    const logoDt = Math.min(0.1, (now - (frame.last || now)) / 1000);
+    frame.last = now;
+    const logoK = 1 - Math.exp(-logoDt * 2.1);
+    const logoOn = logoWanted && logoReady[logoWanted - 1] ? 1 : 0;
+    logoLevel += (logoOn - logoLevel) * logoK;
+    if (logoWanted && logoReady[logoWanted - 1]) U.uLogoMix.value += ((logoWanted === 2 ? 1 : 0) - U.uLogoMix.value) * logoK;
+    // si el acercamiento a la Tierra empieza con el logo todavía armado (scroll muy rápido), el logo se
+    // deshace enseguida en vez de agrandarse con el zoom
+    U.uLogo.value = logoLevel * (1 - ss(0, 0.2, S.zoom));
     camera.position.z = S.z;
 
     // acercamiento alrededor de FOCUS

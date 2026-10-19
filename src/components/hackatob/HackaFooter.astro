@@ -138,7 +138,7 @@ const socials = [
   /* Pausa: la Tierra y la ubicación quedan a la vista antes de que suba el footer.
      La cortina (.fade-curtain) del cuerpo se asoma sobre el tramo final de esta pausa. */
   .hk-footer-hold {
-    height: 65vh;
+    height: calc(65vh / var(--hk-z, 1));
   }
 
   .hk-footer-body {

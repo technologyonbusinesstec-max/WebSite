@@ -1,0 +1,287 @@
+---
+// src/pages/hackatob/sponsors.astro
+// Página de sponsors del HackaToB (no aparece en /hackatob), inspirada en la de Next.js Conf:
+// un texto grande, una franja de fotos en blanco y negro que se desliza de lado, y los sponsors por grupos
+// en una cuadrícula de celdas con líneas finas. Logos en blanco y negro que toman su color al pasar el mouse;
+// cada celda lleva a la página oficial de la empresa.
+// Sponsors en src/components/hackatob/sponsors.ts · fotos en public/imagenes/hackatob/sponsors-fotos/.
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
+import HackaLayout from '../../layouts/HackaLayout.astro';
+import { sponsorTiers, SPONSOR_PHOTOS_DIR } from '../../components/hackatob/sponsors';
+
+// Fotos de la franja: todas las imágenes de la carpeta (para ordenarlas: 01-..., 02-...).
+let photos: string[] = [];
+try {
+  photos = readdirSync(join(process.cwd(), 'public', SPONSOR_PHOTOS_DIR))
+    .filter((f) => /\.(webp|jpe?g|png|avif)$/i.test(f))
+    .sort()
+    .map((f) => `/${SPONSOR_PHOTOS_DIR}/${encodeURIComponent(f)}`);
+} catch {
+  // la carpeta todavía no existe
+}
+
+// Tamaños de la franja (alto en % y ancho en px): se alternan para el ritmo de Next.js Conf.
+// Sin fotos, se muestran lugares vacíos con los mismos tamaños.
+const SHAPES = [
+  { h: 52, w: 200 }, { h: 46, w: 210 }, { h: 100, w: 165 }, { h: 34, w: 150 },
+  { h: 86, w: 140 }, { h: 60, w: 230 }, { h: 74, w: 170 }, { h: 42, w: 190 },
+];
+const slots = Array.from({ length: Math.max(SHAPES.length, photos.length) }, (_, i) => ({
+  ...SHAPES[i % SHAPES.length],
+  src: photos.length ? photos[i % photos.length] : '',
+}));
+---
+
+<HackaLayout
+  title="Sponsors – HackaToB 2026"
+  description="Las empresas y organizaciones que hacen posible el HackaToB 2026."
+  basePath="/hackatob"
+  backHref="/hackatob"
+  backLabel="Volver al HackaToB"
+>
+  <main class="sp-page">
+    <section class="sp-intro">
+      <p class="sp-lead" data-i18n="hack_sp_lead">
+        El HackaToB es posible gracias a las empresas y organizaciones que apuestan por el talento estudiantil y por soluciones con impacto real.
+      </p>
+    </section>
+
+    <!-- Franja de fotos en blanco y negro que se desliza (el grupo va dos veces para que el loop no se corte) -->
+    <div class="sp-strip" aria-hidden="true">
+      <div class="sp-strip-track">
+        {[0, 1].map(() => (
+          <div class="sp-strip-group">
+            {slots.map((s) => (
+              <figure class="sp-photo" style={`--h: ${s.h}%; --w: ${s.w}px`}>
+                {s.src ? (
+                  <img src={s.src} alt="" loading="lazy" decoding="async" />
+                ) : (
+                  <span class="sp-photo-ph">
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3v10H4z" /><circle cx="12" cy="13.2" r="3.4" />
+                    </svg>
+                  </span>
+                )}
+              </figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <section class="sp-sponsors">
+      <h1 class="sp-title">Sponsors</h1>
+
+      {sponsorTiers.map((t) => (
+        <div class="sp-tier">
+          <p class="sp-tier-label" data-i18n={t.label.key}>{t.label.es}</p>
+          <ul class="sp-grid" style={`--cols: ${t.cols}`} data-cols={t.cols}>
+            {t.sponsors.map((s) => (
+              <li>
+                <a class:list={['sp-cell', { 'sp-cell--big': t.cols === 1 }]} href={s.url} target="_blank" rel="noopener" aria-label={`${s.name} (se abre en otra pestaña)`}>
+                  <img src={s.logo} alt={s.name} loading="lazy" decoding="async" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </section>
+  </main>
+</HackaLayout>
+
+<style>
+  .sp-page {
+    position: relative;
+    z-index: 1;
+    padding: 140px 0 120px;
+    background: #000;
+  }
+
+  /* ── Texto de presentación ── */
+  .sp-intro {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .sp-lead {
+    max-width: 30ch;
+    margin: 0;
+    font-size: clamp(1.6rem, calc(2.6vw / var(--hk-z, 1)), 2.4rem);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  /* ── Franja de fotos ── */
+  .sp-strip {
+    --strip-h: clamp(220px, calc(30vw / var(--hk-z, 1)), 340px);
+    margin-top: 80px;
+    overflow: hidden;
+  }
+
+  .sp-strip-track {
+    display: flex;
+    width: max-content;
+    animation: spStrip 60s linear infinite;
+  }
+
+  .sp-strip:hover .sp-strip-track {
+    animation-play-state: paused;
+  }
+
+  .sp-strip-group {
+    display: flex;
+    align-items: flex-end; /* alineadas abajo, de distintas alturas */
+    gap: 16px;
+    height: var(--strip-h);
+    padding-right: 16px;
+  }
+
+  .sp-photo {
+    flex: none;
+    width: var(--w);
+    height: var(--h);
+    margin: 0;
+    overflow: hidden;
+    background: #141414;
+  }
+
+  .sp-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+
+  .sp-photo-ph {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #1d1d1d, #0d0d0d);
+    color: #3d3d3d;
+  }
+
+  @keyframes spStrip {
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── Sponsors por grupos ── */
+  .sp-sponsors {
+    max-width: 1200px;
+    margin: 110px auto 0;
+    padding: 0 24px;
+  }
+
+  .sp-title {
+    margin: 0 0 36px;
+    font-size: clamp(2rem, calc(3vw / var(--hk-z, 1)), 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .sp-tier + .sp-tier {
+    margin-top: 28px;
+  }
+
+  .sp-tier-label {
+    margin: 0 0 10px;
+    font-family: 'Space Mono', ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+  }
+
+  /* cuadrícula de celdas separadas por líneas de 1px */
+  .sp-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    gap: 1px;
+    margin: 0;
+    padding: 1px;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .sp-cell {
+    display: grid;
+    place-items: center;
+    height: 120px;
+    padding: 20px 28px;
+    background: #000;
+    transition: background 0.25s ease;
+  }
+
+  .sp-cell--big {
+    height: 170px;
+  }
+
+  .sp-cell img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 64px;
+    object-fit: contain;
+    /* en blanco y negro hasta pasar el mouse */
+    filter: grayscale(1) brightness(1.15);
+    opacity: 0.72;
+    transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .sp-cell--big img {
+    max-height: 112px;
+  }
+
+  .sp-cell:hover,
+  .sp-cell:focus-visible {
+    background: #161616;
+  }
+
+  .sp-cell:hover img,
+  .sp-cell:focus-visible img {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  .sp-cell:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
+  }
+
+  @media (max-width: 700px) {
+    .sp-page {
+      padding-top: 110px;
+    }
+
+    .sp-strip {
+      margin-top: 50px;
+    }
+
+    /* los grupos de varias columnas pasan a 2; los de una fila grande siguen igual */
+    .sp-grid:not([data-cols='1']) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .sp-cell {
+      height: 100px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp-strip {
+      overflow-x: auto;
+    }
+
+    .sp-strip-track {
+      animation: none;
+    }
+  }
+</style>
