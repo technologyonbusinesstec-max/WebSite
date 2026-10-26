@@ -69,7 +69,7 @@ requestAnimationFrame(() => {
 
   // Logos con las partículas de la galaxia (los pide Premios con el evento "hk:logo": 0 galaxia · 1 ToB · 2 HackaToB).
   // Cada partícula guarda su lugar y su color en cada logo; se llenan cuando la imagen carga.
-  const LOGOS = ['/imagenes/IsotipoColor.webp', '/hackatob-log0.svg'];
+  const LOGOS = ['/imagenes/IsotipoColor.webp', '/imagenes/hackatob/hackatob-logo.webp'];
   const logoPos = [new Float32Array(N * 3), new Float32Array(N * 3)];
   const logoCol = [new Float32Array(N * 3), new Float32Array(N * 3)];
   const logoReady = [false, false];
