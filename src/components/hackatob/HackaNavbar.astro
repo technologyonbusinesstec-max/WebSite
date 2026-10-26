@@ -34,7 +34,7 @@ const {
   navLabel = 'Secciones del HackaToB',
   backHref = '/',
   backLabel = 'Volver al ToB',
-  logoSrc = '/imagenes/hackatob/hackatob-logo.svg',
+  logoSrc = '/imagenes/hackatob/hackatob-logo.webp',
   logoAlt = 'HackaToB',
   logoLinkLabel = 'Ir al inicio',
   ctaHref = 'https://techrebel.io/',
@@ -64,7 +64,7 @@ const sectionOf = (href: string) => (href.includes('#') ? href.split('#')[1] : `
     <!-- El archivo del logo se cambia con la prop logoSrc -->
     <!-- en /hackatob sube al inicio; en las demás páginas del HackaToB (basePath) lleva a /hackatob -->
     <a href={basePath || '#'} class="hk-nav-logo-link" id="hkNavLogoLink" aria-label={logoLinkLabel} data-home={basePath ? 'link' : 'top'}>
-      <img class="hk-nav-logo" id="hkNavLogo" src={logoSrc} alt={logoAlt} height="60" decoding="async" />
+      <img class="hk-nav-logo" id="hkNavLogo" src={logoSrc} alt={logoAlt} width="44" height="60" decoding="async" />
     </a>
   </div>
 
