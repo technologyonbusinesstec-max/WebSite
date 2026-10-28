@@ -1,0 +1,505 @@
+---
+// src/pages/cronograma2026.astro
+// Cronograma interactivo de la Semana TOB2026 (página independiente, sin navbar ni footer del sitio).
+const GA_ID = 'G-LSJ8H5356N';
+---
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Cronograma completo de la Semana TOB2026, del 02 al 06 de noviembre.">
+  <link rel="icon" type="image/webp" href="/imagenes/Miniatura/Miniatura.webp">
+  <title>Semana TOB2026 · Noviembre</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Analytics (igual que en Layout.astro): Partytown, y no mide en local ni en *.vercel.app -->
+  <script is:inline type="text/partytown" src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}></script>
+  <script is:inline type="text/partytown" define:vars={{ GA_ID }}>
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function () { dataLayer.push(arguments); };
+    if (/^(localhost|127\.|192\.168\.|10\.)|\.vercel\.app$/.test(location.hostname)) window['ga-disable-' + GA_ID] = true;
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+  </script>
+  <style is:global>
+    *{box-sizing:border-box}
+    body{margin:0;width:100%;max-width:100%;overflow-x:hidden;font-family:"DM Sans",sans-serif;color:#10254b;background:linear-gradient(115deg,#206cb0 0%,#3457cb 56%,#4925dc 100%)}
+    button{font:inherit;cursor:pointer}
+    button:focus-visible{outline:3px solid #00c8ff;outline-offset:3px}
+    .app{width:100%;min-height:100vh;padding:clamp(20px,3vw,42px) clamp(16px,5vw,72px) 28px;background:linear-gradient(115deg,#206cb0 0%,#3457cb 56%,#4925dc 100%)}
+    .wrap{max-width:1320px;margin:auto}
+    .mast,.footer{display:flex;align-items:center;gap:18px;color:white}
+    .mast h1{font-weight:800;letter-spacing:-.055em;line-height:1.05;text-align:center;margin:0}
+    .line{height:3px;background:#00c9f5;flex:1;min-width:20px}
+    .topline{display:flex;align-items:center;justify-content:space-between;gap:20px;margin:20px 0;color:#eaf6ff}
+    .topline p{margin:0;line-height:1.5}
+    .reset{border:1px solid currentColor;border-radius:999px;padding:9px 16px;font-weight:700;flex:none;background:#ffffff1c;color:white}
+    .reset:hover{background:#ffffff35}
+    .frame{width:100%;border-radius:22px;background:white;box-shadow:0 20px 48px #08206544;overflow:hidden}
+    .frame-head{padding:17px 24px;border-bottom:1px solid #dce8f4}
+    .frame-head h2{margin:0;color:#112d60;font-family:"Barlow Condensed",sans-serif;font-weight:700}
+    .viewport{padding:20px}
+    .days{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;align-items:stretch}
+    .day-card{min-width:0}
+    .day-toggle{width:100%;min-height:108px;padding:16px;border:2px solid #dce8f4;border-radius:16px;background:white;text-align:left;display:flex;flex-direction:column;justify-content:center;gap:5px;box-shadow:0 8px 22px #08206510;transition:background .2s,border-color .2s,transform .2s}
+    .day-toggle:hover{transform:translateY(-2px);background:#f0faff}
+    .day-toggle[aria-pressed="true"]{background:#eaf7ff;border-color:#00a9e3}
+    .day-date{font-family:"Barlow Condensed",sans-serif;font-weight:700;color:#102f66;line-height:1.05}
+    .day-theme{font-weight:700;color:#3154a4;line-height:1.3}
+    .day-content{width:100%;display:none}
+    .day-content.is-open{display:block;animation:reveal .22s ease both}
+    .day-heading{margin:20px 0 12px;font-family:"Barlow Condensed",sans-serif;font-size:28px;line-height:1.1;color:#112d60}
+    .blocks{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;width:100%;align-items:stretch}
+    .blocks.two{grid-template-columns:repeat(2,minmax(0,1fr))}
+    .block-button{width:100%;min-height:108px;text-align:left;border:2px solid transparent;border-radius:14px;padding:15px 16px;display:flex;flex-direction:column;justify-content:space-between;align-items:flex-start;gap:12px;transition:filter .2s,box-shadow .2s}.block-button .block-range{display:block;font-size:.92em;white-space:nowrap}
+    .block-button:hover{filter:saturate(1.2) brightness(.98)}
+    .block-button[aria-pressed="true"]{border-color:#168bd0;box-shadow:0 0 0 3px #168bd027}
+    .block-name{font-family:"Barlow Condensed",sans-serif;font-weight:700;line-height:1.13}
+    .block-range{font-weight:700;letter-spacing:.02em}
+    .blocks.two .block-range{white-space:normal}
+    .sky{background:#bcecff;color:#064975}.blue{background:#a8dcff;color:#064579}.deep{background:#bdd0ff;color:#173978}
+    .yellow{background:#fff0a7;color:#695000}.pale{background:#d2e8ff;color:#174d82}.peach{background:#ffe0b8;color:#82450e}
+    .green{background:#d8f7b6;color:#315f1e}.pink{background:#ffd1e0;color:#803453}.lilac{background:#e0d0ff;color:#503383}
+    .session-panel{display:none;margin-top:12px;padding:16px;background:#f6faff;border:1px solid #dce8f4;border-radius:15px}
+    .session-panel.is-open{display:block;animation:reveal .2s ease both}
+    .session-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;align-items:stretch}
+    .session{min-width:0;display:grid;grid-template-columns:110px minmax(0,1fr);gap:12px;align-items:start;padding:13px;background:#fff;border:1px solid #dce8f4;border-left:4px solid #00a9e3;border-radius:10px}.session .time{font-size:.9rem}
+    .session:not(:has(.time)){grid-template-columns:1fr}
+    .time{display:block;padding:6px 7px;border-radius:7px;background:#eaf7ff;color:#075886;font-weight:700;text-align:center;white-space:nowrap}
+    .session h3{margin:0;color:#102f66;font-family:"Barlow Condensed",sans-serif;font-weight:700;line-height:1.15;overflow-wrap:anywhere}
+    .description{margin:4px 0 0;color:#315477;line-height:1.35;overflow-wrap:anywhere}
+    .meta{margin:5px 0 0;color:#566c88;line-height:1.35;overflow-wrap:anywhere}
+    .meta:empty{display:none}
+    .footer{margin-top:24px}.footer p{margin:0;font-weight:800;letter-spacing:-.04em}
+    @keyframes reveal{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:800px){.app{padding:24px 12px 22px}.wrap{max-width:100%}.days{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.day-toggle{min-height:92px;padding:13px}.blocks{grid-template-columns:1fr}.blocks.two{grid-template-columns:1fr}.block-button{min-height:78px}.session-grid{grid-template-columns:1fr}.session{grid-template-columns:minmax(92px,110px) minmax(0,1fr)}}
+    @media(max-width:520px){.topline{align-items:stretch;flex-direction:column;gap:12px}.topline p{font-size:14px}.reset{align-self:flex-start}.frame-head{padding:14px 16px}.viewport{padding:12px}.days{grid-template-columns:1fr;gap:8px}.day-toggle{min-height:78px;padding:12px 14px}.day-heading{font-size:24px}.session-panel{padding:8px}.session{grid-template-columns:1fr;gap:8px;padding:11px}.time{justify-self:start}.mast h1{font-size:27px!important}.footer p{font-size:20px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <div class="app">
+   <div class="wrap">
+    <header>
+     <div class="mast">
+      <div class="line" aria-hidden="true"></div>
+      <h1 style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 38px;">SEMANA TOB2026</h1>
+      <div class="line" aria-hidden="true"></div>
+     </div>
+     <div class="topline">
+      <p style="color: rgb(234, 246, 255); font-weight: 400; font-style: normal; font-size: 16px;">Seleccioná un día y después un bloque para explorar todas sus sesiones.</p><button id="reset" type="button" class="reset" style="background: rgba(255, 255, 255, 0.11); color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 16px;">↺ Reiniciar experiencia</button>
+     </div>
+    </header>
+    <main>
+     <section class="frame" aria-label="Programa TOB2026" style="background: rgb(255, 255, 255);">
+      <div class="frame-head">
+       <h2 style="color: rgb(17, 45, 96); font-weight: 700; font-style: normal; font-size: 24px;">Programa completo · 02—06 de noviembre</h2>
+      </div>
+      <div class="viewport">
+       <nav class="days" aria-label="Seleccionar día"><button class="day-toggle" type="button" data-day="monday" aria-pressed="false"><span class="day-date" style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 27px;">LUNES 02</span><span class="day-theme" style="color: rgb(49, 84, 164); font-weight: 700; font-style: normal; font-size: 14px;">THINKING AHEAD</span></button> <button class="day-toggle" type="button" data-day="tuesday" aria-pressed="false"><span class="day-date" style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 27px;">MARTES 03</span><span class="day-theme" style="color: rgb(49, 84, 164); font-weight: 700; font-style: normal; font-size: 14px;">TRY IT</span></button> <button class="day-toggle" type="button" data-day="wednesday" aria-pressed="false"><span class="day-date" style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 27px;">MIÉRCOLES 04</span><span class="day-theme" style="color: rgb(49, 84, 164); font-weight: 700; font-style: normal; font-size: 14px;">MAKE IT REAL</span></button> <button class="day-toggle" type="button" data-day="thursday" aria-pressed="false"><span class="day-date" style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 27px;">JUEVES 05</span><span class="day-theme" style="color: rgb(49, 84, 164); font-weight: 700; font-style: normal; font-size: 14px;">MASTER THE CHAOS</span></button> <button class="day-toggle" type="button" data-day="friday" aria-pressed="false"><span class="day-date" style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 27px;">VIERNES 06</span><span class="day-theme" style="color: rgb(49, 84, 164); font-weight: 700; font-style: normal; font-size: 14px;">NOW IT’S YOUR TURN</span></button>
+       </nav>
+       <div id="monday" class="day-content">
+        <h2 class="day-heading" style="color: rgb(17, 45, 96); font-weight: 700; font-style: normal; font-size: 24px;">Lunes 02 · Thinking ahead</h2>
+        <nav class="blocks" aria-label="Bloques del lunes"><button class="block-button blue" type="button" data-panel="mon-basics" aria-pressed="false"><span class="block-name" style="color: rgb(6, 69, 121); font-weight: 700; font-style: normal; font-size: 22px;">The Basics</span><span class="block-range" style="color: rgb(6, 69, 121); font-weight: 700; font-style: normal; font-size: 14px;">09:00–11:50</span></button> <button class="block-button sky" type="button" data-panel="mon-start" aria-pressed="false"><span class="block-name" style="color: rgb(6, 73, 117); font-weight: 700; font-style: normal; font-size: 22px;">Let’s Start</span><span class="block-range" style="color: rgb(6, 73, 117); font-weight: 700; font-style: normal; font-size: 14px;">13:00–14:30</span></button> <button class="block-button deep" type="button" data-panel="mon-do" aria-pressed="false"><span class="block-name" style="color: rgb(23, 57, 120); font-weight: 700; font-style: normal; font-size: 22px;">Now We Do It</span><span class="block-range" style="color: rgb(23, 57, 120); font-weight: 700; font-style: normal; font-size: 14px;">14:50–17:20</span></button>
+        </nav>
+        <div id="mon-basics" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">09:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Meet HackaTOB</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Explicación de la competencia</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">TOB · Dennis Rojas</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">09:40</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Shape the Value</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Propuesta de valor</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">XYZ · Bryan Navarro</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">10:40</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Exposición de retos</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">HealthTrack · GreenTrack · FinTrack · The Next Big Thing</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="mon-start" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Tips and Tricks to Survive My First Hackathon</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Tips para equipo y el flujo de un hackathon</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">DOJO · Mariano</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Tools to build</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Herramientas</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">DOJO · Mariano</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">14:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Prompt Engineering &amp; Vibe Coding (Prompt Smarter)</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Prompt</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">IBM · Irina Aguirre</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="mon-do" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">14:50</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">UX for Everyone: Applying User Experience in Any Role</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">UX/UI</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">P&amp;G · Jimena Astorga</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">15:40</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Build Your Website</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Web</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">ArroyoVargas.com · Lidia Arroyo</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">16:20</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Pitch It. Sell It.</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Pitch storytelling</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Gustavo Machado</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">17:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Cierre y Networking</h3>
+           </div>
+          </article>
+         </div>
+        </div>
+       </div>
+       <div id="tuesday" class="day-content">
+        <h2 class="day-heading" style="color: rgb(17, 45, 96); font-weight: 700; font-style: normal; font-size: 24px;">Martes 03 · TRY IT</h2>
+        <nav class="blocks two" aria-label="Bloques del martes"><button class="block-button blue" type="button" data-panel="tue-sprint-1" aria-pressed="false"><span class="block-name" style="color: rgb(6, 69, 121); font-weight: 700; font-style: normal; font-size: 22px;">Sprint 1</span><span class="block-range" style="color: rgb(6, 69, 121); font-weight: 700; font-style: normal; font-size: 14px;">Conocer el problema, la solución y validar viabilidad</span></button> <button class="block-button sky" type="button" data-panel="tue-sprint-2" aria-pressed="false"><span class="block-name" style="color: rgb(6, 73, 117); font-weight: 700; font-style: normal; font-size: 22px;">Sprint 2</span><span class="block-range" style="color: rgb(6, 73, 117); font-weight: 700; font-style: normal; font-size: 14px;">Prototipado</span></button>
+        </nav>
+        <div id="tue-sprint-1" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Conocer el problema, la solución y validar viabilidad</h3>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="tue-sprint-2" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Prototipado</h3>
+           </div>
+          </article>
+         </div>
+        </div>
+       </div>
+       <div id="wednesday" class="day-content">
+        <h2 class="day-heading" style="color: rgb(17, 45, 96); font-weight: 700; font-style: normal; font-size: 24px;">Miércoles 04 · Make it real</h2>
+        <nav class="blocks" aria-label="Bloques del miércoles"><button class="block-button yellow" type="button" data-panel="wed-change" aria-pressed="false"><span class="block-name" style="color: rgb(105, 80, 0); font-weight: 700; font-style: normal; font-size: 19px;">You can’t make a change if you can’t master yourself</span><span class="block-range" style="color: rgb(105, 80, 0); font-weight: 700; font-style: normal; font-size: 14px;">09:00–11:45</span></button> <button class="block-button pale" type="button" data-panel="wed-tech" aria-pressed="false"><span class="block-name" style="color: rgb(23, 77, 130); font-weight: 700; font-style: normal; font-size: 19px;">Technology never stops evolving, so why should we?</span><span class="block-range" style="color: rgb(23, 77, 130); font-weight: 700; font-style: normal; font-size: 14px;">13:00–15:50</span></button> <button class="block-button peach" type="button" data-panel="wed-hours" aria-pressed="false"><span class="block-name" style="color: rgb(130, 69, 14); font-weight: 700; font-style: normal; font-size: 19px;">We don’t count the hours; we make the hours count</span><span class="block-range" style="color: rgb(130, 69, 14); font-weight: 700; font-style: normal; font-size: 14px;">16:00–18:50</span></button>
+        </nav>
+        <div id="wed-change" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">09:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Inauguración</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Inicio</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Escuela de ATI · María José Artavia</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">10:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Extraordinary fears, a quick guide on how to transform fear</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Transformando miedos</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">P&amp;G · Tamara Sancho</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">11:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Tu próximo gran proyecto eres tú</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Marca personal</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">LinkedIn Top Voice · Dunnia Vargas Gonzales</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="wed-tech" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Empresa de 0 a 1M</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Crecimiento empresarial</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Avify · Pedro Gutiérrez</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:50</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">¿Cómo construir experiencia profesional en tecnología antes de graduarse?</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Networking</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Grand Fox · Luis Jiménez</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">14:50</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Women Who Outgrew the Plan</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Panel de mujeres</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Avify · Pilar Sánchez; Microsoft · Wendy Badilla; Fundación Jobs · Paula Brenes</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="wed-hours" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">16:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Tu dinero, tus decisiones</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Inversiones</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Doji Club · Aarón Omodeo</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">16:50</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Mercadeo en la era digital</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Mercadeo</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Loud · Frank Calvo</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">18:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Tu próximo sí empieza en el CV</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Construcción del CV</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Moody’s · Karla Fonseca</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">18:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Cierre</h3>
+           </div>
+          </article>
+         </div>
+        </div>
+       </div>
+       <div id="thursday" class="day-content">
+        <h2 class="day-heading" style="color: rgb(17, 45, 96); font-weight: 700; font-style: normal; font-size: 24px;">Jueves 05 · Master the chaos</h2>
+        <nav class="blocks" aria-label="Bloques del jueves"><button class="block-button green" type="button" data-panel="thu-simple" aria-pressed="false"><span class="block-name" style="color: rgb(49, 95, 30); font-weight: 700; font-style: normal; font-size: 19px;">Keep it simple to keep the flow going</span><span class="block-range" style="color: rgb(49, 95, 30); font-weight: 700; font-style: normal; font-size: 14px;">09:00–11:40</span></button> <button class="block-button pink" type="button" data-panel="thu-data" aria-pressed="false"><span class="block-name" style="color: rgb(128, 52, 83); font-weight: 700; font-style: normal; font-size: 19px;">Knowledge is power, but data is control</span><span class="block-range" style="color: rgb(128, 52, 83); font-weight: 700; font-style: normal; font-size: 14px;">13:00–15:00</span></button> <button class="block-button lilac" type="button" data-panel="thu-rules" aria-pressed="false"><span class="block-name" style="color: rgb(80, 51, 131); font-weight: 700; font-style: normal; font-size: 19px;">The rules are being rewritten, and we’re holding the pen</span><span class="block-range" style="color: rgb(80, 51, 131); font-weight: 700; font-style: normal; font-size: 14px;">15:20–18:40</span></button>
+        </nav>
+        <div id="thu-simple" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">09:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Inauguración</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Inauguración día 2</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">10:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">The Art of Agile Simplicity: Maximizing Impact, Minimizing Complexity</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Metodologías ágiles</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">P&amp;G · Alejandro Hidalgo</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">10:55</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">De prompts sueltos a sistemas autónomos</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">AI Engineer</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Lyfter · Alek Castillo</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="thu-data" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Ciberseguridad como oportunidad profesional</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Ciberseguridad</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Sefisa · Alejandro Castañeda</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:45</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">BI: de los datos a las decisiones</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Business Intelligence (BI)</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Moody’s · Rei Araya</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">14:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Cloud Computing</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Cloud</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Microsoft · Wendy Badilla</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="thu-rules" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">15:20</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Rethinking the Problem: Innovación y Blockchain</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Blockchain</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Aso Blockchain CR · Karla Córdoba</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">16:10</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Próximamente…</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Slinky</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Eleven.Core · Christopher</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">17:15</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">AI smart solution, sustainable future</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">IA y sostenibilidad</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">INCAE · Ronald Arce</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">18:20</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Cierre</h3>
+           </div>
+          </article>
+         </div>
+        </div>
+       </div>
+       <div id="friday" class="day-content">
+        <h2 class="day-heading" style="color: rgb(17, 45, 96); font-weight: 700; font-style: normal; font-size: 24px;">Viernes 06 · Now it’s your turn</h2>
+        <nav class="blocks two" aria-label="Bloques del viernes"><button class="block-button sky" type="button" data-panel="fri-morning" aria-pressed="false"><span class="block-name" style="color: rgb(6, 73, 117); font-weight: 700; font-style: normal; font-size: 22px;">Talleres de la mañana</span><span class="block-range" style="color: rgb(6, 73, 117); font-weight: 700; font-style: normal; font-size: 14px;">08:00–11:30</span></button> <button class="block-button blue" type="button" data-panel="fri-afternoon" aria-pressed="false"><span class="block-name" style="color: rgb(6, 69, 121); font-weight: 700; font-style: normal; font-size: 22px;">Talleres de la tarde</span><span class="block-range" style="color: rgb(6, 69, 121); font-weight: 700; font-style: normal; font-size: 14px;">13:00–16:30</span></button>
+        </nav>
+        <div id="fri-morning" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">08:00 - 09:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">I am remarkable</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Empoderamiento</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Equifax · Ashley Quesada · EmprendeLab</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">09:30 - 11:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Workshop: Fundamentals of AI</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Automatización</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">P&amp;G · Mario Rodríguez · Laboratorio</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">10:00 - 11:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">I am remarkable</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Empoderamiento</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Equifax · Alexa Delgado · EmprendeLab</p>
+           </div>
+          </article>
+         </div>
+        </div>
+        <div id="fri-afternoon" class="session-panel">
+         <div class="session-grid">
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:00 - 16:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Pinta terapia</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Pintura en madera</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Fábrica del Arte · Xinia Quesada Garita · Detrás de Feito</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">13:00 - 14:30</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Quantum Computing</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">Computación cuántica</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">IBM · Esteban Rodolfo Ramírez García · Laboratorio</p>
+           </div>
+          </article>
+          <article class="session">
+           <span class="time" style="color: rgb(7, 88, 134); font-weight: 700; font-style: normal; font-size: 13px;">14:00 - 16:00</span>
+           <div>
+            <h3 style="color: rgb(16, 47, 102); font-weight: 700; font-style: normal; font-size: 20px;">Acelera que te contraten</h3>
+            <p class="description" style="color: rgb(49, 84, 119); font-weight: 400; font-style: normal; font-size: 14px;">fundamentos de UX/UI</p>
+            <p class="meta" style="color: rgb(86, 108, 136); font-weight: 400; font-style: normal; font-size: 14px;">Casa 6 · Isai Irías Salazar y Adán Rodríguez Vivas · EmprendeLab</p>
+           </div>
+          </article>
+         </div>
+        </div>
+       </div>
+      </div>
+     </section>
+    </main>
+    <footer class="footer">
+     <div class="line" aria-hidden="true"></div>
+     <p style="color: rgb(255, 255, 255); font-weight: 700; font-style: normal; font-size: 29px;">NOVIEMBRE</p>
+     <div class="line" aria-hidden="true"></div>
+    </footer>
+   </div>
+  </div>
+  <script is:inline>
+    const dayButtons = [...document.querySelectorAll(".day-toggle")];
+    const dayContents = [...document.querySelectorAll(".day-content")];
+    function closeBlocks() {
+      document.querySelectorAll(".block-button").forEach(button => button.setAttribute("aria-pressed", "false"));
+      document.querySelectorAll(".session-panel").forEach(panel => panel.classList.remove("is-open"));
+    }
+    function reset() {
+      closeBlocks();
+      dayButtons.forEach(button => button.setAttribute("aria-pressed", "false"));
+      dayContents.forEach(content => content.classList.remove("is-open"));
+    }
+    dayButtons.forEach(button => button.addEventListener("click", () => {
+      reset();
+      button.setAttribute("aria-pressed", "true");
+      document.getElementById(button.dataset.day).classList.add("is-open");
+    }));
+    document.querySelectorAll(".block-button").forEach(button => button.addEventListener("click", () => {
+      closeBlocks();
+      button.setAttribute("aria-pressed", "true");
+      document.getElementById(button.dataset.panel).classList.add("is-open");
+    }));
+    document.getElementById("reset").addEventListener("click", reset);
+  </script>
+</body>
+</html>
