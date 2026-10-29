@@ -65,7 +65,6 @@ import { programa, personaPorId, tipoLabel, TIPOS_CON_LUMA } from '../data/tob20
                   <div class="timeline-item block-header">
                     <div class="block-header-box">
                       <h2 data-i18n={bloque.tituloKey}>{bloque.titulo}</h2>
-                      {bloque.frase && <p data-i18n={bloque.fraseKey}>{bloque.frase}</p>}
                     </div>
                   </div>
 
@@ -208,11 +207,6 @@ import { programa, personaPorId, tipoLabel, TIPOS_CON_LUMA } from '../data/tob20
     margin: 0;
   }
 
-  .block-header-box p {
-    color: rgba(255, 255, 255, 0.7);
-    font-style: italic;
-    margin: 0.5rem 0 0;
-  }
 
   /* ── Card de sesión: misma estructura para todas ── */
   .card-top {

@@ -177,31 +177,6 @@ const translations = {
         "presenter_coming_role": "---",
         "presenter_coming_bio": "Más información próximamente.",
 
-        // Program Day 1
-
-        "prog_d1_block1_title": "BLOQUE - INICIO",
-
-        "prog_d1_block2_title": "BLOQUE - EQUILIBRIO PROPIO",
-        "prog_d1_block2_quote": "“You can't make a change if you can't master yourself”",
-
-        "prog_d1_block3_title": "BLOQUE - CRECIMIENTO CONTINUO",
-        "prog_d1_block3_quote": "“Technology never stops evolving, so why should we?”",
-
-        "prog_d1_block4_title": "BLOQUE - PRODUCTIVIDAD PERSONAL",
-        "prog_d1_block4_quote": "“We don't count the hours; we make the hours count”",
-
-        // Program Day 2
-        "prog_d2_block1_title": "BLOQUE - INICIO",
-
-        "prog_d2_block2_title": "BLOQUE - OPTIMIZACIÓN DE PROCESOS",
-        "prog_d2_block2_quote": '"Keep it simple to keep the flow going"',
-
-        "prog_d2_block3_title": "BLOQUE - CULTURA DE DATOS",
-        "prog_d2_block3_quote": '"Knowledge is power, but data is control"',
-
-        "prog_d2_block4_title": "BLOQUE - TECNOLOGÍAS DISRUPTIVAS",
-        "prog_d2_block4_quote": "“The rules are being rewritten, and we're holding the pen”",
-
         // ATI Modal
         "ati_title": "Administración de <span class=\"text-cyan\">Tecnologías de Información</span>",
         "ati_close": "Cerrar",
@@ -229,6 +204,12 @@ const translations = {
         "prg_day2_short": "Jueves 5 nov",
         "spk_talk_label": "En el programa",
         "spk_talk_link": "Ver en el programa",
+        "prg_block_d1_1": "You can’t make a change if you can’t master yourself",
+        "prg_block_d1_2": "Technology never stops evolving, so why should we?",
+        "prg_block_d1_3": "We don’t count the hours; we make the hours count",
+        "prg_block_d2_1": "Keep it simple to keep the flow going",
+        "prg_block_d2_2": "Knowledge is power, but data is control",
+        "prg_block_d2_3": "The rules are being rewritten, and we’re holding the pen",
         "prg_luma_cta": "Inscribirme en Luma",
         "prg_luma_soon": "Inscripción muy pronto",
         "prg_tag_charla": "Charla",
@@ -743,31 +724,6 @@ const translations = {
         "coord_role_6": "Cross-cutting Assistant",
         "coord_role_7": "Logistics Manager",
 
-        // Program Day 1
-
-        "prog_d1_block1_title": "BLOCK - START",
-
-        "prog_d1_block2_title": "BLOCK - SELF BALANCE",
-        "prog_d1_block2_quote": "“You can't make a change if you can't master yourself”",
-
-        "prog_d1_block3_title": "BLOCK - CONTINUOUS GROWTH",
-        "prog_d1_block3_quote": "“Technology never stops evolving, so why should we?”",
-
-        "prog_d1_block4_title": "BLOCK - PERSONAL PRODUCTIVITY",
-        "prog_d1_block4_quote": "“We don't count the hours; we make the hours count”",
-
-        // Program Day 2
-        "prog_d2_block1_title": "BLOCK - START",
-
-        "prog_d2_block2_title": "BLOCK - PROCESS OPTIMIZATION",
-        "prog_d2_block2_quote": '"Keep it simple to keep the flow going"',
-
-        "prog_d2_block3_title": "BLOCK - DATA CULTURE",
-        "prog_d2_block3_quote": '"Knowledge is power, but data is control"',
-
-        "prog_d2_block4_title": "BLOCK - DISRUPTIVE TECHNOLOGIES",
-        "prog_d2_block4_quote": "“The rules are being rewritten, and we're holding the pen”",
-
         // ATI Modal
         "ati_title": "Information <span class=\"text-cyan\">Technology Administration</span>",
         "ati_close": "Close",
@@ -795,6 +751,12 @@ const translations = {
         "prg_day2_short": "Thu, Nov 5",
         "spk_talk_label": "On the program",
         "spk_talk_link": "See it in the program",
+        "prg_block_d1_1": "You can’t make a change if you can’t master yourself",
+        "prg_block_d1_2": "Technology never stops evolving, so why should we?",
+        "prg_block_d1_3": "We don’t count the hours; we make the hours count",
+        "prg_block_d2_1": "Keep it simple to keep the flow going",
+        "prg_block_d2_2": "Knowledge is power, but data is control",
+        "prg_block_d2_3": "The rules are being rewritten, and we’re holding the pen",
         "prg_luma_cta": "Register on Luma",
         "prg_luma_soon": "Registration coming soon",
         "prg_tag_charla": "Talk",

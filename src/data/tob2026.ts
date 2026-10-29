@@ -88,8 +88,6 @@ export type Bloque = {
   key: string;
   titulo: string;
   tituloKey: string;
-  frase?: string;
-  fraseKey?: string;
   luma?: string;
   sesiones: Sesion[];
 };
@@ -107,17 +105,11 @@ export const programa: Dia[] = [
     luma: "https://luma.com/qmjum5ed",
     bloques: [
       {
-        key: "d1-inicio", titulo: "BLOQUE — INICIO", tituloKey: "prog_d1_block1_title",
+        key: "d1-equilibrio", titulo: "You can’t make a change if you can’t master yourself", tituloKey: "prg_block_d1_1",
         sesiones: [
           { key: "d1_inauguracion", hora: "09:15 AM — 09:30 AM", tipo: "inauguracion", titulo: "Inauguración", desc: "Palabras de bienvenida para dar apertura oficial al TOB 2026: dos días dedicados a la innovación, el crecimiento profesional y la conexión con la industria.", personas: ["maria-jose-artavia", "abril-masis"] },
           { key: "d1_bandati", hora: "09:35 AM — 09:45 AM", tipo: "cultural", titulo: "Acto cultural: Bandati", desc: "Un respiro musical antes de arrancar con el contenido del día.", personas: ["nestor-morales", "pedro-leiva"] },
           { key: "d1_intro", hora: "09:50 AM — 10:10 AM", tipo: "dinamica", titulo: "Introducción al evento", desc: "Dinámica para romper el hielo y presentar la mecánica, los bloques y los objetivos del TOB 2026.", personas: ["julia-vargas"] },
-        ],
-      },
-      {
-        key: "d1-equilibrio", titulo: "BLOQUE — EQUILIBRIO PROPIO", tituloKey: "prog_d1_block2_title",
-        frase: "“You can't make a change if you can't master yourself”", fraseKey: "prog_d1_block2_quote",
-        sesiones: [
           { key: "d1_miedos", hora: "10:15 AM — 11:00 AM", tipo: "charla", titulo: "Extraordinary fears: a quick guide on how to transform fear", desc: "Una guía práctica para ver el miedo como motor de cambio y convertirlo en una herramienta de crecimiento.", personas: ["tamara-sancho"] },
           { key: "d1_marca", hora: "11:05 AM — 11:45 AM", tipo: "charla", titulo: "Tu próximo gran proyecto eres tú", desc: "Cómo construir una marca personal auténtica que impulse tu carrera y te abra nuevas oportunidades.", personas: ["dunnia-vargas"] },
           { key: "d1_rifa1", hora: "11:45 AM — 11:50 AM", tipo: "rifa", titulo: "Retroalimentación y rifa", desc: "Compartí tu experiencia del bloque con el código QR y participá en la rifa.", personas: PRESENTADORES },
@@ -125,8 +117,7 @@ export const programa: Dia[] = [
         ],
       },
       {
-        key: "d1-crecimiento", titulo: "BLOQUE — CRECIMIENTO CONTINUO", tituloKey: "prog_d1_block3_title",
-        frase: "“Technology never stops evolving, so why should we?”", fraseKey: "prog_d1_block3_quote",
+        key: "d1-crecimiento", titulo: "Technology never stops evolving, so why should we?", tituloKey: "prg_block_d1_2",
         sesiones: [
           { key: "d1_startup", hora: "01:00 PM — 01:45 PM", tipo: "charla", titulo: "Empresa de 0 a 1M", desc: "El camino real de llevar una startup desde cero hasta el primer millón: retos, decisiones clave y aprendizajes.", personas: ["pedro-gutierrez"] },
           { key: "d1_experiencia", hora: "01:50 PM — 02:30 PM", tipo: "charla", titulo: "¿Cómo construir experiencia profesional en tecnología antes de graduarse?", desc: "Proyectos, comunidades y networking para llegar al primer empleo con experiencia real.", personas: ["luis-jimenez"] },
@@ -137,8 +128,7 @@ export const programa: Dia[] = [
         ],
       },
       {
-        key: "d1-productividad", titulo: "BLOQUE — PRODUCTIVIDAD PERSONAL", tituloKey: "prog_d1_block4_title",
-        frase: "“We don't count the hours; we make the hours count”", fraseKey: "prog_d1_block4_quote",
+        key: "d1-productividad", titulo: "We don’t count the hours; we make the hours count", tituloKey: "prg_block_d1_3",
         sesiones: [
           { key: "d1_dinero", hora: "04:05 PM — 04:50 PM", tipo: "charla", titulo: "Tu dinero, tus decisiones", desc: "Fundamentos para empezar a invertir con criterio y construir una base financiera sólida.", personas: ["aaron-omodeo"] },
           { key: "d1_mercadeo", hora: "04:55 PM — 05:40 PM", tipo: "charla", titulo: "Mercadeo en la era digital", desc: "Estrategias para conectar con audiencias saturadas de contenido y destacar con una propuesta de valor clara.", personas: ["frank-calvo"] },
@@ -156,17 +146,11 @@ export const programa: Dia[] = [
     luma: "https://luma.com/da8149o8",
     bloques: [
       {
-        key: "d2-inicio", titulo: "BLOQUE — INICIO", tituloKey: "prog_d2_block1_title",
+        key: "d2-optimizacion", titulo: "Keep it simple to keep the flow going", tituloKey: "prg_block_d2_1",
         sesiones: [
           { key: "d2_inicio", hora: "09:15 AM — 09:25 AM", tipo: "inauguracion", titulo: "Inicio del último día", desc: "Apertura de la segunda jornada del TOB 2026, enfocada en optimización, datos y tecnologías disruptivas.", personas: PRESENTADORES },
           { key: "d2_ruben", hora: "09:30 AM — 09:40 AM", tipo: "cultural", titulo: "Acto cultural", desc: "Presentación cultural para empezar el día con energía.", personas: ["ruben-monarca"] },
           { key: "d2_podcast", hora: "09:45 AM — 10:00 AM", tipo: "podcast", titulo: "Introducción al día", desc: "Formato podcast para presentar de forma dinámica los temas y objetivos del día.", personas: ["anthony-fuentes"] },
-        ],
-      },
-      {
-        key: "d2-optimizacion", titulo: "BLOQUE — OPTIMIZACIÓN DE PROCESOS", tituloKey: "prog_d2_block2_title",
-        frase: "“Keep it simple to keep the flow going”", fraseKey: "prog_d2_block2_quote",
-        sesiones: [
           { key: "d2_agile", hora: "10:05 AM — 10:50 AM", tipo: "charla", titulo: "The Art of Agile Simplicity: Maximizing Impact, Minimizing Complexity", desc: "Cómo las metodologías ágiles simplifican procesos, mejoran la colaboración y entregan más valor con menos complejidad.", personas: ["alejandro-hidalgo"] },
           { key: "d2_ai_engineer", hora: "10:55 AM — 11:40 AM", tipo: "foro", titulo: "De prompts sueltos a sistemas autónomos", desc: "El rol del AI Engineer: cómo se pasa de usar prompts aislados a diseñar agentes y sistemas que trabajan solos.", personas: ["alek-castillo"] },
           { key: "d2_rifa1", hora: "11:45 AM — 11:50 AM", tipo: "rifa", titulo: "Retroalimentación y rifa", desc: "Compartí tu experiencia del bloque con el código QR y participá en la rifa.", personas: PRESENTADORES },
@@ -174,8 +158,7 @@ export const programa: Dia[] = [
         ],
       },
       {
-        key: "d2-datos", titulo: "BLOQUE — CULTURA DE DATOS", tituloKey: "prog_d2_block3_title",
-        frase: "“Knowledge is power, but data is control”", fraseKey: "prog_d2_block3_quote",
+        key: "d2-datos", titulo: "Knowledge is power, but data is control", tituloKey: "prg_block_d2_2",
         sesiones: [
           { key: "d2_ciber", hora: "01:00 PM — 01:45 PM", tipo: "charla", titulo: "Ciberseguridad como oportunidad profesional", desc: "Amenazas actuales, buenas prácticas y por qué la ciberseguridad es una de las carreras con más demanda.", personas: ["alejandro-castaneda"] },
           { key: "d2_bi", hora: "01:45 PM — 02:15 PM", tipo: "charla", titulo: "BI: de los datos a las decisiones", desc: "Cómo el Business Intelligence transforma datos en información accionable para decidir mejor.", personas: ["rei-araya"] },
@@ -186,8 +169,7 @@ export const programa: Dia[] = [
         ],
       },
       {
-        key: "d2-disruptivas", titulo: "BLOQUE — TECNOLOGÍAS DISRUPTIVAS", tituloKey: "prog_d2_block4_title",
-        frase: "“The rules are being rewritten, and we're holding the pen”", fraseKey: "prog_d2_block4_quote",
+        key: "d2-disruptivas", titulo: "The rules are being rewritten, and we’re holding the pen", tituloKey: "prg_block_d2_3",
         sesiones: [
           { key: "d2_blockchain", hora: "03:20 PM — 04:05 PM", tipo: "charla", titulo: "Rethinking the Problem: Innovación y Blockchain", desc: "Aplicaciones reales del blockchain más allá de las criptomonedas y cómo replantear problemas para innovar.", personas: ["karla-cordoba"] },
           { key: "d2_slinky", hora: "04:10 PM — 04:55 PM", tipo: "charla", titulo: "Slinky", desc: "Eleven.Core presenta Slinky. Muy pronto más detalles de esta charla.", personas: ["christopher-eleven"] },
