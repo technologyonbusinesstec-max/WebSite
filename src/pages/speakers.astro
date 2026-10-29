@@ -1,60 +1,34 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { SpeakerLinearCards } from '../components/ui/linear-card';
+import { personas, sesionesDe, type PersonaTipo } from '../data/tob2026';
 
-const speakersList = [
-  { foto: "/imagenes/speakers/speaker01.webp",  nombre: "Pedro Gutiérrez",    puesto: "Avify",            descripcion: "Compartirá el camino de construir una startup de 0 a 1M.",                             linkedin: "https://www.linkedin.com/in/peter-gg/" },
-  { foto: "/imagenes/speakers/speaker02.webp",  nombre: "Tamara Sancho",      puesto: "P&G",              descripcion: "Transformando el miedo en una herramienta de crecimiento profesional.",                linkedin: "https://www.linkedin.com/in/tamarajudit/" },
-  { foto: "/imagenes/speakers/speaker03.webp",  nombre: "Pilar Sánchez",      puesto: "Avify",            descripcion: "Líder de la industria compartiendo su visión en resiliencia.",                         linkedin: "" },
-  { foto: "/imagenes/speakers/speaker04.webp",  nombre: "Wendy Badilla",      puesto: "Microsoft",        descripcion: "Experta de Microsoft enfocada en empoderamiento femenino en STEM.",                     linkedin: "https://www.linkedin.com/in/wendy-badilla-225630a0/" },
-  { foto: "/imagenes/speakers/speaker05.webp",  nombre: "Aaron Omodeo",       puesto: "Doji Club",        descripcion: "Especialista en finanzas prácticas y toma de decisiones de inversión.",                 linkedin: "https://www.linkedin.com/in/aaron-omodeo/" },
-  { foto: "/imagenes/speakers/speaker12.webp",  nombre: "Diego Loud",         puesto: "Loud",             descripcion: "Estrategias de mercadeo para conectar con audiencias saturadas.",                       linkedin: "https://www.linkedin.com/in/diegomartinezj/" },
-  { foto: "/imagenes/speakers/speaker07.webp",  nombre: "María José Artavia", puesto: "Directora ATI",    descripcion: "Directora dando apertura oficial a TOB-ATI 2026.",                                      linkedin: "" },
-  { foto: "/imagenes/speakers/speaker08.webp",  nombre: "Alek Castillo",      puesto: "Lyfter",           descripcion: "Experta en liderazgo adaptativo en entornos de cambio acelerado.",                      linkedin: "" },
-  { foto: "/imagenes/speakers/speaker09.webp",  nombre: "Alejandro Hidalgo",  puesto: "P&G",              descripcion: "Aplicación de metodologías ágiles para entregar valor más rápido.",                     linkedin: "" },
-  { foto: "/imagenes/speakers/speaker10.webp",  nombre: "Gerardo Nájera",     puesto: "Sefisa",           descripcion: "Estrategias de ciberseguridad para proteger información vital.",                         linkedin: "" },
-  { foto: "/imagenes/speakers/speaker11.webp",  nombre: "Karla Córdoba",      puesto: "Aso Blockchain CR",descripcion: "Aplicaciones reales de la confianza digital más allá de cripto.",                       linkedin: "" },
-  { foto: "/imagenes/speakers/speaker13.webp",  nombre: "Ronald Arce",        puesto: "INCAE",            descripcion: "Cómo la IA está redefiniendo los modelos de negocio.",                                  linkedin: "" },
-];
+// Las claves ppl_<id>_* traducen rol y bio; el nombre no se traduce.
+const cardsDe = (tipo: PersonaTipo, offset: number) =>
+  personas
+    .filter((p) => p.tipo === tipo)
+    .map((p, i) => ({
+      id: offset + i,
+      foto: p.foto,
+      nameKey: `ppl_${p.id}_name`,
+      roleKey: `ppl_${p.id}_role`,
+      bioKey: `ppl_${p.id}_bio`,
+      name: p.nombre,
+      role: p.rol,
+      bio: p.bio,
+      linkedin: p.linkedin ?? "",
+      instagram: "",
+      talks: sesionesDe(p.id).map(({ dia, sesion }) => ({
+        titleKey: `prg_${sesion.key}_title`,
+        title: sesion.titulo,
+        dayKey: dia.fechaKey,
+        day: dia.fecha,
+        time: sesion.hora.split(" — ")[0],
+      })),
+    }));
 
-const culturalList = [
-  { foto: "/imagenes/speakers/actividadCultural01.webp", nombre: "Rubén Monarca", descripcion: "Presentación cultural y artística en vivo.",    linkedin: "" },
-  { foto: "/imagenes/speakers/actividadCultural02.webp", nombre: "Nestor Morales", descripcion: "Presentación musical con Bandati.",             linkedin: "" },
-  { foto: "/imagenes/speakers/actividadCultural03.webp", nombre: "Pedro Leiva",    descripcion: "Presentación musical con Bandati.",             linkedin: "" },
-  { foto: "/imagenes/speakers/actividadCultural04.webp", nombre: "Melody Coto",    descripcion: "Expresión artística y dinamismo musical.",      linkedin: "" },
-];
-
-const talkItems = speakersList.map((s, i) => {
-  const id = String(i + 1).padStart(2, "0");
-  return {
-    id: i + 1,
-    foto: s.foto,
-    nameKey: `speaker_${id}_name`,
-    roleKey: `speaker_${id}_role`,
-    bioKey: `speaker_${id}_bio`,
-    name: s.nombre,
-    role: s.puesto,
-    bio: s.descripcion,
-    linkedin: s.linkedin,
-    instagram: "",
-  };
-});
-
-const culturalItems = culturalList.map((a, i) => {
-  const id = String(i + 18).padStart(2, "0");
-  return {
-    id: i + 18,
-    foto: a.foto,
-    nameKey: `speaker_${id}_name`,
-    roleKey: `speaker_${id}_role`,
-    bioKey: `speaker_${id}_bio`,
-    name: a.nombre,
-    role: "Actividad Cultural",
-    bio: a.descripcion,
-    linkedin: a.linkedin,
-    instagram: "",
-  };
-});
+const talkItems = cardsDe("speaker", 1);
+const culturalItems = cardsDe("cultural", 100);
 ---
 
 <Layout>

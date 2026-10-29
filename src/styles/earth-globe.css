@@ -119,3 +119,31 @@
     white-space: normal;
   }
 }
+
+/* Celular y tablet: sin globo ni recorrido con scroll, solo la tarjeta de ubicación. */
+@media (max-width: 1024px) {
+  .location-wrapper {
+    height: auto;
+  }
+
+  .location-sticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+    padding: 72px 0;
+  }
+
+  #layerEarth.earth-globe,
+  .location-close-btn {
+    display: none;
+  }
+
+  .location-layer.layer-content {
+    position: relative;
+    height: auto;
+    opacity: 1;
+    pointer-events: auto;
+    background: transparent;
+    transition: none;
+  }
+}

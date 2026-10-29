@@ -1167,19 +1167,6 @@ body {
     }
 }
 
-/* Mensaje: Evento no encontrado — clima detectado */
-.hero-status-msg {
-    position: relative;
-    z-index: 2;
-    font-family: var(--font-tech);
-    font-size: 1rem;
-    font-weight: 700;
-    color: #ffffff;
-    line-height: 1.4;
-    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 15px rgba(33, 208, 255, 0.4);
-    letter-spacing: 0.3px;
-}
-
 /* === NUEVA FECHA: PRÓXIMAMENTE === */
 .hero-new-date {
     display: inline-flex;
@@ -1534,8 +1521,6 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
-    transition: transform 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
 .sun-img {
@@ -1543,23 +1528,6 @@ body {
     height: 100%;
     object-fit: contain;
     filter: drop-shadow(0 0 20px rgba(4, 116, 196, 0.5));
-}
-
-/* Animación de Moneda / Giro 3D (Click/Touch en logo) */
-.coin-spin {
-    animation: coin-spin-anim 1s cubic-bezier(0.25, 1, 0.5, 1) !important;
-}
-
-@keyframes coin-spin-anim {
-    0% {
-        transform: rotateY(0deg) scale(1);
-    }
-    50% {
-        transform: rotateY(360deg) scale(1.18);
-    }
-    100% {
-        transform: rotateY(720deg) scale(1);
-    }
 }
 
 /* Órbitas */
@@ -1784,10 +1752,6 @@ body {
         justify-content: center;
     }
 
-    .hero-status-msg {
-        text-align: center;
-    }
-
     .hero-new-date {
         justify-content: center;
     }
@@ -1822,7 +1786,8 @@ body {
         align-items: center;
     }
 
-    /* Mostrar solamente el logo del ToB en versión grande con resplandor elegante */
+    /* Mostrar solamente el logo del ToB en versión grande. El resplandor va en un
+       halo detrás: un filter sobre el logo animado lo rasteriza borroso y lo encandila. */
     .sun {
         position: relative !important;
         width: clamp(220px, 45vw, 320px) !important;
@@ -1830,14 +1795,24 @@ body {
         display: flex;
         justify-content: center;
         align-items: center;
-        filter: drop-shadow(0 0 35px rgba(4, 116, 196, 0.75)) drop-shadow(0 0 70px rgba(0, 242, 254, 0.4));
         animation: hero-logo-float 6s ease-in-out infinite;
+    }
+
+    .sun::before {
+        content: "";
+        position: absolute;
+        inset: 8%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(4, 116, 196, 0.32) 0%, rgba(0, 242, 254, 0.12) 45%, transparent 70%);
+        z-index: -1;
+        pointer-events: none;
     }
 
     .sun-img {
         width: 100%;
         height: 100%;
         object-fit: contain;
+        filter: none;
     }
 }
 
@@ -1885,10 +1860,6 @@ body {
 
     .status-value {
         font-size: 1.25rem;
-    }
-
-    .hero-status-msg {
-        font-size: 0.9rem;
     }
 
     .new-date-text {
