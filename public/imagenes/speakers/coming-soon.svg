@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 750" width="600" height="750">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#06263f"/>
+      <stop offset="1" stop-color="#05070c"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="45%">
+      <stop offset="0" stop-color="#21d0ff" stop-opacity=".28"/>
+      <stop offset="1" stop-color="#21d0ff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="600" height="750" fill="url(#bg)"/>
+  <rect width="600" height="750" fill="url(#glow)"/>
+  <g fill="none" stroke="#21d0ff" stroke-opacity=".55" stroke-width="10" stroke-linecap="round">
+    <circle cx="300" cy="245" r="78"/>
+    <path d="M160 470c18-82 76-126 140-126s122 44 140 126"/>
+  </g>
+  <text x="300" y="585" text-anchor="middle" font-family="Barlow Condensed, Arial Narrow, Arial, sans-serif" font-size="64" font-weight="700" letter-spacing="6" fill="#ffffff">COMING SOON</text>
+  <text x="300" y="635" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" letter-spacing="8" fill="#21d0ff">TOB 2026</text>
+</svg>

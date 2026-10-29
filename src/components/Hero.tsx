@@ -76,7 +76,6 @@ export const Hero: React.FC<HeroProps> = ({ lang: initialLang = "ES" }) => {
   const heroRef = useRef<HTMLElement>(null);
   const [highlighted, setHighlighted] = useState<number | null>(null);
   const [logoDimmed, setLogoDimmed] = useState(false);
-  const logoRef = useRef<HTMLDivElement>(null);
   const starCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Countdown
@@ -246,13 +245,6 @@ export const Hero: React.FC<HeroProps> = ({ lang: initialLang = "ES" }) => {
     };
   }, []);
 
-  const triggerSpin = () => {
-    const el = logoRef.current;
-    if (!el || el.classList.contains("coin-spin")) return;
-    el.classList.add("coin-spin");
-    setTimeout(() => el.classList.remove("coin-spin"), 1000);
-  };
-
   const handlePlanetClick = (e: React.MouseEvent, idx: number) => {
     e.stopPropagation();
     if (highlighted === idx) { setHighlighted(null); setLogoDimmed(false); }
@@ -288,9 +280,6 @@ export const Hero: React.FC<HeroProps> = ({ lang: initialLang = "ES" }) => {
               </div>
             ))}
           </div>
-          <p className="hero-status-msg">
-            {currentLang === "ES" ? "Para el inicio de ToB" : "Until ToB begins"}
-          </p>
           <div className="hero-new-date">
             <span className="new-date-dot" />
             <span className="new-date-text">
@@ -312,9 +301,8 @@ export const Hero: React.FC<HeroProps> = ({ lang: initialLang = "ES" }) => {
 
       <div className="hero-visual">
         <div className="solar-system" id="solarSystem" ref={solarRef}>
-          <div className={"sun" + (logoDimmed ? " dimmed" : "")} id="heroLogo" ref={logoRef}
-            onClick={triggerSpin} style={{ cursor: "pointer" }}>
-            <img src="/imagenes/IsotipoColor.webp" alt="ToB Isotipo" className="sun-img" />
+          <div className={"sun" + (logoDimmed ? " dimmed" : "")} id="heroLogo">
+            <img src="/imagenes/IsotipoColor-1024.webp" alt="ToB Isotipo" className="sun-img" width="1024" height="1024" decoding="async" />
           </div>
           {planets.map((word, i) => {
             const moonPos = MOON_POSITIONS[i];

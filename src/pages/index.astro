@@ -2,6 +2,12 @@
 import Layout from '../layouts/Layout.astro';
 import { Hero } from '../components/Hero.tsx';
 import { EarthGlobe } from '../components/EarthGlobe.tsx';
+import { personas, COMING_SOON_FOTO } from '../data/tob2026';
+
+// En el inicio solo van speakers que ya tienen fotografía.
+const speakersInicio = personas
+  .filter((p) => p.tipo === 'speaker' && p.foto !== COMING_SOON_FOTO)
+  .slice(0, 6);
 ---
 
 <Layout>
@@ -276,7 +282,17 @@ import { EarthGlobe } from '../components/EarthGlobe.tsx';
       <h2 class="speakers-title" data-i18n="speak_title">Las grandes ideas comienzan con una conversación.</h2>
       <p class="speakers-description" data-i18n="speak_desc">En el ToB tendrás la oportunidad de escuchar a expertos de la industria, descubrir tecnologías emergentes y conectar con personas que comparten tu pasión por la innovación, los negocios y el futuro digital.</p>
     </div>
-    <div class="speakers-grid" id="speakersGrid"></div>
+    <div class="speakers-grid" id="speakersGrid">
+      {speakersInicio.map((p) => (
+        <div class="speaker-simple-card">
+          <div class="speaker-avatar-wrap">
+            <img src={p.foto} alt={p.nombre} class="speaker-avatar" loading="lazy" decoding="async" />
+          </div>
+          <h3 class="speaker-simple-name">{p.nombre}</h3>
+          <p class="speaker-simple-role" data-i18n={`ppl_${p.id}_role`}>{p.rol}</p>
+        </div>
+      ))}
+    </div>
     <div class="speakers-actions">
       <a href="/speakers" class="btn btn-primary btn-large" data-i18n="speak_btn">Ver más expositores</a>
     </div>
@@ -315,7 +331,7 @@ import { EarthGlobe } from '../components/EarthGlobe.tsx';
             </a>
           </div>
           <div class="location-map">
-            <iframe title="Vista satelital del Centro de las Artes, TEC" width="100%" height="100%" frameborder="0" style="border:0;" data-src="https://maps.google.com/maps?q=Centro+de+las+Artes,+TEC,+Cartago&amp;hl=es&amp;z=17&amp;t=k&amp;output=embed" allowfullscreen></iframe>
+            <iframe title="Vista satelital del Centro de las Artes, TEC" loading="lazy" width="100%" height="100%" frameborder="0" style="border:0;" data-src="https://maps.google.com/maps?q=Centro+de+las+Artes,+TEC,+Cartago&amp;hl=es&amp;z=17&amp;t=k&amp;output=embed" allowfullscreen></iframe>
           </div>
         </div>
       </div>

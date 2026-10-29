@@ -41,14 +41,39 @@ function showLocationCard() {
   window.dispatchEvent(new CustomEvent("earthLocated"));
 }
 
+// En celular y tablet no hay globo: la tarjeta de ubicación se muestra directo.
+const MOBILE_QUERY = "(max-width: 1024px)";
+
+function useIsMobile() {
+  // Se lee al montar para no crear el globo (ni bajar sus texturas) en celular.
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia(MOBILE_QUERY).matches
+  );
+
+  useEffect(() => {
+    const mq = window.matchMedia(MOBILE_QUERY);
+    const sync = () => setIsMobile(mq.matches);
+    mq.addEventListener("change", sync);
+    return () => mq.removeEventListener("change", sync);
+  }, []);
+
+  return isMobile;
+}
+
 export function EarthGlobe() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const handleRef = useRef<EarthGlobeHandle | null>(null);
   const [pinOn, setPinOn] = useState(false);
+  const isMobile = useIsMobile();
   const { t } = useTobLang();
 
   useEffect(() => {
+    if (isMobile) {
+      showLocationCard();
+      return () => hideLocationCard();
+    }
+
     const canvas = canvasRef.current;
     const pin = pinRef.current;
     if (!canvas || !pin) return;
@@ -106,7 +131,7 @@ export function EarthGlobe() {
       handleRef.current?.destroy();
       handleRef.current = null;
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <div className="earth-globe" id="layerEarth" data-earth-rev="22">

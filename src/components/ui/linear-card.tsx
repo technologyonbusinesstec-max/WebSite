@@ -350,6 +350,9 @@ export type LinearCardItem = {
   instagram?: string;
   linkedinLabel?: string;
   instagramLabel?: string;
+  talks?: { title: string; when: string }[];
+  talksLabel?: string;
+  talksLinkLabel?: string;
 };
 
 const Component = forwardRef<HTMLDivElement, { items: LinearCardItem[] }>(({ items }, ref) => {
@@ -363,6 +366,9 @@ const Component = forwardRef<HTMLDivElement, { items: LinearCardItem[] }>(({ ite
               <DialogTitle className="lc-card-title">{item.title}</DialogTitle>
               {item.subtitle ? (
                 <DialogSubtitle className="lc-card-role">{item.subtitle}</DialogSubtitle>
+              ) : null}
+              {item.talks?.length ? (
+                <p className="lc-card-talk">{item.talks[0].title}</p>
               ) : null}
             </div>
           </DialogTrigger>
@@ -385,6 +391,22 @@ const Component = forwardRef<HTMLDivElement, { items: LinearCardItem[] }>(({ ite
                       }}
                     >
                       <p className="lc-dialog-desc">{item.description}</p>
+                      {item.talks?.length ? (
+                        <div className="lc-talks">
+                          <span className="lc-talks-label">{item.talksLabel || "En el programa"}</span>
+                          <ul>
+                            {item.talks.map((talk) => (
+                              <li key={talk.title + talk.when}>
+                                <strong>{talk.title}</strong>
+                                <span>{talk.when}</span>
+                              </li>
+                            ))}
+                          </ul>
+                          <a className="lc-talks-link" href="/programa">
+                            {item.talksLinkLabel || "Ver en el programa"} →
+                          </a>
+                        </div>
+                      ) : null}
                     </DialogDescription>
                   </div>
                 </div>
@@ -419,6 +441,7 @@ export type SpeakerCardItem = {
   bio: string;
   linkedin?: string;
   instagram?: string;
+  talks?: { titleKey: string; title: string; dayKey: string; day: string; time: string }[];
 };
 
 function useTobLang() {
@@ -461,6 +484,12 @@ export function SpeakerLinearCards({ items }: { items: SpeakerCardItem[] }) {
     instagram: item.instagram || undefined,
     linkedinLabel: t("spk_linkedin", "LinkedIn"),
     instagramLabel: t("spk_instagram", "Instagram"),
+    talks: item.talks?.map((talk) => ({
+      title: t(talk.titleKey, talk.title),
+      when: `${t(talk.dayKey, talk.day)} · ${talk.time}`,
+    })),
+    talksLabel: t("spk_talk_label", "En el programa"),
+    talksLinkLabel: t("spk_talk_link", "Ver en el programa"),
   }));
 
   return <Component items={mapped} />;
