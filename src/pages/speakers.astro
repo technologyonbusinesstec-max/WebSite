@@ -17,7 +17,7 @@ const cardsDe = (tipo: PersonaTipo, offset: number) =>
       role: p.rol,
       bio: p.bio,
       linkedin: p.linkedin ?? "",
-      instagram: "",
+      instagram: p.instagram ?? "",
       talks: sesionesDe(p.id).map(({ dia, sesion }) => ({
         titleKey: `prg_${sesion.key}_title`,
         title: sesion.titulo,
