@@ -25,7 +25,40 @@ export const SHOWN_IN_HOME = 3;
 /** Lugar vacío, a la espera de una persona confirmada */
 const porAnunciar = (): Person => ({ foto: PERSON_PLACEHOLDER, nombre: '', puesto: '', descripcion: '' });
 
-export const mentores: Person[] = Array.from({ length: 6 }, porAnunciar);
+const FOTOS = '/imagenes/hackatob/mentores';
+
+export const mentores: Person[] = [
+  {
+    foto: `${FOTOS}/brayan-navarro.webp`,
+    nombre: 'Brayan Navarro',
+    puesto: 'Mentor · Shape the Value',
+    descripcion: 'Da el taller «Shape the Value» del Thinking Ahead: cómo encontrar y comunicar la propuesta de valor de tu proyecto.',
+  },
+  {
+    foto: `${FOTOS}/mariano-ulloa.webp`,
+    nombre: 'Mariano Ulloa',
+    puesto: 'Mentor · Dojo Coding',
+    descripcion: 'Da el taller «Tips and Tricks to Survive My First Hackathon»: consejos para trabajar en equipo y aprovechar el ritmo de un hackathon.',
+  },
+  {
+    foto: `${FOTOS}/daniel-bejarano.webp`,
+    nombre: 'Daniel Bejarano',
+    puesto: 'Mentor · Dojo Coding',
+    descripcion: 'Da el taller «Tools to Build» del Thinking Ahead: las herramientas para pasar de la idea al prototipo.',
+  },
+  {
+    foto: `${FOTOS}/gustavo-machado.webp`,
+    nombre: 'Gustavo Machado',
+    puesto: 'Mentor · Pitch',
+    descripcion: 'Da el taller «Pitch It. Sell It.»: cómo contar tu proyecto con storytelling y venderlo en pocos minutos.',
+  },
+  {
+    foto: `${FOTOS}/stefan-fiedler.webp`,
+    nombre: 'Stefan Fiedler',
+    puesto: 'Mentor · GreenTrack',
+    descripcion: 'Acompaña a los equipos del GreenTrack, el reto de soluciones para cuidar el ambiente.',
+  },
+];
 export const jurados: Person[] = Array.from({ length: 6 }, porAnunciar);
 
 /** Textos de un lugar vacío, por grupo (y sus claves de traducción) */

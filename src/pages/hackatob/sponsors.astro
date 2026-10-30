@@ -74,13 +74,21 @@ const slots = Array.from({ length: Math.max(SHAPES.length, photos.length) }, (_,
         <div class="sp-tier">
           <p class="sp-tier-label" data-i18n={t.label.key}>{t.label.es}</p>
           <ul class="sp-grid" style={`--cols: ${t.cols}`} data-cols={t.cols}>
-            {t.sponsors.map((s) => (
-              <li>
-                <a class:list={['sp-cell', { 'sp-cell--big': t.cols === 1 }]} href={s.url} target="_blank" rel="noopener" data-ga-event="sponsor_click" data-ga-label={s.name} aria-label={`${s.name} (se abre en otra pestaña)`}>
-                  <img src={s.logo} alt={s.name} loading="lazy" decoding="async" />
-                </a>
-              </li>
-            ))}
+            {t.sponsors.map((s) => {
+              const clases = ['sp-cell', { 'sp-cell--big': t.cols === 1 }];
+              const logo = <img class:list={{ 'sp-mono': s.mono }} src={s.logo} alt={s.name} loading="lazy" decoding="async" />;
+              return (
+                <li>
+                  {s.url ? (
+                    <a class:list={clases} href={s.url} target="_blank" rel="noopener" data-ga-event="sponsor_click" data-ga-label={s.name} aria-label={`${s.name} (se abre en otra pestaña)`}>
+                      {logo}
+                    </a>
+                  ) : (
+                    <div class:list={clases}>{logo}</div>
+                  )}
+                </li>
+              );
+            })}
           </ul>
         </div>
       ))}
@@ -232,20 +240,30 @@ const slots = Array.from({ length: Math.max(SHAPES.length, photos.length) }, (_,
     transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
   }
 
+  /* logos oscuros: siempre en blanco, si no se perderían en el fondo negro */
+  .sp-cell img.sp-mono {
+    filter: brightness(0) invert(1);
+  }
+
   .sp-cell--big img {
     max-height: 112px;
   }
 
-  .sp-cell:hover,
-  .sp-cell:focus-visible {
+  a.sp-cell:hover,
+  a.sp-cell:focus-visible {
     background: #161616;
   }
 
-  .sp-cell:hover img,
-  .sp-cell:focus-visible img {
+  a.sp-cell:hover img,
+  a.sp-cell:focus-visible img {
     filter: none;
     opacity: 1;
     transform: scale(1.03);
+  }
+
+  a.sp-cell:hover img.sp-mono,
+  a.sp-cell:focus-visible img.sp-mono {
+    filter: brightness(0) invert(1);
   }
 
   .sp-cell:focus-visible {

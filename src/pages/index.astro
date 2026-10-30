@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import { Hero } from '../components/Hero.tsx';
 import { EarthGlobe } from '../components/EarthGlobe.tsx';
 import { personas, COMING_SOON_FOTO } from '../data/tob2026';
+import { conLogo } from '../data/patrocinadores';
 
 // En el inicio solo van speakers que ya tienen fotografía.
 const speakersInicio = personas
@@ -103,39 +104,24 @@ const speakersInicio = personas
 
   <!-- ── SPONSORS ───────────────────────────────────────────────── -->
   <section id="sponsors" class="sponsors-section">
-    <h3 class="sponsors-title" data-i18n="sponsors_title">Nuestros Partners</h3>
+    <h3 class="sponsors-title" data-i18n="sponsors_title">Patrocinadores y Partners</h3>
     <p class="sponsors-text" data-i18n="sponsors_text">Organizaciones que creen en el talento costarricense y se suman para hacer del ToB 2026 una experiencia inolvidable.</p>
     <div class="sponsors-marquee-wrapper">
-      <div class="sponsors-marquee marquee-left">
-        <div class="sponsors-track">
-          <a href="https://us.pg.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador01.webp" alt="P&amp;G" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.ibm.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador02.webp" alt="IBM" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.wwt.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador03.webp" alt="WWT" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.tec.ac.cr/administracion-tecnologia-informacion" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador04.webp" alt="ATI TEC" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://avify.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador05.webp" alt="Avify" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://aseteccr.com/" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador06.webp" alt="Kyndryl" class="sponsor-logo" loading="lazy"></a>
-          <!-- duplicado para loop -->
-          <a href="https://us.pg.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador01.webp" alt="P&amp;G" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.ibm.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador02.webp" alt="IBM" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.wwt.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador03.webp" alt="WWT" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.tec.ac.cr/administracion-tecnologia-informacion" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador04.webp" alt="ATI TEC" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://avify.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador05.webp" alt="Avify" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://aseteccr.com/" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador06.webp" alt="Kyndryl" class="sponsor-logo" loading="lazy"></a>
+      {[conLogo('patrocinadores'), [...conLogo('organiza'), ...conLogo('partners')]].map((fila, i) => (
+        <div class:list={['sponsors-marquee', i === 0 ? 'marquee-left' : 'marquee-right']}>
+          <div class="sponsors-track">
+            {/* la fila va dos veces para que el loop no se corte */}
+            {[...fila, ...fila].map((p) => {
+              const logo = <img src={p.logo} alt={p.nombre} class:list={['sponsor-logo', { 'sponsor-logo--mono': p.mono }]} loading="lazy" decoding="async" />;
+              // sin link no se puede tocar
+              return p.url ? <a href={p.url} target="_blank" rel="noopener">{logo}</a> : <span class="sponsor-static">{logo}</span>;
+            })}
+          </div>
         </div>
-      </div>
-      <div class="sponsors-marquee marquee-right">
-        <div class="sponsors-track">
-          <a href="https://www.equifax.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador08.webp" alt="Equifax" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://sefisa.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador10.webp" alt="Sefisa" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.incae.edu" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador11.svg" alt="INCAE" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.moodys.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador12.webp" alt="Moodys" class="sponsor-logo" loading="lazy"></a>
-          <!-- duplicado -->
-          <a href="https://www.equifax.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador08.webp" alt="Equifax" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://sefisa.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador10.webp" alt="Sefisa" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.incae.edu" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador11.svg" alt="INCAE" class="sponsor-logo" loading="lazy"></a>
-          <a href="https://www.moodys.com" target="_blank" rel="noopener"><img src="/imagenes/patrocinadores/patrocinador12.webp" alt="Moodys" class="sponsor-logo" loading="lazy"></a>
-        </div>
-      </div>
+      ))}
+    </div>
+    <div class="sponsors-actions">
+      <a href="/sponsors" class="btn btn-primary btn-large" data-i18n="tob_sp_btn">Ver todos los sponsors</a>
     </div>
     <!-- Sponsors Principales -->
     <div class="main-sponsors-section">
@@ -271,7 +257,7 @@ const speakersInicio = personas
       <img src="/imagenes/galeria-tob/foto-06.webp" alt="ToB Edición Anterior" class="mosaic-item foto-6" loading="lazy">
     </div>
     <div style="text-align:center;margin-top:40px;margin-bottom:40px;">
-      <a href="/galeria" class="btn btn-primary btn-large" data-i18n="hero_btn_gallery">Ver Galería</a>
+      <span class="btn btn-primary btn-large btn-disabled" aria-disabled="true" data-i18n="hero_btn_gallery">Ver Galería</span>
     </div>
   </section>
 
@@ -358,28 +344,30 @@ const speakersInicio = personas
         <p class="ati-modal-acronym">ATI</p>
       </div>
       <div class="ati-modal-body">
-        <p class="ati-modal-lead" data-i18n="ati_lead">Toda empresa quiere innovar con tecnología. Pocas saben cómo hacerlo bien.</p>
-        <p class="ati-modal-copy" data-i18n="ati_p1">Ahí es donde entra el Administrador de Tecnología de Información: el profesional que habla el idioma del negocio y el idioma de TI, y logra que ambos se entiendan.</p>
-        <p class="ati-modal-copy" data-i18n="ati_p2">No es "el de sistemas" que solo ejecuta lo que le piden. Tampoco es un gerente que decide sin entender la tecnología. Es el intérprete-negociador que se sienta en el medio: escucha lo que la empresa realmente necesita y traduce eso en soluciones tecnológicas que funcionan de verdad — no solo en teoría.</p>
+        <p class="ati-modal-lead" data-i18n="ati_lead">Profesionales que entienden el negocio y lo transforman con tecnología.</p>
+        <p class="ati-modal-copy" data-i18n="ati_p1">La carrera de Administración de Tecnología de Información del TEC forma profesionales informáticos que aplican buenas prácticas de administración para tomar decisiones: entienden, optimizan e innovan los procesos de una empresa desde la computación.</p>
+        <p class="ati-modal-copy" data-i18n="ati_p2">El ATI es el intérprete-negociador de la organización: conecta lo que necesitan las áreas del negocio con las soluciones de TI que lo hacen posible.</p>
 
         <h3 class="ati-modal-heading" data-i18n="ati_who_h">Quiénes somos</h3>
         <p class="ati-modal-copy" data-i18n="ati_who">Somos estudiantes de ATI del Tecnológico de Costa Rica. Organizamos el congreso Technology on Business para conectar el talento universitario con la industria, y demostrar lo que un profesional de esta carrera puede construir.</p>
 
-        <h3 class="ati-modal-heading" data-i18n="ati_h1">¿Por qué esto importa para tu negocio?</h3>
-        <p class="ati-modal-copy" data-i18n="ati_p3">Porque la mayoría de los proyectos de TI fallan no por falta de tecnología, sino por falta de alguien que entienda ambos lados de la mesa.</p>
+        <h3 class="ati-modal-heading" data-i18n="ati_h1">¿Dónde trabaja un ATI?</h3>
+        <p class="ati-modal-copy" data-i18n="ati_p3">En empresas e instituciones públicas y privadas, o en su propio negocio: en cualquier lugar donde la tecnología cumple un papel estratégico.</p>
 
         <h3 class="ati-modal-heading" data-i18n="ati_h2">Un ATI puede:</h3>
         <ul class="ati-can-list">
-          <li data-i18n="ati_li1">Liderar equipos multidisciplinarios en proyectos de tecnología, de principio a fin</li>
-          <li data-i18n="ati_li2">Evaluar si un proyecto realmente vale la inversión (técnica y económicamente)</li>
-          <li data-i18n="ati_li3">Diseñar soluciones a la medida, no recetas genéricas</li>
-          <li data-i18n="ati_li4">Rediseñar procesos completos usando TI como motor de transformación</li>
-          <li data-i18n="ati_li5">Asesorar a nivel ejecutivo en decisiones estratégicas de tecnología</li>
-          <li data-i18n="ati_li6">Convertir el conocimiento disperso de una organización en una ventaja competitiva real</li>
+          <li data-i18n="ati_li1">Gestionar equipos multidisciplinarios en proyectos de TI</li>
+          <li data-i18n="ati_li2">Analizar la factibilidad técnica y económica de proyectos complejos</li>
+          <li data-i18n="ati_li3">Gestionar soluciones innovadoras para sistemas de información</li>
+          <li data-i18n="ati_li4">Administrar sistemas de información en todo su ciclo de desarrollo e implantación</li>
+          <li data-i18n="ati_li5">Asesorar a nivel ejecutivo en decisiones de tecnología <img src="/imagenes/mascotas/tiburon-martillo.webp" alt="" class="ati-egg" aria-hidden="true"></li>
+          <li data-i18n="ati_li6">Rediseñar procesos de negocio con TIC como arquitecto empresarial</li>
+          <li data-i18n="ati_li7">Dirigir las TIC de una organización, hasta los niveles más altos</li>
+          <li data-i18n="ati_li8">Gestionar el conocimiento de la organización</li>
         </ul>
 
-        <a href="https://www.tec.ac.cr/licenciatura-administracion-tecnologias-informacion" target="_blank" rel="noopener" class="ati-modal-cta">
-          <span data-i18n="ati_cta">Conocer más</span>
+        <a href="https://www.tec.ac.cr/administracion-tecnologia-informacion" target="_blank" rel="noopener" class="ati-modal-cta">
+          <span data-i18n="ati_cta">Conocer la carrera</span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
         </a>
       </div>

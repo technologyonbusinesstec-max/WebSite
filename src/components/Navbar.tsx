@@ -83,7 +83,7 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
           <div className="nav-item">
-            <a href="/#sponsors" className="nav-link">{t("Sponsors", "Sponsors")}</a>
+            <a href="/sponsors" className="nav-link">{t("Sponsors", "Sponsors")}</a>
             <div className="dropdown-duna">
               <div className="dropdown-content">
                 <h4 data-i18n="nav_spon_title">Nuestros Aliados</h4>
@@ -92,7 +92,8 @@ export const Navbar: React.FC = () => {
             </div>
           </div>
           <div className="nav-item">
-            <a href="/galeria" className="nav-link">{t("Galería ToB", "ToB Gallery")}</a>
+            {/* Galería: visible pero todavía sin acceso */}
+            <span className="nav-link nav-link--disabled" aria-disabled="true">{t("Galería ToB", "ToB Gallery")}</span>
             <div className="dropdown-duna">
               <div className="dropdown-content">
                 <h4 data-i18n="nav_gallery_title">Muy pronto...</h4>
@@ -143,8 +144,8 @@ export const Navbar: React.FC = () => {
       <nav className={"mobile-nav " + (mobileOpen ? "open" : "")} id="mobileNav">
         <a href="/programa" className="mobile-link">{t("Programa del evento", "Event Program")}</a>
         <a href="/speakers" className="mobile-link">{t("Speakers", "Speakers")}</a>
-        <a href="/#sponsors" className="mobile-link">{t("Sponsors", "Sponsors")}</a>
-        <a href="/galeria" className="mobile-link">{t("Galería ToB", "ToB Gallery")}</a>
+        <a href="/sponsors" className="mobile-link">{t("Sponsors", "Sponsors")}</a>
+        <span className="mobile-link nav-link--disabled" aria-disabled="true">{t("Galería ToB", "ToB Gallery")}</span>
         <a href="/hackatob" className="mobile-link highlight-link">{t("HackaToB", "HackaToB")}</a>
         <div className="mobile-actions">
           <div className="lang-selector" id="langToggleMobile" data-lang={lang} onClick={toggleLang} role="button" aria-label="Cambiar idioma">

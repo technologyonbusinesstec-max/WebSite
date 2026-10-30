@@ -379,6 +379,22 @@ body {
 }
 
 /* Enlace Destacado (HackaToB) */
+/* Enlace visible pero sin acceso (Galería) */
+.nav-link--disabled,
+.nav-link--disabled:hover {
+    opacity: 0.5;
+    cursor: default;
+}
+
+/* Botón visible pero sin acceso */
+.btn-disabled,
+.btn-disabled:hover {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
 .nav-link.highlight-link,
 .mobile-link.highlight-link {
     color: var(--color-primary);
@@ -817,24 +833,45 @@ body {
     transform: translateY(-110%);
 }
 
+/* "ATI" en el texto que rota: botón celeste que abre la ventana con la carrera */
 .rotator-phrase .ati-modal-trigger {
-    display: inline;
-    margin: 0;
-    padding: 0;
-    border: 0;
-    background: none;
+    display: inline-block;
+    margin: 0 0 0 0.1em;
+    padding: 0.04em 0.55em 0.08em;
+    border: 2px solid #21d0ff;
+    border-radius: 999px;
+    background: rgba(33, 208, 255, 0.12);
     font: inherit;
     font-weight: 800;
-    color: var(--color-cyan);
-    text-decoration: underline;
-    text-underline-offset: 6px;
+    line-height: 1.1;
+    color: #21d0ff;
     cursor: pointer;
     letter-spacing: inherit;
+    vertical-align: baseline;
+    box-shadow: 0 0 0 0 rgba(33, 208, 255, 0.45);
+    animation: ati-pulse 2.2s ease-out infinite;
+    transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .rotator-phrase .ati-modal-trigger:hover,
 .rotator-phrase .ati-modal-trigger:focus-visible {
-    color: #7ae4ff;
+    background: #21d0ff;
+    color: #0a0f19;
+    transform: translateY(-1px);
+    outline: none;
+}
+
+/* un pulso suave para que se note que se puede tocar */
+@keyframes ati-pulse {
+    0% { box-shadow: 0 0 0 0 rgba(33, 208, 255, 0.45); }
+    70% { box-shadow: 0 0 0 10px rgba(33, 208, 255, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(33, 208, 255, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .rotator-phrase .ati-modal-trigger {
+        animation: none;
+    }
 }
 
 .rotator-phrase.entering {
@@ -2887,6 +2924,28 @@ body {
     transform: scale(1.10);
 }
 
+/* Sin link: no parece clicable ni crece al pasar el mouse */
+.sponsor-static .sponsor-logo {
+    cursor: default;
+}
+
+.sponsor-static .sponsor-logo:hover {
+    transform: none;
+}
+
+/* Logos oscuros: en blanco para que se lean sobre el fondo */
+.sponsor-logo--mono {
+    filter: brightness(0) invert(1);
+}
+
+.sponsors-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 36px;
+    position: relative;
+    z-index: 2;
+}
+
 /* Keyframes para scroll continuo */
 @keyframes scrollSponsorsLeft {
     0% {
@@ -4005,6 +4064,20 @@ body {
     color: #ffffff;
     line-height: 1.7;
     margin-bottom: 1.1rem;
+}
+
+/* Tiburón martillo escondido en la lista de ATI: se mueve al pasarle el mouse */
+.ati-egg {
+    display: inline-block;
+    width: auto;
+    height: 3em;
+    margin: -0.8em 0 -0.8em 0.4em;
+    vertical-align: middle;
+    transition: transform 0.3s ease;
+}
+
+.ati-can-list li:hover .ati-egg {
+    transform: rotate(-12deg) scale(1.25);
 }
 
 .ati-modal-copy {

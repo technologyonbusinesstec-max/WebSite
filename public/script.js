@@ -230,9 +230,9 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.readyState === 'complete') {
         hideLoader();
     } else {
-        // Escuchar evento load real + fallback de 3s por si algo falla
+        // Escuchar evento load real + tope de 1.5s: la portada ya se ve aunque falten imágenes de más abajo
         window.addEventListener('load', hideLoader, { once: true });
-        setTimeout(hideLoader, 3000);
+        setTimeout(hideLoader, 1500);
     }
 
 
@@ -562,7 +562,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 foto: "/imagenes/host/presentador03.png",
                 nombre: "Julia Vargas Thompson",
                 puesto: "Asistente Ejecutiva en McKinsey & Company",
-                bio: "Asistente Ejecutiva con experiencia en gestión de agendas, coordinación de proyectos y organización de eventos. Experta en conectar personas, optimizar tiempos y cuidar cada detalle para lograr resultados efectivos. Creativa, organizada y orientada al trabajo en equipo, combina su experiencia profesional con su formación artística y científica. Una mirada que une estructura, creatividad y capacidad de gestión.",
+                bio: "Experta en coordinar proyectos, agendas y eventos, cuidando cada detalle. Combina su formación artística y científica con una mirada creativa, organizada y orientada al trabajo en equipo.",
                 linkedin: "https://www.linkedin.com/in/julia-vargas-thompson-675545189/",
                 instagram: "https://www.instagram.com/caraphhhernelia?igshid=YmMyMTA2M2Y%3D",
                 isComingSoon: false
