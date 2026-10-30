@@ -25,14 +25,6 @@ const LOGOS = "/imagenes/patrocinadores/logos";
 
 export const categorias: Categoria[] = [
   {
-    key: "organiza",
-    label: { es: "Organiza", key: "tob_sp_tier_org" },
-    cols: 1,
-    items: [
-      { nombre: "Escuela de ATI · TEC", logo: `${LOGOS}/ati.webp`, url: "https://www.tec.ac.cr/administracion-tecnologia-informacion" },
-    ],
-  },
-  {
     key: "patrocinadores",
     label: { es: "Patrocinadores", key: "tob_sp_tier_main" },
     cols: 4,
