@@ -107,7 +107,7 @@ const speakersInicio = personas
     <h3 class="sponsors-title" data-i18n="sponsors_title">Patrocinadores y Partners</h3>
     <p class="sponsors-text" data-i18n="sponsors_text">Organizaciones que creen en el talento costarricense y se suman para hacer del ToB 2026 una experiencia inolvidable.</p>
     <div class="sponsors-marquee-wrapper">
-      {[conLogo('patrocinadores'), [...conLogo('organiza'), ...conLogo('partners')]].map((fila, i) => (
+      {[conLogo('patrocinadores'), conLogo('partners')].map((fila, i) => (
         <div class:list={['sponsors-marquee', i === 0 ? 'marquee-left' : 'marquee-right']}>
           <div class="sponsors-track">
             {/* la fila va dos veces para que el loop no se corte */}
