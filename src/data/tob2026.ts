@@ -14,6 +14,7 @@ export type Persona = {
   bio: string;
   foto: string;
   linkedin?: string;
+  instagram?: string;
   tipo: PersonaTipo;
 };
 
@@ -21,16 +22,16 @@ export const personas: Persona[] = [
   // ── Speakers ─────────────────────────────────────────────
   { id: "maria-jose-artavia", tipo: "speaker", nombre: "María José Artavia", rol: "Directora · Escuela de ATI", foto: "/imagenes/speakers/speaker07.webp", bio: "Directora de la Escuela de Administración de Tecnología de Información, a cargo de la apertura oficial del TOB 2026." },
   { id: "tamara-sancho", tipo: "speaker", nombre: "Tamara Sancho", rol: "P&G", foto: "/imagenes/speakers/speaker02.webp", linkedin: "https://www.linkedin.com/in/tamarajudit/", bio: "Transforma el miedo en una herramienta de crecimiento personal y profesional." },
-  { id: "dunnia-vargas", tipo: "speaker", nombre: "Dunnia Vargas Gonzales", rol: "LinkedIn Top Voice", foto: COMING_SOON_FOTO, bio: "Referente en marca personal; enseña a construir una presencia profesional auténtica." },
-  { id: "pedro-gutierrez", tipo: "speaker", nombre: "Pedro Gutiérrez", rol: "CEO · Avify", foto: "/imagenes/speakers/speaker01.webp", linkedin: "https://www.linkedin.com/in/peter-gg/", bio: "Comparte el camino real de construir una startup de 0 a 1M." },
-  { id: "luis-jimenez", tipo: "speaker", nombre: "Luis Jiménez", rol: "Grand Fox", foto: COMING_SOON_FOTO, bio: "Ayuda a estudiantes a ganar experiencia profesional en tecnología antes de graduarse." },
-  { id: "pilar-sanchez", tipo: "speaker", nombre: "Pilar Sánchez", rol: "Avify", foto: "/imagenes/speakers/speaker03.webp", bio: "Líder de la industria que comparte su visión sobre resiliencia y crecimiento." },
+  { id: "dunnia-vargas", tipo: "speaker", nombre: "Dunnia Vargas González", rol: "LinkedIn Top Voice", foto: "/imagenes/speakers/dunnia-vargas.webp", linkedin: "https://www.linkedin.com/in/dunnia-vargas-gonzalez/", bio: "Referente en marca personal; enseña a construir una presencia profesional auténtica." },
+  { id: "pedro-gutierrez", tipo: "speaker", nombre: "Pedro Gutiérrez", rol: "CEO · Avify", foto: "/imagenes/speakers/pedro-gutierrez.webp", linkedin: "https://www.linkedin.com/in/peter-gg/", instagram: "https://www.instagram.com/heypeter.io/", bio: "Comparte el camino real de construir una startup de 0 a 1M." },
+  { id: "luis-jimenez", tipo: "speaker", nombre: "Luis Jiménez", rol: "Grand Fox", foto: COMING_SOON_FOTO, linkedin: "https://www.linkedin.com/in/luis-jimenez22/", bio: "Ayuda a estudiantes a ganar experiencia profesional en tecnología antes de graduarse." },
+  { id: "pilar-sanchez", tipo: "speaker", nombre: "Pilar Sánchez", rol: "Avify", foto: "/imagenes/speakers/speaker03.webp", linkedin: "https://www.linkedin.com/in/pilar-sanchezv/", bio: "Líder de la industria que comparte su visión sobre resiliencia y crecimiento." },
   { id: "wendy-badilla", tipo: "speaker", nombre: "Wendy Badilla", rol: "Microsoft", foto: "/imagenes/speakers/speaker04.webp", linkedin: "https://www.linkedin.com/in/wendy-badilla-225630a0/", bio: "Experta de Microsoft en cloud computing y en impulsar a más mujeres en STEM." },
-  { id: "paula-brenes", tipo: "speaker", nombre: "Paula Brenes", rol: "Fundación Jobs", foto: COMING_SOON_FOTO, bio: "Impulsa la empleabilidad y el desarrollo de talento desde Fundación Jobs." },
-  { id: "aaron-omodeo", tipo: "speaker", nombre: "Aarón Omodeo", rol: "Doji Club", foto: "/imagenes/speakers/speaker05.webp", linkedin: "https://www.linkedin.com/in/aaron-omodeo/", bio: "Especialista en finanzas prácticas y en tomar decisiones de inversión con criterio." },
-  { id: "frank-calvo", tipo: "speaker", nombre: "Frank Calvo", rol: "Loud", foto: COMING_SOON_FOTO, bio: "Estratega de mercadeo digital enfocado en conectar marcas con audiencias saturadas." },
-  { id: "karla-fonseca", tipo: "speaker", nombre: "Karla Fonseca", rol: "Moody's", foto: COMING_SOON_FOTO, bio: "Comparte claves para armar un CV que abra puertas en procesos de selección." },
-  { id: "alejandro-hidalgo", tipo: "speaker", nombre: "Alejandro Hidalgo", rol: "P&G", foto: "/imagenes/speakers/speaker09.webp", bio: "Aplica metodologías ágiles para simplificar procesos y entregar valor más rápido." },
+  { id: "paula-brenes", tipo: "speaker", nombre: "Paula Brenes", rol: "Fundación Jobs", foto: COMING_SOON_FOTO, linkedin: "https://www.linkedin.com/in/paulabrenes/", bio: "Impulsa la empleabilidad y el desarrollo de talento desde Fundación Jobs." },
+  { id: "aaron-omodeo", tipo: "speaker", nombre: "Aarón Omodeo", rol: "Doji Club", foto: "/imagenes/speakers/aaron-omodeo.webp", linkedin: "https://www.linkedin.com/in/aaron-omodeo/", instagram: "https://www.instagram.com/somosdoji/", bio: "Especialista en finanzas prácticas y en tomar decisiones de inversión con criterio." },
+  { id: "frank-calvo", tipo: "speaker", nombre: "Frank Calvo", rol: "Loud", foto: COMING_SOON_FOTO, linkedin: "https://www.linkedin.com/in/frank-calvo-coto-82871141/", bio: "Estratega de mercadeo digital enfocado en conectar marcas con audiencias saturadas." },
+  { id: "karla-fonseca", tipo: "speaker", nombre: "Karla Fonseca", rol: "Moody's", foto: "/imagenes/speakers/karla-fonseca.webp", linkedin: "https://www.linkedin.com/in/karla-fonseca-a80b4223b/", bio: "Comparte claves para armar un CV que abra puertas en procesos de selección." },
+  { id: "alejandro-hidalgo", tipo: "speaker", nombre: "Alejandro Hidalgo", rol: "P&G", foto: "/imagenes/speakers/alejandro-hidalgo.webp", linkedin: "https://www.linkedin.com/in/alehs/", bio: "Aplica metodologías ágiles para simplificar procesos y entregar valor más rápido." },
   { id: "alek-castillo", tipo: "speaker", nombre: "Alek Castillo", rol: "Lyfter", foto: "/imagenes/speakers/speaker08.webp", bio: "Explora el rol del AI Engineer y cómo pasar de prompts sueltos a sistemas autónomos." },
   { id: "alejandro-castaneda", tipo: "speaker", nombre: "Alejandro Castañeda", rol: "Sefisa", foto: COMING_SOON_FOTO, bio: "Muestra la ciberseguridad como una carrera llena de oportunidades." },
   { id: "rei-araya", tipo: "speaker", nombre: "Rei Araya", rol: "Moody's", foto: COMING_SOON_FOTO, bio: "Convierte datos en decisiones con Business Intelligence." },
