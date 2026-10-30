@@ -1,11 +1,13 @@
 // Sponsors del HackaToB: los usa la página /hackatob/sponsors.
-// Los logos se ven en blanco y negro y toman su color al pasar el mouse; cada uno lleva a la página oficial.
+// Los logos se ven en blanco y negro y toman su color al pasar el mouse; cada uno lleva a la página oficial
+// (sin url, el logo no se puede tocar). mono: logo oscuro que se mostraría perdido en el fondo negro, va en blanco.
 // Los grupos salen de cómo estaban en la versión anterior del sitio: patrocinadores y aliados.
 
 export interface Sponsor {
   name: string;
   logo: string;
-  url: string;
+  url?: string;
+  mono?: boolean;
 }
 
 export interface SponsorTier {
@@ -25,6 +27,9 @@ export const sponsorTiers: SponsorTier[] = [
     sponsors: [
       { name: 'World Wide Technology', logo: '/imagenes/hackatob/partner02.webp', url: 'https://www.wwt.com' },
       { name: 'Rainforest Adventures', logo: '/imagenes/hackatob/partner06.webp', url: 'https://www.rainforestadventure.com' },
+      { name: 'Dojo Coding', logo: '/imagenes/hackatob/partner07.webp', url: 'https://dojocoding.io' },
+      { name: 'Universidad para la Cooperación Internacional', logo: '/imagenes/hackatob/partner08.webp', url: 'https://www.uci.ac.cr' },
+      { name: 'Diquís', logo: '/imagenes/hackatob/partner09.webp', mono: true },
     ],
   },
   {
@@ -32,7 +37,7 @@ export const sponsorTiers: SponsorTier[] = [
     label: { es: 'Aliados', key: 'hack_sp_tier_allies' },
     cols: 3,
     sponsors: [
-      { name: 'TEC EmprendeLab', logo: '/imagenes/hackatob/partner01.webp', url: 'https://www.instagram.com/tecemprendelab/' },
+      { name: 'TEC EmprendeLab', logo: '/imagenes/hackatob/partner01.webp', url: 'https://www.instagram.com/tecemprendelab/', mono: true },
       { name: 'ATI · TEC', logo: '/imagenes/hackatob/partner03.webp', url: 'https://www.tec.ac.cr/administracion-tecnologia-informacion' },
       { name: 'asetec', logo: '/imagenes/hackatob/partner04.webp', url: 'https://aseteccr.com/' },
     ],

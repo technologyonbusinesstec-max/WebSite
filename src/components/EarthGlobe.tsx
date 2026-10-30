@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { createEarthGlobe, type EarthGlobeHandle } from "../lib/earth";
+import type { EarthGlobeHandle } from "../lib/earth";
 import "../styles/earth-globe.css";
 
 function useTobLang() {
@@ -78,14 +78,33 @@ export function EarthGlobe() {
     const pin = pinRef.current;
     if (!canvas || !pin) return;
 
-    handleRef.current = createEarthGlobe({
-      canvas,
-      pin,
-      reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-      onPinChange: setPinOn,
-    });
-
     const wrapper = document.getElementById("ubicacion");
+
+    // three.js (~500 KB) se baja aparte, solo en escritorio y cuando la sección ya está cerca:
+    // el celular nunca lo descarga y en escritorio no compite con la carga de la portada.
+    let cancelled = false;
+    const loadGlobe = () => {
+      import("../lib/earth").then(({ createEarthGlobe }) => {
+        if (cancelled) return;
+        handleRef.current = createEarthGlobe({
+          canvas,
+          pin,
+          reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+          onPinChange: setPinOn,
+        });
+        syncScroll();
+      });
+    };
+    const nearObserver = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((e) => e.isIntersecting)) return;
+        nearObserver.disconnect();
+        loadGlobe();
+      },
+      { rootMargin: "1200px 0px" }
+    );
+    if (wrapper) nearObserver.observe(wrapper);
+    else loadGlobe();
     const closeBtn = document.getElementById("locationClose");
     let cardOn = false;
     let scrollRaf = 0;
@@ -124,6 +143,8 @@ export function EarthGlobe() {
     closeBtn?.addEventListener("click", onClose);
 
     return () => {
+      cancelled = true;
+      nearObserver.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       if (scrollRaf) cancelAnimationFrame(scrollRaf);

@@ -1,0 +1,311 @@
+---
+// Página de sponsors del TOB 2026, con la misma forma que /hackatob/sponsors:
+// un texto grande, una franja de fotos en blanco y negro que se desliza de lado, y los sponsors por categorías
+// en una cuadrícula de celdas con líneas finas. Logos en blanco y negro que toman su color al pasar el mouse;
+// cada celda lleva a la página oficial de la empresa.
+// Datos en src/data/patrocinadores.ts · fotos en src/assets/tob/sponsors-fotos/.
+import { getImage } from 'astro:assets';
+import Layout from '../layouts/Layout.astro';
+import { categorias } from '../data/patrocinadores';
+
+// Fotos de la franja: todas las imágenes de src/assets/tob/sponsors-fotos/ (para ordenarlas: 01-..., 02-...).
+// Astro las achica y las pasa a WebP al compilar.
+const photoFiles = import.meta.glob<{ default: ImageMetadata }>('../assets/tob/sponsors-fotos/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP,AVIF}', { eager: true });
+const photos: string[] = await Promise.all(
+  Object.keys(photoFiles)
+    .sort()
+    .map(async (k) => (await getImage({ src: photoFiles[k].default, width: 600, format: 'webp', quality: 72 })).src),
+);
+
+// Tamaños de la franja (alto en % y ancho en px): se alternan igual que en la de HackaToB.
+const SHAPES = [
+  { h: 52, w: 200 }, { h: 46, w: 210 }, { h: 100, w: 165 }, { h: 34, w: 150 },
+  { h: 86, w: 140 }, { h: 60, w: 230 }, { h: 74, w: 170 }, { h: 42, w: 190 },
+];
+const slots = Array.from({ length: Math.max(SHAPES.length, photos.length) }, (_, i) => ({
+  ...SHAPES[i % SHAPES.length],
+  src: photos.length ? photos[i % photos.length] : '',
+}));
+---
+
+<Layout title="Sponsors – ToB 2026" description="Las empresas y organizaciones que hacen posible el ToB 2026.">
+  <main class="sp-page">
+    <section class="sp-intro">
+      <p class="sp-lead" data-i18n="tob_sp_lead">
+        El ToB 2026 es posible gracias a las empresas y organizaciones que creen en el talento costarricense y en el poder de la tecnología.
+      </p>
+    </section>
+
+    <!-- Franja de fotos en blanco y negro que se desliza (el grupo va dos veces para que el loop no se corte) -->
+    <div class="sp-strip" aria-hidden="true">
+      <div class="sp-strip-track">
+        {[0, 1].map(() => (
+          <div class="sp-strip-group">
+            {slots.map((s) => (
+              <figure class="sp-photo" style={`--h: ${s.h}%; --w: ${s.w}px`}>
+                {s.src && <img src={s.src} alt="" loading="lazy" decoding="async" />}
+              </figure>
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <section class="sp-sponsors">
+      <h1 class="sp-title">Sponsors</h1>
+
+      {categorias.map((c) => (
+        <div class="sp-tier">
+          <p class="sp-tier-label" data-i18n={c.label.key}>{c.label.es}</p>
+          <ul class="sp-grid" style={`--cols: ${c.cols}`} data-cols={c.cols}>
+            {c.items.filter((p) => p.logo).map((p) => {
+              const contenido = <img class:list={{ 'sp-mono': p.mono }} src={p.logo} alt={p.nombre} loading="lazy" decoding="async" />;
+              const clases = ['sp-cell', { 'sp-cell--big': c.cols === 1 }];
+              return (
+                <li>
+                  {p.egg ? (
+                    <div class:list={[...clases, 'sp-egg']}>{contenido}</div>
+                  ) : p.url ? (
+                    <a class:list={clases} href={p.url} target="_blank" rel="noopener" data-ga-event="sponsor_click" data-ga-label={p.nombre} aria-label={`${p.nombre} (se abre en otra pestaña)`}>
+                      {contenido}
+                    </a>
+                  ) : (
+                    <div class:list={clases}>{contenido}</div>
+                  )}
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      ))}
+    </section>
+  </main>
+</Layout>
+
+<style>
+  :global(body) {
+    background: #08090a;
+  }
+
+  .sp-page {
+    position: relative;
+    z-index: 1;
+    padding: 150px 0 120px;
+    background: #08090a;
+  }
+
+  /* ── Texto de presentación ── */
+  .sp-intro {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  .sp-lead {
+    max-width: 30ch;
+    margin: 0;
+    font-size: clamp(1.6rem, 2.6vw, 2.4rem);
+    font-weight: 600;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  /* ── Franja de fotos ── */
+  .sp-strip {
+    --strip-h: clamp(220px, 30vw, 340px);
+    margin-top: 80px;
+    overflow: hidden;
+  }
+
+  .sp-strip-track {
+    display: flex;
+    width: max-content;
+    animation: spStrip 70s linear infinite;
+  }
+
+  .sp-strip:hover .sp-strip-track {
+    animation-play-state: paused;
+  }
+
+  .sp-strip-group {
+    display: flex;
+    align-items: flex-end; /* alineadas abajo, de distintas alturas */
+    gap: 16px;
+    height: var(--strip-h);
+    padding-right: 16px;
+  }
+
+  .sp-photo {
+    flex: none;
+    width: var(--w);
+    height: var(--h);
+    margin: 0;
+    overflow: hidden;
+    background: #141414;
+  }
+
+  .sp-photo img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(1) contrast(1.05);
+  }
+
+  @keyframes spStrip {
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── Sponsors por categorías ── */
+  .sp-sponsors {
+    max-width: 1200px;
+    margin: 110px auto 0;
+    padding: 0 24px;
+  }
+
+  .sp-title {
+    margin: 0 0 36px;
+    font-size: clamp(2rem, 3vw, 2.6rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .sp-tier + .sp-tier {
+    margin-top: 28px;
+  }
+
+  .sp-tier-label {
+    margin: 0 0 10px;
+    font-family: 'Space Mono', ui-monospace, monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8a8a8a;
+  }
+
+  /* cuadrícula de celdas separadas por líneas de 1px (borde arriba/izquierda en la grilla y
+     derecha/abajo en cada celda: si la última fila queda incompleta, no aparece un hueco gris) */
+  .sp-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--cols), minmax(0, 1fr));
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .sp-cell {
+    display: grid;
+    place-items: center;
+    height: 120px;
+    padding: 20px 28px;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: #08090a;
+    text-decoration: none;
+    transition: background 0.25s ease;
+  }
+
+  .sp-cell--big {
+    height: 170px;
+  }
+
+  .sp-cell img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    max-height: 64px;
+    object-fit: contain;
+    /* en blanco y negro hasta pasar el mouse */
+    filter: grayscale(1) brightness(1.15);
+    opacity: 0.72;
+    transition: filter 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  /* logos oscuros: siempre en blanco, si no se perderían en el fondo */
+  .sp-cell img.sp-mono {
+    filter: brightness(0) invert(1);
+  }
+
+  .sp-cell--big img {
+    max-height: 112px;
+  }
+
+  a.sp-cell:hover,
+  a.sp-cell:focus-visible {
+    background: #161718;
+  }
+
+  a.sp-cell:hover img,
+  a.sp-cell:focus-visible img {
+    filter: none;
+    opacity: 1;
+    transform: scale(1.03);
+  }
+
+  a.sp-cell:hover img.sp-mono,
+  a.sp-cell:focus-visible img.sp-mono {
+    filter: brightness(0) invert(1);
+  }
+
+  a.sp-cell:focus-visible {
+    outline: 2px solid #ffffff;
+    outline-offset: -2px;
+  }
+
+  /* ── Easter egg: tiburón martillo (no es un enlace; toma color y se menea al pasarle el mouse) ── */
+  .sp-egg:hover {
+    background: #161718;
+  }
+
+  .sp-egg:hover img {
+    filter: none;
+    opacity: 1;
+    animation: spEggWiggle 0.6s ease-in-out;
+  }
+
+  @keyframes spEggWiggle {
+    0%, 100% { transform: rotate(0); }
+    25% { transform: rotate(-10deg) scale(1.08); }
+    75% { transform: rotate(10deg) scale(1.08); }
+  }
+
+  @media (max-width: 900px) {
+    .sp-grid:not([data-cols='1']) {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 700px) {
+    .sp-page {
+      padding-top: 110px;
+    }
+
+    .sp-strip {
+      margin-top: 50px;
+    }
+
+    /* las categorías de varias columnas pasan a 2; la de una fila grande sigue igual */
+    .sp-grid:not([data-cols='1']) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .sp-cell {
+      height: 100px;
+      padding: 16px 20px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sp-strip {
+      overflow-x: auto;
+    }
+
+    .sp-strip-track {
+      animation: none;
+    }
+  }
+</style>
