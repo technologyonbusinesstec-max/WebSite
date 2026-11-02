@@ -157,7 +157,7 @@ const translations = {
         "coord_role_3": "Coordinadora de Mercadeo",
         "coord_role_4": "Coordinador del HackaTob & Dev",
         "coord_role_5": "Coordinadora de Alianzas",
-        "coord_role_6": "Asistente Transversal",
+        "coord_role_6": "Coordinador de charlistas",
         "coord_role_7": "Encargado de Logistica",
 
         // Presenters (Specific)
@@ -738,7 +738,7 @@ const translations = {
         "coord_role_3": "Marketing Coordinator",
         "coord_role_4": "HackaTob & Dev Coordinator",
         "coord_role_5": "Alliances Coordinator",
-        "coord_role_6": "Cross-cutting Assistant",
+        "coord_role_6": "Speakers Coordinator",
         "coord_role_7": "Logistics Manager",
 
         // ATI Modal
