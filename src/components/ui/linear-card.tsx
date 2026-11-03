@@ -22,6 +22,16 @@ function LinkedinIcon({ size = 16 }: { size?: number }) {
   );
 }
 
+function CvIcon({ size = 16 }: { size?: number }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" />
+      <path d="M14 3v5h5" />
+      <path d="M9 13h6M9 17h6" />
+    </svg>
+  );
+}
+
 function InstagramIcon({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -350,6 +360,8 @@ export type LinearCardItem = {
   instagram?: string;
   linkedinLabel?: string;
   instagramLabel?: string;
+  cv?: string;
+  cvLabel?: string;
   talks?: { title: string; when: string }[];
   talksLabel?: string;
   talksLinkLabel?: string;
@@ -411,9 +423,15 @@ const Component = forwardRef<HTMLDivElement, { items: LinearCardItem[] }>(({ ite
                   </div>
                 </div>
                 <div className="lc-socials">
-                  <SocialLink href={item.linkedin} label={item.linkedinLabel || "LinkedIn"}>
-                    <LinkedinIcon size={16} />
-                  </SocialLink>
+                  {isLiveUrl(item.cv) ? (
+                    <SocialLink href={item.cv} label={item.cvLabel || "CV"}>
+                      <CvIcon size={16} />
+                    </SocialLink>
+                  ) : (
+                    <SocialLink href={item.linkedin} label={item.linkedinLabel || "LinkedIn"}>
+                      <LinkedinIcon size={16} />
+                    </SocialLink>
+                  )}
                   <SocialLink href={item.instagram} label={item.instagramLabel || "Instagram"}>
                     <InstagramIcon size={16} />
                   </SocialLink>
@@ -441,6 +459,7 @@ export type SpeakerCardItem = {
   bio: string;
   linkedin?: string;
   instagram?: string;
+  cv?: string;
   talks?: { titleKey: string; title: string; dayKey: string; day: string; time: string }[];
 };
 
@@ -484,6 +503,8 @@ export function SpeakerLinearCards({ items }: { items: SpeakerCardItem[] }) {
     instagram: item.instagram || undefined,
     linkedinLabel: t("spk_linkedin", "LinkedIn"),
     instagramLabel: t("spk_instagram", "Instagram"),
+    cv: item.cv || undefined,
+    cvLabel: t("spk_cv", "CV"),
     talks: item.talks?.map((talk) => ({
       title: t(talk.titleKey, talk.title),
       when: `${t(talk.dayKey, talk.day)} · ${talk.time}`,

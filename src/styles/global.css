@@ -84,7 +84,7 @@ body {
     left: 50%;
     transform: translateX(-50%);
     width: 95%;
-    max-width: 1050px;
+    max-width: 1120px;
     height: 70px;
     display: flex;
     justify-content: space-between;
@@ -372,6 +372,19 @@ body {
     font-weight: 500;
     transition: color 0.3s ease;
     padding: 10px 0;
+    white-space: nowrap;
+}
+
+/* Pantallas medianas: menos aire entre enlaces para que todo quepa en una línea */
+@media (max-width: 1180px) and (min-width: 981px) {
+    .navbar-center {
+        gap: 20px;
+        padding: 0 18px;
+    }
+
+    .navbar-right {
+        gap: 10px;
+    }
 }
 
 .nav-item:hover .nav-link {
@@ -5234,4 +5247,34 @@ body {
     .speakers-cta-card {
         padding: 40px 20px;
     }
+}
+
+/* Badge "Nuevo" sobre el botón de Workshops del navbar */
+.new-badge {
+    position: absolute;
+    top: -4px;
+    right: -8px;
+    z-index: 2;
+    padding: 1px 4px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #21d0ff, var(--color-primary));
+    color: #fff;
+    font-size: 0.5rem;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    white-space: nowrap;
+    pointer-events: none;
+    box-shadow: 0 0 0 2px #08090a, 0 0 12px rgba(33, 208, 255, 0.6);
+    animation: new-badge-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes new-badge-pulse {
+    0%, 100% { box-shadow: 0 0 0 2px #08090a, 0 0 8px rgba(33, 208, 255, 0.45); }
+    50% { box-shadow: 0 0 0 2px #08090a, 0 0 16px rgba(33, 208, 255, 0.9); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .new-badge { animation: none; }
 }

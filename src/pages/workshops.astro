@@ -1,0 +1,635 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { workshops, WORKSHOPS_FECHA, rangoHora, esManana, type Workshop } from '../data/workshops';
+
+// Claves de traducción: ws_<id>_* (el id con guiones pasa a guiones bajos).
+const k = (w: Workshop, campo: string) => `ws_${w.id.replace(/-/g, '_')}_${campo}`;
+
+// Fecha visible: reutiliza las claves del programa para que se traduzca igual que allá.
+const FECHAS: Record<string, { key: string; es: string }> = {
+  '2026-11-04': { key: 'prg_day1_short', es: 'Miércoles 4 nov' },
+  '2026-11-05': { key: 'prg_day2_short', es: 'Jueves 5 nov' },
+  '2026-11-06': { key: 'ws_date_fri', es: 'Viernes 6 de noviembre' },
+};
+const fecha = WORKSHOPS_FECHA ? FECHAS[WORKSHOPS_FECHA] : null;
+const fechaKey = fecha?.key ?? 'ws_date_tbc';
+const fechaTexto = fecha?.es ?? 'Fecha por confirmar';
+
+const dt = (hora: string) => (WORKSHOPS_FECHA ? `${WORKSHOPS_FECHA}T${hora}` : hora);
+const iniciales = (s: string) => s.replace(/[^A-Za-zÁÉÍÓÚÑáéíóúñ0-9 ]/g, '').split(/\s+/).filter(Boolean).slice(0, 2).map((p) => p[0]).join('').toUpperCase();
+
+// JSON-LD (SEO): solo cuando la fecha está confirmada, para no publicar fechas falsas.
+const jsonLd = WORKSHOPS_FECHA
+  ? workshops.map((w) => ({
+      '@context': 'https://schema.org',
+      '@type': 'Event',
+      name: w.titulo,
+      description: w.descripcion,
+      startDate: `${WORKSHOPS_FECHA}T${w.horaInicio}:00-06:00`,
+      ...(w.horaFin ? { endDate: `${WORKSHOPS_FECHA}T${w.horaFin}:00-06:00` } : {}),
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: { '@type': 'Place', name: w.lugar, address: 'Tecnológico de Costa Rica' },
+      organizer: { '@type': 'Organization', name: 'Technology on Business', url: 'https://tobcr.com' },
+      url: w.lumaUrl,
+    }))
+  : [];
+---
+
+<Layout title="Workshops – ToB 2026" description="Talleres prácticos del Technology on Business 2026 con empresas de la industria. Cupos limitados.">
+  {jsonLd.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+
+  <div class="ws-page-bg" aria-hidden="true"></div>
+
+  <section class="speakers-page-hero ws-hero">
+    <div class="speakers-hero-content">
+      <span class="speakers-eyebrow" data-i18n="ws_label">Workshops</span>
+      <h1 class="speakers-page-title" data-i18n="ws_title">Aprendé haciendo.</h1>
+      <p class="speakers-page-desc" data-i18n="ws_desc">
+        Talleres prácticos con las empresas que están moviendo la industria. Cupos limitados.
+      </p>
+      <p class="ws-date">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        {WORKSHOPS_FECHA ? <time datetime={WORKSHOPS_FECHA} data-i18n={fechaKey}>{fechaTexto}</time> : <span data-i18n={fechaKey}>{fechaTexto}</span>}
+      </p>
+    </div>
+  </section>
+
+  <section id="workshops" class="ws-section" aria-labelledby="ws-heading">
+    <h2 id="ws-heading" class="ws-visually-hidden" data-i18n="ws_label">Workshops</h2>
+
+    <div class="ws-filters" role="group" aria-label="Filtrar por horario" data-i18n-aria="ws_filter_label">
+      <button type="button" class="ws-chip" data-filter="todos" aria-pressed="true" data-i18n="ws_f_all">Todos</button>
+      <button type="button" class="ws-chip" data-filter="am" aria-pressed="false" data-i18n="ws_f_am">Mañana</button>
+      <button type="button" class="ws-chip" data-filter="pm" aria-pressed="false" data-i18n="ws_f_pm">Tarde</button>
+    </div>
+
+    <div class="ws-grid">
+      {workshops.map((w) => (
+        <article class="ws-card" data-turno={esManana(w) ? 'am' : 'pm'} aria-labelledby={`ws-t-${w.id}`} style={`--accent: ${w.accent}`}>
+          <div class="ws-card-top">
+            <svg class="ws-icon" viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={w.icon} />
+            <div class="ws-logo">
+              {w.logo
+                ? <img src={w.logo} alt={`Logo de ${w.empresa}`} width="96" height="48" loading="lazy" decoding="async" />
+                : <span class="ws-logo-ph" aria-label={`Logo de ${w.empresa}`} role="img">{iniciales(w.empresa)}</span>}
+            </div>
+          </div>
+
+          <h3 id={`ws-t-${w.id}`} class="ws-card-title" data-i18n={k(w, 'title')}>{w.titulo}</h3>
+          <p class="ws-area">{w.empresa}</p>
+
+          <p class="ws-time">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            <time datetime={dt(w.horaInicio)} data-ws-time data-start={w.horaInicio} data-end={w.horaFin ?? ''}>{rangoHora(w.horaInicio, w.horaFin)}</time>
+          </p>
+
+          <p class="ws-sum" data-i18n={k(w, 'sum')}>{w.resumen}</p>
+
+          <ul class="ws-meta">
+            <li>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span data-i18n={k(w, 'place')}>{w.lugar}</span>
+            </li>
+            {w.charlista && (
+              <li>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg>
+                <span>{w.charlista}</span>
+              </li>
+            )}
+            {w.cupo && (
+              <li class={w.cupo >= 40 ? 'ws-meta--big' : ''}>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>{w.cupo} <span data-i18n="ws_spots">cupos</span></span>
+              </li>
+            )}
+            {w.notaDestacada && w.nota && (
+              <li class="ws-meta--note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M2 20h20"/></svg>
+                <span data-i18n={k(w, 'note')}>{w.nota}</span>
+              </li>
+            )}
+          </ul>
+
+          <div class="ws-actions">
+            <button type="button" class="ws-btn ws-btn--ghost" data-ws-open={w.id} aria-haspopup="dialog" data-i18n="ws_details">Ver detalles</button>
+            {w.estado === 'abierto'
+              ? <a class="ws-btn ws-btn--primary" href={w.lumaUrl} target="_blank" rel="noopener noreferrer" data-ga-event="workshop_inscripcion" data-ga-label={w.id} data-i18n="ws_register">Inscribirme</a>
+              : <span class="ws-btn ws-btn--disabled" aria-disabled="true" data-i18n="ws_soon">Próximamente</span>}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="ws-empty" hidden data-i18n="ws_empty">No hay workshops en este horario.</p>
+
+    <p class="ws-footnote" data-i18n="ws_footnote">
+      La inscripción a cada workshop se realiza de forma individual en Luma. Cupos limitados por orden de inscripción.
+    </p>
+  </section>
+
+  {workshops.map((w) => (
+    <dialog class="ws-dialog" id={`ws-dlg-${w.id}`} aria-labelledby={`ws-dt-${w.id}`} style={`--accent: ${w.accent}`}>
+      <div class="ws-dialog-inner">
+        <button type="button" class="ws-close" data-ws-close aria-label="Cerrar" data-i18n-aria="spk_close">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
+
+        <div class="ws-dialog-head">
+          <div class="ws-logo ws-logo--lg">
+            {w.logo
+              ? <img src={w.logo} alt={`Logo de ${w.empresa}`} width="120" height="60" loading="lazy" decoding="async" />
+              : <span class="ws-logo-ph" aria-label={`Logo de ${w.empresa}`} role="img">{iniciales(w.empresa)}</span>}
+          </div>
+          <div>
+            <h2 id={`ws-dt-${w.id}`} class="ws-dialog-title" data-i18n={k(w, 'title')}>{w.titulo}</h2>
+            <p class="ws-area">{w.empresa}</p>
+          </div>
+        </div>
+
+        <dl class="ws-facts">
+          {w.charlista && (<div><dt data-i18n="ws_l_speaker">Imparte</dt><dd>{w.charlista}</dd></div>)}
+          <div><dt data-i18n="ws_l_date">Fecha</dt><dd data-i18n={fechaKey}>{fechaTexto}</dd></div>
+          <div>
+            <dt data-i18n="ws_l_time">Horario</dt>
+            <dd>
+              <time datetime={dt(w.horaInicio)} data-ws-time data-start={w.horaInicio} data-end={w.horaFin ?? ''}>{rangoHora(w.horaInicio, w.horaFin)}</time>
+              {!w.horaFin && <span class="ws-muted"> · <span data-i18n="ws_end_tbc">hora de fin por confirmar</span></span>}
+            </dd>
+          </div>
+          <div><dt data-i18n="ws_l_place">Lugar</dt><dd data-i18n={k(w, 'place')}>{w.lugar}</dd></div>
+          {w.cupo && (<div><dt data-i18n="ws_l_spots">Cupo</dt><dd>{w.cupo} <span data-i18n="ws_spots">cupos</span></dd></div>)}
+          {w.nota && (<div><dt data-i18n="ws_l_note">Nota</dt><dd class={w.notaDestacada ? 'ws-strong' : ''} data-i18n={k(w, 'note')}>{w.nota}</dd></div>)}
+        </dl>
+
+        <p class="ws-desc" data-i18n={k(w, 'desc')}>{w.descripcion}</p>
+
+        {w.estado === 'abierto'
+          ? <a class="ws-btn ws-btn--primary ws-btn--block" href={w.lumaUrl} target="_blank" rel="noopener noreferrer" data-ga-event="workshop_inscripcion" data-ga-label={w.id} data-i18n="ws_register_luma">Inscribirme en Luma</a>
+          : <span class="ws-btn ws-btn--disabled ws-btn--block" aria-disabled="true" data-i18n="ws_soon">Próximamente</span>}
+      </div>
+    </dialog>
+  ))}
+</Layout>
+
+<script>
+  import { rangoHora } from '../data/workshops';
+
+  // ── Horas según idioma ("a. m." / "a.m.") ──
+  const pintarHoras = (lang: string) => {
+    document.querySelectorAll<HTMLElement>('[data-ws-time]').forEach((el) => {
+      el.textContent = rangoHora(el.dataset.start!, el.dataset.end || null, lang === 'en' ? 'en' : 'es');
+    });
+    // Etiquetas aria que lang.js no cubre (solo traduce innerHTML)
+    const dict = (window as any).translations?.[lang];
+    if (dict) document.querySelectorAll<HTMLElement>('[data-i18n-aria]').forEach((el) => {
+      const v = dict[el.dataset.i18nAria!];
+      if (v) el.setAttribute('aria-label', v);
+    });
+  };
+  window.addEventListener('languageChanged', (e) => pintarHoras((e as CustomEvent).detail?.lang || 'es'));
+  try { pintarHoras(localStorage.getItem('tob_lang') || 'es'); } catch { /* sin storage */ }
+
+  // ── Filtros Todos / Mañana / Tarde ──
+  const chips = document.querySelectorAll<HTMLButtonElement>('.ws-chip');
+  const cards = document.querySelectorAll<HTMLElement>('.ws-card');
+  const empty = document.querySelector<HTMLElement>('.ws-empty');
+  chips.forEach((chip) => chip.addEventListener('click', () => {
+    const f = chip.dataset.filter;
+    chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
+    let visibles = 0;
+    cards.forEach((card) => {
+      const show = f === 'todos' || card.dataset.turno === f;
+      card.hidden = !show;
+      if (show) visibles++;
+    });
+    if (empty) empty.hidden = visibles > 0;
+  }));
+
+  // ── Modal de detalle (<dialog> nativo: Esc, foco atrapado y top layer) ──
+  let opener: HTMLElement | null = null;
+  const cerrar = (dlg: HTMLDialogElement) => dlg.open && dlg.close();
+
+  document.querySelectorAll<HTMLButtonElement>('[data-ws-open]').forEach((btn) => btn.addEventListener('click', () => {
+    const dlg = document.getElementById(`ws-dlg-${btn.dataset.wsOpen}`) as HTMLDialogElement | null;
+    if (!dlg) return;
+    opener = btn;
+    document.documentElement.classList.add('ws-lock');
+    dlg.showModal();
+  }));
+
+  document.querySelectorAll<HTMLDialogElement>('.ws-dialog').forEach((dlg) => {
+    dlg.querySelector('[data-ws-close]')?.addEventListener('click', () => cerrar(dlg));
+    // Clic en el backdrop: el target es el propio <dialog>, no su contenido
+    dlg.addEventListener('click', (e) => { if (e.target === dlg) cerrar(dlg); });
+    dlg.addEventListener('close', () => {
+      document.documentElement.classList.remove('ws-lock');
+      opener?.focus();
+      opener = null;
+    });
+  });
+
+  // ── Entrada de las tarjetas ──
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduce && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => entries.forEach((en) => {
+      if (en.isIntersecting) { en.target.classList.add('ws-in'); io.unobserve(en.target); }
+    }), { threshold: 0.12 });
+    cards.forEach((c, i) => { c.style.setProperty('--ws-delay', `${(i % 2) * 100}ms`); c.classList.add('ws-pre'); io.observe(c); });
+  }
+</script>
+
+<style>
+  .ws-page-bg {
+    position: fixed;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(8, 9, 10, 0.55) 0%, rgba(8, 9, 10, 0.8) 45%, rgba(8, 9, 10, 0.94) 100%),
+      url('/imagenes/FondoHero.webp') center top / cover no-repeat,
+      #08090a;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .ws-hero, .ws-section { position: relative; z-index: 1; }
+
+  :global(.site-footer) { position: relative; z-index: 2; background: #010204; }
+  :global(html.ws-lock) { overflow: hidden; }
+
+  .ws-visually-hidden {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .ws-date {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 22px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .ws-section {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 10px 24px 100px;
+  }
+
+  /* ── Filtros ── */
+  .ws-filters {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+
+  .ws-chip {
+    min-height: 44px;
+    padding: 0 22px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.8);
+    font: inherit;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .ws-chip:hover { border-color: rgba(255, 255, 255, 0.35); color: #fff; }
+
+  .ws-chip[aria-pressed="true"] {
+    background: #fff;
+    border-color: #fff;
+    color: #0a0f19;
+  }
+
+  /* ── Grid y tarjetas (formato de los tracks del HackaToB) ── */
+  .ws-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .ws-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 2.2rem 2.2rem 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(24, 27, 34, 0.9);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 10px 34px rgba(0, 0, 0, 0.35);
+    transition: transform 0.3s ease, opacity 0.6s ease;
+  }
+
+  /* Toque de color del workshop en la esquina superior izquierda del borde */
+  .ws-card::before {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    padding: 1px;
+    background: radial-gradient(circle at 0 0, var(--accent), transparent 40%);
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#fff 0 0) content-box exclude, linear-gradient(#fff 0 0);
+    pointer-events: none;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  .ws-card:hover { transform: translateY(-3px); }
+  .ws-card:hover::before { opacity: 1; }
+
+  .ws-card[hidden] { display: none; }
+
+  .ws-card.ws-pre { opacity: 0; transform: translateY(18px); }
+  .ws-card.ws-pre.ws-in { opacity: 1; transform: none; transition-delay: var(--ws-delay, 0ms); }
+  .ws-card.ws-pre.ws-in:hover { transform: translateY(-3px); transition-delay: 0ms; }
+
+  .ws-card-top {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .ws-icon { flex-shrink: 0; color: var(--accent); }
+
+  .ws-logo {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 88px;
+    height: 48px;
+    padding: 6px 8px;
+    border-radius: 10px;
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .ws-logo img { display: block; width: 100%; height: 100%; min-height: 0; object-fit: contain; }
+
+  .ws-logo-ph {
+    font-weight: 800;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--color-primary-dark);
+  }
+
+  .ws-logo--lg { width: 120px; height: 68px; }
+
+  .ws-card-title {
+    margin: 1.1rem 0 0;
+    font-size: 1.45rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .ws-area {
+    margin: 0.35rem 0 0;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .ws-time {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 1rem 0 0;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .ws-time svg { color: rgba(226, 229, 238, 0.6); }
+
+  .ws-sum {
+    margin: 0.8rem 0 0;
+    font-size: 1rem;
+    line-height: 1.55;
+    color: rgba(226, 229, 238, 0.82);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .ws-meta {
+    list-style: none;
+    margin: 1.1rem 0 1.8rem;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 18px;
+    font-size: 0.88rem;
+    color: rgba(226, 229, 238, 0.7);
+  }
+
+  .ws-meta li { display: flex; align-items: center; gap: 6px; }
+  .ws-meta svg { flex-shrink: 0; color: rgba(226, 229, 238, 0.5); }
+  .ws-meta--big { color: #fff; font-weight: 600; }
+  .ws-meta--note { color: var(--color-accent); font-weight: 600; }
+  .ws-meta--note svg { color: var(--color-accent); }
+
+  /* Botones al pie: pastillas como "Ver track" */
+  .ws-actions {
+    margin-top: auto;
+    align-self: stretch;
+    display: flex;
+    gap: 10px;
+  }
+
+  .ws-btn {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 46px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+  }
+
+  .ws-btn--ghost {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .ws-btn--ghost:hover { border-color: rgba(255, 255, 255, 0.55); background: rgba(255, 255, 255, 0.05); }
+
+  .ws-btn--primary {
+    border: 0;
+    background: #fff;
+    color: #0b0d14;
+  }
+
+  .ws-btn--primary:hover {
+    background: #dbe6f7;
+    transform: translateY(-2px);
+  }
+
+  .ws-btn--disabled {
+    border: 1px dashed rgba(255, 255, 255, 0.25);
+    color: rgba(255, 255, 255, 0.55);
+    cursor: not-allowed;
+  }
+
+  .ws-btn--block { width: 100%; flex: none; }
+
+  .ws-chip:focus-visible,
+  .ws-btn:focus-visible,
+  .ws-close:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+  }
+
+  .ws-empty, .ws-footnote {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.92rem;
+  }
+
+  .ws-footnote {
+    margin: 48px auto 0;
+    max-width: 620px;
+    line-height: 1.6;
+  }
+
+  /* ── Modal ── */
+  .ws-dialog {
+    width: min(640px, 92vw);
+    max-height: min(88vh, 760px);
+    margin: auto; /* el reset global quita el centrado nativo del <dialog> */
+    padding: 0;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #0a0f19;
+    color: #fff;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  }
+
+  .ws-dialog::backdrop {
+    background: rgba(2, 6, 14, 0.75);
+  }
+
+  .ws-dialog[open] { animation: ws-pop 0.25s ease; }
+
+  @keyframes ws-pop {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: none; }
+  }
+
+  .ws-dialog-inner { position: relative; padding: 32px 30px 28px; }
+
+  .ws-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 0;
+    background: rgba(255, 255, 255, 0.06);
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .ws-close:hover { background: rgba(255, 255, 255, 0.14); }
+
+  .ws-dialog-head {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding-right: 40px;
+    margin-bottom: 22px;
+  }
+
+  .ws-dialog-head .ws-area { margin: 6px 0 0; }
+
+  .ws-dialog-title {
+    margin: 0;
+    font-size: clamp(1.3rem, 2.6vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .ws-facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 20px;
+    margin: 0 0 22px;
+    padding: 18px;
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .ws-facts dt {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #8a8f98;
+  }
+
+  .ws-facts dd { margin: 4px 0 0; font-size: 0.95rem; color: #fff; }
+  .ws-strong { color: var(--color-accent) !important; font-weight: 600; }
+  .ws-muted { color: #8a8f98; font-size: 0.85rem; }
+
+  .ws-desc {
+    margin: 0 0 24px;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.78);
+  }
+
+  /* ── Responsivo ── */
+  @media (max-width: 760px) {
+    .ws-grid { grid-template-columns: 1fr; gap: 18px; }
+    .ws-card { padding: 1.8rem 1.6rem 1.6rem; }
+  }
+
+  @media (max-width: 640px) {
+    .ws-section { padding: 0 16px 80px; }
+    .ws-dialog-inner { padding: 26px 18px 22px; }
+    .ws-dialog-head { flex-direction: column; align-items: flex-start; }
+    .ws-facts { grid-template-columns: 1fr; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ws-card, .ws-btn, .ws-chip { transition: none; }
+    .ws-card:hover, .ws-btn--primary:hover { transform: none; }
+    .ws-dialog[open] { animation: none; }
+  }
+</style>

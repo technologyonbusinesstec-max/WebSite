@@ -131,6 +131,19 @@ export const Navbar: React.FC = () => {
               {t("Conoce las personas que están detrás del ToB 2026", "Meet the people behind ToB 2026")}
             </div>
           </a>
+          <a href="/workshops" className="coordinators-btn ws-nav-btn" aria-label={t("Workshops (nuevo)", "Workshops (new)")}>
+            <span className="new-badge" aria-hidden="true">{t("Nuevo", "New")}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="12" rx="2" />
+              <path d="M2 20h20" />
+              <path d="m10 8-2 2 2 2" />
+              <path d="m14 8 2 2-2 2" />
+            </svg>
+            <div className="tooltip-text">
+              <strong>Workshops</strong><br />
+              {t("Talleres prácticos del viernes 6 de noviembre", "Hands-on workshops on Friday, November 6")}
+            </div>
+          </a>
           <a href="https://luma.com/technologyonbusiness" target="_blank" className="btn btn-primary" data-i18n="nav_asistir">
             {t("Asistir", "Attend")}
           </a>
@@ -161,6 +174,16 @@ export const Navbar: React.FC = () => {
               <path d="M16 3.13a4 4 0 0 1 0 7.75" />
             </svg>
             {t("Coordinadores", "Coordinators")}
+          </a>
+          <a href="/workshops" className="coordinators-btn ws-nav-btn" aria-label={t("Workshops (nuevo)", "Workshops (new)")}>
+            <span className="new-badge" aria-hidden="true">{t("Nuevo", "New")}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <rect x="3" y="4" width="18" height="12" rx="2" />
+              <path d="M2 20h20" />
+              <path d="m10 8-2 2 2 2" />
+              <path d="m14 8 2 2-2 2" />
+            </svg>
+            Workshops
           </a>
           <a href="https://luma.com/technologyonbusiness" target="_blank" className="btn btn-primary" data-i18n="nav_asistir">
             {t("Asistir", "Attend")}
