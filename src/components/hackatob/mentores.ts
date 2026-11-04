@@ -59,7 +59,32 @@ export const mentores: Person[] = [
     descripcion: 'Acompaña a los equipos del GreenTrack, el reto de soluciones para cuidar el ambiente.',
   },
 ];
-export const jurados: Person[] = Array.from({ length: 6 }, porAnunciar);
+/** Lugar de jurado de WWT aún sin nombre: muestra el logo de WWT en vez de la silueta */
+const porAnunciarWWT = (): Person => ({ ...porAnunciar(), foto: `${FOTOS}/wwt-jurado.webp` });
+
+export const jurados: Person[] = [
+  {
+    foto: `${FOTOS}/diego-camacho.webp`,
+    nombre: 'Diego Camacho',
+    puesto: 'Jurado',
+    descripcion: 'Evalúa los proyectos de los equipos en el Demo Day del HackaToB.',
+  },
+  {
+    foto: `${FOTOS}/marco.webp`,
+    nombre: 'Marco',
+    puesto: 'Jurado',
+    descripcion: 'Evalúa los proyectos de los equipos en el Demo Day del HackaToB.',
+  },
+  {
+    foto: `${FOTOS}/daniel-bejarano.webp`,
+    nombre: 'Daniel Bejarano',
+    puesto: 'Jurado · Dojo Coding',
+    descripcion: 'Después de acompañar a los equipos en el Thinking Ahead, evalúa sus proyectos en el Demo Day.',
+  },
+  porAnunciarWWT(),
+  porAnunciarWWT(),
+  porAnunciar(),
+];
 
 /** Textos de un lugar vacío, por grupo (y sus claves de traducción) */
 const TBA = {
