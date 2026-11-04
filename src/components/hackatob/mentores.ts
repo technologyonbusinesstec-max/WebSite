@@ -83,7 +83,6 @@ export const jurados: Person[] = [
   },
   porAnunciarWWT(),
   porAnunciarWWT(),
-  porAnunciar(),
 ];
 
 /** Textos de un lugar vacío, por grupo (y sus claves de traducción) */
