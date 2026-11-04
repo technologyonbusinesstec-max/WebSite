@@ -81,7 +81,12 @@ export const jurados: Person[] = [
     puesto: 'Jurado · Dojo Coding',
     descripcion: 'Después de acompañar a los equipos en el Thinking Ahead, evalúa sus proyectos en el Demo Day.',
   },
-  porAnunciarWWT(),
+  {
+    foto: `${FOTOS}/wwt-jurado.webp`,
+    nombre: 'Grecia Nájera',
+    puesto: 'Jurado · WWT',
+    descripcion: 'Evalúa los proyectos de los equipos en el Demo Day del HackaToB, en representación de World Wide Technology.',
+  },
   porAnunciarWWT(),
 ];
 
